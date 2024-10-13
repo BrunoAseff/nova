@@ -1,7 +1,14 @@
-export default function SpacesPage() {
+import React from "react";
+
+interface PageProps {
+  image?: string;
+}
+
+export default function SpacesPage({ image = "/testImage.jpg" }: PageProps) {
   return (
-    <div>
-      <h1>Spaces</h1>
-    </div>
+    <div
+      className="h-screen w-screen bg-cover bg-center"
+      style={{ backgroundImage: `url(${image})` }}
+    ></div>
   );
 }
