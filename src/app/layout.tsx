@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import { Montserrat_Alternates, Inter } from "next/font/google";
+import { Montserrat_Alternates } from "next/font/google";
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,17 +14,11 @@ const montserrat = Montserrat_Alternates({
   subsets: ["latin"],
 });
 
-export const inter = Inter({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--inter",
-});
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={` ${inter.variable} ${montserrat.className}`}>
+    <html lang="en" className={` ${montserrat.className}`}>
       <body>{children}</body>
     </html>
   );

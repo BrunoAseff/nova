@@ -1,5 +1,6 @@
 import { Button } from "../../ui/button";
-import { inter } from "@/app/layout";
+import { inter } from "../inter";
+
 export default function PrimaryBtn({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
