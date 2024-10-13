@@ -1,0 +1,3 @@
+/src/app/api/*
+/server/*
+env.js
