@@ -1,4 +1,4 @@
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { inter } from "@/app/layout";
 export default function PrimaryBtn({
   children,

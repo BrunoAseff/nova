@@ -1,6 +1,6 @@
 import { ArrowRight } from "@/components/icons/arrow-right";
 import Logo from "@/components/Nova/logo";
-import PrimaryBtn from "@/components/Nova/PrimaryBtn";
+import PrimaryBtn from "@/components/Nova/buttons/PrimaryBtn";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
