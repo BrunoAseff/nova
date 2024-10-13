@@ -1,14 +1,7 @@
-import React from "react";
+import SpaceBackground from "@/components/Nova/SpaceBackground";
 
-interface PageProps {
-  image?: string;
-}
+export default function SpacesPage() {
+  const customImage = "/customImage.jpg";
 
-export default function SpacesPage({ image = "/testImage.jpg" }: PageProps) {
-  return (
-    <div
-      className="h-screen w-screen bg-cover bg-center"
-      style={{ backgroundImage: `url(${image})` }}
-    ></div>
-  );
+  return <SpaceBackground image={customImage} />;
 }
