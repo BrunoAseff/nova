@@ -26,6 +26,8 @@ export default function HomePage() {
           className="relative rounded-lg"
           src="/testImage.jpg"
           alt="Nova"
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,LsEgH.R3M{RjcInfjpRjt9s-RQoc"
           width={450}
           height={450}
         />
