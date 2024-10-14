@@ -11,7 +11,7 @@ export default function HomePage() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
       <BlurFade
         className="flex flex-col items-center justify-center gap-4 px-4 py-16"
-        delay={0.25}
+        delay={0.25 * 3}
         inView
       >
         <Logo />
@@ -20,19 +20,19 @@ export default function HomePage() {
           A platform that helps you shine through focus and calm.
         </p>
       </BlurFade>
-      <BlurFade className="relative mb-12" delay={0.25 * 2} inView>
+      <BlurFade className="relative mb-12" delay={0.25 * 4} inView>
         <div className="absolute -inset-2 rounded-lg bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-primary via-secondary to-secondary opacity-50 blur-2xl"></div>
         <Image
           className="relative rounded-lg"
           src="/testImage.jpg"
           alt="Nova"
           placeholder="blur"
-          blurDataURL="data:image/png;base64,LsEgH.R3M{RjcInfjpRjt9s-RQoc"
+          blurDataURL="/blur/blurTestImage.png"
           width={450}
           height={450}
         />
       </BlurFade>
-      <BlurFade className="flex flex-col gap-4" delay={0.25 * 3} inView>
+      <BlurFade className="flex flex-col gap-4" delay={0.25 * 5} inView>
         <PrimaryBtn>Get started</PrimaryBtn>
 
         <Button variant="link">
