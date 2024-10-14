@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
       <BlurFade
-        className="flex flex-col items-center justify-center gap-4 px-4 py-16"
+        className="flex flex-col items-center justify-center gap-4 px-12 py-16 md:px-4"
         delay={0.25 * 3}
         inView
       >
@@ -33,7 +33,9 @@ export default function HomePage() {
         />
       </BlurFade>
       <BlurFade className="flex flex-col gap-4" delay={0.25 * 5} inView>
-        <PrimaryBtn>Get started</PrimaryBtn>
+        <PrimaryBtn hasLink href="/spaces">
+          Get started
+        </PrimaryBtn>
 
         <Button variant="link">
           {" "}
