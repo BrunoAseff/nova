@@ -1,7 +1,7 @@
 import SpaceBackground from "@/components/Nova/SpaceBackground";
 
 export default function SpacesPage() {
-  const customImage = "/customImage.jpg";
+  const customImage = "/testImage.jpg";
 
   return <SpaceBackground image={customImage} />;
 }
