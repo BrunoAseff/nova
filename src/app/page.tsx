@@ -1,6 +1,6 @@
 import { ArrowRight } from "@/components/icons/arrow-right";
-import Logo from "@/components/Nova/logo";
-import PrimaryBtn from "@/components/Nova/buttons/PrimaryBtn";
+import Logo from "@/components/nova/logo";
+import PrimaryBtn from "@/components/nova/buttons/PrimaryBtn";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { BlurFade } from "@/components/ui/BlurFade";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-background">
       <BlurFade
         className="flex flex-col items-center justify-center gap-4 px-12 py-16 md:px-4"
         delay={0.25 * 3}

@@ -1,4 +1,4 @@
-import Title from "@/components/Nova/title";
+import Title from "@/components/nova/title";
 import Image from "next/image";
 
 export default function Logo() {
