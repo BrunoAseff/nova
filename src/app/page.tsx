@@ -32,7 +32,11 @@ export default function HomePage() {
           height={450}
         />
       </BlurFade>
-      <BlurFade className="flex flex-col gap-4" delay={0.25 * 5} inView>
+      <BlurFade
+        className="flex flex-col items-center gap-4"
+        delay={0.25 * 5}
+        inView
+      >
         <PrimaryBtn hasLink href="/spaces">
           Get started
         </PrimaryBtn>
@@ -40,7 +44,7 @@ export default function HomePage() {
         <Button variant="link">
           {" "}
           <Link
-            className="mt-8 flex items-center text-primary-foreground"
+            className="mt-4 flex items-center text-primary-foreground"
             href="/spaces"
           >
             Continue without login
