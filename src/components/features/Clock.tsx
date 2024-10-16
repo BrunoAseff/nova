@@ -48,9 +48,9 @@ export default function Clock(props: ClockProps) {
 
   return (
     <div
-      className={`fixed shadow-foreground drop-shadow-xl ${positionClass()} border-1 flex items-center justify-center rounded-lg p-6 font-sans text-foreground`}
+      className={`fixed shadow-foreground drop-shadow-xl ${positionClass()} border-1 flex items-center justify-center p-6 font-sans text-foreground`}
     >
-      <span className="rounded-xl bg-background/30 p-10 text-5xl font-semibold">
+      <span className="rounded-3xl bg-background/40 p-10 text-5xl font-semibold">
         {currentTime}
       </span>{" "}
     </div>
