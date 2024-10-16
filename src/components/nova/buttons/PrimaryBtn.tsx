@@ -15,7 +15,7 @@ export default function PrimaryBtn({
   return (
     <Button
       asChild={hasLink}
-      className={`text-md w-fit rounded-3xl font-sans text-lg font-[400] text-black transition-colors hover:bg-primary-foreground`}
+      className={`text-md w-fit gap-2 rounded-3xl font-sans text-lg font-[400] text-black transition-colors hover:bg-primary-foreground`}
       variant="default"
       size="lg"
     >
