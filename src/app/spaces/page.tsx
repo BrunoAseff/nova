@@ -8,7 +8,7 @@ export default function SpacesPage() {
     <div>
       {" "}
       <SpaceBackground image={customImage} />
-      <Clock timeFormat="24h" position="center" />
+      <Clock timeFormat="12h" position="center" />
     </div>
   );
 }

@@ -2,13 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
-
-type ClockProps = {
-  timeFormat: "12h" | "24h";
-
-  position: "top-left" | "top-right" | "bottom-left" | "center";
-  isHidden?: boolean;
-};
+import type { ClockProps } from "@/types";
+import { inter } from "../nova/inter";
 
 export default function Clock(props: ClockProps) {
   const { timeFormat, position, isHidden = false } = props;
@@ -18,9 +13,7 @@ export default function Clock(props: ClockProps) {
     const updateCurrentTime = () => {
       const now = new Date();
       const formattedTime =
-        timeFormat === "12h"
-          ? format(now, "hh:mm:ss a")
-          : format(now, "HH:mm:ss");
+        timeFormat === "12h" ? format(now, "hh:mm a") : format(now, "HH:mm");
       setCurrentTime(formattedTime);
     };
 
@@ -28,7 +21,7 @@ export default function Clock(props: ClockProps) {
 
     const interval = setInterval(() => {
       updateCurrentTime();
-    }, 1000);
+    }, 60000);
 
     return () => {
       clearInterval(interval);
@@ -51,14 +44,14 @@ export default function Clock(props: ClockProps) {
   };
 
   if (isHidden) {
-    return null;
+    return null; // Retorna null se o relógio estiver oculto
   }
 
   return (
     <div
-      className={`fixed ${positionClass()} flex h-[100px] w-[300px] items-center justify-center rounded-3xl bg-gradient-to-r from-card to-card-foreground text-secondary`}
+      className={`fixed ${positionClass()} ${inter.className} flex h-[180px] w-[350px] items-center justify-center rounded-[60px] bg-gradient-to-r from-card to-card-foreground text-secondary`}
     >
-      <span className="text-4xl font-bold">{currentTime}</span>
+      <span className="text-5xl font-bold uppercase">{currentTime}</span>{" "}
     </div>
   );
 }
