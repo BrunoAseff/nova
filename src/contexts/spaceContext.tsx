@@ -7,7 +7,7 @@ const initialState: { spaces: Space[] } = {
     {
       name: "Home",
       clock: { isHidden: false, position: "center", timeFormat: "12h" },
-      background: "/testImage.jpg",
+      background: "/home1.jpg",
     },
     {
       name: "Focus",
