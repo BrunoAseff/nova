@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Montserrat_Alternates } from "next/font/google";
 import { type Metadata } from "next";
 import { SpacesProvider } from "@/contexts/spaceContext";
+import { ThemeProvider } from "@/components/themeProvider";
 
 export const metadata: Metadata = {
   title: "Nova",
@@ -21,7 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={` ${montserrat.className}`}>
       <body>
-        <SpacesProvider>{children}</SpacesProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SpacesProvider>{children}</SpacesProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
