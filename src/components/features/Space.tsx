@@ -35,7 +35,9 @@ export default function Space() {
                     space.name
                   )}
                 </TooltipTrigger>
-                <TooltipContent>{space.name}</TooltipContent>
+                <TooltipContent className="font-open font-light">
+                  {space.name}
+                </TooltipContent>
               </Tooltip>
             </TabsTrigger>
           ))}
