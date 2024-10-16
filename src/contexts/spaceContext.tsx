@@ -6,12 +6,12 @@ const initialState: { spaces: Space[] } = {
   spaces: [
     {
       name: "Home",
-      clock: { isHidden: false, position: "center", timeFormat: "12h" },
+      clock: { isHidden: false, position: "center", timeFormat: "24h" },
       background: "/home1.jpg",
     },
     {
       name: "Focus",
-      clock: { isHidden: false, position: "top-right", timeFormat: "12h" },
+      clock: { isHidden: false, position: "top-right", timeFormat: "24h" },
       background: "/home.jpg",
     },
   ],

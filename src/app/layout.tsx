@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import { Montserrat_Alternates, Inter } from "next/font/google";
+import { Montserrat_Alternates, Inter, Open_Sans } from "next/font/google";
 import { type Metadata } from "next";
 import { SpacesProvider } from "@/contexts/spaceContext";
 import { ThemeProvider } from "@/components/themeProvider";
@@ -22,11 +22,20 @@ const inter = Inter({
   display: "swap",
 });
 
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--font-open",
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${montserrat.className}`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${openSans.variable} ${montserrat.className}`}
+    >
       <body>
         <ThemeProvider
           attribute="class"
