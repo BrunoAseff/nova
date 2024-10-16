@@ -20,7 +20,7 @@ export default function Space() {
     <TooltipProvider>
       <Tabs
         defaultValue={spaces[0]?.name}
-        className={`relative m-0 w-full p-0 font-sans`}
+        className={`relative m-0 w-full overflow-hidden p-0 font-sans`}
       >
         <TabsList className="absolute bottom-10 right-10 z-10">
           {spaces.map((space) => (
