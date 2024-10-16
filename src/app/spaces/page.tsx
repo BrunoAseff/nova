@@ -1,14 +1,5 @@
-import Clock from "@/components/features/Clock";
-import SpaceBackground from "@/components/nova/SpaceBackground";
+import Space from "@/components/features/Space";
 
 export default function SpacesPage() {
-  const customImage = "/testImage.jpg";
-
-  return (
-    <div>
-      {" "}
-      <SpaceBackground image={customImage} />
-      <Clock timeFormat="12h" position="center" />
-    </div>
-  );
+  return <Space />;
 }

@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 
 import { Montserrat_Alternates } from "next/font/google";
 import { type Metadata } from "next";
+import { SpacesProvider } from "@/contexts/spaceContext";
 
 export const metadata: Metadata = {
   title: "Nova",
@@ -19,7 +20,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={` ${montserrat.className}`}>
-      <body>{children}</body>
+      <body>
+        <SpacesProvider>{children}</SpacesProvider>
+      </body>
     </html>
   );
 }
