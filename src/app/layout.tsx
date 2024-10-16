@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import { Montserrat_Alternates } from "next/font/google";
+import { Montserrat_Alternates, Inter } from "next/font/google";
 import { type Metadata } from "next";
 import { SpacesProvider } from "@/contexts/spaceContext";
 import { ThemeProvider } from "@/components/themeProvider";
@@ -16,11 +16,17 @@ const montserrat = Montserrat_Alternates({
   subsets: ["latin"],
 });
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={` ${montserrat.className}`}>
+    <html lang="en" className={`${inter.variable} ${montserrat.className}`}>
       <body>
         <ThemeProvider
           attribute="class"

@@ -3,7 +3,6 @@ import { useSpacesContext } from "@/contexts/spaceContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Clock from "./Clock";
 import Image from "next/image";
-import { inter } from "../nova/inter";
 
 export default function Space() {
   const { state } = useSpacesContext();
@@ -12,7 +11,7 @@ export default function Space() {
   return (
     <Tabs
       defaultValue={spaces[0]?.name}
-      className={`${inter.className} relative m-0 w-full p-0`}
+      className={`relative m-0 w-full p-0 font-sans`}
     >
       <TabsList className="absolute bottom-10 right-10 z-10">
         {spaces.map((space) => (

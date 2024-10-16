@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import type { ClockProps } from "@/types";
-import { inter } from "../nova/inter";
 
 export default function Clock(props: ClockProps) {
   const { timeFormat, position, isHidden = false } = props;
@@ -49,7 +48,7 @@ export default function Clock(props: ClockProps) {
 
   return (
     <div
-      className={`fixed ${positionClass()} ${inter.className} border-1 flex h-[180px] w-[350px] items-center justify-center rounded-[60px] border-border bg-gradient-to-r from-card/60 to-card-foreground/60 text-secondary`}
+      className={`fixed ${positionClass()} border-1 flex h-[180px] w-[350px] items-center justify-center rounded-[60px] border-border bg-gradient-to-r from-card/60 to-card-foreground/60 font-sans text-secondary`}
     >
       <span className="text-5xl font-bold uppercase">{currentTime}</span>{" "}
     </div>

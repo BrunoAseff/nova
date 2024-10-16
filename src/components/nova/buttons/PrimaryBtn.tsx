@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Button } from "../../ui/button";
-import { inter } from "../inter";
 
 interface PrimaryBtnProps {
   hasLink?: boolean;
@@ -16,7 +15,7 @@ export default function PrimaryBtn({
   return (
     <Button
       asChild={hasLink}
-      className={`rounded-3xl text-lg transition-colors ${inter.className} text-md w-fit text-black hover:bg-primary-foreground`}
+      className={`text-md w-fit rounded-3xl font-sans text-lg text-black transition-colors hover:bg-primary-foreground`}
       variant="default"
       size="lg"
     >
