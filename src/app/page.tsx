@@ -44,7 +44,7 @@ export default function HomePage() {
         <Button variant="link">
           {" "}
           <Link
-            className="mt-4 flex items-center text-primary-foreground"
+            className="flex items-center font-sans font-light text-primary-foreground"
             href="/spaces"
           >
             Continue without login
