@@ -33,6 +33,8 @@ export default function Space() {
               alt={space.name}
               fill
               className="object-cover brightness-75"
+              placeholder="blur"
+              blurDataURL="/blur/blurBackground.png"
               priority
             />
           </div>
