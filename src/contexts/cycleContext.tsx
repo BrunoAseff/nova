@@ -25,6 +25,9 @@ interface CyclesContextType {
   setSecondsPassed: (seconds: number) => void;
   createNewCycle: (data: CreateCycleData) => void;
   interruptCurrentCycle: () => void;
+  isPaused: boolean;
+  togglePause: () => void;
+  falsePause: () => void;
 }
 
 interface CyclesContextProviderProps {
@@ -40,6 +43,8 @@ export function CyclesContextProvider({
     cycles: [],
     activeCycleId: null,
   });
+
+  const [isPaused, setIsPaused] = useState(false);
 
   const { cycles, activeCycleId } = cyclesState;
 
@@ -59,6 +64,14 @@ export function CyclesContextProvider({
 
   function markCurrentAsFinished() {
     dispatch(markCurrentCycleAsFinishedAction());
+  }
+
+  function togglePause() {
+    setIsPaused((prev) => !prev);
+  }
+
+  function falsePause() {
+    setIsPaused(false);
   }
 
   function createNewCycle(data: CreateCycleData) {
@@ -88,6 +101,9 @@ export function CyclesContextProvider({
         setSecondsPassed,
         createNewCycle,
         interruptCurrentCycle,
+        isPaused,
+        togglePause,
+        falsePause,
       }}
     >
       {children}

@@ -9,7 +9,8 @@ import { Stop } from "@/components/icons/Stop";
 import PrimaryBtn from "@/components/nova/buttons/PrimaryBtn";
 import { Play } from "@/components/icons/Play";
 import type { PomodoroProps } from "@/types";
-import DangerBtn from "@/components/nova/buttons/DangerBtn";
+import IconBtn from "@/components/nova/buttons/IconBtn";
+import { Pause } from "@/components/icons/pause";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -24,8 +25,14 @@ type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>;
 export function Pomodoro(props: PomodoroProps) {
   const { isHidden = false } = props;
 
-  const { activeCycle, createNewCycle, interruptCurrentCycle } =
-    useContext(CyclesContext);
+  const {
+    activeCycle,
+    createNewCycle,
+    interruptCurrentCycle,
+    isPaused,
+    togglePause,
+    falsePause,
+  } = useContext(CyclesContext);
 
   const newCycleForm = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
@@ -43,12 +50,9 @@ export function Pomodoro(props: PomodoroProps) {
   }
 
   const task = watch("task");
-
   const isSubmitDisabled = !task;
 
-  if (isHidden) {
-    return null;
-  }
+  if (isHidden) return null;
 
   return (
     <div className="border-1 fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center text-foreground shadow-foreground drop-shadow-xl">
@@ -60,18 +64,33 @@ export function Pomodoro(props: PomodoroProps) {
           <NewCycleForm />
         </FormProvider>
         <Countdown />
-
-        {activeCycle ? (
-          <DangerBtn onClick={interruptCurrentCycle}>
-            <Stop />
-            Stop
-          </DangerBtn>
-        ) : (
-          <PrimaryBtn disabled={isSubmitDisabled} type="submit">
-            <Play />
-            Start
-          </PrimaryBtn>
-        )}
+        <div className="flex gap-4">
+          {activeCycle ? (
+            <>
+              {isPaused ? (
+                <IconBtn onClick={togglePause}>
+                  <Play />
+                </IconBtn>
+              ) : (
+                <IconBtn onClick={togglePause}>
+                  <Pause />
+                </IconBtn>
+              )}
+              <IconBtn onClick={interruptCurrentCycle} variant="destructive">
+                <Stop />
+              </IconBtn>
+            </>
+          ) : (
+            <PrimaryBtn
+              onClick={falsePause}
+              disabled={isSubmitDisabled}
+              type="submit"
+            >
+              <Play />
+              Start
+            </PrimaryBtn>
+          )}
+        </div>
       </form>
     </div>
   );

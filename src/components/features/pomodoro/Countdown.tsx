@@ -9,6 +9,7 @@ export function Countdown() {
     markCurrentAsFinished,
     amountSecondsPassed,
     setSecondsPassed,
+    isPaused, // Get the pause state
   } = useContext(CyclesContext);
 
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
@@ -16,7 +17,8 @@ export function Countdown() {
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
 
-    if (activeCycle) {
+    if (activeCycle && !isPaused) {
+      // Only run if not paused
       interval = setInterval(() => {
         const secondsDifference = differenceInSeconds(
           new Date(),
@@ -25,9 +27,7 @@ export function Countdown() {
 
         if (secondsDifference >= totalSeconds) {
           markCurrentAsFinished();
-
           setSecondsPassed(totalSeconds);
-
           clearInterval(interval);
         } else {
           setSecondsPassed(secondsDifference);
@@ -44,6 +44,7 @@ export function Countdown() {
     activeCycleId,
     markCurrentAsFinished,
     setSecondsPassed,
+    isPaused, // Add pause dependency to rerun on pause toggle
   ]);
 
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
