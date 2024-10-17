@@ -32,8 +32,7 @@ export function NewCycleForm() {
         <Input
           type="number"
           id="minutesAmount"
-          placeholder="00"
-          step={5}
+          placeholder="25"
           disabled={!!activeCycle}
           {...register("minutesAmount", { valueAsNumber: true })}
         />

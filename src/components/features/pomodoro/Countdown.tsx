@@ -12,7 +12,7 @@ export function Countdown() {
     isPaused, // Get the pause state
   } = useContext(CyclesContext);
 
-  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
+  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 25 * 60;
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
