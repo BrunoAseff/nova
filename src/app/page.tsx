@@ -46,7 +46,7 @@ export default function HomePage() {
         <Button variant="link">
           {" "}
           <Link
-            className="flex items-center font-sans font-light text-primary-foreground"
+            className="font-open flex items-center font-light text-primary-foreground"
             href="/spaces"
           >
             Continue without login

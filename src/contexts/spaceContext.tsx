@@ -7,11 +7,13 @@ const initialState: { spaces: Space[] } = {
     {
       name: "Home",
       clock: { isHidden: false, position: "center", timeFormat: "24h" },
+      pomodoro: { isHidden: true },
       background: "/home1.jpg",
     },
     {
       name: "Focus",
-      clock: { isHidden: false, position: "top-right", timeFormat: "24h" },
+      clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
+      pomodoro: { isHidden: false },
       background: "/home.jpg",
     },
   ],

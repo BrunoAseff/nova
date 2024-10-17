@@ -11,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
+import { Pomodoro } from "./pomodoro/Pomodoro";
 
 export default function Space() {
   const { state } = useSpacesContext();
@@ -62,6 +63,7 @@ export default function Space() {
             </div>
             <div className="relative z-10">
               <Clock {...space.clock} />
+              <Pomodoro {...space.pomodoro} />
             </div>
           </TabsContent>
         ))}

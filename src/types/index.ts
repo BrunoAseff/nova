@@ -4,8 +4,13 @@ export interface ClockProps {
   isHidden?: boolean;
 }
 
+export interface PomodoroProps {
+  isHidden?: boolean;
+}
+
 export interface Space {
   name: string;
   clock: ClockProps;
+  pomodoro: PomodoroProps;
   background: string;
 }

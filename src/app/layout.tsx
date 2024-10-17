@@ -4,6 +4,7 @@ import { Montserrat_Alternates, Inter, Open_Sans } from "next/font/google";
 import { type Metadata } from "next";
 import { SpacesProvider } from "@/contexts/spaceContext";
 import { ThemeProvider } from "@/components/themeProvider";
+import { CyclesContextProvider } from "@/contexts/cycleContext";
 
 export const metadata: Metadata = {
   title: "Nova",
@@ -43,7 +44,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SpacesProvider>{children}</SpacesProvider>
+          <CyclesContextProvider>
+            <SpacesProvider>{children}</SpacesProvider>
+          </CyclesContextProvider>
         </ThemeProvider>
       </body>
     </html>

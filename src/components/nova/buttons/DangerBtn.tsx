@@ -7,7 +7,7 @@ interface PrimaryBtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string;
 }
 
-export default function PrimaryBtn({
+export default function DangerBtn({
   hasLink = false,
   href,
   children,
@@ -16,8 +16,8 @@ export default function PrimaryBtn({
   return (
     <Button
       asChild={hasLink}
-      className={`text-md w-fit gap-2 rounded-3xl font-sans text-lg font-[400] text-black transition-colors hover:bg-primary-foreground`}
-      variant="default"
+      className={`text-md w-fit gap-2 rounded-3xl font-sans text-lg font-[400] transition-colors`}
+      variant="destructive"
       size="lg"
       {...props}
     >
