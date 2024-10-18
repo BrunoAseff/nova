@@ -1,7 +1,6 @@
 "use client";
 import { createContext, useReducer, useState } from "react";
 import type { ReactNode } from "react";
-
 import { differenceInSeconds } from "date-fns";
 import type { Cycle } from "@/reducers/cycles/cycleReducer";
 import { cyclesReducer } from "@/reducers/cycles/cycleReducer";
@@ -28,6 +27,7 @@ interface CyclesContextType {
   isPaused: boolean;
   togglePause: () => void;
   falsePause: () => void;
+  totalPausedTime: number; // New state to track the total pause time
 }
 
 interface CyclesContextProviderProps {
@@ -45,16 +45,16 @@ export function CyclesContextProvider({
   });
 
   const [isPaused, setIsPaused] = useState(false);
+  const [pauseStart, setPauseStart] = useState<Date | null>(null); // Track when the cycle was paused
+  const [totalPausedTime, setTotalPausedTime] = useState(0); // Track the total time paused
 
   const { cycles, activeCycleId } = cyclesState;
-
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(() => {
     if (activeCycle) {
       return differenceInSeconds(new Date(), new Date(activeCycle.startDate));
     }
-
     return 0;
   });
 
@@ -67,6 +67,16 @@ export function CyclesContextProvider({
   }
 
   function togglePause() {
+    if (isPaused) {
+      // When unpausing, calculate the total pause time
+      if (pauseStart) {
+        const pauseDuration = differenceInSeconds(new Date(), pauseStart);
+        setTotalPausedTime(totalPausedTime + pauseDuration);
+      }
+    } else {
+      // When pausing, record the start time of the pause
+      setPauseStart(new Date());
+    }
     setIsPaused((prev) => !prev);
   }
 
@@ -84,6 +94,7 @@ export function CyclesContextProvider({
 
     dispatch(addNewCycleAction(newCycle));
     setAmountSecondsPassed(0);
+    setTotalPausedTime(0); // Reset the total paused time for the new cycle
   }
 
   function interruptCurrentCycle() {
@@ -104,6 +115,7 @@ export function CyclesContextProvider({
         isPaused,
         togglePause,
         falsePause,
+        totalPausedTime, // Provide totalPausedTime in the context
       }}
     >
       {children}
