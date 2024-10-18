@@ -17,7 +17,7 @@ const newCycleFormValidationSchema = zod.object({
   minutesAmount: zod
     .number()
     .min(1, "The cycle must be at least 5 minutes long.")
-    .max(60, "The cycle must be at most 60 minutes long."),
+    .max(1000, "The cycle must be at most 1000 minutes long."),
 });
 
 type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>;
@@ -32,6 +32,7 @@ export function Pomodoro(props: PomodoroProps) {
     isPaused,
     togglePause,
     falsePause,
+    focusingOnMessage,
   } = useContext(CyclesContext);
 
   const newCycleForm = useForm<NewCycleFormData>({
@@ -63,6 +64,17 @@ export function Pomodoro(props: PomodoroProps) {
         <FormProvider {...newCycleForm}>
           <NewCycleForm />
         </FormProvider>
+        <div className="font-inter flex min-h-14 w-full items-center justify-center text-xl">
+          {activeCycle && (
+            <p className="w-fit rounded-lg bg-background px-4 py-3 text-muted-foreground">
+              Focusing on
+              <strong className="text-secondary">
+                {" "}
+                {focusingOnMessage}
+              </strong>{" "}
+            </p>
+          )}
+        </div>
         <Countdown />
         <div className="flex gap-4">
           {activeCycle ? (

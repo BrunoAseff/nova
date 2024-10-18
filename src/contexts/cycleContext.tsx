@@ -27,7 +27,8 @@ interface CyclesContextType {
   isPaused: boolean;
   togglePause: () => void;
   falsePause: () => void;
-  totalPausedTime: number; // New state to track the total pause time
+  totalPausedTime: number;
+  focusingOnMessage: string;
 }
 
 interface CyclesContextProviderProps {
@@ -45,9 +46,9 @@ export function CyclesContextProvider({
   });
 
   const [isPaused, setIsPaused] = useState(false);
-  const [pauseStart, setPauseStart] = useState<Date | null>(null); // Track when the cycle was paused
-  const [totalPausedTime, setTotalPausedTime] = useState(0); // Track the total time paused
-
+  const [pauseStart, setPauseStart] = useState<Date | null>(null);
+  const [totalPausedTime, setTotalPausedTime] = useState(0);
+  const [focusingOnMessage, setfocusingOnMessage] = useState("");
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
@@ -68,13 +69,11 @@ export function CyclesContextProvider({
 
   function togglePause() {
     if (isPaused) {
-      // When unpausing, calculate the total pause time
       if (pauseStart) {
         const pauseDuration = differenceInSeconds(new Date(), pauseStart);
         setTotalPausedTime(totalPausedTime + pauseDuration);
       }
     } else {
-      // When pausing, record the start time of the pause
       setPauseStart(new Date());
     }
     setIsPaused((prev) => !prev);
@@ -92,9 +91,10 @@ export function CyclesContextProvider({
       startDate: new Date(),
     };
 
+    setfocusingOnMessage(data.task);
     dispatch(addNewCycleAction(newCycle));
     setAmountSecondsPassed(0);
-    setTotalPausedTime(0); // Reset the total paused time for the new cycle
+    setTotalPausedTime(0);
   }
 
   function interruptCurrentCycle() {
@@ -115,7 +115,8 @@ export function CyclesContextProvider({
         isPaused,
         togglePause,
         falsePause,
-        totalPausedTime, // Provide totalPausedTime in the context
+        totalPausedTime,
+        focusingOnMessage,
       }}
     >
       {children}

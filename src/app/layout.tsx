@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 const montserrat = Montserrat_Alternates({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
+  variable: "--font-montserrat",
 });
 
 const inter = Inter({
@@ -35,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${openSans.variable} ${montserrat.className}`}
+      className={`${inter.variable} ${montserrat.variable} ${openSans.variable} ${montserrat.className}`}
     >
       <body>
         <ThemeProvider

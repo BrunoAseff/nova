@@ -10,7 +10,7 @@ export function NewCycleForm() {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <div className="flex items-center gap-1 whitespace-nowrap">
-        <label htmlFor="task">I will work on</label>
+        <label htmlFor="task">I will focus on</label>
         <PomodoroInput
           id="task"
           type="text"
@@ -22,9 +22,9 @@ export function NewCycleForm() {
       </div>
 
       <datalist id="task-suggestions">
-        <option value="Task 1" />
-        <option value="Task 2" />
-        <option value="Task 3" />
+        <option value="reading a book" />
+        <option value="cleaning the house" />
+        <option value="working" />
       </datalist>
 
       <div className="flex items-center gap-2">

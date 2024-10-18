@@ -8,6 +8,7 @@ export default {
       fontFamily: {
         sans: ["var(--font-inter)"],
         open: ["var(--font-open)"],
+        montserrat: ["var(--font-montserrat)"],
       },
       borderRadius: {
         lg: "var(--radius)",
