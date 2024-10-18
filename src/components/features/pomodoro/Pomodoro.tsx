@@ -6,11 +6,11 @@ import { Countdown } from "./Countdown";
 import { useContext } from "react";
 import { CyclesContext } from "@/contexts/cycleContext";
 import { Stop } from "@/components/icons/Stop";
-import PrimaryBtn from "@/components/nova/buttons/PrimaryBtn";
 import { Play } from "@/components/icons/Play";
 import type { PomodoroProps } from "@/types";
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import { Pause } from "@/components/icons/pause";
+import SecondaryBtn from "@/components/nova/buttons/SecondaryBtn";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -81,14 +81,14 @@ export function Pomodoro(props: PomodoroProps) {
               </IconBtn>
             </>
           ) : (
-            <PrimaryBtn
+            <SecondaryBtn
               onClick={falsePause}
               disabled={isSubmitDisabled}
               type="submit"
             >
               <Play />
               Start
-            </PrimaryBtn>
+            </SecondaryBtn>
           )}
         </div>
       </form>

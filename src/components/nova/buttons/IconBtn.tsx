@@ -22,14 +22,12 @@ export default function IconBtn({
   ...props
 }: PrimaryBtnProps) {
   const defaultHoverClass =
-    variant === "default"
-      ? "hover:bg-primary-foreground"
-      : "hover:brightness-110";
+    variant === "default" ? "hover:bg-muted" : "hover:brightness-110";
 
   return (
     <Button
       asChild={hasLink}
-      className={`text-md gap-2 rounded-full font-sans text-lg font-[400] transition-colors ${defaultHoverClass}`}
+      className={`text-md gap-2 rounded-full bg-background font-sans text-lg font-[400] text-foreground transition-colors ${defaultHoverClass}`}
       variant={variant}
       size="icon"
       {...props}
