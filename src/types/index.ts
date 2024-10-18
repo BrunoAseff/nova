@@ -13,4 +13,5 @@ export interface Space {
   clock: ClockProps;
   pomodoro: PomodoroProps;
   background: string;
+  icon: JSX.Element;
 }

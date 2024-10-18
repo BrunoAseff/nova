@@ -3,8 +3,6 @@ import { useSpacesContext } from "@/contexts/spaceContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Clock from "./Clock";
 import Image from "next/image";
-import { Leaf } from "../icons/leaf";
-import { Home } from "../icons/Home";
 import {
   Tooltip,
   TooltipContent,
@@ -21,20 +19,15 @@ export default function Space() {
     <TooltipProvider>
       <Tabs
         defaultValue={spaces[0]?.name}
-        className={`relative m-0 w-full overflow-hidden p-0 font-sans`}
+        className="relative m-0 w-full overflow-hidden p-0 font-sans"
       >
         <TabsList className="absolute bottom-10 right-10 z-10">
           {spaces.map((space) => (
             <TabsTrigger key={space.name} value={space.name}>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger>
-                  {space.name === "Home" ? (
-                    <Home color="currentColor" />
-                  ) : space.name === "Focus" ? (
-                    <Leaf color="currentColor" />
-                  ) : (
-                    space.name
-                  )}
+                  {/* Render the dynamic icon from the space object */}
+                  {space.icon}
                 </TooltipTrigger>
                 <TooltipContent className="font-open font-light">
                   {space.name}
