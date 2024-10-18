@@ -19,7 +19,7 @@ const initialState: { spaces: Space[] } = {
       icon: <Focus color="currentColor" />,
       clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
       pomodoro: { isHidden: false },
-      background: "/home.jpg",
+      background: "/focus.jpg",
     },
     {
       name: "Relax",
