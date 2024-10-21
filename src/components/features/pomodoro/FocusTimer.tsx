@@ -51,54 +51,52 @@ export default function FocusTimer() {
   const isSubmitDisabled = !task;
 
   return (
-    <div className="border-1 fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center text-foreground shadow-foreground drop-shadow-xl">
-      <form
-        className="text-md flex flex-col items-center gap-10 rounded-3xl bg-background/40 p-6 text-center font-open font-extralight text-foreground"
-        onSubmit={onSubmit(handleCreateNewCycle)}
-      >
-        <FormProvider {...newCycleForm}>
-          <NewCycleForm />
-        </FormProvider>
-        <div className="font-inter flex min-h-14 w-full items-center justify-center text-xl">
-          {activeCycle && (
-            <p className="w-fit rounded-lg bg-background px-4 py-3 text-muted-foreground">
-              Focusing on
-              <strong className="text-secondary">
-                {" "}
-                {focusingOnMessage}
-              </strong>{" "}
-            </p>
-          )}
-        </div>
-        <Countdown />
-        <div className="flex gap-4">
-          {activeCycle ? (
-            <>
-              {isPaused ? (
-                <IconBtn onClick={togglePause}>
-                  <Play />
-                </IconBtn>
-              ) : (
-                <IconBtn onClick={togglePause}>
-                  <Pause />
-                </IconBtn>
-              )}
-              <IconBtn onClick={interruptCurrentCycle} variant="destructive">
-                <Stop />
+    <form
+      className="text-md flex flex-col items-center gap-10 rounded-3xl bg-background/40 p-6 text-center font-open font-extralight text-foreground"
+      onSubmit={onSubmit(handleCreateNewCycle)}
+    >
+      <FormProvider {...newCycleForm}>
+        <NewCycleForm />
+      </FormProvider>
+      <div className="font-inter flex min-h-14 w-full items-center justify-center text-xl">
+        {activeCycle && (
+          <p className="w-fit rounded-lg bg-background px-4 py-3 text-muted-foreground">
+            Focusing on
+            <strong className="text-secondary">
+              {" "}
+              {focusingOnMessage}
+            </strong>{" "}
+          </p>
+        )}
+      </div>
+      <Countdown />
+      <div className="flex gap-4">
+        {activeCycle ? (
+          <>
+            {isPaused ? (
+              <IconBtn onClick={togglePause}>
+                <Play />
               </IconBtn>
-            </>
-          ) : (
-            <SecondaryBtn
-              onClick={falsePause}
-              disabled={isSubmitDisabled}
-              type="submit"
-            >
-              <Play />
-              Start
-            </SecondaryBtn>
-          )}
-        </div>
-      </form>
-    </div>
+            ) : (
+              <IconBtn onClick={togglePause}>
+                <Pause />
+              </IconBtn>
+            )}
+            <IconBtn onClick={interruptCurrentCycle} variant="destructive">
+              <Stop />
+            </IconBtn>
+          </>
+        ) : (
+          <SecondaryBtn
+            onClick={falsePause}
+            disabled={isSubmitDisabled}
+            type="submit"
+          >
+            <Play />
+            Start
+          </SecondaryBtn>
+        )}
+      </div>
+    </form>
   );
 }
