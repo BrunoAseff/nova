@@ -13,7 +13,10 @@ export default function Pomodoro(props: PomodoroProps) {
   if (isHidden) return null;
 
   return (
-    <Tabs className="border-1 fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-foreground shadow-foreground drop-shadow-xl">
+    <Tabs
+      defaultValue="Focus"
+      className="border-1 fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-foreground shadow-foreground drop-shadow-xl"
+    >
       <TabsList>
         <TabsTrigger value="Focus">Focus</TabsTrigger>
         <TabsTrigger value="Short Break">Short Break</TabsTrigger>
