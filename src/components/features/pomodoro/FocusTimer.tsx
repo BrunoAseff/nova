@@ -52,7 +52,7 @@ export default function FocusTimer() {
 
   return (
     <form
-      className="text-md flex flex-col items-center gap-10 rounded-3xl bg-background/40 p-6 text-center font-open font-extralight text-foreground"
+      className="text-md flex flex-col items-center gap-10 rounded-3xl bg-background p-6 text-center font-open font-extralight text-foreground"
       onSubmit={onSubmit(handleCreateNewCycle)}
     >
       <FormProvider {...newCycleForm}>
