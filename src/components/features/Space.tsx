@@ -9,7 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
-import { Pomodoro } from "./pomodoro/Pomodoro";
+import Pomodoro from "./pomodoro/Pomodoro";
 
 export default function Space() {
   const { state } = useSpacesContext();
