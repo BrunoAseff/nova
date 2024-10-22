@@ -137,6 +137,7 @@ export function CyclesContextProvider({
     dispatch(interruptCurrentCycleAction());
     setCycleCounter(0);
     setCurrentTab("Focus");
+    document.title = "Nova";
   }
 
   return (

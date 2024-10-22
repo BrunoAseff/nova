@@ -25,10 +25,10 @@ export default function Space() {
           {spaces.map((space) => (
             <TabsTrigger key={space.name} value={space.name}>
               <Tooltip delayDuration={200}>
-                <TooltipTrigger>
-                  {/* Render the dynamic icon from the space object */}
-                  {space.icon}
+                <TooltipTrigger asChild>
+                  <span>{space.icon}</span>
                 </TooltipTrigger>
+
                 <TooltipContent className="font-open font-light">
                   {space.name}
                 </TooltipContent>
