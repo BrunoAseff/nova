@@ -8,7 +8,7 @@ export function NewCycleForm() {
   const { register } = useFormContext();
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2 text-foreground">
       <div className="flex items-center gap-1 whitespace-nowrap">
         <label htmlFor="task">I will focus on</label>
         <PomodoroInput
