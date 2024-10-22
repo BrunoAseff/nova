@@ -8,6 +8,7 @@ import {
   addNewCycleAction,
   interruptCurrentCycleAction,
   markCurrentCycleAsFinishedAction,
+  updateCycleStartDateAction,
 } from "@/reducers/cycles/cycleActions";
 
 interface CreateCycleData {
@@ -29,6 +30,10 @@ interface CyclesContextType {
   falsePause: () => void;
   totalPausedTime: number;
   focusingOnMessage: string;
+  currentTab: string;
+  toggleTab: () => void;
+  increaseCycleCounter: () => void;
+  cycleCounter: number;
 }
 
 interface CyclesContextProviderProps {
@@ -45,12 +50,14 @@ export function CyclesContextProvider({
     activeCycleId: null,
   });
 
+  const [currentTab, setCurrentTab] = useState("Focus");
   const [isPaused, setIsPaused] = useState(false);
   const [pauseStart, setPauseStart] = useState<Date | null>(null);
   const [totalPausedTime, setTotalPausedTime] = useState(0);
   const [focusingOnMessage, setfocusingOnMessage] = useState("");
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
+  const [cycleCounter, setCycleCounter] = useState(0);
 
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(() => {
     if (activeCycle) {
@@ -59,12 +66,45 @@ export function CyclesContextProvider({
     return 0;
   });
 
+  function increaseCycleCounter() {
+    if (cycleCounter === 3) {
+      setCycleCounter(0);
+    } else {
+      setCycleCounter((prev) => prev + 1);
+    }
+  }
+
+  function toggleTab() {
+    if (activeCycle) {
+      // Always update the startDate to the current time when the tab changes
+      const updatedCycle = { ...activeCycle, startDate: new Date() };
+
+      // Dispatch the action to update the start date
+      dispatch(updateCycleStartDateAction(updatedCycle));
+
+      // Recalculate the seconds passed based on the updated start date
+      const secondsElapsed =
+        differenceInSeconds(new Date(), new Date(updatedCycle.startDate)) -
+        totalPausedTime;
+      setAmountSecondsPassed(secondsElapsed);
+    }
+
+    // Toggle between Focus, Short Break, and Long Break
+    if (currentTab === "Focus") {
+      setCurrentTab(cycleCounter === 3 ? "Long Break" : "Short Break");
+    } else {
+      setCurrentTab("Focus");
+    }
+  }
+
   function setSecondsPassed(seconds: number) {
     setAmountSecondsPassed(seconds);
   }
 
   function markCurrentAsFinished() {
     dispatch(markCurrentCycleAsFinishedAction());
+    setCycleCounter(0);
+    setCurrentTab("Focus");
   }
 
   function togglePause() {
@@ -99,6 +139,8 @@ export function CyclesContextProvider({
 
   function interruptCurrentCycle() {
     dispatch(interruptCurrentCycleAction());
+    setCycleCounter(0);
+    setCurrentTab("Focus");
   }
 
   return (
@@ -117,6 +159,10 @@ export function CyclesContextProvider({
         falsePause,
         totalPausedTime,
         focusingOnMessage,
+        toggleTab,
+        currentTab,
+        cycleCounter,
+        increaseCycleCounter,
       }}
     >
       {children}

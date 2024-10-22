@@ -6,14 +6,25 @@ export function Countdown() {
   const {
     activeCycle,
     activeCycleId,
-    markCurrentAsFinished,
     amountSecondsPassed,
     setSecondsPassed,
     isPaused,
-    totalPausedTime, // Get the total paused time
+    totalPausedTime,
+    currentTab,
+    toggleTab,
+    increaseCycleCounter,
   } = useContext(CyclesContext);
 
-  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 25 * 60;
+  let totalSeconds: number;
+  console.log(activeCycle);
+
+  if (currentTab === "Focus") {
+    totalSeconds = (activeCycle ? activeCycle.minutesAmount : 25) * 60;
+  } else if (currentTab === "LongBreak") {
+    totalSeconds = activeCycle ? 15 * 60 : 25;
+  } else {
+    totalSeconds = activeCycle ? 5 * 60 : 25;
+  }
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -22,10 +33,11 @@ export function Countdown() {
       interval = setInterval(() => {
         const secondsDifference =
           differenceInSeconds(new Date(), new Date(activeCycle.startDate)) -
-          totalPausedTime; // Subtract the paused time
+          totalPausedTime;
 
         if (secondsDifference >= totalSeconds) {
-          markCurrentAsFinished();
+          toggleTab();
+          increaseCycleCounter();
           setSecondsPassed(totalSeconds);
           clearInterval(interval);
         } else {
@@ -41,10 +53,11 @@ export function Countdown() {
     activeCycle,
     totalSeconds,
     activeCycleId,
-    markCurrentAsFinished,
     setSecondsPassed,
     isPaused,
-    totalPausedTime, // Add dependency for totalPausedTime
+    totalPausedTime,
+    toggleTab,
+    increaseCycleCounter,
   ]);
 
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
@@ -61,6 +74,7 @@ export function Countdown() {
     }
   }, [minutes, seconds, activeCycle]);
 
+  console.log(activeCycle);
   return (
     <div className="flex items-center space-x-1 rounded-3xl text-center font-open text-8xl font-extralight text-foreground">
       <span>{minutes[0]}</span>

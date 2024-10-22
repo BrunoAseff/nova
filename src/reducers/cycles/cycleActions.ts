@@ -4,6 +4,7 @@ export enum ActionTypes {
   ADD_NEW_CYCLE = "ADD_NEW_CYCLE",
   INTERRUPT_CURRENT_CYCLE = "INTERRUPT_CURRENT_CYCLE",
   MARK_CURRENT_CYCLE_AS_FINISHED = "MARK_CURRENT_CYCLE_AS_FINISHED",
+  UPDATE_CYCLE_START_DATE = "UPDATE_CYCLE_START_DATE",
 }
 
 export function addNewCycleAction(newCycle: Cycle) {
@@ -24,5 +25,14 @@ export function interruptCurrentCycleAction() {
 export function markCurrentCycleAsFinishedAction() {
   return {
     type: ActionTypes.MARK_CURRENT_CYCLE_AS_FINISHED,
+  };
+}
+
+export function updateCycleStartDateAction(updatedCycle: Cycle) {
+  return {
+    type: ActionTypes.UPDATE_CYCLE_START_DATE,
+    payload: {
+      updatedCycle,
+    },
   };
 }

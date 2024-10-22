@@ -55,6 +55,21 @@ export function cyclesReducer(state: CyclesState, action: any) {
         }
       });
     }
+    case ActionTypes.UPDATE_CYCLE_START_DATE: {
+      const { updatedCycle } = action.payload;
+      const currentCycleIndex = state.cycles.findIndex(
+        (cycle) => cycle.id === state.activeCycleId,
+      );
+
+      if (currentCycleIndex < 0) {
+        return state;
+      }
+
+      return produce(state, (draft) => {
+        draft.cycles[currentCycleIndex] = updatedCycle; // Update the current cycle with the new start date
+      });
+    }
+
     default:
       return state;
   }
