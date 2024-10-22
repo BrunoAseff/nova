@@ -67,7 +67,7 @@ export function CyclesContextProvider({
   });
 
   function increaseCycleCounter() {
-    if (cycleCounter === 3) {
+    if (cycleCounter === 4) {
       setCycleCounter(0);
     } else {
       setCycleCounter((prev) => prev + 1);
@@ -87,7 +87,7 @@ export function CyclesContextProvider({
     }
 
     if (currentTab === "Focus") {
-      setCurrentTab(cycleCounter === 3 ? "Long Break" : "Short Break");
+      setCurrentTab(cycleCounter === 4 ? "Long Break" : "Short Break");
     } else {
       setCurrentTab("Focus");
     }
