@@ -71,7 +71,7 @@ export function Countdown() {
 
   useEffect(() => {
     if (activeCycle) {
-      document.title = `${minutes} : ${seconds}`;
+      document.title = `${minutes}:${seconds} - Nova`;
     }
   }, [minutes, seconds, activeCycle]);
 
