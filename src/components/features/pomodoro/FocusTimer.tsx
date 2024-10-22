@@ -10,6 +10,7 @@ import { Play } from "@/components/icons/Play";
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import { Pause } from "@/components/icons/pause";
 import SecondaryBtn from "@/components/nova/buttons/SecondaryBtn";
+import { Air } from "@/components/icons/Air";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -30,6 +31,7 @@ export default function FocusTimer() {
     togglePause,
     falsePause,
     focusingOnMessage,
+    currentTab,
   } = useContext(CyclesContext);
 
   const newCycleForm = useForm<NewCycleFormData>({
@@ -58,16 +60,27 @@ export default function FocusTimer() {
       <FormProvider {...newCycleForm}>
         <NewCycleForm />
       </FormProvider>
-      <div className="font-inter flex min-h-14 w-full items-center justify-center text-xl">
-        {activeCycle && (
-          <>
+      <div className="font-inter text-md flex min-h-14 w-full items-center justify-center">
+        {activeCycle && currentTab === "Focus" && (
+          <div className="flex w-fit items-center gap-2 rounded-3xl border-[1px] border-muted-foreground bg-muted p-2">
             {" "}
-            <p className="w-fit rounded-lg bg-background px-2 py-3 text-muted-foreground">
+            <p className="w-fit rounded-lg text-muted-foreground">
               Focusing on
             </p>
-            <strong className="text-primary"> {focusingOnMessage}</strong>
-          </>
+            <strong className="text-foreground"> {focusingOnMessage}</strong>
+          </div>
         )}
+
+        {activeCycle &&
+          (currentTab === "Long Break" || currentTab === "Short Break") && (
+            <div className="flex w-fit items-center gap-3 rounded-3xl p-2 text-2xl">
+              <h1 className="bg-gradient-to-br from-primary from-10% via-secondary via-50% to-primary-foreground to-90% bg-clip-text font-montserrat font-semibold text-transparent">
+                Take a breath!
+              </h1>
+
+              <Air color="hsl(209, 100%, 91%)" />
+            </div>
+          )}
       </div>
       <Countdown />
       <div className="flex gap-4">
