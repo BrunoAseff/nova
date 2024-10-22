@@ -50,7 +50,7 @@ export default function Clock(props: ClockProps) {
     <div
       className={`fixed shadow-foreground drop-shadow-xl ${positionClass()} border-1 flex items-center justify-center text-foreground`}
     >
-      <span className="font-open flex items-center space-x-1 rounded-3xl bg-background/40 p-10 text-center text-5xl font-extralight text-foreground">
+      <span className="flex items-center space-x-1 rounded-3xl bg-background p-10 text-center font-open text-5xl font-extralight text-foreground">
         {currentTime.split("").map((char, index) => (
           <span key={index} className="inline-block w-[1ch] text-center">
             {char}

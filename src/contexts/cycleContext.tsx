@@ -76,20 +76,16 @@ export function CyclesContextProvider({
 
   function toggleTab() {
     if (activeCycle) {
-      // Always update the startDate to the current time when the tab changes
       const updatedCycle = { ...activeCycle, startDate: new Date() };
 
-      // Dispatch the action to update the start date
       dispatch(updateCycleStartDateAction(updatedCycle));
 
-      // Recalculate the seconds passed based on the updated start date
       const secondsElapsed =
         differenceInSeconds(new Date(), new Date(updatedCycle.startDate)) -
         totalPausedTime;
       setAmountSecondsPassed(secondsElapsed);
     }
 
-    // Toggle between Focus, Short Break, and Long Break
     if (currentTab === "Focus") {
       setCurrentTab(cycleCounter === 3 ? "Long Break" : "Short Break");
     } else {

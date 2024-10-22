@@ -13,6 +13,7 @@ export function Countdown() {
     currentTab,
     toggleTab,
     increaseCycleCounter,
+    cycleCounter,
   } = useContext(CyclesContext);
 
   let totalSeconds: number;
@@ -74,7 +75,7 @@ export function Countdown() {
     }
   }, [minutes, seconds, activeCycle]);
 
-  console.log(activeCycle);
+  console.log(cycleCounter);
   return (
     <div className="flex items-center space-x-1 rounded-3xl text-center font-open text-8xl font-extralight text-foreground">
       <span>{minutes[0]}</span>

@@ -60,13 +60,13 @@ export default function FocusTimer() {
       </FormProvider>
       <div className="font-inter flex min-h-14 w-full items-center justify-center text-xl">
         {activeCycle && (
-          <p className="w-fit rounded-lg bg-background px-4 py-3 text-muted-foreground">
-            Focusing on
-            <strong className="text-secondary">
-              {" "}
-              {focusingOnMessage}
-            </strong>{" "}
-          </p>
+          <>
+            {" "}
+            <p className="w-fit rounded-lg bg-background px-2 py-3 text-muted-foreground">
+              Focusing on
+            </p>
+            <strong className="text-primary"> {focusingOnMessage}</strong>
+          </>
         )}
       </div>
       <Countdown />
