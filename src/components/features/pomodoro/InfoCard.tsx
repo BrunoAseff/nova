@@ -6,10 +6,45 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/HoverCard";
 import { CyclesContext } from "@/contexts/cycleContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { differenceInSeconds } from "date-fns";
 
 export default function InfoCard() {
-  const { cycleCounter } = useContext(CyclesContext);
+  const {
+    cycleCounter,
+    completedCycles,
+    startTime,
+    focusedTime,
+    breakTime,
+    totalPausedTime,
+    activeCycle,
+  } = useContext(CyclesContext);
+
+  const [overallTime, setOverallTime] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (startTime && activeCycle) {
+        setOverallTime(differenceInSeconds(new Date(), startTime));
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startTime, activeCycle]);
+
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}m ${remainingSeconds}s`;
+    }
+    if (minutes > 0) {
+      return `${minutes}m ${remainingSeconds}s`;
+    }
+    return `${remainingSeconds}s`;
+  };
 
   return (
     <HoverCard openDelay={500}>
@@ -22,15 +57,53 @@ export default function InfoCard() {
         side="top"
         sideOffset={30}
         align="center"
-        className="w-fit"
+        className="w-80"
       >
-        <div className="flex flex-col justify-between gap-2 bg-background text-foreground">
-          <strong className="mb-2">Pomodoro information</strong>
-          <div className="flex items-center gap-1">
-            <p>Cycle Counter:</p>
-            <span className="rounded-full bg-muted px-3 py-1">
-              {cycleCounter}
-            </span>
+        <div className="flex flex-col gap-3 bg-background text-foreground">
+          <strong className="text-lg">Pomodoro Information</strong>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <p>Current Progress:</p>
+              <span className="rounded-full bg-muted px-3 py-1">
+                {cycleCounter}/4
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <p>Cycles Completed:</p>
+              <span className="rounded-full bg-muted px-3 py-1">
+                {completedCycles}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <p>Overall Time:</p>
+              <span className="rounded-full bg-muted px-3 py-1">
+                {formatTime(overallTime)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <p>Focused Time:</p>
+              <span className="rounded-full bg-muted px-3 py-1">
+                {formatTime(focusedTime)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <p>Break Time:</p>
+              <span className="rounded-full bg-muted px-3 py-1">
+                {formatTime(breakTime)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <p>Paused Time:</p>
+              <span className="rounded-full bg-muted px-3 py-1">
+                {formatTime(totalPausedTime)}
+              </span>
+            </div>
           </div>
         </div>
       </HoverCardContent>

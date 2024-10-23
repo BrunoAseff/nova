@@ -34,6 +34,10 @@ interface CyclesContextType {
   toggleTab: () => void;
   increaseCycleCounter: () => void;
   cycleCounter: number;
+  completedCycles: number;
+  startTime: Date | null;
+  focusedTime: number;
+  breakTime: number;
 }
 
 interface CyclesContextProviderProps {
@@ -55,9 +59,14 @@ export function CyclesContextProvider({
   const [pauseStart, setPauseStart] = useState<Date | null>(null);
   const [totalPausedTime, setTotalPausedTime] = useState(0);
   const [focusingOnMessage, setfocusingOnMessage] = useState("");
+  const [cycleCounter, setCycleCounter] = useState(0);
+  const [completedCycles, setCompletedCycles] = useState(0);
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [focusedTime, setFocusedTime] = useState(0);
+  const [breakTime, setBreakTime] = useState(0);
+
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
-  const [cycleCounter, setCycleCounter] = useState(0);
 
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(() => {
     if (activeCycle) {
@@ -69,6 +78,7 @@ export function CyclesContextProvider({
   function increaseCycleCounter() {
     if (cycleCounter === 4) {
       setCycleCounter(0);
+      setCompletedCycles((prev) => prev + 1);
     } else {
       setCycleCounter((prev) => prev + 1);
     }
@@ -79,15 +89,22 @@ export function CyclesContextProvider({
       const updatedCycle = { ...activeCycle, startDate: new Date() };
       dispatch(updateCycleStartDateAction(updatedCycle));
 
+      // Calculate time spent in previous tab
+      const timeInPreviousTab =
+        differenceInSeconds(new Date(), new Date(activeCycle.startDate)) -
+        totalPausedTime;
+
+      // Update focused or break time based on current tab
+      if (currentTab === "Focus") {
+        setFocusedTime((prev) => prev + timeInPreviousTab);
+      } else {
+        setBreakTime((prev) => prev + timeInPreviousTab);
+      }
+
       setTotalPausedTime(0);
       setPauseStart(null);
       setIsPaused(false);
-
-      const secondsElapsed = differenceInSeconds(
-        new Date(),
-        new Date(updatedCycle.startDate),
-      );
-      setAmountSecondsPassed(secondsElapsed);
+      setAmountSecondsPassed(0);
     }
 
     if (currentTab === "Focus") {
@@ -124,23 +141,29 @@ export function CyclesContextProvider({
   }
 
   function createNewCycle(data: CreateCycleData) {
+    const now = new Date();
     const newCycle: Cycle = {
-      id: String(new Date().getTime()),
+      id: String(now.getTime()),
       task: data.task,
       minutesAmount: data.minutesAmount,
-      startDate: new Date(),
+      startDate: now,
     };
 
+    setStartTime(now);
     setfocusingOnMessage(data.task);
     dispatch(addNewCycleAction(newCycle));
     setAmountSecondsPassed(0);
     setTotalPausedTime(0);
+    setFocusedTime(0);
+    setBreakTime(0);
+    setCompletedCycles(0);
   }
 
   function interruptCurrentCycle() {
     dispatch(interruptCurrentCycleAction());
     setCycleCounter(0);
     setCurrentTab("Focus");
+    setStartTime(null);
     document.title = "Nova";
   }
 
@@ -164,6 +187,10 @@ export function CyclesContextProvider({
         currentTab,
         cycleCounter,
         increaseCycleCounter,
+        completedCycles,
+        startTime,
+        focusedTime,
+        breakTime,
       }}
     >
       {children}
