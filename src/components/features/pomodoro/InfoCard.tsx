@@ -10,27 +10,20 @@ import { useContext, useEffect, useState } from "react";
 import { differenceInSeconds } from "date-fns";
 
 export default function InfoCard() {
-  const {
-    cycleCounter,
-    completedCycles,
-    startTime,
-    focusedTime,
-    breakTime,
-    totalPausedTime,
-    activeCycle,
-  } = useContext(CyclesContext);
+  const { cycleCounter, stats, totalPausedTime, activeCycle } =
+    useContext(CyclesContext);
 
   const [overallTime, setOverallTime] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (startTime && activeCycle) {
-        setOverallTime(differenceInSeconds(new Date(), startTime));
+      if (stats.startedAt && activeCycle) {
+        setOverallTime(differenceInSeconds(new Date(), stats.startedAt));
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [startTime, activeCycle]);
+  }, [stats.startedAt, activeCycle]);
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -73,7 +66,7 @@ export default function InfoCard() {
             <div className="flex items-center justify-between">
               <p>Cycles Completed:</p>
               <span className="rounded-full bg-muted px-3 py-1">
-                {completedCycles}
+                {stats.cyclesCompleted}
               </span>
             </div>
 
@@ -87,14 +80,14 @@ export default function InfoCard() {
             <div className="flex items-center justify-between">
               <p>Focused Time:</p>
               <span className="rounded-full bg-muted px-3 py-1">
-                {formatTime(focusedTime)}
+                {formatTime(stats.focusedTimeInSeconds)}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Break Time:</p>
               <span className="rounded-full bg-muted px-3 py-1">
-                {formatTime(breakTime)}
+                {formatTime(stats.breakTimeInSeconds)}
               </span>
             </div>
 

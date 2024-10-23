@@ -18,7 +18,7 @@ export default function Space() {
   return (
     <TooltipProvider>
       <Tabs
-        defaultValue={spaces[0]?.name}
+        defaultValue="Focus"
         className="relative m-0 w-full overflow-hidden p-0 font-sans"
       >
         <TabsList className="absolute bottom-10 right-10 z-10">
