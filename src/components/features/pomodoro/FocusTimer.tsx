@@ -11,6 +11,7 @@ import IconBtn from "@/components/nova/buttons/IconBtn";
 import { Pause } from "@/components/icons/pause";
 import SecondaryBtn from "@/components/nova/buttons/SecondaryBtn";
 import { Air } from "@/components/icons/Air";
+import InfoCard from "./InfoCard";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -54,7 +55,7 @@ export default function FocusTimer() {
 
   return (
     <form
-      className="text-md flex flex-col items-center gap-10 rounded-3xl bg-background p-6 text-center font-open font-extralight text-foreground"
+      className="text-md flex min-h-[400px] flex-col items-center gap-10 rounded-3xl bg-background p-6 text-center font-open font-extralight text-foreground"
       onSubmit={onSubmit(handleCreateNewCycle)}
     >
       <FormProvider {...newCycleForm}>
@@ -83,31 +84,41 @@ export default function FocusTimer() {
           )}
       </div>
       <Countdown />
-      <div className="flex gap-4">
+      <div className="relative flex w-full items-center justify-center">
         {activeCycle ? (
           <>
-            {isPaused ? (
-              <IconBtn onClick={togglePause}>
-                <Play />
+            {/* Center container for Play/Pause and Stop buttons */}
+            <div className="absolute left-1/2 flex -translate-x-1/2 gap-4">
+              {isPaused ? (
+                <IconBtn onClick={togglePause}>
+                  <Play />
+                </IconBtn>
+              ) : (
+                <IconBtn onClick={togglePause}>
+                  <Pause />
+                </IconBtn>
+              )}
+              <IconBtn onClick={interruptCurrentCycle} variant="destructive">
+                <Stop />
               </IconBtn>
-            ) : (
-              <IconBtn onClick={togglePause}>
-                <Pause />
-              </IconBtn>
-            )}
-            <IconBtn onClick={interruptCurrentCycle} variant="destructive">
-              <Stop />
-            </IconBtn>
+            </div>
+
+            {/* Right-aligned InfoCard */}
+            <div className="ml-auto">
+              <InfoCard />
+            </div>
           </>
         ) : (
-          <SecondaryBtn
-            onClick={falsePause}
-            disabled={isSubmitDisabled}
-            type="submit"
-          >
-            <Play />
-            Start
-          </SecondaryBtn>
+          <div className="m-auto flex">
+            <SecondaryBtn
+              onClick={falsePause}
+              disabled={isSubmitDisabled}
+              type="submit"
+            >
+              <Play />
+              Start
+            </SecondaryBtn>
+          </div>
         )}
       </div>
     </form>
