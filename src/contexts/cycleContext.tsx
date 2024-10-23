@@ -77,12 +77,16 @@ export function CyclesContextProvider({
   function toggleTab() {
     if (activeCycle) {
       const updatedCycle = { ...activeCycle, startDate: new Date() };
-
       dispatch(updateCycleStartDateAction(updatedCycle));
 
-      const secondsElapsed =
-        differenceInSeconds(new Date(), new Date(updatedCycle.startDate)) -
-        totalPausedTime;
+      setTotalPausedTime(0);
+      setPauseStart(null);
+      setIsPaused(false);
+
+      const secondsElapsed = differenceInSeconds(
+        new Date(),
+        new Date(updatedCycle.startDate),
+      );
       setAmountSecondsPassed(secondsElapsed);
     }
 

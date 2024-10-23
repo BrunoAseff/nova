@@ -13,18 +13,16 @@ export function Countdown() {
     currentTab,
     toggleTab,
     increaseCycleCounter,
-    cycleCounter,
   } = useContext(CyclesContext);
 
   let totalSeconds: number;
-  console.log(activeCycle);
 
   if (currentTab === "Focus") {
     totalSeconds = (activeCycle ? activeCycle.minutesAmount : 25) * 60;
   } else if (currentTab === "LongBreak") {
-    totalSeconds = activeCycle ? 15 * 60 : 25;
+    totalSeconds = 15 * 60;
   } else {
-    totalSeconds = activeCycle ? 5 * 60 : 25;
+    totalSeconds = 5 * 60;
   }
 
   useEffect(() => {
@@ -32,17 +30,24 @@ export function Countdown() {
 
     if (activeCycle && !isPaused) {
       interval = setInterval(() => {
-        const secondsDifference =
-          differenceInSeconds(new Date(), new Date(activeCycle.startDate)) -
-          totalPausedTime;
+        const secondsDifference = differenceInSeconds(
+          new Date(),
+          new Date(activeCycle.startDate),
+        );
 
-        if (secondsDifference >= totalSeconds) {
+        // Only subtract pause time during Focus sessions
+        const adjustedDifference =
+          currentTab === "Focus"
+            ? secondsDifference - totalPausedTime
+            : secondsDifference;
+
+        if (adjustedDifference >= totalSeconds) {
           toggleTab();
           increaseCycleCounter();
           setSecondsPassed(totalSeconds);
           clearInterval(interval);
         } else {
-          setSecondsPassed(secondsDifference);
+          setSecondsPassed(adjustedDifference);
         }
       }, 1000);
     }
@@ -59,9 +64,15 @@ export function Countdown() {
     totalPausedTime,
     toggleTab,
     increaseCycleCounter,
+    currentTab,
   ]);
 
-  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
+  const currentSeconds = activeCycle
+    ? totalSeconds -
+      (currentTab === "Focus"
+        ? amountSecondsPassed
+        : amountSecondsPassed % totalSeconds)
+    : 0;
 
   const minutesAmount = Math.floor(currentSeconds / 60);
   const secondsAmount = currentSeconds % 60;
@@ -75,7 +86,6 @@ export function Countdown() {
     }
   }, [minutes, seconds, activeCycle]);
 
-  console.log(cycleCounter);
   return (
     <div className="flex items-center space-x-1 rounded-3xl text-center font-open text-8xl font-extralight text-foreground">
       <span>{minutes[0]}</span>
