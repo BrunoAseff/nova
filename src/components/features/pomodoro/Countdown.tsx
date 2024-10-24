@@ -13,6 +13,7 @@ export function Countdown() {
   } = useContext(CyclesContext);
 
   const intervalRef = useRef<number | null>(null);
+  const lastTickRef = useRef<number>(Date.now());
 
   // Get total seconds based on current tab
   const totalSeconds = (() => {
@@ -27,18 +28,29 @@ export function Countdown() {
   })();
 
   useEffect(() => {
+    // Reset lastTickRef when pause state changes
+    if (!isPaused) {
+      lastTickRef.current = Date.now();
+    }
+
     if (activeCycle && !isPaused) {
       intervalRef.current = window.setInterval(() => {
-        setSecondsPassed((seconds: number) => {
-          const newTime = seconds + 1;
-          if (newTime >= totalSeconds) {
-            clearInterval(intervalRef.current!);
-            toggleTab();
-            increaseCycleCounter();
-            return 0;
-          }
-          return newTime;
-        });
+        const now = Date.now();
+        const deltaSeconds = Math.floor((now - lastTickRef.current) / 1000);
+        lastTickRef.current = now;
+
+        if (deltaSeconds > 0) {
+          setSecondsPassed((seconds: number) => {
+            const newTime = seconds + deltaSeconds;
+            if (newTime >= totalSeconds) {
+              clearInterval(intervalRef.current!);
+              toggleTab();
+              increaseCycleCounter();
+              return 0;
+            }
+            return newTime;
+          });
+        }
       }, 1000);
     }
 
@@ -59,7 +71,6 @@ export function Countdown() {
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
   const minutesAmount = Math.floor(currentSeconds / 60);
   const secondsAmount = currentSeconds % 60;
-
   const minutes = String(minutesAmount).padStart(2, "0");
   const seconds = String(secondsAmount).padStart(2, "0");
 
