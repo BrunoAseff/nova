@@ -1,79 +1,62 @@
 import { CyclesContext } from "@/contexts/cycleContext";
-import { differenceInSeconds } from "date-fns";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 
 export function Countdown() {
   const {
     activeCycle,
-    activeCycleId,
-    amountSecondsPassed,
-    setSecondsPassed,
-    isPaused,
-    totalPausedTime,
     currentTab,
+    isPaused,
+    setSecondsPassed,
+    amountSecondsPassed,
     toggleTab,
     increaseCycleCounter,
   } = useContext(CyclesContext);
 
-  let totalSeconds: number;
+  const intervalRef = useRef<number | null>(null);
 
-  if (currentTab === "Focus") {
-    totalSeconds = (activeCycle ? activeCycle.minutesAmount : 25) * 60;
-  } else if (currentTab === "LongBreak") {
-    totalSeconds = 15 * 60;
-  } else {
-    totalSeconds = 5 * 60;
-  }
+  // Get total seconds based on current tab
+  const totalSeconds = (() => {
+    switch (currentTab) {
+      case "Focus":
+        return (activeCycle?.minutesAmount ?? 25) * 60;
+      case "Long Break":
+        return 15 * 60;
+      default: // Short Break
+        return 5 * 60;
+    }
+  })();
 
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-
     if (activeCycle && !isPaused) {
-      interval = setInterval(() => {
-        const secondsDifference = differenceInSeconds(
-          new Date(),
-          new Date(activeCycle.startDate),
-        );
-
-        // Only subtract pause time during Focus sessions
-        const adjustedDifference =
-          currentTab === "Focus"
-            ? secondsDifference - totalPausedTime
-            : secondsDifference;
-
-        if (adjustedDifference >= totalSeconds) {
-          toggleTab();
-          increaseCycleCounter();
-          setSecondsPassed(totalSeconds);
-          clearInterval(interval);
-        } else {
-          setSecondsPassed(adjustedDifference);
-        }
+      intervalRef.current = window.setInterval(() => {
+        setSecondsPassed((seconds: number) => {
+          const newTime = seconds + 1;
+          if (newTime >= totalSeconds) {
+            clearInterval(intervalRef.current!);
+            toggleTab();
+            increaseCycleCounter();
+            return 0;
+          }
+          return newTime;
+        });
       }, 1000);
     }
 
     return () => {
-      clearInterval(interval);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
   }, [
     activeCycle,
-    totalSeconds,
-    activeCycleId,
-    setSecondsPassed,
     isPaused,
-    totalPausedTime,
+    totalSeconds,
+    setSecondsPassed,
     toggleTab,
     increaseCycleCounter,
-    currentTab,
   ]);
 
-  const currentSeconds = activeCycle
-    ? totalSeconds -
-      (currentTab === "Focus"
-        ? amountSecondsPassed
-        : amountSecondsPassed % totalSeconds)
-    : 0;
-
+  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
   const minutesAmount = Math.floor(currentSeconds / 60);
   const secondsAmount = currentSeconds % 60;
 

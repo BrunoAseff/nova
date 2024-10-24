@@ -1,14 +1,12 @@
 "use client";
 import { createContext, useReducer, useState } from "react";
 import type { ReactNode } from "react";
-import { differenceInSeconds } from "date-fns";
 import type { Cycle } from "@/reducers/cycles/cycleReducer";
 import { cyclesReducer } from "@/reducers/cycles/cycleReducer";
 import {
   addNewCycleAction,
   interruptCurrentCycleAction,
   markCurrentCycleAsFinishedAction,
-  updateCycleStartDateAction,
 } from "@/reducers/cycles/cycleActions";
 
 interface CreateCycleData {
@@ -28,7 +26,6 @@ interface CyclesContextType {
   isPaused: boolean;
   togglePause: () => void;
   falsePause: () => void;
-  totalPausedTime: number;
   focusingOnMessage: string;
   currentTab: string;
   toggleTab: () => void;
@@ -38,6 +35,7 @@ interface CyclesContextType {
   startTime: Date | null;
   focusedTime: number;
   breakTime: number;
+  getCurrentSessionTime: () => number;
 }
 
 interface CyclesContextProviderProps {
@@ -56,8 +54,7 @@ export function CyclesContextProvider({
 
   const [currentTab, setCurrentTab] = useState("Focus");
   const [isPaused, setIsPaused] = useState(false);
-  const [pauseStart, setPauseStart] = useState<Date | null>(null);
-  const [totalPausedTime, setTotalPausedTime] = useState(0);
+  const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
   const [focusingOnMessage, setfocusingOnMessage] = useState("");
   const [cycleCounter, setCycleCounter] = useState(0);
   const [completedCycles, setCompletedCycles] = useState(0);
@@ -68,12 +65,19 @@ export function CyclesContextProvider({
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
-  const [amountSecondsPassed, setAmountSecondsPassed] = useState(() => {
-    if (activeCycle) {
-      return differenceInSeconds(new Date(), new Date(activeCycle.startDate));
+  // Function to get the current session duration in seconds
+  function getCurrentSessionTime() {
+    switch (currentTab) {
+      case "Focus":
+        return (activeCycle?.minutesAmount ?? 25) * 60;
+      case "Long Break":
+        return 15 * 60;
+      case "Short Break":
+        return 5 * 60;
+      default:
+        return 25 * 60;
     }
-    return 0;
-  });
+  }
 
   function increaseCycleCounter() {
     if (cycleCounter === 4) {
@@ -86,53 +90,40 @@ export function CyclesContextProvider({
 
   function toggleTab() {
     if (activeCycle) {
-      const updatedCycle = { ...activeCycle, startDate: new Date() };
-      dispatch(updateCycleStartDateAction(updatedCycle));
-
-      // Calculate time spent in previous tab
-      const timeInPreviousTab =
-        differenceInSeconds(new Date(), new Date(activeCycle.startDate)) -
-        totalPausedTime;
-
-      // Update focused or break time based on current tab
+      // Store the time spent in the current session
       if (currentTab === "Focus") {
-        setFocusedTime((prev) => prev + timeInPreviousTab);
+        setFocusedTime((prev) => prev + amountSecondsPassed);
+        setCurrentTab(cycleCounter === 4 ? "Long Break" : "Short Break");
       } else {
-        setBreakTime((prev) => prev + timeInPreviousTab);
+        setBreakTime((prev) => prev + amountSecondsPassed);
+        setCurrentTab("Focus");
       }
 
-      setTotalPausedTime(0);
-      setPauseStart(null);
-      setIsPaused(false);
+      // Reset seconds for new session
       setAmountSecondsPassed(0);
-    }
-
-    if (currentTab === "Focus") {
-      setCurrentTab(cycleCounter === 4 ? "Long Break" : "Short Break");
-    } else {
-      setCurrentTab("Focus");
+      setIsPaused(false);
     }
   }
 
   function setSecondsPassed(seconds: number) {
-    setAmountSecondsPassed(seconds);
+    const totalSeconds = getCurrentSessionTime();
+    if (seconds >= totalSeconds) {
+      toggleTab();
+      increaseCycleCounter();
+      setAmountSecondsPassed(0);
+    } else {
+      setAmountSecondsPassed(seconds);
+    }
   }
 
   function markCurrentAsFinished() {
     dispatch(markCurrentCycleAsFinishedAction());
     setCycleCounter(0);
     setCurrentTab("Focus");
+    setAmountSecondsPassed(0);
   }
 
   function togglePause() {
-    if (isPaused) {
-      if (pauseStart) {
-        const pauseDuration = differenceInSeconds(new Date(), pauseStart);
-        setTotalPausedTime(totalPausedTime + pauseDuration);
-      }
-    } else {
-      setPauseStart(new Date());
-    }
     setIsPaused((prev) => !prev);
   }
 
@@ -153,10 +144,11 @@ export function CyclesContextProvider({
     setfocusingOnMessage(data.task);
     dispatch(addNewCycleAction(newCycle));
     setAmountSecondsPassed(0);
-    setTotalPausedTime(0);
     setFocusedTime(0);
     setBreakTime(0);
     setCompletedCycles(0);
+    setCycleCounter(0);
+    setCurrentTab("Focus");
   }
 
   function interruptCurrentCycle() {
@@ -164,6 +156,7 @@ export function CyclesContextProvider({
     setCycleCounter(0);
     setCurrentTab("Focus");
     setStartTime(null);
+    setAmountSecondsPassed(0);
     document.title = "Nova";
   }
 
@@ -181,7 +174,6 @@ export function CyclesContextProvider({
         isPaused,
         togglePause,
         falsePause,
-        totalPausedTime,
         focusingOnMessage,
         toggleTab,
         currentTab,
@@ -191,6 +183,7 @@ export function CyclesContextProvider({
         startTime,
         focusedTime,
         breakTime,
+        getCurrentSessionTime,
       }}
     >
       {children}
