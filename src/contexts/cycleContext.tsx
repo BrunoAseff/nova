@@ -20,7 +20,7 @@ interface CyclesContextType {
   activeCycleId: string | null;
   amountSecondsPassed: number;
   markCurrentAsFinished: () => void;
-  setSecondsPassed: (seconds: number) => void;
+  setSecondsPassed: (updater: (prev: number) => number) => void;
   createNewCycle: (data: CreateCycleData) => void;
   interruptCurrentCycle: () => void;
   isPaused: boolean;
@@ -105,14 +105,16 @@ export function CyclesContextProvider({
     }
   }
 
-  function setSecondsPassed(seconds: number) {
+  function setSecondsPassed(updater: (prev: number) => number) {
     const totalSeconds = getCurrentSessionTime();
-    if (seconds >= totalSeconds) {
+    const newSeconds = updater(amountSecondsPassed); // assuming amountSecondsPassed is your state variable
+
+    if (newSeconds >= totalSeconds) {
       toggleTab();
       increaseCycleCounter();
       setAmountSecondsPassed(0);
     } else {
-      setAmountSecondsPassed(seconds);
+      setAmountSecondsPassed(newSeconds);
     }
   }
 
