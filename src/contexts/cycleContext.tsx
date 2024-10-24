@@ -16,37 +16,28 @@ interface CreateCycleData {
   minutesAmount: number;
 }
 
-interface PomodoroStats {
-  cyclesCompleted: number;
-  startedAt: Date | null;
-  focusedTimeInSeconds: number;
-  breakTimeInSeconds: number;
-}
-
 interface CyclesContextType {
-  // Core Pomodoro State
   cycles: Array<Cycle>;
   activeCycle: Cycle | undefined;
   activeCycleId: string | null;
-  currentTab: string;
-  isPaused: boolean;
-  totalPausedTime: number;
   amountSecondsPassed: number;
-  cycleCounter: number;
-  focusingOnMessage: string;
-
-  // Stats
-  stats: PomodoroStats;
-
-  // Actions
   markCurrentAsFinished: () => void;
   setSecondsPassed: (seconds: number) => void;
   createNewCycle: (data: CreateCycleData) => void;
   interruptCurrentCycle: () => void;
+  isPaused: boolean;
   togglePause: () => void;
   falsePause: () => void;
+  totalPausedTime: number;
+  focusingOnMessage: string;
+  currentTab: string;
   toggleTab: () => void;
   increaseCycleCounter: () => void;
+  cycleCounter: number;
+  completedCycles: number;
+  startTime: Date | null;
+  focusedTime: number;
+  breakTime: number;
 }
 
 interface CyclesContextProviderProps {
@@ -69,12 +60,10 @@ export function CyclesContextProvider({
   const [totalPausedTime, setTotalPausedTime] = useState(0);
   const [focusingOnMessage, setfocusingOnMessage] = useState("");
   const [cycleCounter, setCycleCounter] = useState(0);
-  const [stats, setStats] = useState<PomodoroStats>({
-    cyclesCompleted: 0,
-    startedAt: null,
-    focusedTimeInSeconds: 0,
-    breakTimeInSeconds: 0,
-  });
+  const [completedCycles, setCompletedCycles] = useState(0);
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [focusedTime, setFocusedTime] = useState(0);
+  const [breakTime, setBreakTime] = useState(0);
 
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
@@ -89,10 +78,7 @@ export function CyclesContextProvider({
   function increaseCycleCounter() {
     if (cycleCounter === 4) {
       setCycleCounter(0);
-      setStats((prev) => ({
-        ...prev,
-        cyclesCompleted: prev.cyclesCompleted + 1,
-      }));
+      setCompletedCycles((prev) => prev + 1);
     } else {
       setCycleCounter((prev) => prev + 1);
     }
@@ -109,17 +95,11 @@ export function CyclesContextProvider({
         totalPausedTime;
 
       // Update focused or break time based on current tab
-      setStats((prev) => ({
-        ...prev,
-        focusedTimeInSeconds:
-          currentTab === "Focus"
-            ? prev.focusedTimeInSeconds + timeInPreviousTab
-            : prev.focusedTimeInSeconds,
-        breakTimeInSeconds:
-          currentTab !== "Focus"
-            ? prev.breakTimeInSeconds + timeInPreviousTab
-            : prev.breakTimeInSeconds,
-      }));
+      if (currentTab === "Focus") {
+        setFocusedTime((prev) => prev + timeInPreviousTab);
+      } else {
+        setBreakTime((prev) => prev + timeInPreviousTab);
+      }
 
       setTotalPausedTime(0);
       setPauseStart(null);
@@ -169,27 +149,21 @@ export function CyclesContextProvider({
       startDate: now,
     };
 
-    setStats({
-      cyclesCompleted: 0,
-      startedAt: now,
-      focusedTimeInSeconds: 0,
-      breakTimeInSeconds: 0,
-    });
-
+    setStartTime(now);
     setfocusingOnMessage(data.task);
     dispatch(addNewCycleAction(newCycle));
     setAmountSecondsPassed(0);
     setTotalPausedTime(0);
+    setFocusedTime(0);
+    setBreakTime(0);
+    setCompletedCycles(0);
   }
 
   function interruptCurrentCycle() {
     dispatch(interruptCurrentCycleAction());
     setCycleCounter(0);
     setCurrentTab("Focus");
-    setStats((prev) => ({
-      ...prev,
-      startedAt: null,
-    }));
+    setStartTime(null);
     document.title = "Nova";
   }
 
@@ -199,21 +173,24 @@ export function CyclesContextProvider({
         cycles,
         activeCycle,
         activeCycleId,
-        currentTab,
-        isPaused,
-        totalPausedTime,
-        amountSecondsPassed,
-        cycleCounter,
-        focusingOnMessage,
-        stats,
         markCurrentAsFinished,
+        amountSecondsPassed,
         setSecondsPassed,
         createNewCycle,
         interruptCurrentCycle,
+        isPaused,
         togglePause,
         falsePause,
+        totalPausedTime,
+        focusingOnMessage,
         toggleTab,
+        currentTab,
+        cycleCounter,
         increaseCycleCounter,
+        completedCycles,
+        startTime,
+        focusedTime,
+        breakTime,
       }}
     >
       {children}

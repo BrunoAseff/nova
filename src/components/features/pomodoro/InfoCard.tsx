@@ -10,20 +10,26 @@ import { useContext, useEffect, useState } from "react";
 import { differenceInSeconds } from "date-fns";
 
 export default function InfoCard() {
-  const { cycleCounter, stats, totalPausedTime, activeCycle } =
-    useContext(CyclesContext);
+  const {
+    cycleCounter,
+    completedCycles,
+    startTime,
+    focusedTime,
+    breakTime,
+    activeCycle,
+  } = useContext(CyclesContext);
 
   const [overallTime, setOverallTime] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (stats.startedAt && activeCycle) {
-        setOverallTime(differenceInSeconds(new Date(), stats.startedAt));
+      if (startTime && activeCycle) {
+        setOverallTime(differenceInSeconds(new Date(), startTime));
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [stats.startedAt, activeCycle]);
+  }, [startTime, activeCycle]);
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -52,49 +58,42 @@ export default function InfoCard() {
         align="center"
         className="w-80"
       >
-        <div className="flex flex-col gap-3 bg-background text-foreground">
-          <strong className="text-lg">Pomodoro Information</strong>
+        <div className="flex flex-col gap-3 bg-background text-sm text-foreground">
+          <strong className="text-lg">Pomodoro stats</strong>
 
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <p>Current Progress:</p>
+              <p>Current cycle progress:</p>
               <span className="rounded-full bg-muted px-3 py-1">
                 {cycleCounter}/4
               </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <p>Cycles Completed:</p>
+              <p>Cycles completed:</p>
               <span className="rounded-full bg-muted px-3 py-1">
-                {stats.cyclesCompleted}
+                {completedCycles}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <p>Overall Time:</p>
+              <p>Overall time:</p>
               <span className="rounded-full bg-muted px-3 py-1">
                 {formatTime(overallTime)}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <p>Focused Time:</p>
+              <p>Focused time:</p>
               <span className="rounded-full bg-muted px-3 py-1">
-                {formatTime(stats.focusedTimeInSeconds)}
+                {formatTime(focusedTime)}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
-              <p>Break Time:</p>
+              <p>Break time:</p>
               <span className="rounded-full bg-muted px-3 py-1">
-                {formatTime(stats.breakTimeInSeconds)}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <p>Paused Time:</p>
-              <span className="rounded-full bg-muted px-3 py-1">
-                {formatTime(totalPausedTime)}
+                {formatTime(breakTime)}
               </span>
             </div>
           </div>
