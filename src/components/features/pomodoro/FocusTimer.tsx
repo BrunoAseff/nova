@@ -13,7 +13,6 @@ import SecondaryBtn from "@/components/nova/buttons/SecondaryBtn";
 import { Air } from "@/components/icons/Air";
 import InfoCard from "./InfoCard";
 import { Restart } from "@/components/icons/Restart";
-import { StarProgress } from "@/components/icons/StarProgress";
 import { Fire } from "@/components/icons/Fire";
 import { CheckedCircle } from "@/components/icons/CheckedCircle";
 import { Circle } from "@/components/icons/Circle";
@@ -90,9 +89,9 @@ export default function FocusTimer() {
                 {[...Array(4)].map((_, index) => (
                   <span key={index}>
                     {index < cycleCounter ? (
-                      <CheckedCircle className="text-blue-100" />
+                      <CheckedCircle className="text-secondary" />
                     ) : (
-                      <Circle className="text-neutral-700" />
+                      <Circle className="text-accent" />
                     )}
                   </span>
                 ))}
