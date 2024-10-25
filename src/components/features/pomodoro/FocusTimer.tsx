@@ -83,7 +83,7 @@ export default function FocusTimer() {
                 {focusingOnMessage}
               </strong>
             </div>
-            <div className="flex gap-6">
+            <div className="flex items-center gap-3">
               <div className="flex gap-2">
                 {" "}
                 {[...Array(4)].map((_, index) => (
@@ -96,7 +96,7 @@ export default function FocusTimer() {
                   </span>
                 ))}
               </div>
-              {completedCycles > 0 && (
+              {completedCycles !== 30 && (
                 <div className="flex items-center gap-1 text-foreground opacity-80 hover:text-secondary hover:opacity-100">
                   <p>{completedCycles} </p>
                   <Fire color="currentColor" />
