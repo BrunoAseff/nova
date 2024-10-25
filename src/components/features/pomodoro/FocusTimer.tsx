@@ -15,6 +15,8 @@ import InfoCard from "./InfoCard";
 import { Restart } from "@/components/icons/Restart";
 import { StarProgress } from "@/components/icons/StarProgress";
 import { Fire } from "@/components/icons/Fire";
+import { CheckedCircle } from "@/components/icons/CheckedCircle";
+import { Circle } from "@/components/icons/Circle";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -86,14 +88,13 @@ export default function FocusTimer() {
               <div className="flex gap-2">
                 {" "}
                 {[...Array(4)].map((_, index) => (
-                  <StarProgress
-                    key={index}
-                    color={
-                      index < cycleCounter
-                        ? "hsl(209, 100%, 91%)"
-                        : "hsl(230, 10%, 30%)"
-                    }
-                  />
+                  <span key={index}>
+                    {index < cycleCounter ? (
+                      <CheckedCircle className="text-blue-100" />
+                    ) : (
+                      <Circle className="text-neutral-700" />
+                    )}
+                  </span>
                 ))}
               </div>
               {completedCycles > 0 && (
