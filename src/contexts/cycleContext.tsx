@@ -37,6 +37,7 @@ interface CyclesContextType {
   focusedTime: number;
   breakTime: number;
   getCurrentSessionTime: () => number;
+  setfocusingOnMessage: (message: string) => void;
 }
 
 interface CyclesContextProviderProps {
@@ -195,6 +196,7 @@ export function CyclesContextProvider({
         focusedTime,
         breakTime,
         getCurrentSessionTime,
+        setfocusingOnMessage,
       }}
     >
       {children}

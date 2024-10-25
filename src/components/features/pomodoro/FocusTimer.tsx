@@ -16,6 +16,7 @@ import { Restart } from "@/components/icons/Restart";
 import { Fire } from "@/components/icons/Fire";
 import { CheckedCircle } from "@/components/icons/CheckedCircle";
 import { Circle } from "@/components/icons/Circle";
+import FocusingOnMessage from "./FocusingOnMessage";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -35,7 +36,6 @@ export default function FocusTimer() {
     isPaused,
     togglePause,
     falsePause,
-    focusingOnMessage,
     currentTab,
     resetCurrentSession,
     cycleCounter,
@@ -74,14 +74,10 @@ export default function FocusTimer() {
           <div className="flex flex-col items-center gap-1">
             {" "}
             <div className="flex w-fit items-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">
-              {" "}
               <p className="w-fit rounded-lg text-muted-foreground">
                 Focusing on
               </p>
-              <strong className="text-foreground underline">
-                {" "}
-                {focusingOnMessage}
-              </strong>
+              <FocusingOnMessage />
             </div>
             <div className="flex items-center gap-3">
               <div className="flex gap-2">
