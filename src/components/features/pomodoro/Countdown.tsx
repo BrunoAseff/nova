@@ -45,7 +45,6 @@ export function Countdown() {
             if (newTime >= totalSeconds) {
               clearInterval(intervalRef.current!);
               toggleTab();
-              increaseCycleCounter();
               return 0;
             }
             return newTime;

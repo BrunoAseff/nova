@@ -13,12 +13,8 @@ import SecondaryBtn from "@/components/nova/buttons/SecondaryBtn";
 import { Air } from "@/components/icons/Air";
 import InfoCard from "./InfoCard";
 import { Restart } from "@/components/icons/Restart";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/Tooltip";
+import { StarProgress } from "@/components/icons/StarProgress";
+import { Fire } from "@/components/icons/Fire";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -41,6 +37,8 @@ export default function FocusTimer() {
     focusingOnMessage,
     currentTab,
     resetCurrentSession,
+    cycleCounter,
+    completedCycles,
   } = useContext(CyclesContext);
 
   const newCycleForm = useForm<NewCycleFormData>({
@@ -62,85 +60,99 @@ export default function FocusTimer() {
   const isSubmitDisabled = !task;
 
   return (
-    <TooltipProvider>
-      <form
-        className="text-md flex min-h-[400px] flex-col items-center gap-10 rounded-3xl bg-background p-6 text-center font-open font-extralight text-foreground"
-        onSubmit={onSubmit(handleCreateNewCycle)}
-      >
-        <FormProvider {...newCycleForm}>
-          <NewCycleForm />
-        </FormProvider>
-        <div className="font-inter text-md flex min-h-14 w-full items-center justify-center">
-          {activeCycle && currentTab === "Focus" && (
-            <div className="flex w-fit items-center gap-2 rounded-3xl border-[1px] border-muted-foreground bg-muted p-2">
+    <form
+      className="text-md flex min-h-[400px] flex-col items-center gap-10 rounded-3xl bg-background p-6 text-center font-open font-extralight text-foreground"
+      onSubmit={onSubmit(handleCreateNewCycle)}
+    >
+      <FormProvider {...newCycleForm}>
+        <NewCycleForm />
+      </FormProvider>
+
+      <div className="font-inter text-md flex min-h-14 w-full items-center justify-center">
+        {activeCycle && currentTab === "Focus" && (
+          <div className="flex flex-col items-center gap-1">
+            {" "}
+            <div className="flex w-fit items-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">
               {" "}
               <p className="w-fit rounded-lg text-muted-foreground">
                 Focusing on
               </p>
-              <strong className="text-foreground"> {focusingOnMessage}</strong>
+              <strong className="text-foreground underline">
+                {" "}
+                {focusingOnMessage}
+              </strong>
+            </div>
+            <div className="flex gap-6">
+              <div className="flex gap-2">
+                {" "}
+                {[...Array(4)].map((_, index) => (
+                  <StarProgress
+                    key={index}
+                    color={
+                      index < cycleCounter
+                        ? "hsl(209, 100%, 91%)"
+                        : "hsl(230, 10%, 30%)"
+                    }
+                  />
+                ))}
+              </div>
+              {completedCycles > 0 && (
+                <div className="flex items-center gap-1 text-foreground opacity-80 hover:text-secondary hover:opacity-100">
+                  <p>{completedCycles} </p>
+                  <Fire color="currentColor" />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeCycle &&
+          (currentTab === "Long Break" || currentTab === "Short Break") && (
+            <div className="flex w-fit items-center gap-3 rounded-3xl p-2 text-2xl">
+              <h1 className="bg-gradient-to-br from-primary from-10% via-secondary via-50% to-primary-foreground to-90% bg-clip-text font-montserrat font-semibold text-transparent">
+                Take a breath!
+              </h1>
+
+              <Air color="hsl(209, 100%, 91%)" />
             </div>
           )}
+      </div>
+      <Countdown />
+      <div className="relative flex w-full items-center justify-center">
+        {activeCycle ? (
+          <>
+            {/* Center container for Play/Pause and Stop buttons */}
+            <div className="absolute left-1/2 flex -translate-x-1/2 gap-4">
+              <IconBtn>
+                <Restart onClick={resetCurrentSession} />
+              </IconBtn>
 
-          {activeCycle &&
-            (currentTab === "Long Break" || currentTab === "Short Break") && (
-              <div className="flex w-fit items-center gap-3 rounded-3xl p-2 text-2xl">
-                <h1 className="bg-gradient-to-br from-primary from-10% via-secondary via-50% to-primary-foreground to-90% bg-clip-text font-montserrat font-semibold text-transparent">
-                  Take a breath!
-                </h1>
+              <IconBtn onClick={togglePause}>
+                {isPaused ? <Play /> : <Pause />}
+              </IconBtn>
 
-                <Air color="hsl(209, 100%, 91%)" />
-              </div>
-            )}
-        </div>
-        <Countdown />
-        <div className="relative flex w-full items-center justify-center">
-          {activeCycle ? (
-            <>
-              {/* Center container for Play/Pause and Stop buttons */}
-              <div className="absolute left-1/2 flex -translate-x-1/2 gap-4">
-                <Tooltip delayDuration={200}>
-                  <TooltipTrigger>
-                    <IconBtn>
-                      <Restart onClick={resetCurrentSession} />
-                    </IconBtn>
-                  </TooltipTrigger>
-                  <TooltipContent>Restart</TooltipContent>
-                </Tooltip>
-                <IconBtn onClick={togglePause}>
-                  {isPaused ? <Play /> : <Pause />}
-                </IconBtn>
-
-                <Tooltip delayDuration={200}>
-                  <TooltipTrigger>
-                    <IconBtn
-                      onClick={interruptCurrentCycle}
-                      variant="destructive"
-                    >
-                      <Stop />
-                    </IconBtn>
-                  </TooltipTrigger>
-                  <TooltipContent>Stop</TooltipContent>
-                </Tooltip>
-              </div>
-
-              <div className="ml-auto">
-                <InfoCard />
-              </div>
-            </>
-          ) : (
-            <div className="m-auto flex">
-              <SecondaryBtn
-                onClick={falsePause}
-                disabled={isSubmitDisabled}
-                type="submit"
-              >
-                <Play />
-                Start
-              </SecondaryBtn>
+              <IconBtn onClick={interruptCurrentCycle} variant="destructive">
+                <Stop />
+              </IconBtn>
             </div>
-          )}
-        </div>
-      </form>
-    </TooltipProvider>
+
+            <div className="ml-auto">
+              <InfoCard />
+            </div>
+          </>
+        ) : (
+          <div className="m-auto flex">
+            <SecondaryBtn
+              onClick={falsePause}
+              disabled={isSubmitDisabled}
+              type="submit"
+            >
+              <Play />
+              Start
+            </SecondaryBtn>
+          </div>
+        )}
+      </div>
+    </form>
   );
 }

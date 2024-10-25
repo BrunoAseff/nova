@@ -94,6 +94,7 @@ export function CyclesContextProvider({
       if (currentTab === "Focus") {
         setFocusedTime((prev) => prev + amountSecondsPassed);
         setCurrentTab(cycleCounter === 4 ? "Long Break" : "Short Break");
+        increaseCycleCounter();
       } else {
         setBreakTime((prev) => prev + amountSecondsPassed);
         setCurrentTab("Focus");
