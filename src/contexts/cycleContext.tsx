@@ -93,8 +93,8 @@ export function CyclesContextProvider({
       // Store the time spent in the current session
       if (currentTab === "Focus") {
         setFocusedTime((prev) => prev + amountSecondsPassed);
-        setCurrentTab(cycleCounter === 4 ? "Long Break" : "Short Break");
         increaseCycleCounter();
+        setCurrentTab(cycleCounter === 4 ? "Long Break" : "Short Break");
       } else {
         setBreakTime((prev) => prev + amountSecondsPassed);
         setCurrentTab("Focus");
@@ -112,7 +112,6 @@ export function CyclesContextProvider({
 
     if (newSeconds >= totalSeconds) {
       toggleTab();
-      increaseCycleCounter();
       setAmountSecondsPassed(0);
     } else {
       setAmountSecondsPassed(newSeconds);
