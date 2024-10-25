@@ -23,6 +23,7 @@ interface CyclesContextType {
   setSecondsPassed: (updater: (prev: number) => number) => void;
   createNewCycle: (data: CreateCycleData) => void;
   interruptCurrentCycle: () => void;
+  resetCurrentSession: () => void; // New function
   isPaused: boolean;
   togglePause: () => void;
   falsePause: () => void;
@@ -65,7 +66,6 @@ export function CyclesContextProvider({
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
-  // Function to get the current session duration in seconds
   function getCurrentSessionTime() {
     switch (currentTab) {
       case "Focus":
@@ -107,7 +107,7 @@ export function CyclesContextProvider({
 
   function setSecondsPassed(updater: (prev: number) => number) {
     const totalSeconds = getCurrentSessionTime();
-    const newSeconds = updater(amountSecondsPassed); // assuming amountSecondsPassed is your state variable
+    const newSeconds = updater(amountSecondsPassed);
 
     if (newSeconds >= totalSeconds) {
       toggleTab();
@@ -116,6 +116,14 @@ export function CyclesContextProvider({
     } else {
       setAmountSecondsPassed(newSeconds);
     }
+  }
+
+  function resetCurrentSession() {
+    // Reset only the current session timer while maintaining all other state
+    setAmountSecondsPassed(0);
+    setIsPaused(false);
+    // Update startTime for the current session only
+    setStartTime(new Date());
   }
 
   function markCurrentAsFinished() {
@@ -173,6 +181,7 @@ export function CyclesContextProvider({
         setSecondsPassed,
         createNewCycle,
         interruptCurrentCycle,
+        resetCurrentSession, // Added to context
         isPaused,
         togglePause,
         falsePause,
