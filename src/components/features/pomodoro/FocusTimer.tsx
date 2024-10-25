@@ -96,7 +96,7 @@ export default function FocusTimer() {
                   </span>
                 ))}
               </div>
-              {completedCycles !== 30 && (
+              {completedCycles > 0 && (
                 <div className="flex items-center gap-1 text-foreground opacity-80 hover:text-secondary hover:opacity-100">
                   <p>{completedCycles} </p>
                   <Fire color="currentColor" />
