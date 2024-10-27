@@ -12,6 +12,7 @@ const initialState: { spaces: Space[] } = {
       icon: <Home color="currentColor" />,
       clock: { isHidden: false, position: "center", timeFormat: "24h" },
       pomodoro: { isHidden: true },
+      timer: { isHidden: true },
       background: "/home1.jpg",
     },
     {
@@ -19,6 +20,7 @@ const initialState: { spaces: Space[] } = {
       icon: <Focus color="currentColor" />,
       clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
       pomodoro: { isHidden: false },
+      timer: { isHidden: true },
       background: "/focus.jpg",
     },
     {
@@ -26,6 +28,7 @@ const initialState: { spaces: Space[] } = {
       icon: <Relax color="currentColor" />,
       clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
       pomodoro: { isHidden: true },
+      timer: { isHidden: true },
       background: "/relax.jpg",
     },
   ],

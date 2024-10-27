@@ -8,10 +8,15 @@ export interface PomodoroProps {
   isHidden?: boolean;
 }
 
+export interface TimerProps {
+  isHidden?: boolean;
+}
+
 export interface Space {
   name: string;
   clock: ClockProps;
   pomodoro: PomodoroProps;
+  timer: TimerProps;
   background: string;
   icon: JSX.Element;
 }
