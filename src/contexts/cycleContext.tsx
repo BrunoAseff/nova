@@ -82,31 +82,33 @@ export function CyclesContextProvider({
   }
 
   function increaseCycleCounter() {
-    if (cycleCounter === 4) {
+
+    setCycleCounter((prev) => prev + 1);
+    
+    if (cycleCounter === 3) { 
       setCycleCounter(0);
       setCompletedCycles((prev) => prev + 1);
-    } else {
-      setCycleCounter((prev) => prev + 1);
     }
   }
 
+
   function toggleTab() {
     if (activeCycle) {
-      // Store the time spent in the current session
+      
       if (currentTab === "Focus") {
         setFocusedTime((prev) => prev + amountSecondsPassed);
         increaseCycleCounter();
-        setCurrentTab(cycleCounter === 4 ? "Long Break" : "Short Break");
+        
+        setCurrentTab(cycleCounter === 3 ? "Long Break" : "Short Break"); 
       } else {
         setBreakTime((prev) => prev + amountSecondsPassed);
         setCurrentTab("Focus");
       }
-
-      // Reset seconds for new session
       setAmountSecondsPassed(0);
       setIsPaused(false);
     }
   }
+
 
   function setSecondsPassed(updater: (prev: number) => number) {
     const totalSeconds = getCurrentSessionTime();
