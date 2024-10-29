@@ -38,6 +38,7 @@ interface CyclesContextType {
   breakTime: number;
   getCurrentSessionTime: () => number;
   setfocusingOnMessage: (message: string) => void;
+  skipCurrentSession: () => void;
 }
 
 interface CyclesContextProviderProps {
@@ -171,6 +172,12 @@ export function CyclesContextProvider({
     document.title = "Nova";
   }
 
+  function skipCurrentSession() {
+    setAmountSecondsPassed(0);
+    setIsPaused(false);
+    toggleTab();
+  }
+
   return (
     <CyclesContext.Provider
       value={{
@@ -197,6 +204,7 @@ export function CyclesContextProvider({
         breakTime,
         getCurrentSessionTime,
         setfocusingOnMessage,
+        skipCurrentSession,
       }}
     >
       {children}

@@ -17,6 +17,7 @@ import { Fire } from "@/components/icons/Fire";
 import { CheckedCircle } from "@/components/icons/CheckedCircle";
 import { Circle } from "@/components/icons/Circle";
 import FocusingOnMessage from "./FocusingOnMessage";
+import { Button } from "@/components/ui/button";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -40,6 +41,7 @@ export default function FocusTimer() {
     resetCurrentSession,
     cycleCounter,
     completedCycles,
+    skipCurrentSession,
   } = useContext(CyclesContext);
 
   const newCycleForm = useForm<NewCycleFormData>({
@@ -65,9 +67,11 @@ export default function FocusTimer() {
       className="text-md flex min-h-[400px] flex-col items-center gap-10 rounded-3xl bg-background p-6 text-center font-open font-extralight text-foreground"
       onSubmit={onSubmit(handleCreateNewCycle)}
     >
-      <FormProvider {...newCycleForm}>
-        <NewCycleForm />
-      </FormProvider>
+      {!activeCycle && (
+        <FormProvider {...newCycleForm}>
+          <NewCycleForm />
+        </FormProvider>
+      )}
 
       <div className="font-inter text-md flex min-h-14 w-full items-center justify-center">
         {activeCycle && currentTab === "Focus" && (
@@ -104,7 +108,7 @@ export default function FocusTimer() {
 
         {activeCycle &&
           (currentTab === "Long Break" || currentTab === "Short Break") && (
-            <div className="flex w-fit items-center gap-3 rounded-3xl p-2 text-2xl">
+            <div className="mt-auto flex w-fit items-center gap-3 rounded-3xl p-2 text-2xl">
               <h1 className="bg-gradient-to-br from-primary from-10% via-secondary via-50% to-primary-foreground to-90% bg-clip-text font-montserrat font-semibold text-transparent">
                 Take a breath!
               </h1>
@@ -113,11 +117,21 @@ export default function FocusTimer() {
             </div>
           )}
       </div>
-      <Countdown />
+      <div className="mt-auto">
+        <Countdown />
+        {activeCycle && (
+          <Button
+            variant="link"
+            onClick={skipCurrentSession}
+            className="text-small mt-1 cursor-pointer text-muted-foreground hover:text-secondary hover:underline"
+          >
+            Skip session
+          </Button>
+        )}
+      </div>
       <div className="relative flex w-full items-center justify-center">
         {activeCycle ? (
           <>
-            {/* Center container for Play/Pause and Stop buttons */}
             <div className="absolute left-1/2 flex -translate-x-1/2 gap-4">
               <IconBtn>
                 <Restart onClick={resetCurrentSession} />

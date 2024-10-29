@@ -18,8 +18,8 @@ export default function Pomodoro(props: PomodoroProps) {
 
   return (
     <Tabs
-      value={currentTab} // Set the active tab based on the currentTab from context
-      className="border-1 fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-foreground shadow-foreground drop-shadow-xl"
+      value={currentTab}
+      className="border-1 fixed left-1/2 top-1/2 flex min-w-[63%] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-foreground shadow-foreground drop-shadow-xl"
     >
       <TabsList>
         <TabsTrigger value="Focus">Focus</TabsTrigger>
