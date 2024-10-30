@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 import { SpacesProvider } from "@/contexts/spaceContext";
 import { ThemeProvider } from "@/components/themeProvider";
 import { CyclesContextProvider } from "@/contexts/cycleContext";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 export const metadata: Metadata = {
   title: "Nova",
@@ -50,6 +51,7 @@ export default function RootLayout({
           </CyclesContextProvider>
         </ThemeProvider>
       </body>
+      <GoogleAnalytics gaId="G-SZRTRX2GKE" />
     </html>
   );
 }
