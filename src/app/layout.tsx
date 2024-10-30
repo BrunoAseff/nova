@@ -6,6 +6,7 @@ import { SpacesProvider } from "@/contexts/spaceContext";
 import { ThemeProvider } from "@/components/themeProvider";
 import { CyclesContextProvider } from "@/contexts/cycleContext";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Nova",
@@ -52,6 +53,7 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
       <GoogleAnalytics gaId="G-SZRTRX2GKE" />
+      <Analytics />
     </html>
   );
 }
