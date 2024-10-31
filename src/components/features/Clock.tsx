@@ -3,10 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import type { ClockProps } from "@/types";
+import { ClockIcon } from "../icons/Clock";
 
 export default function Clock(props: ClockProps) {
   const { timeFormat, position, isHidden = false } = props;
   const [currentTime, setCurrentTime] = useState<string>("");
+  const [timeMessage, setTimeMessage] = useState<string>("");
 
   useEffect(() => {
     const updateCurrentTime = () => {
@@ -14,6 +16,17 @@ export default function Clock(props: ClockProps) {
       const formattedTime =
         timeFormat === "12h" ? format(now, "hh:mm a") : format(now, "HH:mm");
       setCurrentTime(formattedTime);
+
+      const hour = now.getHours();
+      if (hour >= 5 && hour < 12) {
+        setTimeMessage("Morning");
+      } else if (hour >= 12 && hour < 17) {
+        setTimeMessage("Afternoon");
+      } else if (hour >= 17 && hour < 21) {
+        setTimeMessage("Evening");
+      } else {
+        setTimeMessage("Night");
+      }
     };
 
     updateCurrentTime();
@@ -48,15 +61,23 @@ export default function Clock(props: ClockProps) {
 
   return (
     <div
-      className={`fixed shadow-foreground drop-shadow-xl ${positionClass()} border-1 flex items-center justify-center text-foreground`}
+      className={`fixed shadow-foreground drop-shadow-xl ${positionClass()} border-1 flex items-center justify-center`}
     >
-      <span className="flex items-center space-x-1 rounded-3xl bg-background p-10 text-center font-open text-5xl font-extralight text-foreground">
-        {currentTime.split("").map((char, index) => (
-          <span key={index} className="inline-block w-[1ch] text-center">
-            {char}
-          </span>
-        ))}
-      </span>
+      <div className="relative flex h-44 w-64 rounded-3xl border-2 border-secondary bg-background p-2 font-montserrat">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="bg-gradient-to-t from-secondary via-secondary-foreground to-foreground bg-clip-text text-6xl font-medium text-transparent">
+            {currentTime.split("").map((char, index) => (
+              <span key={index} className="inline-block w-[1ch] text-center">
+                {char}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-1 text-center text-sm italic text-muted-foreground">
+          <ClockIcon />
+          {timeMessage}
+        </div>
+      </div>
     </div>
   );
 }
