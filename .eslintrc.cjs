@@ -11,6 +11,7 @@ const config = {
     "next/core-web-vitals",
     "plugin:@typescript-eslint/stylistic-type-checked",
   ],
+
   rules: {
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",

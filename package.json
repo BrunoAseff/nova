@@ -11,7 +11,7 @@
     "db:studio": "prisma studio",
     "dev": "SKIP_ENV_VALIDATION=1 next dev",
     "postinstall": "prisma generate",
-    "lint": "next lint",
+    "lint": "SKIP_ENV_VALIDATION=1 next lint",
     "start": "next start"
   },
   "dependencies": {
