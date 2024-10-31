@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useReducer, useState } from "react";
+import { createContext, useReducer, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import type { Cycle } from "@/reducers/cycles/cycleReducer";
 import { cyclesReducer } from "@/reducers/cycles/cycleReducer";
@@ -39,6 +39,13 @@ interface CyclesContextType {
   getCurrentSessionTime: () => number;
   setfocusingOnMessage: (message: string) => void;
   skipCurrentSession: () => void;
+  focusedTimeStat: number;
+  breakTimeStat: number;
+  overallTimeStat: number;
+  updateOverallTimeStat: (seconds: number) => void;
+  initialStartTime: Date | null;
+  setFocusedTimeStat: (seconds: number) => void;
+  setBreakTimeStat: (seconds: number) => void;
 }
 
 interface CyclesContextProviderProps {
@@ -64,9 +71,19 @@ export function CyclesContextProvider({
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [focusedTime, setFocusedTime] = useState(0);
   const [breakTime, setBreakTime] = useState(0);
+  const [focusedTimeStat, setFocusedTimeStat] = useState(0);
+  const [breakTimeStat, setBreakTimeStat] = useState(0);
+  const [overallTimeStat, setOverallTimeStat] = useState(0);
+  const [initialStartTime, setInitialStartTime] = useState<Date | null>(null); // New state for initial start time
 
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
+
+  useEffect(() => {
+    if (startTime && !initialStartTime) {
+      setInitialStartTime(startTime);
+    }
+  }, [startTime, initialStartTime]);
 
   function getCurrentSessionTime() {
     switch (currentTab) {
@@ -82,33 +99,32 @@ export function CyclesContextProvider({
   }
 
   function increaseCycleCounter() {
-
     setCycleCounter((prev) => prev + 1);
-    
-    if (cycleCounter === 3) { 
+
+    if (cycleCounter === 3) {
       setCycleCounter(0);
       setCompletedCycles((prev) => prev + 1);
     }
   }
 
-
   function toggleTab() {
     if (activeCycle) {
-      
       if (currentTab === "Focus") {
         setFocusedTime((prev) => prev + amountSecondsPassed);
+        setFocusedTimeStat((prev) => prev + amountSecondsPassed);
+
         increaseCycleCounter();
-        
-        setCurrentTab(cycleCounter === 3 ? "Long Break" : "Short Break"); 
+
+        setCurrentTab(cycleCounter === 3 ? "Long Break" : "Short Break");
       } else {
         setBreakTime((prev) => prev + amountSecondsPassed);
+        setBreakTimeStat((prev) => prev + amountSecondsPassed);
         setCurrentTab("Focus");
       }
       setAmountSecondsPassed(0);
       setIsPaused(false);
     }
   }
-
 
   function setSecondsPassed(updater: (prev: number) => number) {
     const totalSeconds = getCurrentSessionTime();
@@ -123,10 +139,12 @@ export function CyclesContextProvider({
   }
 
   function resetCurrentSession() {
-    // Reset only the current session timer while maintaining all other state
     setAmountSecondsPassed(0);
     setIsPaused(false);
-    // Update startTime for the current session only
+
+    if (!initialStartTime) {
+      setInitialStartTime(new Date());
+    }
     setStartTime(new Date());
   }
 
@@ -158,11 +176,21 @@ export function CyclesContextProvider({
     setfocusingOnMessage(data.task);
     dispatch(addNewCycleAction(newCycle));
     setAmountSecondsPassed(0);
+
+    // Reset both original and stat variables
     setFocusedTime(0);
     setBreakTime(0);
+    setFocusedTimeStat(0);
+    setBreakTimeStat(0);
+    setOverallTimeStat(0);
+
     setCompletedCycles(0);
     setCycleCounter(0);
     setCurrentTab("Focus");
+  }
+
+  function updateOverallTimeStat(seconds: number) {
+    setOverallTimeStat(seconds);
   }
 
   function interruptCurrentCycle() {
@@ -207,6 +235,13 @@ export function CyclesContextProvider({
         getCurrentSessionTime,
         setfocusingOnMessage,
         skipCurrentSession,
+        focusedTimeStat,
+        breakTimeStat,
+        overallTimeStat,
+        updateOverallTimeStat,
+        initialStartTime,
+        setFocusedTimeStat,
+        setBreakTimeStat,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/HoverCard";
 import { CyclesContext } from "@/contexts/cycleContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { differenceInSeconds } from "date-fns";
 
 export default function InfoCard() {
@@ -14,22 +14,48 @@ export default function InfoCard() {
     cycleCounter,
     completedCycles,
     startTime,
-    focusedTime,
-    breakTime,
+    focusedTimeStat,
+    breakTimeStat,
+    overallTimeStat,
+    updateOverallTimeStat,
     activeCycle,
+    initialStartTime,
+    currentTab,
+    setFocusedTimeStat,
+    setBreakTimeStat,
   } = useContext(CyclesContext);
-
-  const [overallTime, setOverallTime] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      if (initialStartTime) {
+        const currentOverallTime = differenceInSeconds(
+          new Date(),
+          initialStartTime,
+        );
+        updateOverallTimeStat(currentOverallTime);
+      }
+
       if (startTime && activeCycle) {
-        setOverallTime(differenceInSeconds(new Date(), startTime));
+        if (currentTab === "Focus") {
+          setFocusedTimeStat(focusedTimeStat + 1);
+        } else {
+          setBreakTimeStat(breakTimeStat + 1);
+        }
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [startTime, activeCycle]);
+  }, [
+    initialStartTime,
+    startTime,
+    activeCycle,
+    currentTab,
+    updateOverallTimeStat,
+    setBreakTimeStat,
+    setFocusedTimeStat,
+    breakTimeStat,
+    focusedTimeStat,
+  ]);
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -79,21 +105,21 @@ export default function InfoCard() {
             <div className="flex items-center justify-between">
               <p>Overall time:</p>
               <span className="rounded-full bg-muted px-3 py-1">
-                {formatTime(overallTime)}
+                {formatTime(overallTimeStat)}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Focused time:</p>
               <span className="rounded-full bg-muted px-3 py-1">
-                {formatTime(focusedTime)}
+                {formatTime(focusedTimeStat)}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Break time:</p>
               <span className="rounded-full bg-muted px-3 py-1">
-                {formatTime(breakTime)}
+                {formatTime(breakTimeStat)}
               </span>
             </div>
           </div>
