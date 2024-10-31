@@ -13,6 +13,7 @@ const initialState: { spaces: Space[] } = {
       clock: { isHidden: false, position: "center", timeFormat: "24h" },
       pomodoro: { isHidden: true },
       timer: { isHidden: true },
+      quote: { position: "bottom-left", isHidden: false },
       background: "/home1.jpg",
     },
     {
@@ -21,6 +22,7 @@ const initialState: { spaces: Space[] } = {
       clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
       pomodoro: { isHidden: false },
       timer: { isHidden: true },
+      quote: { position: "bottom-left", isHidden: true },
       background: "/focus.jpg",
     },
     {
@@ -29,7 +31,8 @@ const initialState: { spaces: Space[] } = {
       clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
       pomodoro: { isHidden: true },
       timer: { isHidden: true },
-      background: "/relax.jpg",
+      quote: { position: "top-right", isHidden: false },
+      background: "/space3.jpg",
     },
   ],
 };
