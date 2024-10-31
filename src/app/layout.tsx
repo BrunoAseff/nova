@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/themeProvider";
 import { CyclesContextProvider } from "@/contexts/cycleContext";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "Nova",
@@ -51,6 +52,7 @@ export default function RootLayout({
             <SpacesProvider>{children}</SpacesProvider>
           </CyclesContextProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
       <GoogleAnalytics gaId="G-SZRTRX2GKE" />
       <Analytics />
