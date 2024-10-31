@@ -23,7 +23,7 @@ interface CyclesContextType {
   setSecondsPassed: (updater: (prev: number) => number) => void;
   createNewCycle: (data: CreateCycleData) => void;
   interruptCurrentCycle: () => void;
-  resetCurrentSession: () => void; // New function
+  resetCurrentSession: () => void;
   isPaused: boolean;
   togglePause: () => void;
   falsePause: () => void;
@@ -61,7 +61,6 @@ export function CyclesContextProvider({
     cycles: [],
     activeCycleId: null,
   });
-
   const [currentTab, setCurrentTab] = useState("Focus");
   const [isPaused, setIsPaused] = useState(false);
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0);
@@ -74,16 +73,15 @@ export function CyclesContextProvider({
   const [focusedTimeStat, setFocusedTimeStat] = useState(0);
   const [breakTimeStat, setBreakTimeStat] = useState(0);
   const [overallTimeStat, setOverallTimeStat] = useState(0);
-  const [initialStartTime, setInitialStartTime] = useState<Date | null>(null); // New state for initial start time
+  const [initialStartTime, setInitialStartTime] = useState<Date | null>(null);
 
   const { cycles, activeCycleId } = cyclesState;
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId);
 
   useEffect(() => {
-    if (startTime && !initialStartTime) {
-      setInitialStartTime(startTime);
-    }
+    if (startTime && !initialStartTime) setInitialStartTime(startTime);
   }, [startTime, initialStartTime]);
+
   function getCurrentSessionTime() {
     switch (currentTab) {
       case "Focus":
@@ -125,7 +123,6 @@ export function CyclesContextProvider({
   function setSecondsPassed(updater: (prev: number) => number) {
     const totalSeconds = getCurrentSessionTime();
     const newSeconds = updater(amountSecondsPassed);
-
     if (newSeconds >= totalSeconds) {
       toggleTab();
       setAmountSecondsPassed(0);
@@ -137,9 +134,7 @@ export function CyclesContextProvider({
   function resetCurrentSession() {
     setAmountSecondsPassed(0);
     setIsPaused(false);
-    if (!initialStartTime) {
-      setInitialStartTime(new Date());
-    }
+    if (!initialStartTime) setInitialStartTime(new Date());
     setStartTime(new Date());
   }
 
@@ -170,7 +165,6 @@ export function CyclesContextProvider({
       minutesAmount: data.minutesAmount,
       startDate: now,
     };
-
     setStartTime(now);
     setfocusingOnMessage(data.task);
     dispatch(addNewCycleAction(newCycle));
@@ -188,6 +182,7 @@ export function CyclesContextProvider({
   function updateOverallTimeStat(seconds: number) {
     setOverallTimeStat(seconds);
   }
+
   function interruptCurrentCycle() {
     setInitialStartTime(null);
     setFocusedTimeStat(0);
@@ -218,7 +213,7 @@ export function CyclesContextProvider({
         setSecondsPassed,
         createNewCycle,
         interruptCurrentCycle,
-        resetCurrentSession, // Added to context
+        resetCurrentSession,
         isPaused,
         togglePause,
         falsePause,
