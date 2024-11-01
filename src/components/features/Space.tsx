@@ -12,6 +12,9 @@ import {
 import Pomodoro from "./pomodoro/Pomodoro";
 import Quote from "./quotes/Quote";
 
+// Add a loading state background color
+const LOADING_BG_COLOR = "bg-gray-900";
+
 export default function Space() {
   const { state } = useSpacesContext();
   const { spaces } = state;
@@ -29,7 +32,6 @@ export default function Space() {
                 <TooltipTrigger asChild>
                   <span>{space.icon}</span>
                 </TooltipTrigger>
-
                 <TooltipContent className="font-open font-light">
                   {space.name}
                 </TooltipContent>
@@ -37,13 +39,25 @@ export default function Space() {
             </TabsTrigger>
           ))}
         </TabsList>
-
         {spaces.map((space) => (
           <TabsContent
-            className="relative m-0 h-screen w-screen bg-cover bg-center p-0"
+            className={`relative m-0 h-screen w-screen bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
             key={space.name}
             value={space.name}
           >
+            {/* Add initial colored background div */}
+            <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
+
+            {/* Preload the first background image */}
+            {spaces[0] && (
+              <link
+                rel="preload"
+                as="image"
+                href={spaces[0].background}
+                key={spaces[0].name}
+              />
+            )}
+
             <div className="absolute inset-0 z-0">
               <Image
                 src={space.background}
@@ -52,7 +66,10 @@ export default function Space() {
                 className="object-cover brightness-90"
                 placeholder="blur"
                 blurDataURL="/blur/blurBackground.png"
-                priority
+                priority={space.name === "Focus"} // Only prioritize the first/default background
+                sizes="100vw"
+                quality={75} // Slightly reduce quality for faster load
+                loading={space.name === "Focus" ? "eager" : "lazy"} // Lazy load non-primary backgrounds
               />
             </div>
             <div className="relative z-10">
