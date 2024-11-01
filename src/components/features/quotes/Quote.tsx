@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { quotes } from "./quotes";
 import type { Quote } from "./quotes";
 import type { QuoteProps } from "@/types";
+import { Refresh } from "@/components/icons/Refresh";
+import IconBtn from "@/components/nova/buttons/IconBtn";
 
 export default function Quote(props: QuoteProps) {
-  const { position, isHidden = false } = props;
-  const [currentQuote, setCurrentQuote] = useState<Quote>(
-    quotes[0] ?? { text: "", author: "" },
-  );
+  const {
+    position,
+    isHidden = false,
+    showAuthor = true,
+    categories = ["all"],
+  } = props;
 
-  useEffect(() => {
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)] ?? {
-      text: "",
-      author: "",
-    };
-    setCurrentQuote(randomQuote);
-  }, []);
+  const [currentQuote, setCurrentQuote] = useState<Quote>(
+    quotes[0] ?? { text: "", author: "", category: "Motivational" },
+  );
 
   const positionClass = (): string => {
     switch (position) {
@@ -32,20 +33,67 @@ export default function Quote(props: QuoteProps) {
     }
   };
 
+  const refreshButtonPositionClass = (): string => {
+    return position === "top-left" || position === "bottom-left"
+      ? "right-2"
+      : "left-2";
+  };
+
+  const getFilteredQuotes = useCallback(() => {
+    return categories.includes("all")
+      ? quotes
+      : quotes.filter((quote) => categories.includes(quote.category));
+  }, [categories]);
+
+  const refreshQuote = useCallback(() => {
+    const filteredQuotes = getFilteredQuotes();
+    const randomQuote = filteredQuotes[
+      Math.floor(Math.random() * filteredQuotes.length)
+    ] ?? {
+      text: "",
+      author: "",
+      category: "Motivational",
+    };
+    setCurrentQuote(randomQuote);
+  }, [getFilteredQuotes]);
+
+  useEffect(() => {
+    refreshQuote();
+  }, [refreshQuote]);
+
   if (isHidden) {
     return null;
   }
 
   return (
     <div
-      className={`fixed w-fit rounded-2xl p-4 font-montserrat backdrop-blur-sm backdrop-brightness-75 ${positionClass()} max-w-md`}
+      className={`fixed w-fit rounded-2xl p-4 font-montserrat backdrop-blur-sm backdrop-brightness-75 ${positionClass()} group max-w-md`}
     >
-      <p className="text-xl font-medium text-secondary-foreground">
-        &ldquo;{currentQuote.text}&rdquo;
-      </p>
-      <p className="mt-2 text-sm text-secondary-foreground">
-        - {currentQuote.author}
-      </p>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentQuote.text}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          <p className="text-xl font-medium text-secondary-foreground">
+            &ldquo;{currentQuote.text}&rdquo;
+          </p>
+          {showAuthor && (
+            <p className="mt-2 text-sm text-secondary-foreground">
+              - {currentQuote.author}
+            </p>
+          )}
+        </motion.div>
+      </AnimatePresence>
+      <IconBtn
+        onClick={refreshQuote}
+        variant="default"
+        className={`absolute bottom-2 ${refreshButtonPositionClass()} bg-transparent text-foreground opacity-0 transition-opacity group-hover:opacity-100`}
+      >
+        <Refresh />
+      </IconBtn>
     </div>
   );
 }

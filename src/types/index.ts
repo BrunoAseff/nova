@@ -17,6 +17,8 @@ export interface TimerProps {
 export interface QuoteProps {
   position: Position;
   isHidden?: boolean;
+  showAuthor?: boolean;
+  categories?: string[];
 }
 
 export interface Space {
