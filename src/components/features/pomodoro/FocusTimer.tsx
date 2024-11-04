@@ -65,7 +65,7 @@ export default function FocusTimer() {
 
   return (
     <form
-      className="flex flex-col items-center rounded-3xl bg-background text-center"
+      className="flex max-w-[38rem] flex-col items-center rounded-3xl bg-background text-center"
       onSubmit={onSubmit(handleCreateNewCycle)}
     >
       <motion.div

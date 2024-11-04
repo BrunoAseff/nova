@@ -25,7 +25,7 @@ export default function HomePage() {
         <div className="absolute -inset-2 rounded-lg bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-primary via-secondary to-secondary opacity-50 blur-2xl"></div>
         <Image
           className="relative rounded-lg"
-          src="/home1.jpg"
+          src="/backgrounds/home.webp"
           alt="Nova"
           placeholder="blur"
           blurDataURL="/blur/blurTestImage.png"
@@ -46,7 +46,7 @@ export default function HomePage() {
         <Button variant="link">
           {" "}
           <Link
-            className="font-open flex items-center font-light text-primary-foreground"
+            className="flex items-center font-open font-light text-primary-foreground"
             href="/spaces"
           >
             Continue without login

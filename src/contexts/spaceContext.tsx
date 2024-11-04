@@ -14,7 +14,7 @@ const initialState: { spaces: Space[] } = {
       pomodoro: { isHidden: true },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: false },
-      background: "/home1.jpg",
+      background: "/backgrounds/home.webp",
     },
     {
       name: "Focus",
@@ -23,7 +23,7 @@ const initialState: { spaces: Space[] } = {
       pomodoro: { isHidden: false },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: true },
-      background: "/focus.jpg",
+      background: "/backgrounds/focus.webp",
     },
     {
       name: "Relax",
@@ -32,7 +32,7 @@ const initialState: { spaces: Space[] } = {
       pomodoro: { isHidden: true },
       timer: { isHidden: true },
       quote: { position: "top-right", isHidden: false },
-      background: "/space3.jpg",
+      background: "/backgrounds/relax.webp",
     },
   ],
 };
