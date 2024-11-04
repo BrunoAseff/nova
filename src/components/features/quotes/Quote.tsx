@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { quotes } from "./quotes";
@@ -43,23 +44,26 @@ export default function Quote(props: QuoteProps) {
     return categories.includes("all")
       ? quotes
       : quotes.filter((quote) => categories.includes(quote.category));
-  }, [categories]);
+  }, [categories.join()]);
 
-  const refreshQuote = useCallback(() => {
+  const getRandomQuote = useCallback(() => {
     const filteredQuotes = getFilteredQuotes();
-    const randomQuote = filteredQuotes[
-      Math.floor(Math.random() * filteredQuotes.length)
-    ] ?? {
-      text: "",
-      author: "",
-      category: "Motivational",
-    };
-    setCurrentQuote(randomQuote);
+    return (
+      filteredQuotes[Math.floor(Math.random() * filteredQuotes.length)] ?? {
+        text: "",
+        author: "",
+        category: "Motivational",
+      }
+    );
   }, [getFilteredQuotes]);
+
+  const refreshQuote = () => {
+    setCurrentQuote(getRandomQuote());
+  };
 
   useEffect(() => {
     refreshQuote();
-  }, [refreshQuote]);
+  }, [categories.join()]);
 
   if (isHidden) {
     return null;
