@@ -24,6 +24,7 @@ export default function Space() {
       <Tabs
         defaultValue="Focus"
         className="relative m-0 w-full overflow-hidden p-0 font-sans"
+        aria-label="Space selection tabs"
       >
         <TabsList className="absolute bottom-10 right-10 z-10">
           {spaces.map((space) => (
