@@ -8,16 +8,19 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/Tooltip";
+} from "@/components/ui/tooltip";
 import Pomodoro from "./pomodoro/Pomodoro";
 import Quote from "./quotes/Quote";
+import { Button } from "../ui/button";
+import { Config } from "../icons/Config";
+import { useSidebar } from "@/components/ui/sidebar";
 
-// Add a loading state background color
 const LOADING_BG_COLOR = "bg-gray-900";
 
 export default function Space() {
   const { state } = useSpacesContext();
   const { spaces } = state;
+  const { setOpen } = useSidebar();
 
   return (
     <TooltipProvider>
@@ -26,7 +29,7 @@ export default function Space() {
         className="relative m-0 w-full overflow-hidden p-0 font-sans"
         aria-label="Space selection tabs"
       >
-        <TabsList className="absolute bottom-10 right-10 z-10">
+        <TabsList className="absolute bottom-10 right-24 z-10">
           {spaces.map((space) => (
             <TabsTrigger key={space.name} value={space.name}>
               <Tooltip delayDuration={200}>
@@ -67,10 +70,10 @@ export default function Space() {
                 className="object-cover brightness-90"
                 placeholder="blur"
                 blurDataURL="/blur/blurBackground.png"
-                priority={space.name === "Focus"} // Only prioritize the first/default background
+                priority={space.name === "Focus"}
                 sizes="100vw"
-                quality={75} // Slightly reduce quality for faster load
-                loading={space.name === "Focus" ? "eager" : "lazy"} // Lazy load non-primary backgrounds
+                quality={75}
+                loading={space.name === "Focus" ? "eager" : "lazy"}
               />
             </div>
             <div className="relative z-10">
@@ -81,6 +84,18 @@ export default function Space() {
           </TabsContent>
         ))}
       </Tabs>
+      <Tooltip delayDuration={200}>
+        <TooltipTrigger asChild>
+          <Button
+            size="icon"
+            onClick={() => setOpen(true)}
+            className="absolute bottom-10 right-10 z-10 overflow-hidden rounded-xl bg-background p-2 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
+          >
+            <Config />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent className="font-open font-light">Config</TooltipContent>
+      </Tooltip>
     </TooltipProvider>
   );
 }
