@@ -26,7 +26,7 @@ export function SpaceSidebar() {
         orientation="vertical"
         className="m-5 flex h-[90%] w-full items-start gap-4 bg-none"
       >
-        <TabsList className="mt-[10%] flex min-w-[25%] flex-col gap-6 text-left text-lg">
+        <TabsList className="mt-[13%] flex min-w-[25%] flex-col gap-6 text-left text-lg">
           <TabsTrigger value="clock">Clock</TabsTrigger>
           <TabsTrigger value="pomodoro">Pomodoro</TabsTrigger>
           <TabsTrigger value="timer">Timer</TabsTrigger>
@@ -38,7 +38,7 @@ export function SpaceSidebar() {
           value="clock"
         >
           <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-            <p>Under construction…</p>
+            <p>Under construction… </p>
             <Tools />
           </div>
         </TabsContent>
@@ -47,7 +47,7 @@ export function SpaceSidebar() {
           value="pomodoro"
         >
           <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-            <p>Under construction…</p>
+            <p>Under construction… </p>
             <Tools />
           </div>
         </TabsContent>
@@ -56,7 +56,7 @@ export function SpaceSidebar() {
           value="timer"
         >
           <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-            <p>Under construction…</p>
+            <p>Under construction… </p>
             <Tools />
           </div>
         </TabsContent>
@@ -65,7 +65,7 @@ export function SpaceSidebar() {
           value="quote"
         >
           <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-            <p>Under construction…</p>
+            <p>Under construction… </p>
             <Tools />
           </div>
         </TabsContent>

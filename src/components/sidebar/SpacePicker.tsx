@@ -24,21 +24,21 @@ export default function SpacePicker() {
   const [value, setValue] = useState(spaces[0]?.name ?? "");
 
   return (
-    <div className="ml-5 mt-5 min-w-[30%]">
+    <div className="ml-5 mt-5 w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between rounded-xl bg-muted text-foreground hover:bg-muted hover:text-secondary"
+            className="min-w-[25%] justify-between rounded-xl bg-muted text-foreground hover:bg-muted hover:text-secondary"
           >
             {spaces.find((space) => space.name === value)?.name ??
               "Select Space..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="w-[200px]">
           <Command>
             <CommandInput placeholder="Search space..." />
             <CommandList>
