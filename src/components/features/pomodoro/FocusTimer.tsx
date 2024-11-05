@@ -64,114 +64,119 @@ export default function FocusTimer() {
   const isSubmitDisabled = !task;
 
   return (
-    <form
-      className="flex max-w-[38rem] flex-col items-center rounded-3xl bg-background text-center"
-      onSubmit={onSubmit(handleCreateNewCycle)}
-    >
-      <motion.div
-        className="text-md flex min-h-[400px] flex-col items-center gap-10 rounded-3xl p-6 text-center font-open font-extralight text-foreground"
-        key={currentTab}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.8 }}
+    <div className="flex items-center justify-center">
+      <form
+        className="flex flex-col items-center justify-center rounded-3xl bg-background p-6 text-center md:min-w-[30rem]"
+        onSubmit={onSubmit(handleCreateNewCycle)}
       >
-        {!activeCycle && (
-          <FormProvider {...newCycleForm}>
-            <NewCycleForm />
-          </FormProvider>
-        )}
-
-        <div className="font-inter text-md flex min-h-14 w-full items-center justify-center">
-          {activeCycle && currentTab === "Focus" && (
-            <div className="flex flex-col items-center gap-1">
-              <div className="flex w-fit items-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">
-                <p className="w-fit rounded-lg text-muted-foreground">
-                  Focusing on
-                </p>
-                <FocusingOnMessage />
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="flex gap-2">
-                  {[...Array(4)].map((_, index) => (
-                    <span key={index}>
-                      {index < cycleCounter ? (
-                        <CheckedCircle className="text-secondary" />
-                      ) : (
-                        <Circle className="text-accent" />
-                      )}
-                    </span>
-                  ))}
-                </div>
-                {completedCycles > 0 && (
-                  <div className="flex items-center gap-1 text-foreground opacity-80 hover:text-secondary hover:opacity-100">
-                    <p>{completedCycles} </p>
-                    <Fire color="currentColor" />
-                  </div>
-                )}
-              </div>
-            </div>
+        <motion.div
+          className="text-md flex min-h-[320px] flex-col items-center gap-10 rounded-3xl text-center font-open font-extralight text-foreground"
+          key={currentTab}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {!activeCycle && (
+            <FormProvider {...newCycleForm}>
+              <NewCycleForm />
+            </FormProvider>
           )}
 
-          {activeCycle &&
-            (currentTab === "Long Break" || currentTab === "Short Break") && (
-              <div className="mt-auto flex w-fit items-center gap-3 rounded-3xl p-2 text-2xl">
-                <h1 className="bg-gradient-to-br from-primary from-10% via-secondary via-50% to-primary-foreground to-90% bg-clip-text font-montserrat font-semibold text-transparent">
-                  Take a breath!
-                </h1>
-                <Air color="hsl(209, 100%, 91%)" />
+          <div className="font-inter text-md flex min-h-14 w-full items-center justify-center">
+            {activeCycle && currentTab === "Focus" && (
+              <div className="flex flex-col items-center gap-1">
+                <div className="flex w-fit items-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">
+                  <p className="w-fit rounded-lg text-muted-foreground">
+                    Focusing on
+                  </p>
+                  <FocusingOnMessage />
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-2">
+                    {[...Array(4)].map((_, index) => (
+                      <span key={index}>
+                        {index < cycleCounter ? (
+                          <CheckedCircle className="text-secondary" />
+                        ) : (
+                          <Circle className="text-accent" />
+                        )}
+                      </span>
+                    ))}
+                  </div>
+                  {completedCycles > 0 && (
+                    <div className="flex items-center gap-1 text-foreground opacity-80 hover:text-secondary hover:opacity-100">
+                      <p>{completedCycles} </p>
+                      <Fire color="currentColor" />
+                    </div>
+                  )}
+                </div>
               </div>
             )}
-        </div>
 
-        <div className="mt-auto">
-          <Countdown />
-          {activeCycle && (
-            <Button
-              variant="link"
-              onClick={skipCurrentSession}
-              className="text-small mt-1 cursor-pointer text-muted-foreground hover:text-secondary hover:underline"
-            >
-              Skip session
-            </Button>
-          )}
-        </div>
+            {activeCycle &&
+              (currentTab === "Long Break" || currentTab === "Short Break") && (
+                <div className="mt-auto flex w-fit items-center gap-3 rounded-3xl p-2 text-2xl">
+                  <h1 className="bg-gradient-to-br from-primary from-10% via-secondary via-50% to-primary-foreground to-90% bg-clip-text font-montserrat font-semibold text-transparent">
+                    Take a breath!
+                  </h1>
+                  <Air color="hsl(209, 100%, 91%)" />
+                </div>
+              )}
+          </div>
 
-        <div className="relative flex w-full items-center justify-center">
-          {activeCycle ? (
-            <>
-              <div className="absolute left-1/2 flex -translate-x-1/2 gap-4">
-                <IconBtn>
-                  <Restart onClick={resetCurrentSession} />
-                </IconBtn>
-
-                <IconBtn onClick={togglePause}>
-                  {isPaused ? <Play /> : <Pause />}
-                </IconBtn>
-
-                <IconBtn onClick={interruptCurrentCycle} variant="destructive">
-                  <Stop />
-                </IconBtn>
-              </div>
-
-              <div className="ml-auto">
-                <InfoCard />
-              </div>
-            </>
-          ) : (
-            <div className="m-auto flex">
-              <SecondaryBtn
-                onClick={falsePause}
-                disabled={isSubmitDisabled}
-                type="submit"
+          <div className="mb-auto mt-auto">
+            <Countdown />
+            {activeCycle && (
+              <Button
+                variant="link"
+                onClick={skipCurrentSession}
+                className="text-small mt-1 cursor-pointer text-muted-foreground hover:text-secondary hover:underline"
               >
-                <Play />
-                Start
-              </SecondaryBtn>
-            </div>
-          )}
-        </div>
-      </motion.div>
-    </form>
+                Skip session
+              </Button>
+            )}
+          </div>
+
+          <div className="relative flex w-full items-center justify-center">
+            {activeCycle ? (
+              <>
+                <div className="absolute left-1/2 mb-4 flex -translate-x-1/2 gap-4 md:mb-0">
+                  <IconBtn>
+                    <Restart onClick={resetCurrentSession} />
+                  </IconBtn>
+
+                  <IconBtn onClick={togglePause}>
+                    {isPaused ? <Play /> : <Pause />}
+                  </IconBtn>
+
+                  <IconBtn
+                    onClick={interruptCurrentCycle}
+                    variant="destructive"
+                  >
+                    <Stop />
+                  </IconBtn>
+                </div>
+
+                <div className="relative left-[80%] hidden -translate-x-1/2 md:block">
+                  <InfoCard />
+                </div>
+              </>
+            ) : (
+              <div className="m-auto flex">
+                <SecondaryBtn
+                  onClick={falsePause}
+                  disabled={isSubmitDisabled}
+                  type="submit"
+                >
+                  <Play />
+                  Start
+                </SecondaryBtn>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </form>
+    </div>
   );
 }
