@@ -18,10 +18,9 @@ import { useState } from "react";
 import { useSpacesContext } from "@/contexts/spaceContext";
 
 export default function SpacePicker() {
-  const { state } = useSpacesContext();
-  const { spaces } = state;
+  const { spaces, selectedTab, selectTab } = useSpacesContext();
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(spaces[0]?.name ?? "");
+  const [value, setValue] = useState(selectedTab || spaces[0]?.name);
 
   return (
     <div className="ml-5 mt-5 w-full">
@@ -48,8 +47,9 @@ export default function SpacePicker() {
                   <CommandItem
                     key={space.name}
                     value={space.name}
-                    onSelect={() => {
-                      setValue(space.name);
+                    onSelect={(val) => {
+                      setValue(val);
+                      selectTab(val);
                       setOpen(false);
                     }}
                   >

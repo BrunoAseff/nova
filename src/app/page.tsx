@@ -1,4 +1,3 @@
-import { ArrowRight } from "@/components/icons/arrow-right";
 import Logo from "@/components/nova/logo";
 import PrimaryBtn from "@/components/nova/buttons/PrimaryBtn";
 import Image from "next/image";
@@ -17,7 +16,7 @@ export default function HomePage() {
       >
         <Logo />
 
-        <p className="italic text-gray-300">
+        <p className="italic text-foreground">
           A platform that helps you shine through focus and calm.
         </p>
       </BlurFade>

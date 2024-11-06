@@ -18,8 +18,8 @@ import { useSidebar } from "@/components/ui/sidebar";
 const LOADING_BG_COLOR = "bg-gray-900";
 
 export default function Space() {
-  const { state } = useSpacesContext();
-  const { spaces } = state;
+  const { spaces } = useSpacesContext();
+
   const { setOpen } = useSidebar();
 
   return (
