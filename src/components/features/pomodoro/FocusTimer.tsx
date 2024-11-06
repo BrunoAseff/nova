@@ -10,7 +10,6 @@ import { Stop } from "@/components/icons/Stop";
 import { Play } from "@/components/icons/Play";
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import { Pause } from "@/components/icons/pause";
-import SecondaryBtn from "@/components/nova/buttons/SecondaryBtn";
 import { Air } from "@/components/icons/Air";
 import InfoCard from "./InfoCard";
 import { Restart } from "@/components/icons/Restart";
@@ -18,7 +17,7 @@ import { Fire } from "@/components/icons/Fire";
 import { CheckedCircle } from "@/components/icons/CheckedCircle";
 import { Circle } from "@/components/icons/Circle";
 import FocusingOnMessage from "./FocusingOnMessage";
-import { Button } from "@/components/ui/button";
+import { FancyBtn } from "@/components/nova/buttons/FancyBtn";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -70,7 +69,7 @@ export default function FocusTimer() {
         onSubmit={onSubmit(handleCreateNewCycle)}
       >
         <motion.div
-          className="text-md flex min-h-[320px] flex-col items-center gap-10 rounded-3xl text-center font-open font-extralight text-foreground"
+          className="text-md flex min-h-[320px] flex-col items-center rounded-3xl text-center font-open font-extralight text-foreground"
           key={currentTab}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -128,13 +127,13 @@ export default function FocusTimer() {
           <div className="mb-auto mt-auto">
             <Countdown />
             {activeCycle && (
-              <Button
-                variant="link"
+              <FancyBtn
+                variant="linkHover2"
                 onClick={skipCurrentSession}
-                className="text-small mt-1 cursor-pointer text-muted-foreground hover:text-secondary hover:underline"
+                className="mt-1 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
               >
                 Skip session
-              </Button>
+              </FancyBtn>
             )}
           </div>
 
@@ -164,14 +163,15 @@ export default function FocusTimer() {
               </>
             ) : (
               <div className="m-auto flex">
-                <SecondaryBtn
+                <FancyBtn
+                  variant="ringHover"
                   onClick={falsePause}
                   disabled={isSubmitDisabled}
                   type="submit"
                 >
                   <Play />
                   Start
-                </SecondaryBtn>
+                </FancyBtn>
               </div>
             )}
           </div>
