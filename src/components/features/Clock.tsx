@@ -14,7 +14,7 @@ export default function Clock(props: ClockProps) {
     const updateCurrentTime = () => {
       const now = new Date();
       const formattedTime =
-        timeFormat === "12h" ? format(now, "hh:mm a") : format(now, "HH:mm");
+        timeFormat === "12h" ? format(now, "hh:mm") : format(now, "HH:mm");
       setCurrentTime(formattedTime);
 
       const hour = now.getHours();
@@ -63,9 +63,9 @@ export default function Clock(props: ClockProps) {
     <div
       className={`fixed shadow-foreground drop-shadow-xl ${positionClass()} border-1 flex items-center justify-center`}
     >
-      <div className="relative flex h-44 w-64 rounded-3xl border-2 border-secondary bg-background p-2 font-montserrat">
+      <div className="border-1 relative flex h-36 w-56 rounded-3xl border-muted-foreground bg-background p-1 font-montserrat">
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-gradient-to-t from-secondary via-secondary-foreground to-foreground bg-clip-text text-6xl font-medium text-transparent">
+          <div className="bg-gradient-to-t from-secondary via-secondary-foreground to-foreground bg-clip-text text-5xl font-medium text-transparent">
             {currentTime.split("").map((char, index) => (
               <span key={index} className="inline-block w-[1ch] text-center">
                 {char}
