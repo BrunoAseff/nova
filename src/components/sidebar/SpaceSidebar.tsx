@@ -7,6 +7,7 @@ import { Close } from "../icons/Close";
 import { SidebarTabs, TabsContent, TabsList, TabsTrigger } from "./SidebarTabs";
 import { Separator } from "../ui/separator";
 import { Tools } from "../icons/Tools";
+import ClockTab from "./tabs/ClockTab";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
@@ -37,10 +38,7 @@ export function SpaceSidebar() {
           className="w-full items-center justify-center"
           value="clock"
         >
-          <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-            <p>Under construction… </p>
-            <Tools />
-          </div>
+          <ClockTab />
         </TabsContent>
         <TabsContent
           className="w-full items-center justify-center"
