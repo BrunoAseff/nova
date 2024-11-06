@@ -83,7 +83,7 @@ export default function InfoCard() {
         align="center"
         className="w-80"
       >
-        <div className="border-bg-muted-foreground flex flex-col gap-3 rounded-lg border-[1px] bg-background p-6 text-sm text-foreground">
+        <div className="border-bg-accent flex flex-col gap-3 rounded-lg border-[1px] bg-accent-foreground p-6 text-sm text-foreground">
           <strong className="text-lg">Pomodoro stats</strong>
 
           <div className="flex flex-col gap-2">
