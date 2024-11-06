@@ -26,7 +26,7 @@ export default function Space() {
     <TooltipProvider>
       <Tabs
         defaultValue="Focus"
-        className="relative m-0 w-full overflow-hidden p-0 font-sans"
+        className="relative m-0 h-screen w-full overflow-hidden p-0 font-sans"
         aria-label="Space selection tabs"
       >
         <TabsList className="absolute bottom-10 right-24 z-10">
@@ -45,7 +45,7 @@ export default function Space() {
         </TabsList>
         {spaces.map((space) => (
           <TabsContent
-            className={`relative m-0 h-screen w-screen bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
+            className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
             key={space.name}
             value={space.name}
           >
