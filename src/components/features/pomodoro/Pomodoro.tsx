@@ -21,11 +21,13 @@ export default function Pomodoro(props: PomodoroProps) {
       value={currentTab}
       className="border-1 fixed left-1/2 top-1/2 flex min-w-[63%] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center text-foreground shadow-foreground drop-shadow-xl"
     >
-      <TabsList>
-        <TabsTrigger value="Focus">Focus</TabsTrigger>
-        <TabsTrigger value="Short Break">Short Break</TabsTrigger>
-        <TabsTrigger value="Long Break">Long Break</TabsTrigger>
-      </TabsList>
+      <div className="flex justify-center">
+        <TabsList>
+          <TabsTrigger value="Focus">Focus</TabsTrigger>
+          <TabsTrigger value="Short Break">Short Break</TabsTrigger>
+          <TabsTrigger value="Long Break">Long Break</TabsTrigger>
+        </TabsList>
+      </div>
       <TabsContent value="Focus">
         <FocusTimer />
       </TabsContent>

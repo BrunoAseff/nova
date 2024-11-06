@@ -16,7 +16,7 @@ export default function PrimaryBtn({
   return (
     <Button
       asChild={hasLink}
-      className={`text-md w-fit gap-2 rounded-3xl font-sans text-lg font-[400] text-black transition-colors hover:bg-primary-foreground`}
+      className={`text-md inline-flex w-fit items-center justify-center gap-3 whitespace-nowrap rounded-3xl bg-foreground px-9 py-7 font-sans text-lg font-medium text-background ring-offset-background transition-all duration-200 hover:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`}
       variant="default"
       size="lg"
       {...props}

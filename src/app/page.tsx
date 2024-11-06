@@ -1,11 +1,11 @@
 import { ArrowRight } from "@/components/icons/arrow-right";
 import Logo from "@/components/nova/logo";
 import PrimaryBtn from "@/components/nova/buttons/PrimaryBtn";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { BlurFade } from "@/components/ui/BlurFade";
 import { Star } from "@/components/icons/Star";
+import { FancyBtn } from "@/components/nova/buttons/FancyBtn";
 
 export default function HomePage() {
   return (
@@ -43,16 +43,15 @@ export default function HomePage() {
           <Star />
         </PrimaryBtn>
 
-        <Button variant="link">
+        <FancyBtn variant="linkHover1">
           {" "}
           <Link
-            className="flex items-center font-open font-light text-primary-foreground"
+            className="flex items-center font-open text-sm font-light text-secondary-foreground"
             href="/spaces"
           >
             Continue without login
-            <ArrowRight color="#D1E9FF" />
           </Link>
-        </Button>
+        </FancyBtn>
       </BlurFade>
     </main>
   );
