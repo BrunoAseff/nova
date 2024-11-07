@@ -4,7 +4,7 @@ export const Star = (props: React.SVGProps<SVGSVGElement>) => (
     viewBox="0 0 24 24"
     width={24}
     height={24}
-    color={"#000000"}
+    color={props.color ?? "currentColor"}
     fill={"none"}
     {...props}
   >

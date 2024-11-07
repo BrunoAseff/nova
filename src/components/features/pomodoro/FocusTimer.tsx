@@ -164,7 +164,7 @@ export default function FocusTimer() {
             ) : (
               <div className="m-auto flex">
                 <FancyBtn
-                  variant="ringHover"
+                  variant="default"
                   onClick={falsePause}
                   disabled={isSubmitDisabled}
                   type="submit"

@@ -4,11 +4,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-lg font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 gap-3 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-lg font-medium ring-offset-background transition-colors focus-visible:outline-none  gap-3  disabled:pointer-events-none disabled:opacity-50 ",
   {
     variants: {
       variant: {
-        default: "bg-secondary text-secondary-foreground hover:bg-secondary/90",
+        default:
+          "border-white/40  border-[1px] border-background text-neutral-400 hover:border-secondary hover:bg-blue-700/10 bg-none text-secondary-foreground ",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -33,9 +34,9 @@ const buttonVariants = cva(
           "relative after:absolute after:bg-secondary after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
+        default: "h-10 rounded-full px-7 py-6",
+        sm: "h-9 rounded-xl px-3",
+        lg: "h-11 rounded-xl px-8",
         icon: "h-10 w-10",
       },
     },
@@ -88,7 +89,7 @@ const FancyBtn = React.forwardRef<
         {...props}
       >
         {Icon && iconPlacement === "left" && (
-          <div className="group-hover:translate-x-100 w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:pr-2 group-hover:opacity-100">
+          <div className="group-hover:translate-x-100 w-0 translate-x-[0%] px-8 py-6 pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:pr-2 group-hover:opacity-100">
             <Icon />
           </div>
         )}
