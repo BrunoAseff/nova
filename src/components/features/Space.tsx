@@ -12,8 +12,8 @@ import {
 import Pomodoro from "./pomodoro/Pomodoro";
 import Quote from "./quotes/Quote";
 import { Button } from "../ui/button";
-import { Config } from "../icons/Config";
 import { useSidebar } from "@/components/ui/sidebar";
+import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -89,9 +89,9 @@ export default function Space() {
           <Button
             size="icon"
             onClick={() => setOpen(true)}
-            className="absolute bottom-10 right-10 z-10 overflow-hidden rounded-xl bg-background p-2 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
+            className="absolute bottom-10 right-10 z-10 overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
           >
-            <Config />
+            <AnimatedConfig />
           </Button>
         </TooltipTrigger>
         <TooltipContent className="font-open font-light">Config</TooltipContent>
