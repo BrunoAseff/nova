@@ -69,7 +69,7 @@ export default function ClockTab() {
           Position
         </Label>
         <RadioGroup
-          className="flex w-[90%] justify-evenly gap-2"
+          className="flex w-[90%] items-center justify-evenly gap-2"
           orientation="horizontal"
           value={selectedPosition}
           onValueChange={handleClockPositionChange}
@@ -80,7 +80,7 @@ export default function ClockTab() {
               className={clsx(
                 "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
                 {
-                  "bg-muted": selectedPosition === pos,
+                  "border-secondary bg-blue-700/10": selectedPosition === pos,
                   "hover:bg-accent-foreground": selectedPosition !== pos,
                 },
               )}
@@ -105,7 +105,7 @@ export default function ClockTab() {
           Time Format
         </Label>
         <RadioGroup
-          className="flex w-[90%] justify-center gap-4"
+          className="flex w-[90%] items-center justify-center gap-4"
           orientation="horizontal"
           value={timeFormat}
           onValueChange={handleTimeFormatChange}
@@ -116,7 +116,7 @@ export default function ClockTab() {
               className={clsx(
                 "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
                 {
-                  "bg-muted": timeFormat === format,
+                  "border-secondary bg-blue-700/10": timeFormat === format,
                   "hover:bg-accent-foreground": timeFormat !== format,
                 },
               )}

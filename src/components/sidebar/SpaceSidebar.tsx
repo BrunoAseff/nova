@@ -8,6 +8,10 @@ import { SidebarTabs, TabsContent, TabsList, TabsTrigger } from "./SidebarTabs";
 import { Separator } from "../ui/separator";
 import { Tools } from "../icons/Tools";
 import ClockTab from "./tabs/ClockTab";
+import { ClockIcon } from "../icons/Clock";
+import { PomodoroIcon } from "../icons/featureIcons/PomodoroIcon";
+import { TimerIcon } from "../icons/featureIcons/TimerIcon";
+import { QuoteIcon } from "../icons/featureIcons/QuoteIcon";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
@@ -28,10 +32,22 @@ export function SpaceSidebar() {
         className="m-5 flex h-[90%] w-full items-start gap-4 bg-none"
       >
         <TabsList className="mt-[13%] flex min-w-[25%] flex-col gap-6 text-left text-lg">
-          <TabsTrigger value="clock">Clock</TabsTrigger>
-          <TabsTrigger value="pomodoro">Pomodoro</TabsTrigger>
-          <TabsTrigger value="timer">Timer</TabsTrigger>
-          <TabsTrigger value="quote">Quote</TabsTrigger>
+          <TabsTrigger className="flex items-center gap-2" value="clock">
+            <ClockIcon className="ml-1 scale-125" />
+            Clock
+          </TabsTrigger>
+          <TabsTrigger className="flex items-center gap-2" value="pomodoro">
+            <PomodoroIcon />
+            Pomodoro
+          </TabsTrigger>
+          <TabsTrigger className="flex items-center gap-2" value="timer">
+            <TimerIcon />
+            Timer
+          </TabsTrigger>
+          <TabsTrigger className="flex items-center gap-2" value="quote">
+            <QuoteIcon />
+            Quote
+          </TabsTrigger>
         </TabsList>
         <Separator orientation="vertical" />
         <TabsContent

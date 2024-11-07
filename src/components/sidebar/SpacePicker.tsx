@@ -30,7 +30,7 @@ export default function SpacePicker() {
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="min-w-[25%] justify-between rounded-xl bg-muted text-foreground hover:bg-muted hover:text-secondary"
+            className="min-w-[25%] justify-between rounded-xl border-[1px] border-muted bg-background py-2 text-foreground hover:border-secondary hover:bg-blue-700/10 hover:text-foreground"
           >
             {spaces.find((space) => space.name === value)?.name ??
               "Select Space..."}
