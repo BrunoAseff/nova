@@ -11,6 +11,7 @@ export function Countdown() {
     amountSecondsPassed,
     toggleTab,
     increaseCycleCounter,
+    togglePause,
   } = useContext(CyclesContext);
 
   const { spaces, selectedTab } = useSpacesContext();
@@ -22,6 +23,7 @@ export function Countdown() {
   const currentSpace = spaces.find((space) => space.name === selectedTab);
   const shortBreakDuration = currentSpace?.pomodoro.shortBreakDuration ?? 5;
   const longBreakDuration = currentSpace?.pomodoro.longBreakDuration ?? 15;
+  const autoStart = currentSpace?.pomodoro.autoStart ?? false;
 
   // Get total seconds based on current tab
   const totalSeconds = (() => {
@@ -52,7 +54,11 @@ export function Countdown() {
             const newTime = seconds + deltaSeconds;
             if (newTime >= totalSeconds) {
               clearInterval(intervalRef.current!);
+
               toggleTab();
+              if (!autoStart) {
+                togglePause();
+              }
               return 0;
             }
             return newTime;
@@ -75,6 +81,8 @@ export function Countdown() {
     increaseCycleCounter,
     selectedTab,
     spaces,
+    autoStart,
+    togglePause,
   ]);
 
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;

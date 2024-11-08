@@ -18,6 +18,7 @@ import { CheckedCircle } from "@/components/icons/CheckedCircle";
 import { Circle } from "@/components/icons/Circle";
 import FocusingOnMessage from "./FocusingOnMessage";
 import { FancyBtn } from "@/components/nova/buttons/FancyBtn";
+import { useSpacesContext } from "@/contexts/spaceContext";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -44,6 +45,18 @@ export default function FocusTimer() {
     skipCurrentSession,
   } = useContext(CyclesContext);
 
+  const { spaces, selectedTab } = useSpacesContext();
+
+  const currentSpace = spaces.find((space) => space.name === selectedTab);
+  const autoStart = currentSpace?.pomodoro.autoStart ?? false;
+
+  function skipSession() {
+    skipCurrentSession();
+
+    if (!autoStart) {
+      togglePause();
+    }
+  }
   const newCycleForm = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {
@@ -129,7 +142,7 @@ export default function FocusTimer() {
             {activeCycle && (
               <FancyBtn
                 variant="linkHover2"
-                onClick={skipCurrentSession}
+                onClick={skipSession}
                 className="mt-1 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
               >
                 Skip session
