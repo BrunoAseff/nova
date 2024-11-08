@@ -21,7 +21,7 @@ export function SpaceSidebar() {
     <Sidebar collapsible="offcanvas" variant="floating" side="right">
       <IconBtn
         onClick={() => setOpen(false)}
-        className="absolute right-5 top-5 rounded-full bg-background text-foreground hover:bg-destructive"
+        className="absolute right-5 top-5 rounded-full border-[1px] border-background bg-background text-destructive hover:border-destructive hover:bg-red-700/20"
         variant="destructive"
       >
         <Close />

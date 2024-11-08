@@ -16,9 +16,11 @@ export default function IconBtn({
   ...props
 }: PrimaryBtnProps) {
   const variantClasses = {
-    default: "bg-background text-foreground hover:bg-muted",
+    default:
+      "bg-background border-[1px] border-background hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
     secondary: "bg-foreground text-background hover:bg-foreground-muted",
-    destructive: "bg-background text-destructive hover:bg-destructive",
+    destructive:
+      "bg-background border-[1px] border-background text-destructive hover:border-destructive hover:bg-red-700/20",
     fill: "bg-primary-foreground text-secondary-foreground hover:bg-foreground-muted",
   };
 

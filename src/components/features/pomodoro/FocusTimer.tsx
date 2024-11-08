@@ -165,6 +165,7 @@ export default function FocusTimer() {
                   <IconBtn
                     onClick={interruptCurrentCycle}
                     variant="destructive"
+                    className="rounded-full border-[1px] border-background bg-background text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive"
                   >
                     <Stop />
                   </IconBtn>

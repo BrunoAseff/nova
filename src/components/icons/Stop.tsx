@@ -4,7 +4,7 @@ export const Stop = (props: React.SVGProps<SVGSVGElement>) => (
     viewBox="0 0 24 24"
     width={24}
     height={24}
-    color={"#fff"}
+    color={props.color ?? "currentColor"}
     fill={"none"}
     {...props}
   >
