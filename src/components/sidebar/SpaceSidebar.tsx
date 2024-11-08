@@ -61,16 +61,16 @@ export function SpaceSidebar() {
           className="w-full items-center justify-center"
           value="pomodoro"
         >
-          <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-            <p>Under construction… </p>
-            <Tools />
-          </div>
+          <PomodoroTab />
         </TabsContent>
         <TabsContent
           className="w-full items-center justify-center"
           value="background"
         >
-          <PomodoroTab />
+          <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
+            <p>Under construction… </p>
+            <Tools />
+          </div>{" "}
         </TabsContent>
         <TabsContent
           className="w-full items-center justify-center"
