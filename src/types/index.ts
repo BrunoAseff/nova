@@ -8,6 +8,10 @@ export interface ClockProps {
 
 export interface PomodoroProps {
   isHidden?: boolean;
+  shortBreakDuration: number;
+  longBreakDuration: number;
+  autoStart: boolean;
+  alarmSound: boolean;
 }
 
 export interface TimerProps {

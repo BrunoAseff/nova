@@ -10,8 +10,9 @@ import { Tools } from "../icons/Tools";
 import ClockTab from "./tabs/ClockTab";
 import { ClockIcon } from "../icons/Clock";
 import { PomodoroIcon } from "../icons/featureIcons/PomodoroIcon";
-import { TimerIcon } from "../icons/featureIcons/TimerIcon";
 import { QuoteIcon } from "../icons/featureIcons/QuoteIcon";
+import { BackgroundIcon } from "../icons/featureIcons/BackgroundIcon";
+import PomodoroTab from "./tabs/PomodoroTab";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
@@ -40,9 +41,9 @@ export function SpaceSidebar() {
             <PomodoroIcon />
             Pomodoro
           </TabsTrigger>
-          <TabsTrigger className="flex items-center gap-2" value="timer">
-            <TimerIcon />
-            Timer
+          <TabsTrigger className="flex items-center gap-2" value="background">
+            <BackgroundIcon />
+            Background
           </TabsTrigger>
           <TabsTrigger className="flex items-center gap-2" value="quote">
             <QuoteIcon />
@@ -67,12 +68,9 @@ export function SpaceSidebar() {
         </TabsContent>
         <TabsContent
           className="w-full items-center justify-center"
-          value="timer"
+          value="background"
         >
-          <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-            <p>Under construction… </p>
-            <Tools />
-          </div>
+          <PomodoroTab />
         </TabsContent>
         <TabsContent
           className="w-full items-center justify-center"

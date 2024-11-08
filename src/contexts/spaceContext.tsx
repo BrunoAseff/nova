@@ -23,7 +23,13 @@ const initialState: SpaceContextValue = {
       name: "Home",
       icon: <Home color="currentColor" />,
       clock: { isHidden: false, position: "center", timeFormat: "24h" },
-      pomodoro: { isHidden: true },
+      pomodoro: {
+        isHidden: true,
+        shortBreakDuration: 5,
+        longBreakDuration: 15,
+        autoStart: false,
+        alarmSound: true,
+      },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: false },
       background: "/backgrounds/home.webp",
@@ -32,7 +38,13 @@ const initialState: SpaceContextValue = {
       name: "Focus",
       icon: <Focus color="currentColor" />,
       clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
-      pomodoro: { isHidden: false },
+      pomodoro: {
+        isHidden: false,
+        shortBreakDuration: 5,
+        longBreakDuration: 15,
+        autoStart: false,
+        alarmSound: true,
+      },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: true },
       background: "/backgrounds/focus.webp",
@@ -41,7 +53,13 @@ const initialState: SpaceContextValue = {
       name: "Relax",
       icon: <Relax color="currentColor" />,
       clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
-      pomodoro: { isHidden: true },
+      pomodoro: {
+        isHidden: true,
+        shortBreakDuration: 5,
+        longBreakDuration: 15,
+        autoStart: false,
+        alarmSound: true,
+      },
       timer: { isHidden: true },
       quote: { position: "top-right", isHidden: false },
       background: "/backgrounds/relax.webp",
@@ -59,7 +77,7 @@ const initialState: SpaceContextValue = {
 const SpacesContext = createContext<SpaceContextValue>(initialState);
 
 export function SpacesProvider({ children }: { children: React.ReactNode }) {
-  const [selectedTab, setSelectedTab] = useState("");
+  const [selectedTab, setSelectedTab] = useState("Focus"); // Set the initial selected tab to "Focus"
   const [spaces, setSpaces] = useState<Space[]>(initialState.spaces);
 
   function selectTab(tab: string) {

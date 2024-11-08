@@ -1,4 +1,5 @@
 import { CyclesContext } from "@/contexts/cycleContext";
+import { useSpacesContext } from "@/contexts/spaceContext";
 import { useContext, useEffect, useRef } from "react";
 
 export function Countdown() {
@@ -12,8 +13,15 @@ export function Countdown() {
     increaseCycleCounter,
   } = useContext(CyclesContext);
 
+  const { spaces, selectedTab } = useSpacesContext();
+
   const intervalRef = useRef<number | null>(null);
   const lastTickRef = useRef<number>(Date.now());
+
+  // Get the short and long break durations from the current tab's space
+  const currentSpace = spaces.find((space) => space.name === selectedTab);
+  const shortBreakDuration = currentSpace?.pomodoro.shortBreakDuration ?? 5;
+  const longBreakDuration = currentSpace?.pomodoro.longBreakDuration ?? 15;
 
   // Get total seconds based on current tab
   const totalSeconds = (() => {
@@ -21,9 +29,9 @@ export function Countdown() {
       case "Focus":
         return (activeCycle?.minutesAmount ?? 25) * 60;
       case "Long Break":
-        return 15 * 60;
+        return longBreakDuration * 60;
       default: // Short Break
-        return 5 * 60;
+        return shortBreakDuration * 60;
     }
   })();
 
@@ -65,6 +73,8 @@ export function Countdown() {
     setSecondsPassed,
     toggleTab,
     increaseCycleCounter,
+    selectedTab,
+    spaces,
   ]);
 
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
