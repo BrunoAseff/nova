@@ -13,6 +13,7 @@ import { PomodoroIcon } from "../icons/featureIcons/PomodoroIcon";
 import { QuoteIcon } from "../icons/featureIcons/QuoteIcon";
 import { BackgroundIcon } from "../icons/featureIcons/BackgroundIcon";
 import PomodoroTab from "./tabs/PomodoroTab";
+import QuoteTab from "./tabs/QuoteTab";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
@@ -65,21 +66,18 @@ export function SpaceSidebar() {
         </TabsContent>
         <TabsContent
           className="w-full items-center justify-center"
+          value="quote"
+        >
+          <QuoteTab />
+        </TabsContent>
+        <TabsContent
+          className="w-full items-center justify-center"
           value="background"
         >
           <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
             <p>Under construction… </p>
             <Tools />
           </div>{" "}
-        </TabsContent>
-        <TabsContent
-          className="w-full items-center justify-center"
-          value="quote"
-        >
-          <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-            <p>Under construction… </p>
-            <Tools />
-          </div>
         </TabsContent>
       </SidebarTabs>
     </Sidebar>
