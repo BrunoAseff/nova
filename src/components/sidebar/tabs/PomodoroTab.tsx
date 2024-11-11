@@ -12,7 +12,6 @@ export default function PomodoroTab() {
   const [shortBreakDuration, setShortBreakDuration] = useState(5);
   const [longBreakDuration, setLongBreakDuration] = useState(15);
 
-  // Synchronize local state with the selected space
   useEffect(() => {
     const selectedSpace = spaces.find((space) => space.name === selectedTab);
     if (selectedSpace) {
@@ -23,6 +22,25 @@ export default function PomodoroTab() {
       setLongBreakDuration(selectedSpace.pomodoro.longBreakDuration ?? 15);
     }
   }, [spaces, selectedTab]);
+
+  const handleNumberInput = (
+    value: string,
+    setter: (n: number) => void,
+    updateFn: (n: number) => void,
+  ) => {
+    // Remove any non-digit characters
+    const cleanValue = value.replace(/\D/g, "");
+
+    // Limit to 2 digits
+    const limitedValue = cleanValue.slice(0, 2);
+
+    // Convert to number, default to 1 if empty or 0
+    const numberValue = parseInt(limitedValue) || 1;
+
+    // Update state and space property
+    setter(numberValue);
+    updateFn(numberValue);
+  };
 
   const handleIsHiddenChange = (hidden: boolean) => {
     setIsHidden(!hidden);
@@ -49,7 +67,6 @@ export default function PomodoroTab() {
   };
 
   const handleShortBreakDurationChange = (duration: number) => {
-    setShortBreakDuration(duration);
     updateSpaceProperty(selectedTab, "pomodoro", {
       ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
       shortBreakDuration: duration,
@@ -57,7 +74,6 @@ export default function PomodoroTab() {
   };
 
   const handleLongBreakDurationChange = (duration: number) => {
-    setLongBreakDuration(duration);
     updateSpaceProperty(selectedTab, "pomodoro", {
       ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
       longBreakDuration: duration,
@@ -136,11 +152,18 @@ export default function PomodoroTab() {
         </div>
         <Input
           id="short-break-duration"
-          type="number"
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           value={shortBreakDuration}
           onChange={(e) =>
-            handleShortBreakDurationChange(parseInt(e.target.value))
+            handleNumberInput(
+              e.target.value,
+              setShortBreakDuration,
+              handleShortBreakDurationChange,
+            )
           }
+          className="w-20"
         />
       </div>
 
@@ -158,11 +181,18 @@ export default function PomodoroTab() {
         </div>
         <Input
           id="long-break-duration"
-          type="number"
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           value={longBreakDuration}
           onChange={(e) =>
-            handleLongBreakDurationChange(parseInt(e.target.value))
+            handleNumberInput(
+              e.target.value,
+              setLongBreakDuration,
+              handleLongBreakDurationChange,
+            )
           }
+          className="w-20"
         />
       </div>
     </main>

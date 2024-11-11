@@ -154,8 +154,8 @@ export default function FocusTimer() {
             {activeCycle ? (
               <>
                 <div className="absolute left-1/2 mb-4 flex -translate-x-1/2 gap-4 md:mb-0">
-                  <IconBtn>
-                    <Restart onClick={resetCurrentSession} />
+                  <IconBtn onClick={resetCurrentSession}>
+                    <Restart />
                   </IconBtn>
 
                   <IconBtn onClick={togglePause}>

@@ -28,12 +28,12 @@ export function SpaceSidebar() {
         <Close />
       </IconBtn>
 
-      <div className="h-full overflow-y-auto overflow-x-hidden">
+      <div className="h-full overflow-x-hidden">
         <SpacePicker />
         <SidebarTabs
           defaultValue="clock"
           orientation="vertical"
-          className="m-5 flex h-[90%] w-full items-start gap-4 bg-none"
+          className="m-5 flex h-fit w-full items-start gap-4 bg-none"
         >
           <TabsList className="mt-[13%] flex min-w-[25%] flex-col gap-6 text-left text-lg">
             <TabsTrigger className="flex items-center gap-2" value="clock">
