@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BlurFade } from "@/components/ui/BlurFade";
 import { Star } from "@/components/icons/Star";
-import { FancyBtn } from "@/components/nova/buttons/FancyBtn";
+import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 
 export default function HomePage() {
   return (
@@ -42,7 +42,7 @@ export default function HomePage() {
           <Star />
         </PrimaryBtn>
 
-        <FancyBtn variant="linkHover1">
+        <LinkBtn>
           {" "}
           <Link
             className="flex items-center font-open text-sm font-light text-secondary-foreground"
@@ -50,7 +50,7 @@ export default function HomePage() {
           >
             Continue without login
           </Link>
-        </FancyBtn>
+        </LinkBtn>
       </BlurFade>
     </main>
   );
