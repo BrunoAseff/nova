@@ -17,8 +17,9 @@ import { Fire } from "@/components/icons/Fire";
 import { CheckedCircle } from "@/components/icons/CheckedCircle";
 import { Circle } from "@/components/icons/Circle";
 import FocusingOnMessage from "./FocusingOnMessage";
-import { FancyBtn } from "@/components/nova/buttons/FancyBtn";
+import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 import { useSpacesContext } from "@/contexts/spaceContext";
+import { Button } from "@/components/nova/buttons/Button";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -140,13 +141,12 @@ export default function FocusTimer() {
           <div className="mb-auto mt-auto">
             <Countdown />
             {activeCycle && (
-              <FancyBtn
-                variant="linkHover2"
+              <LinkBtn
                 onClick={skipSession}
                 className="mt-1 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
               >
                 Skip session
-              </FancyBtn>
+              </LinkBtn>
             )}
           </div>
 
@@ -177,7 +177,8 @@ export default function FocusTimer() {
               </>
             ) : (
               <div className="m-auto flex">
-                <FancyBtn
+                <Button
+                  className="flex gap-2"
                   variant="default"
                   onClick={falsePause}
                   disabled={isSubmitDisabled}
@@ -185,7 +186,7 @@ export default function FocusTimer() {
                 >
                   <Play />
                   Start
-                </FancyBtn>
+                </Button>
               </div>
             )}
           </div>
