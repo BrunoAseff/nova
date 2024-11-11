@@ -27,59 +27,64 @@ export function SpaceSidebar() {
       >
         <Close />
       </IconBtn>
-      <SpacePicker />
-      <SidebarTabs
-        defaultValue="clock"
-        orientation="vertical"
-        className="m-5 flex h-[90%] w-full items-start gap-4 bg-none"
-      >
-        <TabsList className="mt-[13%] flex min-w-[25%] flex-col gap-6 text-left text-lg">
-          <TabsTrigger className="flex items-center gap-2" value="clock">
-            <ClockIcon className="ml-1 scale-125" />
-            Clock
-          </TabsTrigger>
-          <TabsTrigger className="flex items-center gap-2" value="pomodoro">
-            <PomodoroIcon />
-            Pomodoro
-          </TabsTrigger>
-          <TabsTrigger className="flex items-center gap-2" value="background">
-            <BackgroundIcon />
-            Background
-          </TabsTrigger>
-          <TabsTrigger className="flex items-center gap-2" value="quote">
-            <QuoteIcon />
-            Quote
-          </TabsTrigger>
-        </TabsList>
-        <Separator orientation="vertical" />
-        <TabsContent
-          className="w-full items-center justify-center"
-          value="clock"
+
+      <div className="h-full overflow-y-auto overflow-x-hidden">
+        <SpacePicker />
+        <SidebarTabs
+          defaultValue="clock"
+          orientation="vertical"
+          className="m-5 flex h-[90%] w-full items-start gap-4 bg-none"
         >
-          <ClockTab />
-        </TabsContent>
-        <TabsContent
-          className="w-full items-center justify-center"
-          value="pomodoro"
-        >
-          <PomodoroTab />
-        </TabsContent>
-        <TabsContent
-          className="w-full items-center justify-center"
-          value="quote"
-        >
-          <QuoteTab />
-        </TabsContent>
-        <TabsContent
-          className="w-full items-center justify-center"
-          value="background"
-        >
-          <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-            <p>Under construction… </p>
-            <Tools />
-          </div>{" "}
-        </TabsContent>
-      </SidebarTabs>
+          <TabsList className="mt-[13%] flex min-w-[25%] flex-col gap-6 text-left text-lg">
+            <TabsTrigger className="flex items-center gap-2" value="clock">
+              <ClockIcon className="ml-1 scale-125" />
+              Clock
+            </TabsTrigger>
+            <TabsTrigger className="flex items-center gap-2" value="pomodoro">
+              <PomodoroIcon />
+              Pomodoro
+            </TabsTrigger>
+            <TabsTrigger className="flex items-center gap-2" value="background">
+              <BackgroundIcon />
+              Background
+            </TabsTrigger>
+            <TabsTrigger className="flex items-center gap-2" value="quote">
+              <QuoteIcon />
+              Quote
+            </TabsTrigger>
+          </TabsList>
+          <Separator orientation="vertical" />
+          <div>
+            <TabsContent
+              className="w-full items-center justify-center"
+              value="clock"
+            >
+              <ClockTab />
+            </TabsContent>
+            <TabsContent
+              className="w-full items-center justify-center"
+              value="pomodoro"
+            >
+              <PomodoroTab />
+            </TabsContent>
+            <TabsContent
+              className="w-full items-center justify-center"
+              value="quote"
+            >
+              <QuoteTab />
+            </TabsContent>
+            <TabsContent
+              className="w-full items-center justify-center"
+              value="background"
+            >
+              <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
+                <p>Under construction… </p>
+                <Tools />
+              </div>
+            </TabsContent>
+          </div>
+        </SidebarTabs>
+      </div>
     </Sidebar>
   );
 }

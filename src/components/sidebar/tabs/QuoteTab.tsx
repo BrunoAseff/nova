@@ -86,7 +86,7 @@ export default function QuoteTab() {
   };
 
   return (
-    <main className="flex flex-col gap-10">
+    <main className="flex flex-col gap-10 overflow-y-auto">
       {/* Visibility Switch */}
       <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
         <div className="flex flex-col gap-1">
