@@ -46,7 +46,7 @@ export default function FocusTimer() {
     skipCurrentSession,
   } = useContext(CyclesContext);
 
-  const { spaces, selectedTab } = useSpacesContext();
+  const { spaces, selectedTab, stopPomodoroAlarm } = useSpacesContext();
 
   const currentSpace = spaces.find((space) => space.name === selectedTab);
   const autoStart = currentSpace?.pomodoro.autoStart ?? false;
@@ -75,6 +75,11 @@ export default function FocusTimer() {
 
   const task = watch("task");
   const isSubmitDisabled = !task;
+
+  function togglePauseAndAlarm() {
+    togglePause();
+    currentSpace ? stopPomodoroAlarm({ currentSpace }) : null;
+  }
 
   return (
     <div className="flex items-center justify-center">
@@ -158,7 +163,7 @@ export default function FocusTimer() {
                     <Restart />
                   </IconBtn>
 
-                  <IconBtn onClick={togglePause}>
+                  <IconBtn onClick={togglePauseAndAlarm}>
                     {isPaused ? <Play /> : <Pause />}
                   </IconBtn>
 

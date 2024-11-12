@@ -14,7 +14,8 @@ export function Countdown() {
     togglePause,
   } = useContext(CyclesContext);
 
-  const { spaces, selectedTab } = useSpacesContext();
+  const { spaces, selectedTab, playPomodoroAlarm, stopPomodoroAlarm } =
+    useSpacesContext();
 
   const intervalRef = useRef<number | null>(null);
   const lastTickRef = useRef<number>(Date.now());
@@ -56,6 +57,8 @@ export function Countdown() {
               clearInterval(intervalRef.current!);
 
               toggleTab();
+              playPomodoroAlarm();
+
               if (!autoStart) {
                 togglePause();
               }
@@ -74,6 +77,7 @@ export function Countdown() {
     };
   }, [
     activeCycle,
+    playPomodoroAlarm,
     isPaused,
     totalSeconds,
     setSecondsPassed,
@@ -83,6 +87,7 @@ export function Countdown() {
     spaces,
     autoStart,
     togglePause,
+    stopPomodoroAlarm,
   ]);
 
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;

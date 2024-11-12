@@ -12,6 +12,8 @@ export interface PomodoroProps {
   longBreakDuration: number;
   autoStart: boolean;
   alarmSound: boolean;
+  alarmSoundURL: string;
+  alarmRepeatTimes: number;
 }
 
 export interface TimerProps {

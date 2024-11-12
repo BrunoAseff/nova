@@ -8,7 +8,7 @@ import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background">
+    <main className="flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background">
       <BlurFade
         className="flex flex-col items-center justify-center gap-4 px-12 py-16 md:px-4"
         delay={0.25 * 3}
