@@ -24,6 +24,12 @@ const alarmSounds = [
   { name: "Rooster", value: "/alarm-sounds/rooster-alarm.wav" },
 ];
 
+const DEFAULT_VALUES = {
+  alarmRepeat: 3,
+  shortBreak: 5,
+  longBreak: 15,
+};
+
 export default function PomodoroTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
   const [isHidden, setIsHidden] = useState(false);
@@ -32,10 +38,18 @@ export default function PomodoroTab() {
   const [alarmSoundURL, setAlarmSoundURL] = useState(
     "/alarm-sounds/calming-alarm.wav",
   );
-  const [alarmRepeatTimes, setAlarmRepeatTimes] = useState(3);
-  const [shortBreakDuration, setShortBreakDuration] = useState(5);
-  const [longBreakDuration, setLongBreakDuration] = useState(15);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Input display states
+  const [alarmRepeatDisplay, setAlarmRepeatDisplay] = useState(
+    String(DEFAULT_VALUES.alarmRepeat),
+  );
+  const [shortBreakDisplay, setShortBreakDisplay] = useState(
+    String(DEFAULT_VALUES.shortBreak),
+  );
+  const [longBreakDisplay, setLongBreakDisplay] = useState(
+    String(DEFAULT_VALUES.longBreak),
+  );
 
   useEffect(() => {
     const selectedSpace = spaces.find((space) => space.name === selectedTab);
@@ -47,29 +61,51 @@ export default function PomodoroTab() {
         selectedSpace.pomodoro.alarmSoundURL ??
           "/alarm-sounds/calming-alarm.wav",
       );
-      setAlarmRepeatTimes(selectedSpace.pomodoro.alarmRepeatTimes ?? 3);
-      setShortBreakDuration(selectedSpace.pomodoro.shortBreakDuration ?? 5);
-      setLongBreakDuration(selectedSpace.pomodoro.longBreakDuration ?? 15);
+
+      setAlarmRepeatDisplay(
+        String(
+          selectedSpace.pomodoro.alarmRepeatTimes ?? DEFAULT_VALUES.alarmRepeat,
+        ),
+      );
+      setShortBreakDisplay(
+        String(
+          selectedSpace.pomodoro.shortBreakDuration ??
+            DEFAULT_VALUES.shortBreak,
+        ),
+      );
+      setLongBreakDisplay(
+        String(
+          selectedSpace.pomodoro.longBreakDuration ?? DEFAULT_VALUES.longBreak,
+        ),
+      );
     }
   }, [spaces, selectedTab]);
 
-  const handleNumberInput = (
+  const handleInputChange = (
     value: string,
-    setter: (n: number) => void,
-    updateFn: (n: number) => void,
+    displaySetter: (value: string) => void,
   ) => {
-    // Remove any non-digit characters
-    const cleanValue = value.replace(/\D/g, "");
+    // Allow empty string or numbers only
+    if (value === "" || /^\d{1,2}$/.test(value)) {
+      displaySetter(value);
+    }
+  };
 
-    // Limit to 2 digits
-    const limitedValue = cleanValue.slice(0, 2);
-
-    // Convert to number, default to 1 if empty or 0
-    const numberValue = parseInt(limitedValue) || 1;
-
-    // Update state and space property
-    setter(numberValue);
-    updateFn(numberValue);
+  const handleInputBlur = (
+    displayValue: string,
+    displaySetter: (s: string) => void,
+    updatePropertyName: string,
+    defaultValue: number,
+  ) => {
+    const numberValue =
+      displayValue === ""
+        ? defaultValue
+        : parseInt(displayValue) || defaultValue;
+    displaySetter(String(numberValue));
+    updateSpaceProperty(selectedTab, "pomodoro", {
+      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
+      [updatePropertyName]: numberValue,
+    });
   };
 
   const handleIsHiddenChange = (hidden: boolean) => {
@@ -96,20 +132,6 @@ export default function PomodoroTab() {
     });
   };
 
-  const handleShortBreakDurationChange = (duration: number) => {
-    updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
-      shortBreakDuration: duration,
-    });
-  };
-
-  const handleLongBreakDurationChange = (duration: number) => {
-    updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
-      longBreakDuration: duration,
-    });
-  };
-
   const handleAlarmSoundURLChange = (url: string) => {
     setAlarmSoundURL(url);
     updateSpaceProperty(selectedTab, "pomodoro", {
@@ -117,19 +139,10 @@ export default function PomodoroTab() {
       alarmSoundURL: url,
     });
 
-    // Play the selected alarm sound
     if (audioRef.current) {
       audioRef.current.src = url;
       audioRef.current.play();
     }
-  };
-
-  const handleAlarmRepeatTimesChange = (times: number) => {
-    setAlarmRepeatTimes(times);
-    updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
-      alarmRepeatTimes: times,
-    });
   };
 
   return (
@@ -220,12 +233,18 @@ export default function PomodoroTab() {
                   type="text"
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  value={alarmRepeatTimes}
+                  value={alarmRepeatDisplay}
                   onChange={(e) =>
-                    handleAlarmRepeatTimesChange(parseInt(e.target.value) || 1)
+                    handleInputChange(e.target.value, setAlarmRepeatDisplay)
                   }
-                  min={1}
-                  max={10}
+                  onBlur={() =>
+                    handleInputBlur(
+                      alarmRepeatDisplay,
+                      setAlarmRepeatDisplay,
+                      "alarmRepeatTimes",
+                      DEFAULT_VALUES.alarmRepeat,
+                    )
+                  }
                   className="ml-auto w-20"
                 />
                 <p className="text-sm text-muted-foreground">Repeat Times</p>
@@ -253,12 +272,16 @@ export default function PomodoroTab() {
           type="text"
           inputMode="numeric"
           pattern="[0-9]*"
-          value={shortBreakDuration}
+          value={shortBreakDisplay}
           onChange={(e) =>
-            handleNumberInput(
-              e.target.value,
-              setShortBreakDuration,
-              handleShortBreakDurationChange,
+            handleInputChange(e.target.value, setShortBreakDisplay)
+          }
+          onBlur={() =>
+            handleInputBlur(
+              shortBreakDisplay,
+              setShortBreakDisplay,
+              "shortBreakDuration",
+              DEFAULT_VALUES.shortBreak,
             )
           }
           className="w-20"
@@ -282,12 +305,16 @@ export default function PomodoroTab() {
           type="text"
           inputMode="numeric"
           pattern="[0-9]*"
-          value={longBreakDuration}
+          value={longBreakDisplay}
           onChange={(e) =>
-            handleNumberInput(
-              e.target.value,
-              setLongBreakDuration,
-              handleLongBreakDurationChange,
+            handleInputChange(e.target.value, setLongBreakDisplay)
+          }
+          onBlur={() =>
+            handleInputBlur(
+              longBreakDisplay,
+              setLongBreakDisplay,
+              "longBreakDuration",
+              DEFAULT_VALUES.longBreak,
             )
           }
           className="w-20"
