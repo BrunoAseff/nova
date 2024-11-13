@@ -1,11 +1,32 @@
 import { useFormContext } from "react-hook-form";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CyclesContext } from "@/contexts/cycleContext";
 import { PomodoroInput } from "@/components/nova/PomodoroInput";
 
 export function NewCycleForm() {
   const { activeCycle } = useContext(CyclesContext);
-  const { register, setValue } = useFormContext();
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
+
+  // Input display state
+  const [minutesAmountDisplay, setMinutesAmountDisplay] = useState("25");
+
+  const handleMinutesAmountChange = (value: string) => {
+    // Allow empty string or numbers only
+    if (value === "" || /^\d{1,2}$/.test(value)) {
+      setMinutesAmountDisplay(value);
+    }
+  };
+
+  const handleMinutesAmountBlur = () => {
+    const numberValue =
+      minutesAmountDisplay === "" ? 1 : parseInt(minutesAmountDisplay) || 1;
+    setMinutesAmountDisplay(String(numberValue));
+    setValue("minutesAmount", numberValue, { shouldValidate: true });
+  };
 
   return (
     <div className="flex flex-wrap items-center gap-2 text-foreground">
@@ -27,7 +48,7 @@ export function NewCycleForm() {
         <option value="working" />
       </datalist>
 
-      <div className="flex items-center gap-2">
+      <div className="relative flex items-center gap-2">
         <label htmlFor="minutesAmount">for</label>
         <PomodoroInput
           type="text"
@@ -35,27 +56,19 @@ export function NewCycleForm() {
           pattern="[0-9]*"
           id="minutesAmount"
           placeholder="25"
-          defaultValue={25}
+          value={minutesAmountDisplay}
+          onChange={(e) => handleMinutesAmountChange(e.target.value)}
+          onBlur={handleMinutesAmountBlur}
           disabled={!!activeCycle}
-          {...register("minutesAmount", {
-            onChange: (e) => {
-              // Remove non-digits
-              const cleanValue = e.target.value.replace(/\D/g, "");
-
-              // Limit to 2 digits
-              const limitedValue = cleanValue.slice(0, 2);
-
-              // Convert to number, default to 1 if empty or 0
-              const numberValue = parseInt(limitedValue) || 1;
-
-              // Update form value
-              setValue("minutesAmount", numberValue, { shouldValidate: true });
-            },
-            setValueAs: (value) => parseInt(value) || 1,
-          })}
           className="w-16"
         />
         <span>minutes.</span>
+        {errors.minutesAmount && (
+          <p className="absolute left-0 top-full mt-1 text-destructive">
+            {typeof errors.minutesAmount?.message === "string" &&
+              errors.minutesAmount.message}
+          </p>
+        )}
       </div>
     </div>
   );
