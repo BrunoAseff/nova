@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CyclesContext } from "@/contexts/cycleContext";
 import { PomodoroInput } from "@/components/nova/PomodoroInput";
 
@@ -10,9 +10,13 @@ export function NewCycleForm() {
     setValue,
     formState: { errors },
   } = useFormContext();
-
   // Input display state
   const [minutesAmountDisplay, setMinutesAmountDisplay] = useState("25");
+
+  useEffect(() => {
+    // Set the initial value of `minutesAmount` in the form state
+    setValue("minutesAmount", parseInt(minutesAmountDisplay));
+  }, [minutesAmountDisplay, setValue]);
 
   const handleMinutesAmountChange = (value: string) => {
     // Allow empty string or numbers only
