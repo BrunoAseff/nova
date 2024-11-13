@@ -49,13 +49,7 @@ export default function ClockTab() {
 
   return (
     <main className="flex w-[108%] flex-col gap-10">
-      <Image
-        className="mx-auto"
-        src="/test.svg"
-        alt="Clock"
-        width={200}
-        height={200}
-      />
+      
       <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
         <div className="flex w-full flex-col gap-1">
           <Label htmlFor="clock-visibility" className="text-md text-foreground">
