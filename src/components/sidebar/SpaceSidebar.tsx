@@ -5,7 +5,6 @@ import SpacePicker from "./SpacePicker";
 import IconBtn from "../nova/buttons/IconBtn";
 import { Close } from "../icons/Close";
 import { SidebarTabs, TabsContent, TabsList, TabsTrigger } from "./SidebarTabs";
-import { Separator } from "../ui/separator";
 import { Tools } from "../icons/Tools";
 import ClockTab from "./tabs/ClockTab";
 import { ClockIcon } from "../icons/Clock";
@@ -22,7 +21,7 @@ export function SpaceSidebar() {
     <Sidebar collapsible="offcanvas" variant="floating" side="right">
       <IconBtn
         onClick={() => setOpen(false)}
-        className="absolute right-5 top-5 rounded-full border-[1px] border-background bg-background text-destructive hover:border-destructive hover:bg-red-700/20"
+        className="absolute right-5 top-5 rounded-full border-[1px] border-background bg-background text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive"
         variant="destructive"
       >
         <Close />
@@ -53,7 +52,6 @@ export function SpaceSidebar() {
               Quote
             </TabsTrigger>
           </TabsList>
-          <Separator orientation="vertical" />
           <div>
             <TabsContent
               className="w-full items-center justify-center"

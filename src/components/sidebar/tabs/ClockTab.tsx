@@ -5,7 +5,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import clsx from "clsx";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import type { Position } from "@/types";
-import Image from "next/image";
 
 export default function ClockTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
@@ -49,7 +48,6 @@ export default function ClockTab() {
 
   return (
     <main className="flex w-[108%] flex-col gap-10">
-      
       <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
         <div className="flex w-full flex-col gap-1">
           <Label htmlFor="clock-visibility" className="text-md text-foreground">

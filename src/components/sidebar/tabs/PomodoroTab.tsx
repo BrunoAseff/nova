@@ -4,24 +4,41 @@ import { Label } from "@/components/ui/label";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { WindIcon } from "@/components/icons/WindIcon"; // for melodic
+import { DigitalClockIcon } from "@/components/icons/DigitalClock"; // for digital clock
+import { JoystickIcon } from "@/components/icons/JoystickIcon"; // for retro game
+import { MusicNoteIcon } from "@/components/icons/MusicNoteIcon"; // for flute
+import { GameControllerIcon } from "@/components/icons/GameController"; // for game sound
+import { RoosterIcon } from "@/components/icons/RoosterIcon";
 
 const alarmSounds = [
-  { name: "Calming Alarm", value: "/alarm-sounds/calming-alarm.wav" },
+  { name: "Melodic", value: "/alarm-sounds/calming-alarm.wav", icon: WindIcon },
   {
-    name: "Digital Clock Alarm",
+    name: "Digital Clock",
     value: "/alarm-sounds/digital-clock-alarm.wav",
+    icon: DigitalClockIcon,
   },
-  { name: "Flute", value: "/alarm-sounds/flute-alarm.wav" },
-  { name: "Game Sound", value: "/alarm-sounds/game-sound-alarm.wav" },
-  { name: "Retro Game", value: "/alarm-sounds/retro-game-alarm.wav" },
-  { name: "Rooster", value: "/alarm-sounds/rooster-alarm.wav" },
+  {
+    name: "Flute",
+    value: "/alarm-sounds/flute-alarm.wav",
+    icon: MusicNoteIcon,
+  },
+  {
+    name: "Game Sound",
+    value: "/alarm-sounds/game-sound-alarm.wav",
+    icon: GameControllerIcon,
+  },
+  {
+    name: "Retro Game",
+    value: "/alarm-sounds/retro-game-alarm.wav",
+    icon: JoystickIcon,
+  },
+  {
+    name: "Rooster",
+    value: "/alarm-sounds/rooster-alarm.wav",
+    icon: RoosterIcon,
+  },
 ];
 
 const DEFAULT_VALUES = {
@@ -146,7 +163,7 @@ export default function PomodoroTab() {
   };
 
   return (
-    <main className="flex flex-col gap-10">
+    <main className="mb-4 flex h-full flex-col gap-10">
       <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
         <div className="flex flex-col gap-1">
           <Label
@@ -210,24 +227,47 @@ export default function PomodoroTab() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="flex"
+              className="flex w-full flex-col gap-4"
             >
-              <div className="flex items-center justify-between space-x-4">
-                <Select
-                  value={alarmSoundURL}
-                  onValueChange={handleAlarmSoundURLChange}
-                >
-                  <SelectTrigger className="w-60">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {alarmSounds.map((sound) => (
-                      <SelectItem key={sound.value} value={sound.value}>
+              <RadioGroup
+                value={alarmSoundURL}
+                onValueChange={handleAlarmSoundURLChange}
+                className="grid grid-cols-3 gap-4"
+              >
+                {alarmSounds.map((sound) => {
+                  const Icon = sound.icon;
+                  const isChecked = alarmSoundURL === sound.value; // Determine if the current item is selected
+                  return (
+                    <label
+                      key={sound.value}
+                      className={`relative flex cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+                        isChecked
+                          ? "border-secondary bg-blue-700/10"
+                          : "border-input"
+                      } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
+                    >
+                      <RadioGroupItem value={sound.value} className="sr-only" />
+                      <Icon
+                        className={`text-foreground opacity-60 ${isChecked ? "text-secondary" : ""}`}
+                        aria-hidden="true"
+                      />
+                      <p
+                        className={`text-xs font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
+                      >
                         {sound.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                      </p>
+                    </label>
+                  );
+                })}
+              </RadioGroup>
+
+              <div className="mt-3 flex items-center gap-2">
+                <Label
+                  htmlFor="pomodoro-alarm-repeat"
+                  className="text-md text-foreground"
+                >
+                  Repeat Times
+                </Label>
                 <Input
                   id="pomodoro-alarm-repeat"
                   type="text"
@@ -245,9 +285,8 @@ export default function PomodoroTab() {
                       DEFAULT_VALUES.alarmRepeat,
                     )
                   }
-                  className="ml-auto w-20"
+                  className="w-20"
                 />
-                <p className="text-sm text-muted-foreground">Repeat Times</p>
               </div>
               <audio ref={audioRef} />
             </motion.div>
