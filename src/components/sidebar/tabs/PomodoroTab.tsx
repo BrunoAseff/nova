@@ -226,13 +226,13 @@ export default function PomodoroTab() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
               className="flex w-full flex-col gap-4"
             >
               <RadioGroup
                 value={alarmSoundURL}
                 onValueChange={handleAlarmSoundURLChange}
-                className="grid grid-cols-3 gap-4"
+                className="mx-auto grid grid-cols-3 gap-4"
               >
                 {alarmSounds.map((sound) => {
                   const Icon = sound.icon;
@@ -240,13 +240,16 @@ export default function PomodoroTab() {
                   return (
                     <label
                       key={sound.value}
-                      className={`relative flex cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+                      className={`relative flex max-w-36 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
                         isChecked
                           ? "border-secondary bg-blue-700/10"
                           : "border-input"
                       } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                     >
-                      <RadioGroupItem value={sound.value} className="sr-only" />
+                      <RadioGroupItem
+                        value={sound.value}
+                        className="sr-only items-center justify-center"
+                      />
                       <Icon
                         className={`text-foreground opacity-60 ${isChecked ? "text-secondary" : ""}`}
                         aria-hidden="true"
@@ -261,7 +264,7 @@ export default function PomodoroTab() {
                 })}
               </RadioGroup>
 
-              <div className="mt-3 flex items-center gap-2">
+              <div className="mx-auto mt-3 flex items-center gap-2">
                 <Label
                   htmlFor="pomodoro-alarm-repeat"
                   className="text-md text-foreground"
