@@ -245,7 +245,7 @@ const Sidebar = React.forwardRef<
           >
             <div
               data-sidebar="sidebar"
-              className="flex h-[97vh] w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-xl group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
+              className="flex h-[97vh] w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-2xl group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
             >
               {children}
             </div>
