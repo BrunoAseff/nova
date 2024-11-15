@@ -13,7 +13,7 @@
     "postinstall": "prisma generate",
     "lint": "SKIP_ENV_VALIDATION=1 next lint",
     "start": "next start",
-    "check-updates": "npx npm-check-updates -i"
+    "check:updates": "npx npm-check-updates -i"
   },
   "dependencies": {
     "@auth/prisma-adapter": "1.6.0",
