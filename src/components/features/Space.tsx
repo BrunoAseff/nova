@@ -53,14 +53,12 @@ export default function Space() {
             <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
 
             {/* Preload the first background image */}
-            {spaces[0] && (
-              <link
-                rel="preload"
-                as="image"
-                href={spaces[0].background}
-                key={spaces[0].name}
-              />
-            )}
+            <link
+              rel="preload"
+              as="image"
+              href={spaces[0]?.background}
+              key={spaces[0]?.name}
+            />
 
             <div className="absolute inset-0 z-0">
               <Image
