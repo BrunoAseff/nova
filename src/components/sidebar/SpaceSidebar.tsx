@@ -20,6 +20,7 @@ import { BreathingIcon } from "../icons/featureIcons/BreathingIcon";
 import { SpacesIcon } from "../icons/featureIcons/SpacesIcon";
 import { AppearanceIcon } from "../icons/featureIcons/AppearanceIcon";
 import { ProfileIcon } from "../icons/featureIcons/ProfileIcon";
+import BackgroundTab from "./tabs/BackgroundTab";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
@@ -113,10 +114,7 @@ export function SpaceSidebar() {
               className="w-full items-center justify-center"
               value="background"
             >
-              <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-                <p>Under construction…</p>
-                <Tools />
-              </div>
+              <BackgroundTab />
             </TabsContent>
             <TabsContent
               className="w-full items-center justify-center"

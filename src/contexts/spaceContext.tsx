@@ -5,6 +5,7 @@ import type { Space } from "../types";
 import { Home } from "@/components/icons/Home";
 import { Focus } from "@/components/icons/Focus";
 import { Relax } from "@/components/icons/Relax";
+import { backgrounds } from "backgrounds";
 
 const DEFAULT_ALARM_SOUND = "/alarm-sounds/calming-alarm.wav";
 
@@ -40,7 +41,9 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: false },
-      background: "/backgrounds/home.webp",
+      background: {
+        url: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
+      },
     },
     {
       name: "Focus",
@@ -57,7 +60,9 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: true },
-      background: "/backgrounds/focus.webp",
+      background: {
+        url: backgrounds.find((bg) => bg.name === "Urban Home")?.url ?? "",
+      },
     },
     {
       name: "Relax",
@@ -74,7 +79,11 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "top-right", isHidden: false },
-      background: "/backgrounds/relax.webp",
+      background: {
+        url:
+          backgrounds.find((bg) => bg.name === "Train in the Fields")?.url ??
+          "",
+      },
     },
   ],
   selectedTab: "",

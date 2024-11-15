@@ -27,12 +27,16 @@ export interface QuoteProps {
   categories?: string[];
 }
 
+export interface Background {
+  url: string;
+}
+
 export interface Space {
   name: string;
   clock: ClockProps;
   pomodoro: PomodoroProps;
   quote: QuoteProps;
   timer: TimerProps;
-  background: string;
+  background: Background;
   icon: JSX.Element;
 }
