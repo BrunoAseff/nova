@@ -41,7 +41,9 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: false },
-      background: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
+      background: {
+        url: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
+      },
     },
     {
       name: "Focus",
@@ -58,7 +60,9 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: true },
-      background: backgrounds.find((bg) => bg.name === "Urban Home")?.url ?? "",
+      background: {
+        url: backgrounds.find((bg) => bg.name === "Urban Home")?.url ?? "",
+      },
     },
     {
       name: "Relax",
@@ -75,8 +79,11 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "top-right", isHidden: false },
-      background:
-        backgrounds.find((bg) => bg.name === "Train in the Fields")?.url ?? "",
+      background: {
+        url:
+          backgrounds.find((bg) => bg.name === "Train in the Fields")?.url ??
+          "",
+      },
     },
   ],
   selectedTab: "",

@@ -56,13 +56,13 @@ export default function Space() {
             <link
               rel="preload"
               as="image"
-              href={spaces[0]?.background}
+              href={spaces[0]?.background.url}
               key={spaces[0]?.name}
             />
 
             <div className="absolute inset-0 z-0">
               <Image
-                src={space.background}
+                src={space.background.url}
                 alt={space.name}
                 fill
                 className="object-cover brightness-90"
