@@ -126,7 +126,7 @@ export default function BackgroundTab() {
           </Select>
         </div>
 
-        <div className="mt-4 flex items-center gap-2">
+        <div className="mt-6 flex items-center gap-2">
           <Checkbox
             id="exclude-ai"
             checked={excludeAI}
@@ -153,10 +153,10 @@ export default function BackgroundTab() {
           return (
             <label
               key={background.name}
-              className={`relative flex cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+              className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
                 isChecked
                   ? "border-secondary bg-blue-700/10"
-                  : "border-background"
+                  : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
               } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
             >
               <RadioGroupItem
