@@ -83,41 +83,41 @@ export default function InfoCard() {
         align="center"
         className="w-80"
       >
-        <div className="border-bg-accent flex flex-col gap-3 rounded-lg border-[1px] bg-accent-foreground p-6 text-sm text-foreground">
+        <div className="border-bg-accent flex flex-col gap-3 rounded-xl border-[1px] bg-background p-6 text-sm text-foreground">
           <strong className="text-lg">Pomodoro stats</strong>
 
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <p>Current cycle progress:</p>
-              <span className="rounded-full bg-muted px-3 py-1">
+              <span className="rounded-full border-[1px] border-none bg-accent-foreground px-3 py-1 text-foreground/90">
                 {cycleCounter}/4
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Cycles completed:</p>
-              <span className="rounded-full bg-muted px-3 py-1">
+              <span className="rounded-full border-[1px] border-none bg-accent-foreground px-3 py-1 text-foreground/90">
                 {completedCycles}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Overall time:</p>
-              <span className="rounded-full bg-muted px-3 py-1">
+              <span className="rounded-full border-[1px] border-none bg-accent-foreground px-3 py-1 text-foreground/90">
                 {formatTime(overallTimeStat)}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Focused time:</p>
-              <span className="rounded-full bg-muted px-3 py-1">
+              <span className="rounded-full border-[1px] border-none bg-accent-foreground px-3 py-1 text-foreground/90">
                 {formatTime(focusedTimeStat)}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Break time:</p>
-              <span className="rounded-full bg-muted px-3 py-1">
+              <span className="rounded-full border-[1px] border-none bg-accent-foreground px-3 py-1 text-foreground/90">
                 {formatTime(breakTimeStat)}
               </span>
             </div>

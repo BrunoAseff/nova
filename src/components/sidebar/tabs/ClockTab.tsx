@@ -65,13 +65,13 @@ export default function ClockTab() {
         />
       </div>
 
-      <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl p-4">
+      <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl px-6 py-4">
         <div className="flex w-full flex-col gap-4">
           <Label htmlFor="clock-position" className="text-md text-foreground">
             Position
           </Label>
           <RadioGroup
-            className="flex w-full items-center justify-evenly gap-2"
+            className="flex w-full cursor-pointer items-center justify-evenly gap-2"
             orientation="horizontal"
             value={selectedPosition}
             onValueChange={handleClockPositionChange}
@@ -102,12 +102,12 @@ export default function ClockTab() {
           </RadioGroup>
         </div>
       </div>
-      <div className="flex w-[90%] flex-col gap-4">
+      <div className="flex w-[90%] flex-col gap-4 px-6 py-4">
         <Label htmlFor="time-format" className="text-md text-foreground">
           Time Format
         </Label>
         <RadioGroup
-          className="flex w-full items-center justify-center gap-4"
+          className="flex w-full cursor-pointer items-center justify-center gap-4"
           orientation="horizontal"
           value={timeFormat}
           onValueChange={handleTimeFormatChange}
