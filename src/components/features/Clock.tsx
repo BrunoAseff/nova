@@ -43,11 +43,11 @@ export default function Clock(props: ClockProps) {
   const positionClass = (): string => {
     switch (position) {
       case "top-left":
-        return "top-0 left-0 m-20";
+        return "top-0 left-0 m-16";
       case "top-right":
-        return "top-0 right-0 m-20";
+        return "top-0 right-0 m-16";
       case "bottom-left":
-        return "bottom-0 left-0 m-20";
+        return "bottom-0 left-0 m-16";
       case "center":
         return "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2";
       default:
@@ -65,7 +65,7 @@ export default function Clock(props: ClockProps) {
     >
       <div className="border-1 relative flex h-36 w-56 rounded-3xl border-muted-foreground bg-background p-1 font-montserrat">
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-gradient-to-t from-secondary via-secondary-foreground to-foreground bg-clip-text text-5xl font-medium text-transparent">
+          <div className="text-5xl font-medium tabular-nums text-foreground shadow-lg">
             {currentTime.split("").map((char, index) => (
               <span key={index} className="inline-block w-[1ch] text-center">
                 {char}

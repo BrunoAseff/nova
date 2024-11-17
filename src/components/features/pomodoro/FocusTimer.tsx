@@ -148,7 +148,7 @@ export default function FocusTimer() {
             {activeCycle && (
               <LinkBtn
                 onClick={skipSession}
-                className="mt-1 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
+                className="mt-3 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
               >
                 Skip session
               </LinkBtn>
@@ -176,7 +176,7 @@ export default function FocusTimer() {
                   </IconBtn>
                 </div>
 
-                <div className="relative left-[80%] hidden -translate-x-1/2 md:block">
+                <div className="relative left-[70%] hidden -translate-x-1/2 md:block">
                   <InfoCard />
                 </div>
               </>
