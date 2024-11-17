@@ -43,13 +43,13 @@ export default function Clock(props: ClockProps) {
   const positionClass = (): string => {
     switch (position) {
       case "top-left":
-        return "top-0 left-0 m-20";
+        return "top-0 left-0 m-16";
       case "top-right":
-        return "top-0 right-0 m-20";
+        return "top-0 right-0 m-16";
       case "bottom-left":
-        return "bottom-0 left-0 m-20";
+        return "bottom-0 left-0 m-16";
       case "center":
-        return "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2";
+        return "top-1/2 scale-150 left-1/2 transform -translate-x-1/2 -translate-y-1/2";
       default:
         return "";
     }
@@ -61,11 +61,11 @@ export default function Clock(props: ClockProps) {
 
   return (
     <div
-      className={`fixed shadow-foreground drop-shadow-xl ${positionClass()} border-1 flex items-center justify-center`}
+      className={`fixed ${positionClass()} flex items-center justify-center`}
     >
-      <div className="border-1 relative flex h-36 w-56 rounded-3xl border-muted-foreground bg-background p-1 font-montserrat">
+      <div className="relative flex h-36 w-56 rounded-3xl bg-transparent p-1 font-montserrat">
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-gradient-to-t from-secondary via-secondary-foreground to-foreground bg-clip-text text-5xl font-medium text-transparent">
+          <div className="text-5xl font-medium tabular-nums text-foreground">
             {currentTime.split("").map((char, index) => (
               <span key={index} className="inline-block w-[1ch] text-center">
                 {char}
@@ -73,7 +73,7 @@ export default function Clock(props: ClockProps) {
             ))}
           </div>
         </div>
-        <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-1 text-center text-sm italic text-muted-foreground">
+        <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-1 text-center text-sm italic text-popover/90">
           <ClockIcon />
           {timeMessage}
         </div>

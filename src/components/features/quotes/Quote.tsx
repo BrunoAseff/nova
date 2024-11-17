@@ -22,11 +22,11 @@ export default function Quote(props: QuoteProps) {
   const positionClass = (): string => {
     switch (position) {
       case "top-left":
-        return "top-0 left-0 m-20 text-left";
+        return "top-0 left-0 m-16 text-left";
       case "top-right":
-        return "top-0 right-0 m-20 text-right";
+        return "top-0 right-0 m-16 text-right";
       case "bottom-left":
-        return "bottom-0 left-0 m-20 text-left";
+        return "bottom-0 left-0 m-16 text-left";
       case "center":
         return "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center";
       default:

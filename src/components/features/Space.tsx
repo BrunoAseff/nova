@@ -14,13 +14,37 @@ import Quote from "./quotes/Quote";
 import { Button } from "../ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
+import { useEffect, useState } from "react";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
+declare global {
+  interface Navigator {
+    userAgentData?: {
+      platform: string;
+    };
+  }
+}
+
 export default function Space() {
   const { spaces } = useSpacesContext();
-
   const { setOpen } = useSidebar();
+  const [shortcut, setShortcut] = useState("⌘B");
+
+  useEffect(() => {
+    const detectPlatform = () => {
+      if ("userAgentData" in navigator && navigator.userAgentData?.platform) {
+        return navigator.userAgentData.platform.toLowerCase() === "windows"
+          ? "Ctrl B"
+          : "⌘B";
+      }
+
+      const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent);
+      return isMac ? "⌘B" : "Ctrl B";
+    };
+
+    setShortcut(detectPlatform());
+  }, []);
 
   return (
     <TooltipProvider>
@@ -31,7 +55,11 @@ export default function Space() {
       >
         <TabsList className="absolute bottom-10 right-24 z-10">
           {spaces.map((space) => (
-            <TabsTrigger key={space.name} value={space.name}>
+            <TabsTrigger
+              className="hover:bg-accent-foreground hover:text-foreground"
+              key={space.name}
+              value={space.name}
+            >
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
                   <span>{space.icon}</span>
@@ -65,12 +93,12 @@ export default function Space() {
                 src={space.background.url}
                 alt={space.name}
                 fill
-                className="object-cover brightness-90"
+                className="object-cover brightness-75"
                 placeholder="blur"
                 blurDataURL="/blur/blurBackground.png"
                 priority={space.name === "Focus"}
                 sizes="100vw"
-                quality={75}
+                quality={100}
                 loading={space.name === "Focus" ? "eager" : "lazy"}
               />
             </div>
@@ -92,7 +120,12 @@ export default function Space() {
             <AnimatedConfig />
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="font-open font-light">Config</TooltipContent>
+        <TooltipContent className="flex items-center gap-3 font-open font-light">
+          Config
+          <p className="rounded-xl text-xs tracking-widest text-secondary">
+            {shortcut}
+          </p>
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

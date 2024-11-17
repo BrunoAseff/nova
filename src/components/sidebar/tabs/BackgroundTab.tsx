@@ -126,7 +126,7 @@ export default function BackgroundTab() {
           </Select>
         </div>
 
-        <div className="mt-6 flex items-center gap-2">
+        <div className="mt-6 flex items-center gap-2 py-4">
           <Checkbox
             id="exclude-ai"
             checked={excludeAI}
@@ -141,7 +141,7 @@ export default function BackgroundTab() {
         </div>
       </div>
 
-      <Label className="text-md text-foreground">Background image</Label>
+      <Label className="text-md text-foreground">Background </Label>
       <RadioGroup
         value={backgrounds.find((bg) => bg.url === backgroundURL)?.name ?? ""}
         onValueChange={handleBackgroundURLChange}

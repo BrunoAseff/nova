@@ -3,12 +3,12 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = {
   default:
-    "bg-background border-[1px] border-background hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
+    "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
   secondary:
-    "bg-background border-[1px] border-background hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
-  fill: "bg-background border-[1px] border-background hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
+    "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
+  fill: "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
   destructive:
-    "rounded-full border-[1px] border-background bg-background text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive",
+    "rounded-full border-[1px] border-transparent bg-transparent text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive",
 };
 
 type ButtonProps = {
