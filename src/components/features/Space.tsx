@@ -27,7 +27,7 @@ declare global {
 }
 
 export default function Space() {
-  const { spaces } = useSpacesContext();
+  const { spaces, selectTab } = useSpacesContext();
   const { setOpen } = useSidebar();
   const [shortcut, setShortcut] = useState("⌘B");
 
@@ -56,6 +56,7 @@ export default function Space() {
         <TabsList className="absolute bottom-10 right-24 z-10">
           {spaces.map((space) => (
             <TabsTrigger
+              onClick={() => selectTab(space.name)}
               className="hover:bg-accent-foreground hover:text-foreground"
               key={space.name}
               value={space.name}

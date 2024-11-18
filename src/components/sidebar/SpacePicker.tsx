@@ -14,13 +14,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSpacesContext } from "@/contexts/spaceContext";
 
 export default function SpacePicker() {
   const { spaces, selectedTab, selectTab } = useSpacesContext();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(selectedTab || spaces[0]?.name);
+
+  useEffect(() => {
+    setValue(selectedTab || spaces[0]?.name);
+  }, [selectedTab, spaces]);
 
   return (
     <div className="ml-5 mt-5 w-full">
