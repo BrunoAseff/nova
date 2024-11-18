@@ -155,7 +155,7 @@ export default function BackgroundTab() {
               key={background.name}
               className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
                 isChecked
-                  ? "border-secondary bg-blue-700/10"
+                  ? "bg-secondary-smooth-700/10 border-secondary"
                   : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
               } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
             >

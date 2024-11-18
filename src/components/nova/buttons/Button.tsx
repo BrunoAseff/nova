@@ -5,10 +5,10 @@ import type { HTMLMotionProps } from "framer-motion";
 
 const buttonVariants = {
   default:
-    "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
+    "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-secondary-smooth-700/10",
   secondary:
-    "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
-  fill: "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
+    "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-secondary-smooth-700/10",
+  fill: "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-secondary-smooth-700/10",
   destructive:
     "rounded-full border-[1px] border-transparent bg-transparent text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive",
 } as const;

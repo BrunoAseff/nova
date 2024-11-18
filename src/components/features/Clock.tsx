@@ -65,7 +65,7 @@ export default function Clock(props: ClockProps) {
     >
       <div className="relative flex h-36 w-56 rounded-3xl bg-transparent p-1 font-montserrat">
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-5xl font-medium tabular-nums text-foreground">
+          <div className="text-5xl font-medium tabular-nums text-white">
             {currentTime.split("").map((char, index) => (
               <span key={index} className="inline-block w-[1ch] text-center">
                 {char}
