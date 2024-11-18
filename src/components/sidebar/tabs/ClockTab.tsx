@@ -82,7 +82,8 @@ export default function ClockTab() {
                 className={clsx(
                   "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
                   {
-                    "border-secondary bg-blue-700/10": selectedPosition === pos,
+                    "bg-secondary-smooth-700/10 border-secondary":
+                      selectedPosition === pos,
                     "hover:bg-accent-foreground": selectedPosition !== pos,
                   },
                 )}
@@ -118,7 +119,8 @@ export default function ClockTab() {
               className={clsx(
                 "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
                 {
-                  "border-secondary bg-blue-700/10": timeFormat === format,
+                  "bg-secondary-smooth-700/10 border-secondary":
+                    timeFormat === format,
                   "hover:bg-accent-foreground": timeFormat !== format,
                 },
               )}

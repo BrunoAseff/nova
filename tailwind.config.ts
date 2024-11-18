@@ -28,6 +28,11 @@ export default {
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        "secondary-smooth": {
+          700: "hsl(var(--secondary-smooth-700) / <alpha-value>)",
+          500: "hsl(var(--secondary-smooth-500))",
+          400: "hsl(var(--secondary-smooth-400))",
+        },
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
