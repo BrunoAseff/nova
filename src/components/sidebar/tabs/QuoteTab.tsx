@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import clsx from "clsx";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import type { Position } from "@/types";
+import Image from "next/image";
 
 type Category = "Fact" | "Success" | "Motivational" | "Gratitude" | "Self Care";
 const CATEGORIES: Category[] = [
@@ -86,126 +87,138 @@ export default function QuoteTab() {
   };
 
   return (
-    <main className="flex flex-col gap-10 overflow-y-auto">
-      {/* Visibility Switch */}
-      <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
-        <div className="flex flex-col gap-1">
-          <Label htmlFor="quote-visibility" className="text-md text-foreground">
-            Visibility
-          </Label>
-          <p className="text-sm text-muted-foreground">
-            Controls if the quote is visible on the screen.
-          </p>
-        </div>
-        <Switch
-          id="quote-visibility"
-          checked={isQuoteVisible}
-          onCheckedChange={handleQuoteVisibilityChange}
+    <main>
+      <div className="-mt-24 flex w-full items-center justify-center text-secondary">
+        <Image
+          src="/illustrations/quote.svg"
+          alt="quote"
+          width={290}
+          height={300}
         />
       </div>
-
-      {/* Show Author Switch */}
-      <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
-        <div className="flex flex-col gap-1">
-          <Label htmlFor="show-author" className="text-md text-foreground">
-            Show Author
-          </Label>
-          <p className="text-sm text-muted-foreground">
-            Display the author&apos;s name with the quote.
-          </p>
-        </div>
-        <Switch
-          id="show-author"
-          checked={showAuthor}
-          onCheckedChange={handleShowAuthorChange}
-        />
-      </div>
-
-      {/* Position Selector */}
-      <div className="ml-3 flex flex-col gap-4">
-        <Label htmlFor="quote-position" className="text-md text-foreground">
-          Position
-        </Label>
-        <RadioGroup
-          className="flex w-[90%] items-center justify-evenly gap-2"
-          orientation="horizontal"
-          value={selectedPosition}
-          onValueChange={handleQuotePositionChange}
-        >
-          {["top-right", "top-left", "bottom-left", "center"].map((pos) => (
-            <div
-              key={pos}
-              className={clsx(
-                "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
-                {
-                  "bg-secondary-smooth-700/10 border-secondary":
-                    selectedPosition === pos,
-                  "hover:bg-accent-foreground": selectedPosition !== pos,
-                },
-              )}
-              onClick={() => handleQuotePositionChange(pos as Position)}
+      <div className="flex w-[100%] flex-col gap-10 overflow-y-auto">
+        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+          <div className="flex flex-col gap-1">
+            <Label
+              htmlFor="quote-visibility"
+              className="text-md text-foreground"
             >
-              <Label
-                htmlFor={`pos-${pos}`}
-                className={clsx({
-                  "text-secondary": selectedPosition === pos,
-                })}
-              >
-                {pos.charAt(0).toUpperCase() + pos.slice(1).replace("-", " ")}
-              </Label>
-              <RadioGroupItem value={pos} id={`pos-${pos}`} />
-            </div>
-          ))}
-        </RadioGroup>
-      </div>
-
-      {/* Categories Selector */}
-      <div className="ml-3 flex w-[90%] flex-col gap-4">
-        <Label className="text-md text-foreground">Categories</Label>
-        <div className="flex flex-wrap gap-4">
-          <div
-            className={clsx(
-              "cursor-pointer rounded-xl border-[1px] border-accent px-6 py-4 transition-colors",
-              {
-                "bg-secondary-smooth-700/10 border-secondary":
-                  selectedCategories.includes("all"),
-                "hover:bg-accent-foreground":
-                  !selectedCategories.includes("all"),
-              },
-            )}
-            onClick={() => setSelectedCategories(["all"])}
-          >
-            <span
-              className={clsx({
-                "text-secondary": selectedCategories.includes("all"),
-              })}
-            >
-              All Categories
-            </span>
+              Visibility
+            </Label>
+            <p className="text-sm text-muted-foreground">
+              Controls if the quote is visible on the screen.
+            </p>
           </div>
-          {CATEGORIES.map((category) => (
+          <Switch
+            id="quote-visibility"
+            checked={isQuoteVisible}
+            onCheckedChange={handleQuoteVisibilityChange}
+          />
+        </div>
+
+        {/* Show Author Switch */}
+        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="show-author" className="text-md text-foreground">
+              Show Author
+            </Label>
+            <p className="text-sm text-muted-foreground">
+              Display the author&apos;s name with the quote.
+            </p>
+          </div>
+          <Switch
+            id="show-author"
+            checked={showAuthor}
+            onCheckedChange={handleShowAuthorChange}
+          />
+        </div>
+
+        {/* Position Selector */}
+        <div className="ml-3 flex flex-col gap-4">
+          <Label htmlFor="quote-position" className="text-md text-foreground">
+            Position
+          </Label>
+          <RadioGroup
+            className="flex w-[90%] items-center justify-evenly gap-2"
+            orientation="horizontal"
+            value={selectedPosition}
+            onValueChange={handleQuotePositionChange}
+          >
+            {["top-right", "top-left", "bottom-left", "center"].map((pos) => (
+              <div
+                key={pos}
+                className={clsx(
+                  "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
+                  {
+                    "border-secondary bg-secondary-smooth-700/10":
+                      selectedPosition === pos,
+                    "hover:bg-accent-foreground": selectedPosition !== pos,
+                  },
+                )}
+                onClick={() => handleQuotePositionChange(pos as Position)}
+              >
+                <Label
+                  htmlFor={`pos-${pos}`}
+                  className={clsx({
+                    "text-secondary": selectedPosition === pos,
+                  })}
+                >
+                  {pos.charAt(0).toUpperCase() + pos.slice(1).replace("-", " ")}
+                </Label>
+                <RadioGroupItem value={pos} id={`pos-${pos}`} />
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+
+        {/* Categories Selector */}
+        <div className="ml-3 flex w-[90%] flex-col gap-4">
+          <Label className="text-md text-foreground">Categories</Label>
+          <div className="flex flex-wrap gap-4">
             <div
-              key={category}
               className={clsx(
                 "cursor-pointer rounded-xl border-[1px] border-accent px-6 py-4 transition-colors",
                 {
-                  "bg-secondary-smooth-700/10 border-secondary":
-                    selectedCategories.includes(category),
+                  "border-secondary bg-secondary-smooth-700/10":
+                    selectedCategories.includes("all"),
                   "hover:bg-accent-foreground":
-                    !selectedCategories.includes(category),
+                    !selectedCategories.includes("all"),
                 },
               )}
-              onClick={() => handleCategoryChange(category)}
+              onClick={() => setSelectedCategories(["all"])}
             >
               <span
                 className={clsx({
-                  "text-secondary": selectedCategories.includes(category),
+                  "text-secondary": selectedCategories.includes("all"),
                 })}
               >
-                {category}
+                All Categories
               </span>
             </div>
-          ))}
+            {CATEGORIES.map((category) => (
+              <div
+                key={category}
+                className={clsx(
+                  "cursor-pointer rounded-xl border-[1px] border-accent px-6 py-4 transition-colors",
+                  {
+                    "border-secondary bg-secondary-smooth-700/10":
+                      selectedCategories.includes(category),
+                    "hover:bg-accent-foreground":
+                      !selectedCategories.includes(category),
+                  },
+                )}
+                onClick={() => handleCategoryChange(category)}
+              >
+                <span
+                  className={clsx({
+                    "text-secondary": selectedCategories.includes(category),
+                  })}
+                >
+                  {category}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </main>

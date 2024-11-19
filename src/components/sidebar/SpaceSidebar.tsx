@@ -5,7 +5,6 @@ import SpacePicker from "./SpacePicker";
 import IconBtn from "../nova/buttons/IconBtn";
 import { Close } from "../icons/Close";
 import { SidebarTabs, TabsContent, TabsList, TabsTrigger } from "./SidebarTabs";
-import { Tools } from "../icons/Tools";
 import ClockTab from "./tabs/ClockTab";
 import { ClockIcon } from "../icons/Clock";
 import { PomodoroIcon } from "../icons/featureIcons/PomodoroIcon";
@@ -21,6 +20,13 @@ import { SpacesIcon } from "../icons/featureIcons/SpacesIcon";
 import { AppearanceIcon } from "../icons/featureIcons/AppearanceIcon";
 import { ProfileIcon } from "../icons/featureIcons/ProfileIcon";
 import BackgroundTab from "./tabs/BackgroundTab";
+import AmbientSoundTab from "./tabs/AmbientSoundTab";
+import MusicTab from "./tabs/MusicTab";
+import ReminderTab from "./tabs/ReminderTab";
+import BreathingExerciseTab from "./tabs/BreathingExerciseTab";
+import SpacesTab from "./tabs/SpacesTab";
+import AppearanceTab from "./tabs/AppearanceTab";
+import ProfileTab from "./tabs/ProfileTab";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
@@ -29,18 +35,18 @@ export function SpaceSidebar() {
     <Sidebar collapsible="offcanvas" variant="floating" side="right">
       <IconBtn
         onClick={() => setOpen(false)}
-        className="absolute right-5 top-5 rounded-full border-[1px] border-background bg-background text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive"
+        className="absolute right-5 top-5 z-50 rounded-full border-[1px] border-background bg-background text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive"
         variant="destructive"
       >
         <Close />
       </IconBtn>
 
-      <div className="scrollbar-gutter-stable h-full overflow-x-hidden">
+      <div className="scrollbar-gutter-stabl h-full overflow-y-auto overflow-x-hidden bg-transparent">
         <SpacePicker />
         <SidebarTabs
           defaultValue="clock"
           orientation="vertical"
-          className="m-5 flex h-fit w-full items-start gap-4 bg-none pb-4"
+          className="ml-5 mt-5 flex h-fit w-full items-start gap-4 bg-none pb-4"
         >
           <TabsList className="mt-[36%] flex min-w-[25%] flex-col gap-4 text-left text-sm">
             <TabsTrigger className="flex items-center gap-2" value="clock">
@@ -99,7 +105,7 @@ export function SpaceSidebar() {
               <ClockTab />
             </TabsContent>
             <TabsContent
-              className="w-full items-center justify-center"
+              className="h-full w-full items-center justify-center"
               value="pomodoro"
             >
               <PomodoroTab />
@@ -120,64 +126,43 @@ export function SpaceSidebar() {
               className="w-full items-center justify-center"
               value="ambientSound"
             >
-              <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-                <p>Under construction…</p>
-                <Tools />
-              </div>
+              <AmbientSoundTab />
             </TabsContent>
             <TabsContent
               className="w-full items-center justify-center"
               value="music"
             >
-              <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-                <p>Under construction…</p>
-                <Tools />
-              </div>
+              <MusicTab />
             </TabsContent>
             <TabsContent
               className="w-full items-center justify-center"
               value="reminder"
             >
-              <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-                <p>Under construction…</p>
-                <Tools />
-              </div>
+              <ReminderTab />
             </TabsContent>
             <TabsContent
               className="w-full items-center justify-center"
               value="breathing"
             >
-              <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-                <p>Under construction…</p>
-                <Tools />
-              </div>
+              <BreathingExerciseTab />
             </TabsContent>
             <TabsContent
               className="w-full items-center justify-center"
               value="spaces"
             >
-              <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-                <p>Under construction…</p>
-                <Tools />
-              </div>
+              <SpacesTab />
             </TabsContent>
             <TabsContent
               className="w-full items-center justify-center"
               value="appearance"
             >
-              <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-                <p>Under construction…</p>
-                <Tools />
-              </div>
+              <AppearanceTab />
             </TabsContent>
             <TabsContent
               className="w-full items-center justify-center"
               value="profile"
             >
-              <div className="flex flex-col items-center justify-center gap-2 text-2xl text-muted-foreground">
-                <p>Under construction…</p>
-                <Tools />
-              </div>
+              <ProfileTab />
             </TabsContent>
           </div>
         </SidebarTabs>
