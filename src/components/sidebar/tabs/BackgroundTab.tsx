@@ -1,4 +1,3 @@
-import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { backgrounds } from "backgrounds";
@@ -78,107 +77,118 @@ export default function BackgroundTab() {
   });
 
   return (
-    <main className="flex w-[100%] flex-col gap-10">
-      <div className="flex items-center justify-center gap-4">
-        <div className="flex flex-col gap-1">
-          <p className="text-sm text-foreground">Environment</p>
-          <Select
-            value={selectedEnvironment}
-            onValueChange={(value) =>
-              setSelectedEnvironment(value as Environment | "all")
-            }
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Environment" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Environment</SelectLabel>
-                {environments.map((env) => (
-                  <SelectItem key={env} value={env}>
-                    {env.charAt(0).toUpperCase() + env.slice(1)}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex flex-col gap-1">
-          <p className="text-sm text-foreground">Color</p>
-
-          <Select
-            value={selectedColor}
-            onValueChange={(value) => setSelectedColor(value as Color | "all")}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Color" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Color</SelectLabel>
-                {colors.map((color) => (
-                  <SelectItem key={color} value={color}>
-                    {color.charAt(0).toUpperCase() + color.slice(1)}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="mt-6 flex items-center gap-2 py-4">
-          <Checkbox
-            id="exclude-ai"
-            checked={excludeAI}
-            onCheckedChange={(checked) => setExcludeAI(checked as boolean)}
-          />
-          <label
-            htmlFor="exclude-ai"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Exclude AI Generated
-          </label>
-        </div>
+    <main>
+      <div className="absolute top-0 flex w-full items-center justify-center text-secondary">
+        <Image
+          className="relative right-[37%] top-0 translate-x-1/2 transform"
+          src="/illustrations/background.svg"
+          alt="Background"
+          width={290}
+          height={250}
+        />
       </div>
-
-      <Label className="text-md text-foreground">Background </Label>
-      <RadioGroup
-        value={backgrounds.find((bg) => bg.url === backgroundURL)?.name ?? ""}
-        onValueChange={handleBackgroundURLChange}
-        className="mx-auto grid w-full grid-cols-2 justify-between gap-4"
-      >
-        {filteredBackgrounds.map((background) => {
-          const isChecked = background.url === backgroundURL;
-
-          return (
-            <label
-              key={background.name}
-              className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
-                isChecked
-                  ? "bg-secondary-smooth-700/10 border-secondary"
-                  : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
-              } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
+      <div className="mt-28 flex w-[100%] flex-col gap-10">
+        <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-col gap-1">
+            <p className="text-sm text-foreground">Environment</p>
+            <Select
+              value={selectedEnvironment}
+              onValueChange={(value) =>
+                setSelectedEnvironment(value as Environment | "all")
+              }
             >
-              <RadioGroupItem
-                value={background.name}
-                className="sr-only items-center justify-center"
-              />
-              <Image
-                src={background.url}
-                alt={background.name}
-                width={200}
-                height={200}
-                className="rounded-xl"
-              />
-              <p
-                className={`text-sm font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
-              >
-                {background.name}
-              </p>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Environment" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Environment</SelectLabel>
+                  {environments.map((env) => (
+                    <SelectItem key={env} value={env}>
+                      {env.charAt(0).toUpperCase() + env.slice(1)}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm text-foreground">Color</p>
+
+            <Select
+              value={selectedColor}
+              onValueChange={(value) =>
+                setSelectedColor(value as Color | "all")
+              }
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Color" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Color</SelectLabel>
+                  {colors.map((color) => (
+                    <SelectItem key={color} value={color}>
+                      {color.charAt(0).toUpperCase() + color.slice(1)}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="mt-6 flex items-center gap-2 py-4">
+            <Checkbox
+              id="exclude-ai"
+              checked={excludeAI}
+              onCheckedChange={(checked) => setExcludeAI(checked as boolean)}
+            />
+            <label
+              htmlFor="exclude-ai"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Exclude AI Generated
             </label>
-          );
-        })}
-      </RadioGroup>
+          </div>
+        </div>
+        <RadioGroup
+          value={backgrounds.find((bg) => bg.url === backgroundURL)?.name ?? ""}
+          onValueChange={handleBackgroundURLChange}
+          className="mx-auto grid w-full grid-cols-2 justify-between gap-4"
+        >
+          {filteredBackgrounds.map((background) => {
+            const isChecked = background.url === backgroundURL;
+
+            return (
+              <label
+                key={background.name}
+                className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
+                  isChecked
+                    ? "border-secondary bg-secondary-smooth-700/10"
+                    : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
+                } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
+              >
+                <RadioGroupItem
+                  value={background.name}
+                  className="sr-only items-center justify-center"
+                />
+                <Image
+                  src={background.url}
+                  alt={background.name}
+                  width={200}
+                  height={200}
+                  className="rounded-xl"
+                />
+                <p
+                  className={`text-sm font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
+                >
+                  {background.name}
+                </p>
+              </label>
+            );
+          })}
+        </RadioGroup>
+      </div>
     </main>
   );
 }

@@ -11,6 +11,7 @@ import { JoystickIcon } from "@/components/icons/JoystickIcon"; // for retro gam
 import { MusicNoteIcon } from "@/components/icons/MusicNoteIcon"; // for flute
 import { GameControllerIcon } from "@/components/icons/GameController"; // for game sound
 import { RoosterIcon } from "@/components/icons/RoosterIcon";
+import Image from "next/image";
 
 const alarmSounds = [
   { name: "Melodic", value: "/alarm-sounds/calming-alarm.wav", icon: WindIcon },
@@ -163,204 +164,217 @@ export default function PomodoroTab() {
   };
 
   return (
-    <main className="mb-4 flex h-full flex-col gap-10">
-      <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
-        <div className="flex flex-col gap-1">
-          <Label
-            htmlFor="pomodoro-visibility"
-            className="text-md text-foreground"
-          >
-            Visibility
-          </Label>
-          <p className="text-sm text-muted-foreground">
-            Controls if the Pomodoro timer is visible on the screen.
-          </p>
-        </div>
-        <Switch
-          id="pomodoro-visibility"
-          checked={!isHidden}
-          onCheckedChange={handleIsHiddenChange}
+    <main>
+      <div className="-mt-24 flex w-full items-center justify-center text-secondary">
+        <Image
+          src="/illustrations/pomodoro.svg"
+          alt="pomodoro"
+          width={290}
+          height={250}
         />
       </div>
-
-      <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
-        <div className="flex flex-col gap-1">
-          <Label
-            htmlFor="pomodoro-autostart"
-            className="text-md text-foreground"
-          >
-            Auto Start
-          </Label>
-          <p className="text-sm text-muted-foreground">
-            Controls if the Pomodoro timer automatically starts when the tab is
-            switched.
-          </p>
-        </div>
-        <Switch
-          id="pomodoro-autostart"
-          checked={autoStart}
-          onCheckedChange={handleAutoStartChange}
-        />
-      </div>
-
-      <div className="flex min-h-10 w-[90%] flex-col items-center justify-between gap-10 space-x-2 rounded-2xl border-[1px] border-accent p-4">
-        <div className="space-between flex items-center">
+      <div className="flex h-full flex-col gap-10">
+        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
-            <Label htmlFor="pomodoro-alarm" className="text-md text-foreground">
-              Alarm Sound
+            <Label
+              htmlFor="pomodoro-visibility"
+              className="text-md text-foreground"
+            >
+              Visibility
             </Label>
             <p className="text-sm text-muted-foreground">
-              Controls if the Pomodoro timer should play a sound when the time
-              is up.
+              Controls if the Pomodoro timer is visible on the screen.
             </p>
           </div>
           <Switch
-            id="pomodoro-alarm"
-            checked={alarmSound}
-            onCheckedChange={handleAlarmSoundChange}
+            id="pomodoro-visibility"
+            checked={!isHidden}
+            onCheckedChange={handleIsHiddenChange}
           />
         </div>
-        <AnimatePresence>
-          {alarmSound && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="flex w-full flex-col gap-4"
+
+        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+          <div className="flex flex-col gap-1">
+            <Label
+              htmlFor="pomodoro-autostart"
+              className="text-md text-foreground"
             >
-              <RadioGroup
-                value={alarmSoundURL}
-                onValueChange={handleAlarmSoundURLChange}
-                className="mx-auto grid grid-cols-3 gap-4"
+              Auto Start
+            </Label>
+            <p className="text-sm text-muted-foreground">
+              Controls if the Pomodoro timer automatically starts when the tab
+              is switched.
+            </p>
+          </div>
+          <Switch
+            id="pomodoro-autostart"
+            checked={autoStart}
+            onCheckedChange={handleAutoStartChange}
+          />
+        </div>
+
+        <div className="flex min-h-10 w-[90%] flex-col items-center justify-between gap-10 space-x-2 rounded-2xl border-[1px] border-accent p-4">
+          <div className="space-between flex items-center">
+            <div className="flex flex-col gap-1">
+              <Label
+                htmlFor="pomodoro-alarm"
+                className="text-md text-foreground"
               >
-                {alarmSounds.map((sound) => {
-                  const Icon = sound.icon;
-                  const isChecked = alarmSoundURL === sound.value; // Determine if the current item is selected
-                  return (
-                    <label
-                      key={sound.value}
-                      className={`relative flex max-w-36 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
-                        isChecked
-                          ? "bg-secondary-smooth-700/10 border-secondary"
-                          : "border-input"
-                      } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
-                    >
-                      <RadioGroupItem
-                        value={sound.value}
-                        className="sr-only items-center justify-center"
-                      />
-                      <Icon
-                        className={`text-foreground opacity-60 ${isChecked ? "text-secondary" : ""}`}
-                        aria-hidden="true"
-                      />
-                      <p
-                        className={`text-xs font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
-                      >
-                        {sound.name}
-                      </p>
-                    </label>
-                  );
-                })}
-              </RadioGroup>
-
-              <div className="mx-auto mt-3 flex items-center gap-2">
-                <Label
-                  htmlFor="pomodoro-alarm-repeat"
-                  className="text-md text-foreground"
+                Alarm Sound
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                Controls if the Pomodoro timer should play a sound when the time
+                is up.
+              </p>
+            </div>
+            <Switch
+              id="pomodoro-alarm"
+              checked={alarmSound}
+              onCheckedChange={handleAlarmSoundChange}
+            />
+          </div>
+          <AnimatePresence>
+            {alarmSound && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="flex w-full flex-col gap-4"
+              >
+                <RadioGroup
+                  value={alarmSoundURL}
+                  onValueChange={handleAlarmSoundURLChange}
+                  className="mx-auto grid grid-cols-3 gap-4"
                 >
-                  Repeat Times
-                </Label>
-                <Input
-                  id="pomodoro-alarm-repeat"
-                  type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  value={alarmRepeatDisplay}
-                  onChange={(e) =>
-                    handleInputChange(e.target.value, setAlarmRepeatDisplay)
-                  }
-                  onBlur={() =>
-                    handleInputBlur(
-                      alarmRepeatDisplay,
-                      setAlarmRepeatDisplay,
-                      "alarmRepeatTimes",
-                      DEFAULT_VALUES.alarmRepeat,
-                    )
-                  }
-                  className="w-20"
-                />
-              </div>
-              <audio ref={audioRef} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+                  {alarmSounds.map((sound) => {
+                    const Icon = sound.icon;
+                    const isChecked = alarmSoundURL === sound.value; // Determine if the current item is selected
+                    return (
+                      <label
+                        key={sound.value}
+                        className={`relative flex max-w-36 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+                          isChecked
+                            ? "border-secondary bg-secondary-smooth-700/10"
+                            : "border-input"
+                        } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
+                      >
+                        <RadioGroupItem
+                          value={sound.value}
+                          className="sr-only items-center justify-center"
+                        />
+                        <Icon
+                          className={`text-foreground opacity-60 ${isChecked ? "text-secondary" : ""}`}
+                          aria-hidden="true"
+                        />
+                        <p
+                          className={`text-xs font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
+                        >
+                          {sound.name}
+                        </p>
+                      </label>
+                    );
+                  })}
+                </RadioGroup>
 
-      <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
-        <div className="flex flex-col gap-1">
-          <Label
-            htmlFor="short-break-duration"
-            className="text-md text-foreground"
-          >
-            Short Break Duration
-          </Label>
-          <p className="text-sm text-muted-foreground">
-            The duration of the short break, in minutes.
-          </p>
+                <div className="mx-auto mt-3 flex items-center gap-2">
+                  <Label
+                    htmlFor="pomodoro-alarm-repeat"
+                    className="text-md text-foreground"
+                  >
+                    Repeat Times
+                  </Label>
+                  <Input
+                    id="pomodoro-alarm-repeat"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={alarmRepeatDisplay}
+                    onChange={(e) =>
+                      handleInputChange(e.target.value, setAlarmRepeatDisplay)
+                    }
+                    onBlur={() =>
+                      handleInputBlur(
+                        alarmRepeatDisplay,
+                        setAlarmRepeatDisplay,
+                        "alarmRepeatTimes",
+                        DEFAULT_VALUES.alarmRepeat,
+                      )
+                    }
+                    className="w-20"
+                  />
+                </div>
+                <audio ref={audioRef} />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-        <Input
-          id="short-break-duration"
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          value={shortBreakDisplay}
-          onChange={(e) =>
-            handleInputChange(e.target.value, setShortBreakDisplay)
-          }
-          onBlur={() =>
-            handleInputBlur(
-              shortBreakDisplay,
-              setShortBreakDisplay,
-              "shortBreakDuration",
-              DEFAULT_VALUES.shortBreak,
-            )
-          }
-          className="w-20"
-        />
-      </div>
 
-      <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
-        <div className="flex flex-col gap-1">
-          <Label
-            htmlFor="long-break-duration"
-            className="text-md text-foreground"
-          >
-            Long Break Duration
-          </Label>
-          <p className="text-sm text-muted-foreground">
-            The duration of the long break, in minutes.
-          </p>
+        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+          <div className="flex flex-col gap-1">
+            <Label
+              htmlFor="short-break-duration"
+              className="text-md text-foreground"
+            >
+              Short Break Duration
+            </Label>
+            <p className="text-sm text-muted-foreground">
+              The duration of the short break, in minutes.
+            </p>
+          </div>
+          <Input
+            id="short-break-duration"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={shortBreakDisplay}
+            onChange={(e) =>
+              handleInputChange(e.target.value, setShortBreakDisplay)
+            }
+            onBlur={() =>
+              handleInputBlur(
+                shortBreakDisplay,
+                setShortBreakDisplay,
+                "shortBreakDuration",
+                DEFAULT_VALUES.shortBreak,
+              )
+            }
+            className="w-20"
+          />
         </div>
-        <Input
-          id="long-break-duration"
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          value={longBreakDisplay}
-          onChange={(e) =>
-            handleInputChange(e.target.value, setLongBreakDisplay)
-          }
-          onBlur={() =>
-            handleInputBlur(
-              longBreakDisplay,
-              setLongBreakDisplay,
-              "longBreakDuration",
-              DEFAULT_VALUES.longBreak,
-            )
-          }
-          className="w-20"
-        />
+
+        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+          <div className="flex flex-col gap-1">
+            <Label
+              htmlFor="long-break-duration"
+              className="text-md text-foreground"
+            >
+              Long Break Duration
+            </Label>
+            <p className="text-sm text-muted-foreground">
+              The duration of the long break, in minutes.
+            </p>
+          </div>
+          <Input
+            id="long-break-duration"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={longBreakDisplay}
+            onChange={(e) =>
+              handleInputChange(e.target.value, setLongBreakDisplay)
+            }
+            onBlur={() =>
+              handleInputBlur(
+                longBreakDisplay,
+                setLongBreakDisplay,
+                "longBreakDuration",
+                DEFAULT_VALUES.longBreak,
+              )
+            }
+            className="w-20"
+          />
+        </div>
       </div>
     </main>
   );
