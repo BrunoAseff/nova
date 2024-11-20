@@ -51,7 +51,7 @@ export default function HomePage() {
           >
             <span className="text-sm font-medium">Get Started</span>
             <Star className="h-4 w-4" />
-            <div className="via-secondary-smooth-500 group-hover:via-secondary-smooth-400 absolute bottom-0 left-0 right-0 mx-auto h-px w-3/4 bg-gradient-to-r from-transparent to-transparent transition-all duration-200" />
+            <div className="absolute bottom-0 left-0 right-0 mx-auto h-px w-3/4 bg-gradient-to-r from-transparent via-secondary-smooth-500 to-transparent transition-all duration-200 group-hover:via-secondary-smooth-400" />
           </Link>
         </motion.button>
         <LinkBtn>
