@@ -1,6 +1,8 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { backgrounds } from "backgrounds";
+import type { Color, Environment } from "backgrounds";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
@@ -13,19 +15,6 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-
-type Environment =
-  | "Nature"
-  | "Urban"
-  | "Home"
-  | "Interior"
-  | "Exterior"
-  | "Space"
-  | "Underwater"
-  | "Fantasy"
-  | "Abstract";
-
-type Color = "Green" | "Yellow" | "Orange" | "Red" | "Pink" | "Purple" | "Blue";
 
 export default function BackgroundTab() {
   const [backgroundURL, setBackgroundURL] = useState(
@@ -75,6 +64,16 @@ export default function BackgroundTab() {
     const matchesAI = excludeAI ? !bg.AIgenerated : true;
     return matchesEnvironment && matchesColor && matchesAI;
   });
+
+  const COLOR_MAP: Record<Color, string> = {
+    Green: "bg-green-500",
+    Yellow: "bg-yellow-500",
+    Orange: "bg-orange-500",
+    Red: "bg-red-500",
+    Pink: "bg-pink-500",
+    Purple: "bg-purple-500",
+    Blue: "bg-blue-500",
+  };
 
   return (
     <main>
@@ -129,7 +128,16 @@ export default function BackgroundTab() {
                   <SelectLabel>Color</SelectLabel>
                   {colors.map((color) => (
                     <SelectItem key={color} value={color}>
-                      {color.charAt(0).toUpperCase() + color.slice(1)}
+                      <div className="flex items-center gap-2">
+                        {color !== "all" && (
+                          <div
+                            className={`h-2 w-2 shrink-0 rounded-full ${COLOR_MAP[color as Color]}`}
+                          />
+                        )}
+                        <span>
+                          {color.charAt(0).toUpperCase() + color.slice(1)}
+                        </span>
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectGroup>
@@ -151,43 +159,52 @@ export default function BackgroundTab() {
             </label>
           </div>
         </div>
-        <RadioGroup
-          value={backgrounds.find((bg) => bg.url === backgroundURL)?.name ?? ""}
-          onValueChange={handleBackgroundURLChange}
-          className="mx-auto grid w-full grid-cols-2 justify-between gap-4"
-        >
-          {filteredBackgrounds.map((background) => {
-            const isChecked = background.url === backgroundURL;
+        <div className="relative">
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-12 bg-gradient-to-t from-background to-transparent" />
 
-            return (
-              <label
-                key={background.name}
-                className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
-                  isChecked
-                    ? "border-secondary bg-secondary-smooth-700/10"
-                    : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
-                } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
-              >
-                <RadioGroupItem
-                  value={background.name}
-                  className="sr-only items-center justify-center"
-                />
-                <Image
-                  src={background.url}
-                  alt={background.name}
-                  width={200}
-                  height={200}
-                  className="rounded-xl"
-                />
-                <p
-                  className={`text-sm font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
+          <RadioGroup
+            value={
+              backgrounds.find((bg) => bg.url === backgroundURL)?.name ?? ""
+            }
+            onValueChange={handleBackgroundURLChange}
+            className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[65vh] w-full grid-cols-2 justify-between gap-4 overflow-y-auto pr-2"
+          >
+            {filteredBackgrounds.map((background) => {
+              const isChecked = background.url === backgroundURL;
+
+              return (
+                <label
+                  key={background.name}
+                  className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
+                    isChecked
+                      ? "border-secondary bg-secondary-smooth-700/10"
+                      : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
+                  } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                 >
-                  {background.name}
-                </p>
-              </label>
-            );
-          })}
-        </RadioGroup>
+                  <RadioGroupItem
+                    value={background.name}
+                    className="sr-only items-center justify-center"
+                  />
+                  <div className="aspect-video w-full overflow-hidden rounded-xl">
+                    <Image
+                      src={background.url}
+                      alt={background.name}
+                      width={200}
+                      height={200}
+                      className="rounded-xl"
+                      quality={50}
+                    />
+                  </div>
+                  <p
+                    className={`text-sm font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
+                  >
+                    {background.name}
+                  </p>
+                </label>
+              );
+            })}
+          </RadioGroup>
+        </div>
       </div>
     </main>
   );
