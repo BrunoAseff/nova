@@ -41,7 +41,7 @@ export function SpaceSidebar() {
         <Close />
       </IconBtn>
 
-      <div className="scrollbar-gutter-stabl h-full overflow-y-auto overflow-x-hidden bg-transparent">
+      <div className="overflow-hidden bg-transparent">
         <SpacePicker />
         <SidebarTabs
           defaultValue="clock"
