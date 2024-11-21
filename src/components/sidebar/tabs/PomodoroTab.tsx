@@ -165,7 +165,7 @@ export default function PomodoroTab() {
 
   return (
     <main>
-      <div className="-mt-24 flex w-full items-center justify-center text-secondary">
+      <div className="-mt-28 flex w-full items-center justify-center text-secondary">
         <Image
           src="/illustrations/pomodoro.svg"
           alt="pomodoro"
@@ -173,8 +173,8 @@ export default function PomodoroTab() {
           height={250}
         />
       </div>
-      <div className="flex h-full flex-col gap-10">
-        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+      <div className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent max-h-[70vh] w-full max-w-[95%] space-y-4 overflow-y-auto pr-2">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="pomodoro-visibility"
@@ -193,7 +193,7 @@ export default function PomodoroTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="pomodoro-autostart"
@@ -213,7 +213,7 @@ export default function PomodoroTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[90%] flex-col items-center justify-between gap-10 space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] flex-col items-center justify-between gap-10 space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="space-between flex items-center">
             <div className="flex flex-col gap-1">
               <Label
@@ -240,7 +240,7 @@ export default function PomodoroTab() {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="flex w-full flex-col gap-4"
+                className="flex w-[95%] flex-col gap-4"
               >
                 <RadioGroup
                   value={alarmSoundURL}
@@ -310,7 +310,7 @@ export default function PomodoroTab() {
           </AnimatePresence>
         </div>
 
-        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="short-break-duration"
@@ -343,7 +343,7 @@ export default function PomodoroTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="long-break-duration"

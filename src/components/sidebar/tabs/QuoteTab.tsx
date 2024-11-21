@@ -96,8 +96,8 @@ export default function QuoteTab() {
           height={300}
         />
       </div>
-      <div className="flex w-[100%] flex-col gap-10 overflow-y-auto">
-        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+      <div className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent z-50 max-h-[65vh] max-w-[95%] space-y-10 overflow-y-auto pr-2">
+        <div className="flex min-h-16 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="quote-visibility"
@@ -117,7 +117,7 @@ export default function QuoteTab() {
         </div>
 
         {/* Show Author Switch */}
-        <div className="flex min-h-10 w-[90%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label htmlFor="show-author" className="text-md text-foreground">
               Show Author
@@ -139,7 +139,7 @@ export default function QuoteTab() {
             Position
           </Label>
           <RadioGroup
-            className="flex w-[90%] items-center justify-evenly gap-2"
+            className="flex w-[95%] items-center justify-evenly gap-2"
             orientation="horizontal"
             value={selectedPosition}
             onValueChange={handleQuotePositionChange}
@@ -172,7 +172,7 @@ export default function QuoteTab() {
         </div>
 
         {/* Categories Selector */}
-        <div className="ml-3 flex w-[90%] flex-col gap-4">
+        <div className="ml-3 flex w-[95%] flex-col gap-4">
           <Label className="text-md text-foreground">Categories</Label>
           <div className="flex flex-wrap gap-4">
             <div
