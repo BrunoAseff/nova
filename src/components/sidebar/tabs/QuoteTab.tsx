@@ -87,7 +87,7 @@ export default function QuoteTab() {
   };
 
   return (
-    <main>
+    <main className="h-screen">
       <div className="-mt-24 flex w-full items-center justify-center text-secondary">
         <Image
           src="/illustrations/quote.svg"

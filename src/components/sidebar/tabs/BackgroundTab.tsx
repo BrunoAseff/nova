@@ -76,7 +76,7 @@ export default function BackgroundTab() {
   };
 
   return (
-    <main>
+    <main className="h-screen">
       <div className="absolute top-0 flex w-full items-center justify-center text-secondary">
         <Image
           className="relative right-[37%] top-0 translate-x-1/2 transform"
