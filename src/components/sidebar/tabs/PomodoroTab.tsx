@@ -164,7 +164,7 @@ export default function PomodoroTab() {
   };
 
   return (
-    <main>
+    <main className="h-screen">
       <div className="-mt-28 flex w-full items-center justify-center text-secondary">
         <Image
           src="/illustrations/pomodoro.svg"
