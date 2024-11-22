@@ -19,6 +19,7 @@ export default {
         sans: ["var(--font-inter)"],
         open: ["var(--font-open)"],
         montserrat: ["var(--font-montserrat)"],
+        delius: ["var(--font-delius)"],
       },
       borderRadius: {
         lg: "var(--radius)",

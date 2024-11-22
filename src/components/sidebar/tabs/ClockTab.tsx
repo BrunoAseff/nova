@@ -49,14 +49,24 @@ export default function ClockTab() {
 
   return (
     <main className="h-screen">
-      <div className="absolute top-3 flex w-full items-center justify-center text-secondary">
-        <Image
-          className="relative right-[35%] top-0 translate-x-1/2 transform"
-          src="/illustrations/clock.svg"
-          alt="Clock"
-          width={290}
-          height={220}
-        />
+      <div className="absolute top-3 flex w-fit items-center text-secondary">
+        <div className="grid h-full grid-cols-2 items-center justify-start">
+          <div className="flex flex-col gap-2">
+            <h1 className="font-delius text-3xl text-secondary-foreground/80">
+              <span className="text-secondary">Clock</span> settings
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Customize the appearance and behavior of the clock on your screen.
+            </p>
+          </div>
+
+          <Image
+            src="/illustrations/clock.svg"
+            alt="Clock"
+            width={290}
+            height={220}
+          />
+        </div>
       </div>
       <div className="mt-[8.1rem] flex w-[108%] flex-col gap-10">
         <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
