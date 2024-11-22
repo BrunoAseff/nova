@@ -14,7 +14,7 @@ import Quote from "./quotes/Quote";
 import { Button } from "../ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -31,6 +31,11 @@ export default function Space() {
   const { setOpen } = useSidebar();
   const [shortcut, setShortcut] = useState("⌘B");
 
+  // Memoize the close sidebar logic
+  const closeSidebar = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+
   useEffect(() => {
     const detectPlatform = () => {
       if ("userAgentData" in navigator && navigator.userAgentData?.platform) {
@@ -44,7 +49,31 @@ export default function Space() {
     };
 
     setShortcut(detectPlatform());
-  }, []);
+
+    // Add event listeners for closing sidebar
+    const handleOutsideClick = (event: MouseEvent) => {
+      const sidebar = document.querySelector("[data-sidebar]");
+      if (sidebar && !sidebar.contains(event.target as Node)) {
+        closeSidebar();
+      }
+    };
+
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeSidebar();
+      }
+    };
+
+    // Add event listeners
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("keydown", handleEscapeKey);
+
+    // Cleanup event listeners
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [closeSidebar]);
 
   return (
     <TooltipProvider>
