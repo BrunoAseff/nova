@@ -46,7 +46,7 @@ export function SpaceSidebar() {
         <SidebarTabs
           defaultValue="clock"
           orientation="vertical"
-          className="ml-5 mt-5 flex h-fit w-full items-start gap-4 bg-none pb-4"
+          className="z-50 ml-5 mt-5 flex h-fit w-full items-start gap-4 pb-4"
         >
           <TabsList className="mt-[36%] flex min-w-[25%] flex-col gap-4 text-left text-sm">
             <TabsTrigger className="flex items-center gap-2" value="clock">
@@ -97,6 +97,7 @@ export function SpaceSidebar() {
               Profile
             </TabsTrigger>
           </TabsList>
+
           <div>
             <TabsContent
               className="w-full items-center justify-center"
