@@ -41,7 +41,10 @@ export default function SpacePicker() {
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px]">
+        <PopoverContent
+          data-sidebar-exclude // Add this attribute to prevent sidebar closing
+          className="w-[200px]"
+        >
           <Command>
             <CommandInput placeholder="Search space..." />
             <CommandList>
