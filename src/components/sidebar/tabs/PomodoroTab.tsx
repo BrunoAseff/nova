@@ -165,15 +165,27 @@ export default function PomodoroTab() {
 
   return (
     <main className="h-screen">
-      <div className="-mt-28 flex w-full items-center justify-center text-secondary">
-        <Image
-          src="/illustrations/pomodoro.svg"
-          alt="pomodoro"
-          width={290}
-          height={250}
-        />
+      <div className="absolute top-3 flex w-fit items-center text-secondary">
+        <div className="grid h-full grid-cols-2 items-center justify-start">
+          <div className="flex flex-col gap-2">
+            <h1 className="font-delius text-3xl text-secondary-foreground/80">
+              <span className="text-secondary">Pomodoro</span> settings
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Configure your Pomodoro timer settings for effective time
+              management.
+            </p>
+          </div>
+
+          <Image
+            src="/illustrations/pomodoro.svg"
+            alt="Pomodoro"
+            width={290}
+            height={220}
+          />
+        </div>
       </div>
-      <div className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent max-h-[70vh] w-full max-w-[95%] space-y-4 overflow-y-auto pr-2">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-32 max-h-[70vh] w-full max-w-[95%] space-y-4 overflow-y-auto pr-2">
         <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label

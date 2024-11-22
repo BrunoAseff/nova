@@ -81,9 +81,14 @@
 @layer base {
   * {
     @apply border-border;
+    --font-montserrat: "Montserrat Alternates", sans-serif;
+    --font-delius: "Delius Swash Caps", cursive;
+    --font-inter: "Inter", sans-serif;
+    --font-open: "Open Sans", sans-serif;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-montserrat);
   }
 }
 
