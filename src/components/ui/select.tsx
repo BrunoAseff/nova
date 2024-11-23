@@ -15,6 +15,7 @@ const SelectTrigger = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
+    data-sidebar-exclude
     ref={ref}
     className={cn(
       "flex h-10 w-full items-center justify-between rounded-2xl border-[1px] border-accent bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:border-secondary data-[state=open]:bg-secondary-smooth-700/10 [&>span]:line-clamp-1",
@@ -71,6 +72,7 @@ const SelectContent = React.forwardRef<
 >(({ className, children, position = "popper", ...props }, ref) => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
+      data-sidebar-exclude
       ref={ref}
       className={cn(
         "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-xl border bg-background text-muted-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
@@ -103,6 +105,7 @@ const SelectLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Label
     ref={ref}
+    data-sidebar-exclude
     className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)}
     {...props}
   />
@@ -115,6 +118,7 @@ const SelectItem = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
     ref={ref}
+    data-sidebar-exclude
     className={cn(
       "relative flex w-full cursor-pointer select-none items-center rounded-xl px-4 py-2 pl-8 pr-2 text-sm outline-none focus:bg-accent-foreground focus:text-secondary data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       className,
@@ -141,6 +145,7 @@ const SelectSeparator = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
+    data-sidebar-exclude
     ref={ref}
     className={cn("-mx-1 my-1 h-px bg-background", className)}
     {...props}

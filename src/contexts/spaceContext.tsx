@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 "use client";
 import { createContext, useContext, useState, useRef } from "react";
-import type { Space } from "../types";
+import type { ShortcutName, Space } from "../types";
 import { Home } from "@/components/icons/Home";
 import { Focus } from "@/components/icons/Focus";
 import { Relax } from "@/components/icons/Relax";
@@ -22,6 +22,8 @@ export interface SpaceContextValue {
   playPomodoroAlarm: () => Promise<void>;
   stopPomodoroAlarm: ({ currentSpace }: { currentSpace: Space }) => void;
   isAlarmPlaying: boolean;
+  shortcut: ShortcutName;
+  ambientSound: string;
 }
 
 const initialState: SpaceContextValue = {
@@ -41,9 +43,7 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: false },
-      background: {
-        url: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
-      },
+      background: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
     },
     {
       name: "Focus",
@@ -60,9 +60,7 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: true },
-      background: {
-        url: backgrounds.find((bg) => bg.name === "Urban Home")?.url ?? "",
-      },
+      background: backgrounds.find((bg) => bg.name === "Urban Home")?.url ?? "",
     },
     {
       name: "Relax",
@@ -79,13 +77,12 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "top-right", isHidden: false },
-      background: {
-        url:
-          backgrounds.find((bg) => bg.name === "Train in the Fields")?.url ??
-          "",
-      },
+      background:
+        backgrounds.find((bg) => bg.name === "Train in the Fields")?.url ?? "",
     },
   ],
+  shortcut: "ambientSound",
+  ambientSound: "",
   selectedTab: "",
   selectTab: () => {},
   updateSpaceProperty: () => {},
@@ -184,6 +181,8 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     playPomodoroAlarm,
     stopPomodoroAlarm,
     isAlarmPlaying,
+    shortcut: initialState.shortcut,
+    ambientSound: initialState.ambientSound,
   };
 
   return (

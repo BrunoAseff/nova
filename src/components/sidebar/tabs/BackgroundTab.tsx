@@ -2,9 +2,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { backgrounds } from "backgrounds";
 import type { Color, Environment } from "backgrounds";
-
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -17,15 +16,12 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 
 export default function BackgroundTab() {
-  const [backgroundURL, setBackgroundURL] = useState(
-    "https://utfs.io/f/C3k2e5UQDa979nPTYgc69pKfgXcSlCYx1ADa82uERWQ3BFUM",
-  );
+  const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
   const [selectedEnvironment, setSelectedEnvironment] = useState<
     Environment | "all"
   >("all");
   const [selectedColor, setSelectedColor] = useState<Color | "all">("all");
   const [excludeAI, setExcludeAI] = useState(false);
-  const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
 
   // Get unique environments and colors from backgrounds
   const environments = [
@@ -37,21 +33,14 @@ export default function BackgroundTab() {
     | "all"
   )[];
 
-  useEffect(() => {
-    const selectedSpace = spaces.find((space) => space.name === selectedTab);
-    if (selectedSpace) {
-      setBackgroundURL(selectedSpace.background.url);
-    }
-  }, [spaces, selectedTab]);
+  // Get the current background URL from the selected space
+  const currentBackgroundURL =
+    spaces.find((space) => space.name === selectedTab)?.background ?? "";
 
   const handleBackgroundURLChange = (name: string) => {
     const selectedBackground = backgrounds.find((bg) => bg.name === name);
     if (selectedBackground) {
-      const newURL = selectedBackground.url;
-      setBackgroundURL(newURL);
-      updateSpaceProperty(selectedTab, "background", {
-        url: newURL,
-      });
+      updateSpaceProperty(selectedTab, "background", selectedBackground.url);
     }
   };
 
@@ -103,12 +92,13 @@ export default function BackgroundTab() {
           <div className="flex flex-col gap-1">
             <p className="text-sm text-foreground">Environment</p>
             <Select
+              data-sidebar-exclude
               value={selectedEnvironment}
               onValueChange={(value) =>
                 setSelectedEnvironment(value as Environment | "all")
               }
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger data-sidebar-exclude className="w-[180px]">
                 <SelectValue placeholder="Environment" />
               </SelectTrigger>
               <SelectContent data-sidebar-exclude>
@@ -127,12 +117,13 @@ export default function BackgroundTab() {
             <p className="text-sm text-foreground">Color</p>
 
             <Select
+              data-sidebar-exclude
               value={selectedColor}
               onValueChange={(value) =>
                 setSelectedColor(value as Color | "all")
               }
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger data-sidebar-exclude className="w-[180px]">
                 <SelectValue placeholder="Color" />
               </SelectTrigger>
               <SelectContent data-sidebar-exclude>
@@ -176,13 +167,14 @@ export default function BackgroundTab() {
 
           <RadioGroup
             value={
-              backgrounds.find((bg) => bg.url === backgroundURL)?.name ?? ""
+              backgrounds.find((bg) => bg.url === currentBackgroundURL)?.name ??
+              ""
             }
             onValueChange={handleBackgroundURLChange}
             className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[55vh] w-full grid-cols-2 justify-between gap-4 overflow-y-auto pr-2"
           >
             {filteredBackgrounds.map((background) => {
-              const isChecked = background.url === backgroundURL;
+              const isChecked = background.url === currentBackgroundURL;
 
               return (
                 <label
