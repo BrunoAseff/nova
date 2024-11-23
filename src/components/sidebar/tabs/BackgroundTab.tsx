@@ -111,7 +111,7 @@ export default function BackgroundTab() {
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Environment" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent data-sidebar-exclude>
                 <SelectGroup>
                   <SelectLabel>Environment</SelectLabel>
                   {environments.map((env) => (
@@ -135,7 +135,7 @@ export default function BackgroundTab() {
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Color" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent data-sidebar-exclude>
                 <SelectGroup>
                   <SelectLabel>Color</SelectLabel>
                   {colors.map((color) => (
