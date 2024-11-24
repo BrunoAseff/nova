@@ -42,9 +42,14 @@ export interface Space {
 export type ShortcutName =
   | "clock"
   | "pomodoro"
-  | "timer"
   | "quote"
   | "background"
-  | "ambientSound";
+  | "music"
+  | "reminder"
+  | "breathingExercise"
+  | "spaces"
+  | "profile"
+  | "ambientSound"
+  | "appearance";
 
 export type ambientSound = string;

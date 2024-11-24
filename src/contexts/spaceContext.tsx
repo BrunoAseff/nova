@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 "use client";
-import { createContext, useContext, useState, useRef } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 import type { ShortcutName, Space } from "../types";
 import { Home } from "@/components/icons/Home";
 import { Focus } from "@/components/icons/Focus";
@@ -24,6 +30,7 @@ export interface SpaceContextValue {
   isAlarmPlaying: boolean;
   shortcut: ShortcutName;
   ambientSound: string;
+  updateShortcut: (newShortcut: ShortcutName) => void;
 }
 
 const initialState: SpaceContextValue = {
@@ -78,7 +85,7 @@ const initialState: SpaceContextValue = {
       timer: { isHidden: true },
       quote: { position: "top-right", isHidden: false },
       background:
-        backgrounds.find((bg) => bg.name === "Train in the Fields")?.url ?? "",
+        backgrounds.find((bg) => bg.name === "Green Field")?.url ?? "",
     },
   ],
   shortcut: "ambientSound",
@@ -90,6 +97,7 @@ const initialState: SpaceContextValue = {
   playPomodoroAlarm: async () => {},
   stopPomodoroAlarm: () => {},
   isAlarmPlaying: false,
+  updateShortcut: () => {},
 };
 
 const SpacesContext = createContext<SpaceContextValue>(initialState);
@@ -100,6 +108,11 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const [isAlarmPlaying, setIsAlarmPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playCountRef = useRef(0);
+  const [shortcut, setShortcut] = useState<ShortcutName>(initialState.shortcut);
+
+  const updateShortcut = useCallback((newShortcut: ShortcutName) => {
+    setShortcut(newShortcut);
+  }, []);
 
   function selectTab(tab: string) {
     setSelectedTab(tab);
@@ -181,8 +194,9 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     playPomodoroAlarm,
     stopPomodoroAlarm,
     isAlarmPlaying,
-    shortcut: initialState.shortcut,
     ambientSound: initialState.ambientSound,
+    updateShortcut,
+    shortcut,
   };
 
   return (

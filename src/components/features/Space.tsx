@@ -15,6 +15,7 @@ import { Button } from "../ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
 import { useCallback, useEffect, useState } from "react";
+import Shortcut from "../shortcuts/shortcut";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -88,12 +89,14 @@ export default function Space() {
 
   return (
     <TooltipProvider>
+      <Shortcut />
+
       <Tabs
         defaultValue="Focus"
         className="relative m-0 h-screen w-full overflow-hidden p-0 font-sans"
         aria-label="Space selection tabs"
       >
-        <TabsList className="absolute bottom-10 right-24 z-10">
+        <TabsList className="absolute bottom-10 right-28 z-10">
           {spaces.map((space) => (
             <TabsTrigger
               onClick={() => selectTab(space.name)}
@@ -151,12 +154,12 @@ export default function Space() {
           </TabsContent>
         ))}
       </Tabs>
-      <Tooltip delayDuration={200}>
+      <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>
           <Button
             size="icon"
             onClick={() => setOpen(true)}
-            className="absolute bottom-10 right-10 z-10 overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
+            className="absolute bottom-10 right-14 z-10 overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
           >
             <AnimatedConfig />
           </Button>
