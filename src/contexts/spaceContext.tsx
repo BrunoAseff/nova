@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 "use client";
-import { createContext, useContext, useState, useRef } from "react";
-import type { Space } from "../types";
+import {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
+import type { ShortcutName, Space } from "../types";
 import { Home } from "@/components/icons/Home";
 import { Focus } from "@/components/icons/Focus";
 import { Relax } from "@/components/icons/Relax";
@@ -22,6 +28,9 @@ export interface SpaceContextValue {
   playPomodoroAlarm: () => Promise<void>;
   stopPomodoroAlarm: ({ currentSpace }: { currentSpace: Space }) => void;
   isAlarmPlaying: boolean;
+  shortcut: ShortcutName;
+  ambientSound: string;
+  updateShortcut: (newShortcut: ShortcutName) => void;
 }
 
 const initialState: SpaceContextValue = {
@@ -41,9 +50,7 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: false },
-      background: {
-        url: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
-      },
+      background: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
     },
     {
       name: "Focus",
@@ -60,9 +67,7 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: true },
-      background: {
-        url: backgrounds.find((bg) => bg.name === "Urban Home")?.url ?? "",
-      },
+      background: backgrounds.find((bg) => bg.name === "Urban Home")?.url ?? "",
     },
     {
       name: "Relax",
@@ -79,13 +84,12 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "top-right", isHidden: false },
-      background: {
-        url:
-          backgrounds.find((bg) => bg.name === "Train in the Fields")?.url ??
-          "",
-      },
+      background:
+        backgrounds.find((bg) => bg.name === "Green Field")?.url ?? "",
     },
   ],
+  shortcut: "ambientSound",
+  ambientSound: "",
   selectedTab: "",
   selectTab: () => {},
   updateSpaceProperty: () => {},
@@ -93,6 +97,7 @@ const initialState: SpaceContextValue = {
   playPomodoroAlarm: async () => {},
   stopPomodoroAlarm: () => {},
   isAlarmPlaying: false,
+  updateShortcut: () => {},
 };
 
 const SpacesContext = createContext<SpaceContextValue>(initialState);
@@ -103,6 +108,11 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const [isAlarmPlaying, setIsAlarmPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playCountRef = useRef(0);
+  const [shortcut, setShortcut] = useState<ShortcutName>(initialState.shortcut);
+
+  const updateShortcut = useCallback((newShortcut: ShortcutName) => {
+    setShortcut(newShortcut);
+  }, []);
 
   function selectTab(tab: string) {
     setSelectedTab(tab);
@@ -184,6 +194,9 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     playPomodoroAlarm,
     stopPomodoroAlarm,
     isAlarmPlaying,
+    ambientSound: initialState.ambientSound,
+    updateShortcut,
+    shortcut,
   };
 
   return (

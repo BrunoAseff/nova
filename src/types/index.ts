@@ -27,9 +27,7 @@ export interface QuoteProps {
   categories?: string[];
 }
 
-export interface Background {
-  url: string;
-}
+export type Background = string;
 
 export interface Space {
   name: string;
@@ -40,3 +38,18 @@ export interface Space {
   background: Background;
   icon: JSX.Element;
 }
+
+export type ShortcutName =
+  | "clock"
+  | "pomodoro"
+  | "quote"
+  | "background"
+  | "music"
+  | "reminder"
+  | "breathingExercise"
+  | "spaces"
+  | "profile"
+  | "ambientSound"
+  | "appearance";
+
+export type ambientSound = string;
