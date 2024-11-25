@@ -41,6 +41,14 @@ export const backgrounds: Background[] = [
     color: ["Yellow", "Orange"],
   },
   {
+    name: "Clear Sky",
+    url: "https://utfs.io/f/C3k2e5UQDa97zWYU4h40actImBjTwGV2Pxn86bhJ3koWCOfZ",
+    AIgenerated: true,
+    environment: ["Abstract", "Exterior"],
+    color: ["Blue"],
+  },
+
+  {
     name: "Train in the Fields",
     url: "https://utfs.io/f/C3k2e5UQDa97Ru9oGRCJOrwSdFfUARDM9K6WN4uP3YHB1tzj",
     AIgenerated: true,
@@ -55,12 +63,28 @@ export const backgrounds: Background[] = [
     color: ["Orange"],
   },
   {
+    name: "Messy Desk",
+    url: "https://utfs.io/f/C3k2e5UQDa9715lJJA3des8fHYobiMNpx0Z25hGRuCJ9ngSL",
+    AIgenerated: true,
+    environment: ["Home", "Interior"],
+    color: ["Yellow", "Orange"],
+  },
+
+  {
     name: "Snowy Town",
     url: "https://utfs.io/f/C3k2e5UQDa97S6U0ilOePR7Q1kdFuxXnho4r9BwGHfzIvE62",
     AIgenerated: true,
     environment: ["Urban", "Exterior"],
     color: ["Yellow", "Blue"],
   },
+  {
+    name: "Relaxed Bedroom",
+    url: "https://utfs.io/f/C3k2e5UQDa97pSD5LBH6I70sTp2gAdSxjHJ4WG58XBnPbzqR",
+    AIgenerated: true,
+    environment: ["Interior", "Home"],
+    color: ["Pink", "Purple", "Orange"],
+  },
+
   {
     name: "Tropical Beach",
     url: "https://utfs.io/f/C3k2e5UQDa97VCSXUCFFhCzlGAs7XH09cb8NjMWwamyqpgoS",
@@ -76,6 +100,14 @@ export const backgrounds: Background[] = [
     color: ["Green", "Yellow"],
   },
   {
+    name: "Pastel Gradient",
+    url: "https://utfs.io/f/C3k2e5UQDa97ZQ10vFh2brOVI7fjczZ52q1kMDHQ6GPJXdAL",
+    AIgenerated: false,
+    environment: ["Abstract"],
+    color: ["Blue", "Pink"],
+  },
+
+  {
     name: "Spring Mountains",
     url: "https://utfs.io/f/C3k2e5UQDa978XYNPAeNEXAsdvYOtoDCgkcxwzbWpPGliarf",
     AIgenerated: true,
@@ -90,12 +122,35 @@ export const backgrounds: Background[] = [
     color: ["Blue"],
   },
   {
+    name: "Stars in the Sky",
+    url: "https://utfs.io/f/C3k2e5UQDa97osG6CuzYs2RU3CV7Lg5mwGXeZpBJD4FAEf9T",
+    AIgenerated: false,
+    environment: ["Exterior"],
+    color: ["Blue"],
+  },
+
+  {
     name: "Underwater Coral",
     url: "https://utfs.io/f/C3k2e5UQDa976FoLYWQiuIYh8o5ALpQi7DfyXPmj1Jk2KbHS",
     AIgenerated: true,
     environment: ["Underwater"],
     color: ["Blue", "Green", "Pink"],
   },
+  {
+    name: "Horizon at Night",
+    url: "https://utfs.io/f/C3k2e5UQDa97M10VSrR3JFIrwt6CGugmhq9aQXeHRvS8npBk",
+    AIgenerated: false,
+    environment: ["Nature", "Exterior"],
+    color: ["Blue", "Green"],
+  },
+  {
+    name: "Flowery Field",
+    url: "https://utfs.io/f/C3k2e5UQDa97JKw0fSngZRHGDMQWB48n9XhjAUie7EISr1xC",
+    AIgenerated: false,
+    environment: ["Nature", "Exterior"],
+    color: ["Pink", "Green"],
+  },
+
   {
     name: "Lofi Desk",
     url: "https://utfs.io/f/C3k2e5UQDa97oa54Z0zYs2RU3CV7Lg5mwGXeZpBJD4FAEf9T",
@@ -132,6 +187,14 @@ export const backgrounds: Background[] = [
     color: ["Purple", "Blue"],
   },
   {
+    name: "Northern Lights",
+    url: "https://utfs.io/f/C3k2e5UQDa97muCaQbLmYbI8vkCjxR4erVZSDa03MG52T1yH",
+    AIgenerated: false,
+    environment: ["Nature", "Exterior"],
+    color: ["Blue", "Green"],
+  },
+
+  {
     name: "Countryside Hills",
     url: "https://utfs.io/f/C3k2e5UQDa97Me5yDBR3JFIrwt6CGugmhq9aQXeHRvS8npBk",
     AIgenerated: true,
@@ -144,5 +207,13 @@ export const backgrounds: Background[] = [
     AIgenerated: true,
     environment: ["Fantasy", "Exterior"],
     color: ["Blue", "Orange"],
+  },
+
+  {
+    name: "Mountains in Snow",
+    url: "https://utfs.io/f/C3k2e5UQDa971WqkmA3des8fHYobiMNpx0Z25hGRuCJ9ngSL",
+    AIgenerated: false,
+    environment: ["Nature", "Exterior"],
+    color: ["Blue"],
   },
 ];

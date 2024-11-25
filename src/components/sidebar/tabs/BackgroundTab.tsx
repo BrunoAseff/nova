@@ -14,6 +14,7 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useInteractionLock } from "@/contexts/InteractionLockContext";
 
 export default function BackgroundTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
@@ -64,6 +65,8 @@ export default function BackgroundTab() {
     Blue: "bg-blue-500",
   };
 
+  const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
+
   return (
     <main className="h-screen">
       <div className="absolute top-3 flex w-fit items-center text-secondary">
@@ -92,16 +95,23 @@ export default function BackgroundTab() {
           <div className="flex flex-col gap-1">
             <p className="text-sm text-foreground">Environment</p>
             <Select
+              onOpenChange={(isOpen) => {
+                setSelectOpen(isOpen);
+                if (!isOpen) {
+                  // When select closes, update the timestamp
+                  lastSelectCloseTime.current = Date.now();
+                }
+              }}
               data-sidebar-exclude
               value={selectedEnvironment}
               onValueChange={(value) =>
                 setSelectedEnvironment(value as Environment | "all")
               }
             >
-              <SelectTrigger data-sidebar-exclude className="w-[180px]">
+              <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Environment" />
               </SelectTrigger>
-              <SelectContent data-sidebar-exclude>
+              <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Environment</SelectLabel>
                   {environments.map((env) => (
@@ -117,16 +127,29 @@ export default function BackgroundTab() {
             <p className="text-sm text-foreground">Color</p>
 
             <Select
-              data-sidebar-exclude
+              onOpenChange={(isOpen) => {
+                setSelectOpen(isOpen);
+                if (!isOpen) {
+                  // When select closes, update the timestamp
+                  lastSelectCloseTime.current = Date.now();
+                }
+              }}
               value={selectedColor}
               onValueChange={(value) =>
                 setSelectedColor(value as Color | "all")
               }
             >
-              <SelectTrigger data-sidebar-exclude className="w-[180px]">
+              <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Color" />
               </SelectTrigger>
-              <SelectContent data-sidebar-exclude>
+              <SelectContent
+                onPointerDownOutside={(event) => {
+                  const target = event.target as HTMLElement;
+                  if (target.closest("[data-exclude-sidebar]")) {
+                    event.preventDefault();
+                  }
+                }}
+              >
                 <SelectGroup>
                   <SelectLabel>Color</SelectLabel>
                   {colors.map((color) => (
