@@ -25,7 +25,7 @@ export default function HomePage() {
         <div className="absolute -inset-2 rounded-lg bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-primary via-secondary to-secondary opacity-50 blur-2xl"></div>
         <Image
           className="relative rounded-lg"
-          src="/backgrounds/home.webp"
+          src="https://utfs.io/f/C3k2e5UQDa97y2SOkr9cqGPsb7SQOBHKydVteUNn3roRwFiI"
           alt="Nova"
           placeholder="blur"
           blurDataURL="/blur/blurTestImage.png"
