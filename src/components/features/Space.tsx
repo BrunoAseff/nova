@@ -16,6 +16,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
 import { useCallback, useEffect, useState } from "react";
 import Shortcut from "../shortcuts/shortcut";
+import { useInteractionLock } from "@/contexts/InteractionLockContext";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -31,6 +32,7 @@ export default function Space() {
   const { spaces, selectTab } = useSpacesContext();
   const { setOpen } = useSidebar();
   const [shortcut, setShortcut] = useState("⌘B");
+  const { isSelectOpen, lastSelectCloseTime } = useInteractionLock();
 
   // Memoize the close sidebar logic
   const closeSidebar = useCallback(() => {
@@ -51,23 +53,34 @@ export default function Space() {
 
     setShortcut(detectPlatform());
 
-    // Add event listeners for closing sidebar
     const handleOutsideClick = (event: MouseEvent) => {
+      // Check if this click is happening right after a select close
+      const timeSinceLastSelectClose = Date.now() - lastSelectCloseTime.current;
+      if (timeSinceLastSelectClose < 100) {
+        // 100ms threshold
+        return;
+      }
+
+      if (isSelectOpen) {
+        return;
+      }
+
       const sidebar = document.querySelector("[data-sidebar]");
       const excludedElements = document.querySelectorAll(
         "[data-sidebar-exclude]",
       );
 
-      // Check if the click is outside sidebar and not on any excluded elements
       const isOutsideSidebar =
         sidebar && !sidebar.contains(event.target as Node);
       const isNotExcluded = Array.from(excludedElements).every(
         (el) => !el.contains(event.target as Node),
       );
 
-      if (isOutsideSidebar && isNotExcluded) {
-        closeSidebar();
+      if (!isOutsideSidebar || !isNotExcluded) {
+        return;
       }
+
+      closeSidebar();
     };
 
     const handleEscapeKey = (event: KeyboardEvent) => {
@@ -85,7 +98,7 @@ export default function Space() {
       document.removeEventListener("mousedown", handleOutsideClick);
       document.removeEventListener("keydown", handleEscapeKey);
     };
-  }, [closeSidebar]);
+  }, [closeSidebar, isSelectOpen, lastSelectCloseTime]);
 
   return (
     <TooltipProvider>
