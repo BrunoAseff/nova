@@ -94,12 +94,10 @@ export default function AmbientSoundShortcut() {
       </div>
       {/* Volume Control with Play/Pause */}
 
-      <div className="flex min-h-10 min-w-[110%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-background">
+      <div className="my-1 flex min-h-10 min-w-[110%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-background">
         <div className="flex flex-col gap-1">
           <div className="flex items-center justify-between space-x-2">
             <div className="flex flex-col gap-1">
-              <p className="text-sm text-foreground">Type</p>
-
               <Select
                 onOpenChange={(isOpen) => {
                   setSelectOpen(isOpen);
