@@ -89,7 +89,7 @@ export default function ClockTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl px-6 py-4">
+        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex w-full flex-col gap-4">
             <Label htmlFor="clock-position" className="text-md text-foreground">
               Position
@@ -128,41 +128,45 @@ export default function ClockTab() {
             </RadioGroup>
           </div>
         </div>
-        <div className="flex w-[90%] flex-col gap-4 px-6 py-4">
-          <Label htmlFor="time-format" className="text-md text-foreground">
-            Time Format
-          </Label>
-          <RadioGroup
-            className="flex w-full cursor-pointer items-center justify-center gap-4"
-            orientation="horizontal"
-            value={timeFormat}
-            onValueChange={handleTimeFormatChange}
-          >
-            {["24h", "12h"].map((format) => (
-              <div
-                key={format}
-                className={clsx(
-                  "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
-                  {
-                    "border-secondary bg-secondary-smooth-700/10":
-                      timeFormat === format,
-                    "hover:bg-accent-foreground": timeFormat !== format,
-                  },
-                )}
-                onClick={() => handleTimeFormatChange(format as "12h" | "24h")}
-              >
-                <Label
-                  htmlFor={`format-${format}`}
-                  className={clsx({
-                    "text-secondary": timeFormat === format,
-                  })}
+        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+          <div className="flex w-[90%] flex-col gap-4">
+            <Label htmlFor="time-format" className="text-md text-foreground">
+              Time Format
+            </Label>
+            <RadioGroup
+              className="flex w-full cursor-pointer items-center justify-center gap-4"
+              orientation="horizontal"
+              value={timeFormat}
+              onValueChange={handleTimeFormatChange}
+            >
+              {["24h", "12h"].map((format) => (
+                <div
+                  key={format}
+                  className={clsx(
+                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
+                    {
+                      "border-secondary bg-secondary-smooth-700/10":
+                        timeFormat === format,
+                      "hover:bg-accent-foreground": timeFormat !== format,
+                    },
+                  )}
+                  onClick={() =>
+                    handleTimeFormatChange(format as "12h" | "24h")
+                  }
                 >
-                  {format}
-                </Label>
-                <RadioGroupItem value={format} id={`format-${format}`} />
-              </div>
-            ))}
-          </RadioGroup>
+                  <Label
+                    htmlFor={`format-${format}`}
+                    className={clsx({
+                      "text-secondary": timeFormat === format,
+                    })}
+                  >
+                    {format}
+                  </Label>
+                  <RadioGroupItem value={format} id={`format-${format}`} />
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
         </div>
       </div>
     </main>

@@ -11,8 +11,7 @@ export default function BreathingExerciseTab() {
               settings
             </h1>
             <p className="text-sm text-muted-foreground">
-              Configure and select guided breathing techniques to help you
-              relax, reduce stress, and improve mental clarity.
+              Configure and select guided breathing techniques.
             </p>
           </div>
 

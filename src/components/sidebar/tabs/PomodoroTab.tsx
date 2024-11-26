@@ -164,7 +164,7 @@ export default function PomodoroTab() {
   };
 
   return (
-    <main className="h-screen">
+    <main className="mb-10 h-screen">
       <div className="absolute top-3 flex w-fit items-center text-secondary">
         <div className="grid h-full grid-cols-2 items-center justify-start">
           <div className="flex flex-col gap-2">
@@ -180,12 +180,12 @@ export default function PomodoroTab() {
           <Image
             src="/illustrations/pomodoro.svg"
             alt="Pomodoro"
-            width={290}
+            width={270}
             height={220}
           />
         </div>
       </div>
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-32 max-h-[70vh] w-full max-w-[95%] space-y-4 overflow-y-auto pr-2">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-32 max-h-[70vh] w-full max-w-[95%] space-y-4 overflow-y-auto pb-10 pr-2">
         <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label
