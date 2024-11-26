@@ -67,7 +67,7 @@ const initialState: SpaceContextValue = {
       },
       timer: { isHidden: true },
       quote: { position: "bottom-left", isHidden: true },
-      background: backgrounds.find((bg) => bg.name === "Urban Home")?.url ?? "",
+      background: backgrounds.find((bg) => bg.name === "Messy Desk")?.url ?? "",
     },
     {
       name: "Relax",

@@ -12,6 +12,7 @@ import {
   SelectLabel,
 } from "@/components/ui/select";
 import type { ShortcutName } from "@/types";
+import { useInteractionLock } from "@/contexts/InteractionLockContext";
 
 // Map display names to shortcut values
 const shortcutMapping: Record<string, ShortcutName> = {
@@ -39,6 +40,7 @@ const reverseShortcutMapping: Record<ShortcutName, string> = Object.entries(
 export default function SpacesTab() {
   const { shortcut, updateShortcut, spaces } = useSpacesContext();
   const shortcutOptions = Object.keys(shortcutMapping);
+  const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
 
   return (
     <main className="h-screen">
@@ -100,6 +102,12 @@ export default function SpacesTab() {
             </p>
             <div className="space-between mt-6 flex gap-10">
               <Select
+                onOpenChange={(isOpen) => {
+                  setSelectOpen(isOpen);
+                  if (!isOpen) {
+                    lastSelectCloseTime.current = Date.now();
+                  }
+                }}
                 data-exclude-sidebar
                 value={reverseShortcutMapping[shortcut]}
                 onValueChange={(value) => {

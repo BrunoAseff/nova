@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
+import { Badge } from "@/components/ui/badge";
+import { Close } from "@/components/icons/Close";
 
 export default function BackgroundTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
@@ -67,6 +69,17 @@ export default function BackgroundTab() {
 
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
 
+  // Reset filters function
+  const resetFilters = () => {
+    setSelectedEnvironment("all");
+    setSelectedColor("all");
+    setExcludeAI(false);
+  };
+
+  // Check if any filter is active
+  const isAnyFilterActive =
+    selectedEnvironment !== "all" || selectedColor !== "all" || excludeAI;
+
   return (
     <main className="h-screen">
       <div className="absolute top-3 flex w-fit items-center text-secondary">
@@ -90,7 +103,7 @@ export default function BackgroundTab() {
         </div>
       </div>
 
-      <div className="mt-28 flex w-[100%] flex-col gap-10">
+      <div className="mt-28 flex w-[100%] flex-col">
         <div className="flex items-center justify-center gap-4">
           <div className="flex flex-col gap-1">
             <p className="text-sm text-foreground">Environment</p>
@@ -98,7 +111,6 @@ export default function BackgroundTab() {
               onOpenChange={(isOpen) => {
                 setSelectOpen(isOpen);
                 if (!isOpen) {
-                  // When select closes, update the timestamp
                   lastSelectCloseTime.current = Date.now();
                 }
               }}
@@ -125,12 +137,10 @@ export default function BackgroundTab() {
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-sm text-foreground">Color</p>
-
             <Select
               onOpenChange={(isOpen) => {
                 setSelectOpen(isOpen);
                 if (!isOpen) {
-                  // When select closes, update the timestamp
                   lastSelectCloseTime.current = Date.now();
                 }
               }}
@@ -170,7 +180,6 @@ export default function BackgroundTab() {
               </SelectContent>
             </Select>
           </div>
-
           <div className="mt-6 flex items-center gap-2 py-4">
             <Checkbox
               id="exclude-ai"
@@ -185,53 +194,89 @@ export default function BackgroundTab() {
             </label>
           </div>
         </div>
-        <div className="relative">
-          <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-12 bg-gradient-to-t from-background to-transparent" />
-
-          <RadioGroup
-            value={
-              backgrounds.find((bg) => bg.url === currentBackgroundURL)?.name ??
-              ""
-            }
-            onValueChange={handleBackgroundURLChange}
-            className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[55vh] w-full grid-cols-2 justify-between gap-4 overflow-y-auto pr-2"
-          >
-            {filteredBackgrounds.map((background) => {
-              const isChecked = background.url === currentBackgroundURL;
-
-              return (
-                <label
-                  key={background.name}
-                  className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
-                    isChecked
-                      ? "border-secondary bg-secondary-smooth-700/10"
-                      : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
-                  } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
-                >
-                  <RadioGroupItem
-                    value={background.name}
-                    className="sr-only items-center justify-center"
-                  />
-                  <div className="aspect-video w-full overflow-hidden rounded-xl">
-                    <Image
-                      src={background.url}
-                      alt={background.name}
-                      width={200}
-                      height={200}
-                      className="rounded-xl"
-                      quality={50}
-                    />
-                  </div>
-                  <p
-                    className={`text-sm font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
-                  >
-                    {background.name}
-                  </p>
-                </label>
-              );
-            })}
-          </RadioGroup>
+        <div className="mt-2 min-h-10">
+          {" "}
+          {isAnyFilterActive && (
+            <Badge
+              variant="outline"
+              className="text-xm w-fit cursor-pointer items-center gap-2 border-[1px] hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+              onClick={resetFilters}
+            >
+              Remove filters
+              <Close className="h-3 w-3" />
+            </Badge>
+          )}
         </div>
+        {filteredBackgrounds.length > 0 ? (
+          <div className="relative">
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-12 bg-gradient-to-t from-background to-transparent" />
+
+            <RadioGroup
+              value={
+                backgrounds.find((bg) => bg.url === currentBackgroundURL)
+                  ?.name ?? ""
+              }
+              onValueChange={handleBackgroundURLChange}
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-full grid-cols-2 justify-between gap-4 overflow-y-auto pr-2"
+            >
+              {filteredBackgrounds.map((background) => {
+                const isChecked = background.url === currentBackgroundURL;
+
+                return (
+                  <label
+                    key={background.name}
+                    className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
+                      isChecked
+                        ? "border-secondary bg-secondary-smooth-700/10"
+                        : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
+                    } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
+                  >
+                    <RadioGroupItem
+                      value={background.name}
+                      className="sr-only items-center justify-center"
+                    />
+                    <div className="aspect-video w-full overflow-hidden rounded-xl">
+                      <Image
+                        src={background.url}
+                        alt={background.name}
+                        width={200}
+                        height={200}
+                        className="rounded-xl"
+                        quality={50}
+                      />
+                    </div>
+                    <p
+                      className={`text-sm font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
+                    >
+                      {background.name}
+                    </p>
+                  </label>
+                );
+              })}
+            </RadioGroup>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center gap-4 text-center">
+            <Image
+              src="/illustrations/no-results.svg"
+              alt="No results found"
+              width={300}
+              height={300}
+            />
+            <h2 className="text-xl font-semibold text-muted-foreground">
+              No backgrounds found
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Try adjusting your filters to find more backgrounds
+            </p>
+            <button
+              onClick={resetFilters}
+              className="text-sm text-secondary hover:underline"
+            >
+              Reset filters
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );
