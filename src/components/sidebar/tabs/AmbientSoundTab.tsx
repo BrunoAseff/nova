@@ -92,13 +92,13 @@ export default function AmbientSoundTab() {
       </div>
 
       <div className="mt-28 flex h-full flex-col">
-        <div className="flex min-h-10 min-w-[110%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-background pl-4">
-          <div className="mt-2 flex w-full items-center justify-evenly gap-1">
+        <div className="mt-4 flex min-h-10 min-w-[110%] items-center gap-2 space-x-2 rounded-2xl border-[1px] border-background pl-4">
+          <div className="justify-left mt-2 flex w-full flex-col gap-1">
             <Label htmlFor="controls" className="text-md text-foreground">
-              Controls:
+              Controls
             </Label>
 
-            <div className="flex items-center space-x-4 rounded-full border-[1px] border-muted p-3">
+            <div className="flex w-fit items-center space-x-4 rounded-full border-[1px] border-muted p-3">
               <IconBtn onClick={handlePlayPause}>
                 {isAmbientSoundPlaying ? <Pause /> : <Play />}
               </IconBtn>
@@ -162,14 +162,14 @@ export default function AmbientSoundTab() {
             <RadioGroup
               value={currentSound?.name ?? ""}
               onValueChange={handleSoundChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[43vh] w-[110%] grid-cols-4 justify-between gap-4 overflow-y-auto pb-10 pr-2"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto mt-2 grid max-h-[43vh] w-[110%] grid-cols-4 justify-between gap-4 overflow-y-auto pb-10 pr-2"
             >
               {filteredSounds.map((sound) => {
                 const isChecked = sound.url === ambientSound;
                 return (
                   <label
                     key={sound.name}
-                    className={`relative flex max-w-36 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+                    className={`relative flex w-32 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
                         : "border-input"
