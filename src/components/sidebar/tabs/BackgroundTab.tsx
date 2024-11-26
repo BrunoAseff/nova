@@ -1,7 +1,7 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useSpacesContext } from "@/contexts/spaceContext";
-import { backgrounds } from "backgrounds";
-import type { Color, Environment } from "backgrounds";
+import { backgrounds } from "content/backgrounds";
+import type { Color, Environment } from "content/backgrounds";
 import Image from "next/image";
 import { useState } from "react";
 import {

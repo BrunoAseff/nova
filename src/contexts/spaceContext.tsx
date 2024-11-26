@@ -11,7 +11,8 @@ import type { ShortcutName, Space } from "../types";
 import { Home } from "@/components/icons/Home";
 import { Focus } from "@/components/icons/Focus";
 import { Relax } from "@/components/icons/Relax";
-import { backgrounds } from "backgrounds";
+import { backgrounds } from "content/backgrounds";
+import { ambientSounds } from "content/ambientSounds";
 
 const DEFAULT_ALARM_SOUND = "/alarm-sounds/calming-alarm.wav";
 
@@ -31,6 +32,13 @@ export interface SpaceContextValue {
   shortcut: ShortcutName;
   ambientSound: string;
   updateShortcut: (newShortcut: ShortcutName) => void;
+  ambientSoundVolume: number;
+  isAmbientSoundPlaying: boolean;
+  playAmbientSound: (soundUrl?: string) => void;
+  pauseAmbientSound: () => void;
+  updateAmbientSound: (soundUrl: string) => void;
+  updateAmbientSoundVolume: (volume: number) => void;
+  toggleAmbientSound: () => void;
 }
 
 const initialState: SpaceContextValue = {
@@ -89,7 +97,8 @@ const initialState: SpaceContextValue = {
     },
   ],
   shortcut: "ambientSound",
-  ambientSound: "",
+  ambientSound:
+    ambientSounds.find((sound) => sound.name === "Ocean Waves")?.url ?? "",
   selectedTab: "",
   selectTab: () => {},
   updateSpaceProperty: () => {},
@@ -98,6 +107,13 @@ const initialState: SpaceContextValue = {
   stopPomodoroAlarm: () => {},
   isAlarmPlaying: false,
   updateShortcut: () => {},
+  ambientSoundVolume: 50,
+  isAmbientSoundPlaying: false,
+  playAmbientSound: () => {},
+  pauseAmbientSound: () => {},
+  updateAmbientSound: () => {},
+  updateAmbientSoundVolume: () => {},
+  toggleAmbientSound: () => {},
 };
 
 const SpacesContext = createContext<SpaceContextValue>(initialState);
@@ -109,6 +125,71 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playCountRef = useRef(0);
   const [shortcut, setShortcut] = useState<ShortcutName>(initialState.shortcut);
+  const [ambientSound, setAmbientSound] = useState<string>(
+    initialState.ambientSound,
+  );
+  const [ambientSoundVolume, setAmbientSoundVolume] = useState(50);
+  const [isAmbientSoundPlaying, setIsAmbientSoundPlaying] = useState(false);
+  const ambientAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  const playAmbientSound = useCallback(
+    (soundUrl?: string) => {
+      const urlToPlay = soundUrl ?? ambientSound;
+
+      if (!ambientAudioRef.current) {
+        ambientAudioRef.current = new Audio(urlToPlay);
+        ambientAudioRef.current.loop = true;
+      } else {
+        ambientAudioRef.current.src = urlToPlay;
+      }
+
+      ambientAudioRef.current.volume = ambientSoundVolume / 100;
+      ambientAudioRef.current.play();
+      setIsAmbientSoundPlaying(true);
+      setAmbientSound(urlToPlay);
+    },
+    [ambientSound, ambientSoundVolume],
+  );
+
+  const pauseAmbientSound = useCallback(() => {
+    if (ambientAudioRef.current) {
+      ambientAudioRef.current.pause();
+      setIsAmbientSoundPlaying(false);
+    }
+  }, []);
+
+  const updateAmbientSound = useCallback(
+    (soundUrl: string) => {
+      setAmbientSound(soundUrl);
+
+      // If currently playing, update the audio source and continue playing
+      if (isAmbientSoundPlaying) {
+        if (ambientAudioRef.current) {
+          ambientAudioRef.current.src = soundUrl;
+          ambientAudioRef.current.play();
+        } else {
+          playAmbientSound(soundUrl);
+        }
+      }
+    },
+    [isAmbientSoundPlaying, playAmbientSound],
+  );
+
+  const updateAmbientSoundVolume = useCallback((volume: number) => {
+    setAmbientSoundVolume(volume);
+
+    if (ambientAudioRef.current) {
+      ambientAudioRef.current.volume = volume / 100;
+    }
+  }, []);
+
+  const toggleAmbientSound = useCallback(() => {
+    if (isAmbientSoundPlaying) {
+      pauseAmbientSound();
+    } else {
+      playAmbientSound();
+    }
+  }, [isAmbientSoundPlaying, playAmbientSound, pauseAmbientSound]);
 
   const updateShortcut = useCallback((newShortcut: ShortcutName) => {
     setShortcut(newShortcut);
@@ -194,9 +275,16 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     playPomodoroAlarm,
     stopPomodoroAlarm,
     isAlarmPlaying,
-    ambientSound: initialState.ambientSound,
     updateShortcut,
     shortcut,
+    ambientSound,
+    ambientSoundVolume,
+    isAmbientSoundPlaying,
+    playAmbientSound,
+    pauseAmbientSound,
+    updateAmbientSound,
+    updateAmbientSoundVolume,
+    toggleAmbientSound,
   };
 
   return (
