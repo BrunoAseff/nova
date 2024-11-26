@@ -10,8 +10,7 @@ export default function AppearanceTab() {
               <span className="text-secondary">Appearance</span> settings
             </h1>
             <p className="text-sm text-muted-foreground">
-              Personalize the visual theme and design elements of your
-              application to match your aesthetic preferences.
+              Personalize the visual theme to match your aesthetic preferences.
             </p>
           </div>
 

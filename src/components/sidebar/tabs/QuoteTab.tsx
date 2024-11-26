@@ -102,7 +102,7 @@ export default function QuoteTab() {
           <Image
             src="/illustrations/quote.svg"
             alt="Quote"
-            width={290}
+            width={270}
             height={220}
           />
         </div>
@@ -184,7 +184,7 @@ export default function QuoteTab() {
         </div>
 
         {/* Categories Selector */}
-        <div className="ml-3 flex w-[95%] flex-col gap-4">
+        <div className="ml-3 flex w-[95%] flex-col gap-4 pb-10">
           <Label className="text-md text-foreground">Categories</Label>
           <div className="flex flex-wrap gap-4">
             <div

@@ -10,15 +10,14 @@ export default function AmbientSoundTab() {
               <span className="text-secondary">Ambient Sound</span> settings
             </h1>
             <p className="text-sm text-muted-foreground">
-              Customize and select from a variety of soothing background sounds
-              to enhance your focus and relaxation environment.
+              Customize and select from a variety of soothing background sounds.
             </p>
           </div>
 
           <Image
             src="/illustrations/ambient-sound.svg"
             alt="Ambient Sound"
-            width={290}
+            width={270}
             height={220}
           />
         </div>

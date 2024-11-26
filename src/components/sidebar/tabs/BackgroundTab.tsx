@@ -89,15 +89,15 @@ export default function BackgroundTab() {
               <span className="text-secondary">Background</span> settings
             </h1>
             <p className="text-sm text-muted-foreground">
-              Choose and customize background images to create your ideal
-              workspace atmosphere.
+              Choose background images to create your ideal workspace
+              atmosphere.
             </p>
           </div>
 
           <Image
             src="/illustrations/background.svg"
             alt="Background"
-            width={290}
+            width={270}
             height={220}
           />
         </div>
@@ -217,7 +217,7 @@ export default function BackgroundTab() {
                   ?.name ?? ""
               }
               onValueChange={handleBackgroundURLChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-full grid-cols-2 justify-between gap-4 overflow-y-auto pr-2"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-full grid-cols-2 justify-between gap-4 overflow-y-auto pb-10 pr-2"
             >
               {filteredBackgrounds.map((background) => {
                 const isChecked = background.url === currentBackgroundURL;
