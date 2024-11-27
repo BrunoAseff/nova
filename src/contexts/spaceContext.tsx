@@ -34,6 +34,11 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("spaces", JSON.stringify(spacesToStore));
   }
 
+  function resetSpaces() {
+    localStorage.removeItem("spaces");
+    setSpaces(initialState.spaces);
+  }
+
   const retrieveLocalStorage = useCallback(() => {
     const localData = localStorage.getItem("spaces");
     if (localData) {
@@ -214,6 +219,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     toggleAmbientSound,
     updateLocalStorage,
     retrieveLocalStorage,
+    resetSpaces,
   };
 
   return (
