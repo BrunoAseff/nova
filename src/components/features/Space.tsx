@@ -29,12 +29,15 @@ declare global {
 }
 
 export default function Space() {
-  const { spaces, selectTab } = useSpacesContext();
+  const { spaces, selectTab, retrieveLocalStorage } = useSpacesContext();
   const { setOpen } = useSidebar();
   const [shortcut, setShortcut] = useState("⌘B");
   const { isSelectOpen, lastSelectCloseTime } = useInteractionLock();
 
-  // Memoize the close sidebar logic
+  useEffect(() => {
+    retrieveLocalStorage();
+  }, [retrieveLocalStorage]);
+
   const closeSidebar = useCallback(() => {
     setOpen(false);
   }, [setOpen]);
