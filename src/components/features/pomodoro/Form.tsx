@@ -5,11 +5,7 @@ import { PomodoroInput } from "@/components/nova/PomodoroInput";
 
 export function NewCycleForm() {
   const { activeCycle } = useContext(CyclesContext);
-  const {
-    register,
-    setValue,
-    formState: { errors },
-  } = useFormContext();
+  const { register, setValue } = useFormContext();
   // Input display state
   const [minutesAmountDisplay, setMinutesAmountDisplay] = useState("25");
 
@@ -67,12 +63,6 @@ export function NewCycleForm() {
           className="w-16"
         />
         <span>minutes.</span>
-        {errors.minutesAmount && (
-          <p className="absolute left-0 top-full mt-1 text-destructive">
-            {typeof errors.minutesAmount?.message === "string" &&
-              errors.minutesAmount.message}
-          </p>
-        )}
       </div>
     </div>
   );

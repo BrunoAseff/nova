@@ -34,6 +34,7 @@ export interface SpaceContextValue {
   toggleAmbientSound: () => void;
   updateLocalStorage: (spaces: Space[]) => void;
   retrieveLocalStorage: () => void;
+  resetSpaces: () => void;
 }
 
 export const initialState: SpaceContextValue = {
@@ -111,4 +112,5 @@ export const initialState: SpaceContextValue = {
   toggleAmbientSound: () => {},
   updateLocalStorage: () => {},
   retrieveLocalStorage: () => {},
+  resetSpaces: () => {},
 };

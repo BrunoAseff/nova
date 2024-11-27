@@ -16,9 +16,9 @@ export default function DangerBtn({
   return (
     <Button
       asChild={hasLink}
-      className={`text-md w-fit gap-2 rounded-3xl font-sans text-lg font-[400] transition-colors`}
+      className={`w-fit gap-2 rounded-xl border-[1px] p-3 text-sm font-[500] text-background transition-colors hover:bg-foreground`}
       variant="destructive"
-      size="lg"
+      size="sm"
       {...props}
     >
       {hasLink && href ? <Link href={href}>{children}</Link> : children}

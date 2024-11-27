@@ -13,6 +13,18 @@ import {
 } from "@/components/ui/select";
 import type { ShortcutName } from "@/types";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
+import DangerBtn from "@/components/nova/buttons/DangerBtn";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 // Map display names to shortcut values
 const shortcutMapping: Record<string, ShortcutName> = {
@@ -38,7 +50,7 @@ const reverseShortcutMapping: Record<ShortcutName, string> = Object.entries(
 );
 
 export default function SpacesTab() {
-  const { shortcut, updateShortcut, spaces } = useSpacesContext();
+  const { shortcut, updateShortcut, spaces, resetSpaces } = useSpacesContext();
   const shortcutOptions = Object.keys(shortcutMapping);
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
 
@@ -58,13 +70,13 @@ export default function SpacesTab() {
           <Image
             src="/illustrations/spaces.svg"
             alt="Spaces"
-            width={290}
+            width={270}
             height={220}
           />
         </div>
       </div>
 
-      <div className="mt-28 flex h-full max-w-[95%] flex-col gap-10">
+      <div className="mt-24 flex h-full max-w-[95%] flex-col gap-6">
         <div className="mt-6 flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div>
             <Label className="text-md text-foreground">Your Spaces</Label>
@@ -76,13 +88,13 @@ export default function SpacesTab() {
               {spaces.map((space) => (
                 <div
                   key={space.name}
-                  className="flex h-24 w-24 flex-col items-center justify-center gap-2 rounded-2xl border-[1px] border-secondary p-12 text-secondary"
+                  className="flex h-24 w-24 flex-col items-center justify-center gap-2 rounded-2xl border-[1px] border-secondary bg-secondary-smooth-700/10 p-12 text-secondary"
                 >
                   <p>{space.icon}</p>
                   <p>{space.name}</p>
                 </div>
               ))}
-              <div className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-[1px] border-dashed border-muted-foreground p-12 text-muted-foreground hover:border-secondary hover:text-secondary">
+              <div className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-[1px] border-dashed border-muted-foreground p-12 text-muted-foreground transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
                 <p>
                   <PlusIcon />
                 </p>
@@ -132,6 +144,57 @@ export default function SpacesTab() {
                 </SelectContent>
               </Select>
             </div>
+          </div>
+        </div>
+        <div>
+          <Label
+            htmlFor="clock-reset"
+            className="mb-1 text-sm text-destructive"
+          >
+            Danger Zone
+          </Label>
+          <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-destructive bg-background p-4">
+            <div className="flex w-full flex-col gap-1">
+              <Label htmlFor="clock-reset" className="text-md text-foreground">
+                Reset spaces
+              </Label>
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
+                Reset all spaces to their default settings.
+              </p>
+            </div>
+            <AlertDialog
+              onOpenChange={(isOpen) => {
+                setSelectOpen(isOpen);
+                if (!isOpen) {
+                  lastSelectCloseTime.current = Date.now();
+                }
+              }}
+              data-exclude-sidebar
+            >
+              <AlertDialogTrigger asChild>
+                <DangerBtn>Reset Spaces</DangerBtn>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently reset
+                    all spaces and their settings.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={resetSpaces}
+                    className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive"
+                  >
+                    Reset Spaces
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </div>

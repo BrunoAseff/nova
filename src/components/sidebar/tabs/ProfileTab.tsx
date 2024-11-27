@@ -22,8 +22,6 @@ export default function ProfileTab() {
           />
         </div>
       </div>
-
-      <div className="mt-28 flex h-full flex-col gap-10"></div>
     </main>
   );
 }
