@@ -76,11 +76,11 @@ export default function SpacesTab() {
         </div>
       </div>
 
-      <div className="mt-24 flex h-full max-w-[95%] flex-col gap-6">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-28 h-[calc(100vh-200px)] w-full max-w-[95%] space-y-4 overflow-y-auto pb-10 pr-2">
         <div className="mt-6 flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div>
             <Label className="text-md text-foreground">Your Spaces</Label>
-            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
+            <p className="max-w-[90%] overflow-hidden text-sm text-muted-foreground">
               Manage your personalized spaces and create new ones to suit your
               needs.
             </p>
