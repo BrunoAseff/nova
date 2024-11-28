@@ -91,7 +91,7 @@ export default function AmbientSoundTab() {
         </div>
       </div>
 
-      <div className="mt-28 flex h-full flex-col">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-28 flex h-full max-h-[70vh] flex-col overflow-y-auto">
         <div className="mt-4 flex min-h-10 min-w-[110%] items-center gap-2 space-x-2 rounded-2xl border-[1px] border-background pl-4">
           <div className="justify-left mt-2 flex w-full flex-col gap-1">
             <Label htmlFor="controls" className="text-md text-foreground">
