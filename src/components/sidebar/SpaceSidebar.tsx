@@ -53,7 +53,7 @@ export function SpaceSidebar() {
           orientation="vertical"
           className="z-50 ml-5 mt-5 flex h-screen w-full items-start justify-start gap-4"
         >
-          <TabsList className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent flex h-[100%] max-h-[80%] min-w-[25%] flex-col items-start justify-start gap-4 overflow-y-auto text-left text-sm">
+          <TabsList className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent flex h-[100%] max-h-[85%] w-[25%] min-w-[25%] flex-col items-start justify-start gap-4 overflow-y-auto pb-6 text-left text-sm">
             <TabsTrigger className="flex items-center gap-2" value="clock">
               <ClockIcon className="ml-1 scale-125" />
               Clock

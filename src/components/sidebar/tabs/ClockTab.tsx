@@ -68,7 +68,8 @@ export default function ClockTab() {
           />
         </div>
       </div>
-      <div className="mt-[8.1rem] flex w-[108%] flex-col gap-10">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-[8.1rem] h-[calc(100vh-250px)] w-[110%] flex-col gap-6 space-y-4 overflow-y-auto pb-10 pr-2">
+        {" "}
         <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex w-full flex-col gap-1">
             <Label
@@ -88,7 +89,6 @@ export default function ClockTab() {
             onCheckedChange={handleClockVisibilityChange}
           />
         </div>
-
         <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex w-full flex-col gap-4">
             <Label htmlFor="clock-position" className="text-md text-foreground">
