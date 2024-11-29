@@ -121,34 +121,36 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     modifySpaces((space) => ({ ...space, [propertyName]: value }));
   }
 
+  function initializeAudio(url: string, onEndCallback: () => void) {
+    const audio = new Audio(url);
+    audio.addEventListener("ended", onEndCallback);
+    return audio;
+  }
+
   async function playPomodoroAlarm() {
-    try {
-      const currentSpace = spaces.find((space) => space.name === selectedTab);
+    const currentSpace = spaces.find((space) => space.name === selectedTab);
 
-      if (!currentSpace?.pomodoro.alarmSound) {
-        return;
-      }
+    if (!currentSpace?.pomodoro.alarmSoundURL) return;
 
-      if (!audioRef.current) {
-        audioRef.current = new Audio(currentSpace.pomodoro.alarmSoundURL);
-
-        // Reset play count and play again when audio ends
-        audioRef.current.addEventListener("ended", () => {
-          playCountRef.current += 1;
-
+    if (!audioRef.current) {
+      audioRef.current = initializeAudio(
+        currentSpace.pomodoro.alarmSoundURL,
+        () => {
+          playCountRef.current++;
           if (playCountRef.current < currentSpace.pomodoro.alarmRepeatTimes) {
             audioRef.current?.play();
           } else {
             stopPomodoroAlarm({ currentSpace });
           }
-        });
-      }
+        },
+      );
+    }
 
-      // Reset play count when starting new alarm
-      playCountRef.current = 0;
-      setIsAlarmPlaying(true);
+    playCountRef.current = 0;
+    setIsAlarmPlaying(true);
+    audioRef.current.currentTime = 0;
 
-      audioRef.current.currentTime = 0;
+    try {
       await audioRef.current.play();
     } catch (error) {
       console.error("Failed to play pomodoro alarm:", error);
