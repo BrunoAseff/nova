@@ -99,7 +99,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     setSelectedTab(tab);
   }
 
-  function updateSpaces(callback: (space: Space) => Space) {
+  function modifySpaces(callback: (space: Space) => Space) {
     setSpaces((prevSpaces) => {
       const updatedSpaces = prevSpaces.map(callback);
       updateLocalStorage(updatedSpaces);
@@ -112,13 +112,13 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     propertyName: keyof Space,
     value: any,
   ) {
-    updateSpaces((space) =>
+    modifySpaces((space) =>
       space.name === spaceName ? { ...space, [propertyName]: value } : space,
     );
   }
 
   function updateSpaceSharedProperty(propertyName: "isHidden", value: boolean) {
-    updateSpaces((space) => ({ ...space, [propertyName]: value }));
+    modifySpaces((space) => ({ ...space, [propertyName]: value }));
   }
 
   async function playPomodoroAlarm() {
