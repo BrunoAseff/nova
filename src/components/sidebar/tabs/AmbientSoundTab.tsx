@@ -4,11 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { MutedVolumeIcon } from "@/components/icons/MutedVolumeIcon";
 import { VolumeIcon } from "@/components/icons/VolumeIcon";
-import { PlaceholderIcon } from "@/components/icons/PlaceholderIcon";
-import { ambientSounds } from "content/ambientSounds";
-import Image from "next/image";
 import { useSpacesContext } from "@/contexts/spaceContext";
-import type { Type } from "content/ambientSounds";
+import { ambientSounds, type Type } from "content/ambientSounds";
 import { Pause } from "@/components/icons/pause";
 import { Play } from "@/components/icons/Play";
 import {
@@ -22,6 +19,16 @@ import {
 } from "@/components/ui/select";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
 import IconBtn from "@/components/nova/buttons/IconBtn";
+import Beach from "@/components/icons/ambientSound/Beach";
+import Birds from "@/components/icons/ambientSound/Birds";
+import Cafe from "@/components/icons/ambientSound/Cafe";
+import Fire from "@/components/icons/ambientSound/Fire";
+import HeavyRain from "@/components/icons/ambientSound/HeavyRain";
+import Rain from "@/components/icons/ambientSound/Rain";
+import Tropical from "@/components/icons/ambientSound/Tropical";
+import Underwater from "@/components/icons/ambientSound/Underwater";
+import Waves from "@/components/icons/ambientSound/Waves";
+import Image from "next/image";
 
 export default function AmbientSoundTab() {
   const {
@@ -70,6 +77,19 @@ export default function AmbientSoundTab() {
     return selectedType === "All" || sound.type.includes(selectedType as Type);
   });
 
+  // Mapping of sound names to icon components
+  const SoundIconMap: Record<string, React.ComponentType> = {
+    "Ocean Waves": Waves,
+    Rain: Rain,
+    Birds: Birds,
+    Fire: Fire,
+    Underwater: Underwater,
+    "Crowded Cafe": Cafe,
+    Beach: Beach,
+    Tropical: Tropical,
+    "Heavy Rain": HeavyRain,
+  };
+
   return (
     <main className="h-screen w-full">
       <div className="absolute top-3 flex w-fit items-center text-secondary">
@@ -91,7 +111,7 @@ export default function AmbientSoundTab() {
         </div>
       </div>
 
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-28 flex h-full max-h-[70vh] flex-col overflow-y-auto overflow-x-hidden">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-28 flex h-full max-h-[70vh] flex-col overflow-hidden">
         <div className="mt-4 flex min-h-10 min-w-[110%] items-center gap-2 space-x-2 rounded-2xl border-[1px] border-background pl-4">
           <div className="justify-left mt-2 flex w-full flex-col gap-1">
             <Label htmlFor="controls" className="text-md text-foreground">
@@ -119,7 +139,6 @@ export default function AmbientSoundTab() {
             </div>
           </div>
         </div>
-        {/* Volume Control with Play/Pause */}
 
         <div className="flex min-h-10 min-w-[110%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-background pl-4">
           <div className="flex flex-col gap-1">
@@ -157,34 +176,38 @@ export default function AmbientSoundTab() {
               </div>
             </div>
 
-            {/* Sound Selection */}
-
             <RadioGroup
               value={currentSound?.name ?? ""}
               onValueChange={handleSoundChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto mt-2 grid max-h-[43vh] w-[110%] grid-cols-4 justify-between gap-4 overflow-y-auto pb-10 pr-2"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent overflow mt-2 grid max-h-[43vh] w-full grid-cols-4 items-center justify-between gap-4 overflow-y-auto pb-10 pr-2"
             >
               {filteredSounds.map((sound) => {
                 const isChecked = sound.url === ambientSound;
+                const SoundIcon = SoundIconMap[sound.name];
                 return (
                   <label
                     key={sound.name}
-                    className={`relative flex w-32 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+                    className={`relative flex h-24 w-32 cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border text-center shadow-sm ring-offset-background transition-colors ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
-                        : "border-input"
+                        : "border-accent"
                     } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                   >
                     <RadioGroupItem
                       value={sound.name}
                       className="sr-only items-center justify-center"
                     />
-                    <PlaceholderIcon
-                      className={`text-foreground opacity-60 ${isChecked ? "text-secondary" : ""}`}
-                      aria-hidden="true"
-                    />
+                    <div
+                      className={`flex h-8 w-8 items-center justify-center ${
+                        isChecked ? "text-secondary" : "text-foreground"
+                      } ${isChecked ? "opacity-100" : "opacity-60"}`}
+                    >
+                      {SoundIcon ? <SoundIcon /> : null}
+                    </div>
                     <p
-                      className={`text-xs font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
+                      className={`text-xs font-medium leading-none ${
+                        isChecked ? "text-secondary" : "text-foreground"
+                      }`}
                     >
                       {sound.name}
                     </p>

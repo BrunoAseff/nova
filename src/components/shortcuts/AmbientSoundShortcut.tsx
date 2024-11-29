@@ -3,10 +3,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { MutedVolumeIcon } from "@/components/icons/MutedVolumeIcon";
 import { VolumeIcon } from "@/components/icons/VolumeIcon";
-import { PlaceholderIcon } from "@/components/icons/PlaceholderIcon";
-import { ambientSounds } from "content/ambientSounds";
 import { useSpacesContext } from "@/contexts/spaceContext";
-import type { Type } from "content/ambientSounds";
+import { ambientSounds, type Type } from "content/ambientSounds";
 import { Pause } from "@/components/icons/pause";
 import { Play } from "@/components/icons/Play";
 import {
@@ -20,6 +18,15 @@ import {
 } from "@/components/ui/select";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
 import IconBtn from "@/components/nova/buttons/IconBtn";
+import Waves from "../icons/ambientSound/Waves";
+import Rain from "../icons/ambientSound/Rain";
+import Birds from "../icons/ambientSound/Birds";
+import Fire from "../icons/ambientSound/Fire";
+import Underwater from "../icons/ambientSound/Underwater";
+import Cafe from "../icons/ambientSound/Cafe";
+import Beach from "../icons/ambientSound/Beach";
+import Tropical from "../icons/ambientSound/Tropical";
+import HeavyRain from "../icons/ambientSound/HeavyRain";
 
 export default function AmbientSoundShortcut() {
   const {
@@ -67,6 +74,18 @@ export default function AmbientSoundShortcut() {
   const filteredSounds = ambientSounds.filter((sound) => {
     return selectedType === "All" || sound.type.includes(selectedType as Type);
   });
+
+  const SoundIconMap: Record<string, React.ComponentType> = {
+    "Ocean Waves": Waves,
+    Rain: Rain,
+    Birds: Birds,
+    Fire: Fire,
+    Underwater: Underwater,
+    "Crowded Cafe": Cafe,
+    Beach: Beach,
+    Tropical: Tropical,
+    "Heavy Rain": HeavyRain,
+  };
 
   return (
     <main className="h-fit">
@@ -133,29 +152,35 @@ export default function AmbientSoundShortcut() {
           <RadioGroup
             value={currentSound?.name ?? ""}
             onValueChange={handleSoundChange}
-            className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent grid max-h-[43vh] w-full scale-75 grid-cols-3 justify-between gap-6 overflow-y-auto pb-10 pr-2"
+            className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent overflow mt-2 grid max-h-[43vh] w-full grid-cols-3 items-center justify-between gap-4 overflow-y-auto pb-10 pr-2"
           >
             {filteredSounds.map((sound) => {
               const isChecked = sound.url === ambientSound;
+              const SoundIcon = SoundIconMap[sound.name];
               return (
                 <label
                   key={sound.name}
-                  className={`relative flex w-32 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+                  className={`relative flex h-20 w-24 cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border text-center shadow-sm ring-offset-background transition-colors ${
                     isChecked
                       ? "border-secondary bg-secondary-smooth-700/10"
-                      : "border-input"
+                      : "border-accent"
                   } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                 >
                   <RadioGroupItem
                     value={sound.name}
                     className="sr-only items-center justify-center"
                   />
-                  <PlaceholderIcon
-                    className={`text-foreground opacity-60 ${isChecked ? "text-secondary" : ""}`}
-                    aria-hidden="true"
-                  />
+                  <div
+                    className={`flex h-6 w-6 items-center justify-center ${
+                      isChecked ? "text-secondary" : "text-foreground"
+                    } ${isChecked ? "opacity-100" : "opacity-60"}`}
+                  >
+                    {SoundIcon ? <SoundIcon /> : null}
+                  </div>
                   <p
-                    className={`text-xs font-medium leading-none ${isChecked ? "text-secondary" : "text-foreground"}`}
+                    className={`text-xs font-medium leading-none ${
+                      isChecked ? "text-secondary" : "text-foreground"
+                    }`}
                   >
                     {sound.name}
                   </p>
