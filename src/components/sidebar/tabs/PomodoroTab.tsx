@@ -11,7 +11,8 @@ import { JoystickIcon } from "@/components/icons/JoystickIcon"; // for retro gam
 import { MusicNoteIcon } from "@/components/icons/MusicNoteIcon"; // for flute
 import { GameControllerIcon } from "@/components/icons/GameController"; // for game sound
 import { RoosterIcon } from "@/components/icons/RoosterIcon";
-import Image from "next/image";
+import { TabHeader } from "@/components/tabHeader";
+import TabBody from "@/components/tabBody";
 
 const alarmSounds = [
   { name: "Melodic", value: "/alarm-sounds/calming-alarm.wav", icon: WindIcon },
@@ -165,27 +166,13 @@ export default function PomodoroTab() {
 
   return (
     <main className="mb-10 h-screen">
-      <div className="absolute top-3 flex w-fit items-center text-secondary">
-        <div className="grid h-full grid-cols-2 items-center justify-start">
-          <div className="flex flex-col gap-2">
-            <h1 className="font-delius text-3xl text-secondary-foreground/80">
-              <span className="text-secondary">Pomodoro</span> settings
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Configure your Pomodoro timer settings for effective time
-              management.
-            </p>
-          </div>
-
-          <Image
-            src="/illustrations/pomodoro.svg"
-            alt="Pomodoro"
-            width={270}
-            height={220}
-          />
-        </div>
-      </div>
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-32 max-h-[70vh] w-full max-w-[95%] space-y-4 overflow-y-auto pb-10 pr-2">
+      <TabHeader
+        title="Pomodoro"
+        subtitle="Configure your Pomodoro timer settings for effective time
+              management."
+        src="/illustrations/pomodoro.svg"
+      />
+      <TabBody>
         <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label
@@ -387,7 +374,7 @@ export default function PomodoroTab() {
             className="w-20"
           />
         </div>
-      </div>
+      </TabBody>
     </main>
   );
 }

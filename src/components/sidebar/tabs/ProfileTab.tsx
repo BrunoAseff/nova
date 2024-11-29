@@ -1,31 +1,16 @@
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { TabHeader } from "@/components/tabHeader";
 
 export default function ProfileTab() {
   return (
     <main className="h-screen">
-      <div className="absolute top-3 flex w-fit items-center text-secondary">
-        <div className="grid h-full grid-cols-2 items-center justify-start">
-          <div className="flex flex-col gap-2">
-            <h1 className="font-delius text-3xl text-secondary-foreground/80">
-              <span className="text-secondary">Profile</span> settings
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Manage and customize your personal profile details.
-            </p>
-          </div>
-
-          <Image
-            src="/illustrations/profile.svg"
-            alt="Profile"
-            width={290}
-            height={220}
-          />
-        </div>
-      </div>
-
+      <TabHeader
+        title="Profile"
+        subtitle="Manage and customize your personal profile details."
+        src="/illustrations/profile.svg"
+      />
       <div className="mx-auto mt-32 flex h-full w-full flex-col gap-6">
         <div className="via mt-6 flex min-h-10 w-full flex-col items-center justify-between gap-6 space-x-2 rounded-2xl border-[1px] border-accent bg-gradient-to-tl from-primary via-secondary-smooth-500 to-secondary-smooth-700 p-4">
           <Label className="font-montserrat text-lg text-background">

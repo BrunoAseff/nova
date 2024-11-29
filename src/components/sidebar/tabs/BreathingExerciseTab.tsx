@@ -1,29 +1,14 @@
-import Image from "next/image";
+import { TabHeader } from "@/components/tabHeader";
 
 export default function BreathingExerciseTab() {
   return (
     <main className="h-screen">
-      <div className="absolute top-3 flex w-fit items-center text-secondary">
-        <div className="grid h-full grid-cols-2 items-center justify-start">
-          <div className="flex flex-col gap-2">
-            <h1 className="font-delius text-3xl text-secondary-foreground/80">
-              <span className="text-secondary">Breathing Exercise</span>{" "}
-              settings
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Configure and select guided breathing techniques.
-            </p>
-          </div>
-
-          <Image
-            src="/illustrations/breathing-exercise.svg"
-            alt="Breathing Exercise"
-            width={290}
-            height={220}
-          />
-        </div>
-      </div>
-
+      <TabHeader
+        title="Breathing Exercise"
+        subtitle="Configure and select guided breathing techniques.
+"
+        src="/illustrations/breathing-exercise.svg"
+      />
       <div className="mt-28 flex h-full flex-col gap-10"></div>
     </main>
   );

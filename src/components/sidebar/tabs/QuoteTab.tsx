@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import clsx from "clsx";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import type { Position } from "@/types";
-import Image from "next/image";
+import { TabHeader } from "@/components/tabHeader";
 
 type Category = "Fact" | "Success" | "Motivational" | "Gratitude" | "Self Care";
 const CATEGORIES: Category[] = [
@@ -88,26 +88,11 @@ export default function QuoteTab() {
 
   return (
     <main className="h-screen">
-      <div className="absolute top-3 flex w-fit items-center text-secondary">
-        <div className="grid h-full grid-cols-2 items-center justify-start">
-          <div className="flex flex-col gap-2">
-            <h1 className="font-delius text-3xl text-secondary-foreground/80">
-              <span className="text-secondary">Quote</span> settings
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Personalize your daily inspirational quote experience.
-            </p>
-          </div>
-
-          <Image
-            src="/illustrations/quote.svg"
-            alt="Quote"
-            width={270}
-            height={220}
-          />
-        </div>
-      </div>
-
+      <TabHeader
+        title="Quote"
+        subtitle="Personalize your quotes."
+        src="/illustrations/quote.svg"
+      />
       <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-36 max-h-[65vh] max-w-[95%] space-y-10 overflow-y-auto pr-2">
         <div className="flex min-h-16 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
