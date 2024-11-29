@@ -17,6 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
 import { Badge } from "@/components/ui/badge";
 import { Close } from "@/components/icons/Close";
+import { TabHeader } from "@/components/tabHeader";
 
 export default function BackgroundTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
@@ -82,26 +83,11 @@ export default function BackgroundTab() {
 
   return (
     <main className="h-screen">
-      <div className="absolute top-3 flex w-fit items-center text-secondary">
-        <div className="grid h-full grid-cols-2 items-center justify-start">
-          <div className="flex flex-col gap-2">
-            <h1 className="font-delius text-3xl text-secondary-foreground/80">
-              <span className="text-secondary">Background</span> settings
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Choose background images to create your ideal workspace
-              atmosphere.
-            </p>
-          </div>
-
-          <Image
-            src="/illustrations/background.svg"
-            alt="Background"
-            width={270}
-            height={220}
-          />
-        </div>
-      </div>
+      <TabHeader
+        title="Background"
+        subtitle="Choose background images to create your ideal workspace atmosphere."
+        src="/illustrations/background.svg"
+      />
 
       <div className="mt-28 flex w-[100%] flex-col">
         <div className="flex items-center justify-center gap-4">

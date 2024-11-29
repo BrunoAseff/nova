@@ -1,7 +1,6 @@
 import { PlusIcon } from "@/components/icons/PlusIcon";
 import { Label } from "@/components/ui/label";
 import { useSpacesContext } from "@/contexts/spaceContext";
-import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -25,6 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { TabHeader } from "@/components/tabHeader";
 
 // Map display names to shortcut values
 const shortcutMapping: Record<string, ShortcutName> = {
@@ -56,26 +56,11 @@ export default function SpacesTab() {
 
   return (
     <main className="h-screen">
-      <div className="absolute top-3 flex w-fit items-center text-secondary">
-        <div className="grid h-full grid-cols-2 items-center justify-start">
-          <div className="flex flex-col gap-2">
-            <h1 className="font-delius text-3xl text-secondary-foreground/80">
-              <span className="text-secondary">Spaces</span> settings
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Customize and organize your workspace layouts.
-            </p>
-          </div>
-
-          <Image
-            src="/illustrations/spaces.svg"
-            alt="Spaces"
-            width={270}
-            height={220}
-          />
-        </div>
-      </div>
-
+      <TabHeader
+        title="Spaces"
+        subtitle="Customize and organize your workspace layouts."
+        src="/illustrations/spaces.svg"
+      />
       <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-28 h-[calc(100vh-200px)] w-full max-w-[95%] space-y-4 overflow-y-auto pb-10 pr-2">
         <div className="mt-6 flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div>
