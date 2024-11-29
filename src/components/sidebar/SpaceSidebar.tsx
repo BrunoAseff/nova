@@ -6,7 +6,7 @@ import IconBtn from "../nova/buttons/IconBtn";
 import { Close } from "../icons/Close";
 import { SidebarTabs, TabsContent, TabsList, TabsTrigger } from "./SidebarTabs";
 import ClockTab from "./tabs/ClockTab";
-import { ClockIcon } from "../icons/Clock";
+import { ClockIcon } from "../icons/featureIcons/ClockIcon";
 import { PomodoroIcon } from "../icons/featureIcons/PomodoroIcon";
 import { QuoteIcon } from "../icons/featureIcons/QuoteIcon";
 import { BackgroundIcon } from "../icons/featureIcons/BackgroundIcon";
@@ -55,7 +55,7 @@ export function SpaceSidebar() {
         >
           <TabsList className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent flex h-[100%] max-h-[85%] w-[25%] min-w-[25%] flex-col items-start justify-start gap-4 overflow-y-auto pb-6 text-left text-sm">
             <TabsTrigger className="flex items-center gap-2" value="clock">
-              <ClockIcon className="ml-1 scale-125" />
+              <ClockIcon />
               Clock
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="pomodoro">
