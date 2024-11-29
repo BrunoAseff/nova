@@ -4,8 +4,8 @@ import { Home } from "@/components/icons/Home";
 import { Focus } from "@/components/icons/Focus";
 import { Relax } from "@/components/icons/Relax";
 import { backgrounds } from "content/backgrounds";
-import { ambientSounds } from "content/ambientSounds";
 import type { ShortcutName, Space } from "@/types";
+import { ambientSounds } from "content/ambientSounds";
 
 const DEFAULT_ALARM_SOUND = "/alarm-sounds/calming-alarm.wav";
 
