@@ -19,7 +19,7 @@ export const TabHeader: React.FC<TabHeaderProps> = ({
         </h1>
         <p className="text-sm text-muted-foreground">{subtitle}</p>
       </div>
-      <Image src={src} alt={title} width={270} height={220} />
+      <Image src={src} alt={`${title} illustration`} width={270} height={220} />
     </div>
   </div>
 );

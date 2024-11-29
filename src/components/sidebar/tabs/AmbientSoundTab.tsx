@@ -29,6 +29,7 @@ import Tropical from "@/components/icons/ambientSound/Tropical";
 import Underwater from "@/components/icons/ambientSound/Underwater";
 import Waves from "@/components/icons/ambientSound/Waves";
 import { TabHeader } from "@/components/tabHeader";
+import TabBody from "@/components/tabBody";
 
 export default function AmbientSoundTab() {
   const {
@@ -91,13 +92,13 @@ export default function AmbientSoundTab() {
   };
 
   return (
-    <main className="h-screen w-full">
+    <main className="h-screen min-w-[110%]">
       <TabHeader
         title="Ambient Sound"
         subtitle="Customize the appearance and behavior of the clock on your screen."
         src="/illustrations/ambient-sound.svg"
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-28 flex h-full max-h-[70vh] flex-col overflow-hidden">
+      <TabBody hasScrollbar={false}>
         <div className="mt-4 flex min-h-10 min-w-[110%] items-center gap-2 space-x-2 rounded-2xl border-[1px] border-background pl-4">
           <div className="justify-left mt-2 flex w-full flex-col gap-1">
             <Label htmlFor="controls" className="text-md text-foreground">
@@ -165,7 +166,7 @@ export default function AmbientSoundTab() {
             <RadioGroup
               value={currentSound?.name ?? ""}
               onValueChange={handleSoundChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent overflow mt-2 grid max-h-[43vh] w-full grid-cols-4 items-center justify-between gap-4 overflow-y-auto pb-10 pr-2"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent auto-fit z-50 mt-2 grid max-h-[43vh] min-w-0 grid-cols-4 items-center justify-between gap-4 overflow-y-auto pb-10"
             >
               {filteredSounds.map((sound) => {
                 const isChecked = sound.url === ambientSound;
@@ -173,7 +174,7 @@ export default function AmbientSoundTab() {
                 return (
                   <label
                     key={sound.name}
-                    className={`relative flex h-24 w-32 cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border text-center shadow-sm ring-offset-background transition-colors ${
+                    className={`relative z-50 flex h-[5.5rem] w-[7rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border text-center shadow-sm ring-offset-background transition-colors ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
                         : "border-accent"
@@ -203,7 +204,7 @@ export default function AmbientSoundTab() {
             </RadioGroup>
           </div>
         </div>
-      </div>
+      </TabBody>
     </main>
   );
 }

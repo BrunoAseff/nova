@@ -25,6 +25,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { TabHeader } from "@/components/tabHeader";
+import TabBody from "@/components/tabBody";
+import TabCard from "@/components/tabCard";
 
 // Map display names to shortcut values
 const shortcutMapping: Record<string, ShortcutName> = {
@@ -61,8 +63,8 @@ export default function SpacesTab() {
         subtitle="Customize and organize your workspace layouts."
         src="/illustrations/spaces.svg"
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-28 h-[calc(100vh-200px)] w-full max-w-[95%] space-y-4 overflow-y-auto pb-10 pr-2">
-        <div className="mt-6 flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+      <TabBody>
+        <TabCard>
           <div>
             <Label className="text-md text-foreground">Your Spaces</Label>
             <p className="max-w-[90%] overflow-hidden text-sm text-muted-foreground">
@@ -87,9 +89,9 @@ export default function SpacesTab() {
               </div>
             </div>
           </div>
-        </div>
+        </TabCard>
 
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <TabCard>
           <div>
             {" "}
             <Label className="text-md text-foreground">Shortcut</Label>
@@ -130,7 +132,7 @@ export default function SpacesTab() {
               </Select>
             </div>
           </div>
-        </div>
+        </TabCard>
         <div>
           <Label
             htmlFor="clock-reset"
@@ -138,7 +140,7 @@ export default function SpacesTab() {
           >
             Danger Zone
           </Label>
-          <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-destructive bg-background p-4">
+          <TabCard variant="danger">
             <div className="flex w-full flex-col gap-1">
               <Label htmlFor="clock-reset" className="text-md text-foreground">
                 Reset spaces
@@ -180,9 +182,9 @@ export default function SpacesTab() {
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-          </div>
+          </TabCard>
         </div>
-      </div>
+      </TabBody>
     </main>
   );
 }
