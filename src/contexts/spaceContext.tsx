@@ -9,6 +9,7 @@ import {
 import type { ShortcutName, Space } from "../types";
 import { initialState } from "./initialState";
 import type { SpaceContextValue } from "./initialState";
+import { updateLocalStorage } from "@/utils/localStorage";
 
 const SpacesContext = createContext<SpaceContextValue>(initialState);
 
@@ -26,39 +27,10 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const [isAmbientSoundPlaying, setIsAmbientSoundPlaying] = useState(false);
   const ambientAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  function updateLocalStorage(spaces: Space[]) {
-    const spacesToStore = spaces.map((space) => ({
-      ...space,
-      icon: space.name,
-    }));
-    localStorage.setItem("spaces", JSON.stringify(spacesToStore));
-  }
-
   function resetSpaces() {
     localStorage.removeItem("spaces");
     setSpaces(initialState.spaces);
   }
-
-  const retrieveLocalStorage = useCallback(() => {
-    const localData = localStorage.getItem("spaces");
-    if (localData) {
-      try {
-        const parsedData = JSON.parse(localData);
-
-        // Restore icons based on names
-        const restoredSpaces = parsedData.map((space: any) => ({
-          ...initialState.spaces.find((s) => s.name === space.name), // Use initial state as a base
-          ...space,
-          icon: initialState.spaces.find((s) => s.name === space.name)?.icon, // Restore original icon
-        }));
-
-        setSpaces(restoredSpaces);
-      } catch (error) {
-        console.error("Error parsing local storage data:", error);
-        setSpaces(initialState.spaces);
-      }
-    }
-  }, [setSpaces]);
 
   const playAmbientSound = useCallback(
     (soundUrl?: string) => {
@@ -200,6 +172,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
 
   const value: SpaceContextValue = {
     spaces,
+    setSpaces,
     selectedTab,
     selectTab,
     updateSpaceProperty,
@@ -217,8 +190,6 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     updateAmbientSound,
     updateAmbientSoundVolume,
     toggleAmbientSound,
-    updateLocalStorage,
-    retrieveLocalStorage,
     resetSpaces,
   };
 
