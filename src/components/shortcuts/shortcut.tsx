@@ -3,7 +3,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ClockIcon } from "../icons/Clock";
+import { ClockIcon } from "../icons/featureIcons/ClockIcon";
 import { PomodoroIcon } from "../icons/featureIcons/PomodoroIcon";
 import { QuoteIcon } from "../icons/featureIcons/QuoteIcon";
 import { BackgroundIcon } from "../icons/featureIcons/BackgroundIcon";

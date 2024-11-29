@@ -32,9 +32,8 @@ export interface SpaceContextValue {
   updateAmbientSound: (soundUrl: string) => void;
   updateAmbientSoundVolume: (volume: number) => void;
   toggleAmbientSound: () => void;
-  updateLocalStorage: (spaces: Space[]) => void;
-  retrieveLocalStorage: () => void;
   resetSpaces: () => void;
+  setSpaces: (spaces: Space[]) => void;
 }
 
 export const initialState: SpaceContextValue = {
@@ -52,7 +51,7 @@ export const initialState: SpaceContextValue = {
         alarmSoundURL: DEFAULT_ALARM_SOUND,
         alarmRepeatTimes: 3,
       },
-      timer: { isHidden: true },
+
       quote: { position: "bottom-left", isHidden: false },
       background: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
     },
@@ -69,7 +68,7 @@ export const initialState: SpaceContextValue = {
         alarmSoundURL: DEFAULT_ALARM_SOUND,
         alarmRepeatTimes: 3,
       },
-      timer: { isHidden: true },
+
       quote: { position: "bottom-left", isHidden: true },
       background: backgrounds.find((bg) => bg.name === "Messy Desk")?.url ?? "",
     },
@@ -86,7 +85,7 @@ export const initialState: SpaceContextValue = {
         alarmSoundURL: DEFAULT_ALARM_SOUND,
         alarmRepeatTimes: 3,
       },
-      timer: { isHidden: true },
+
       quote: { position: "top-right", isHidden: false },
       background:
         backgrounds.find((bg) => bg.name === "Green Field")?.url ?? "",
@@ -110,7 +109,6 @@ export const initialState: SpaceContextValue = {
   updateAmbientSound: () => {},
   updateAmbientSoundVolume: () => {},
   toggleAmbientSound: () => {},
-  updateLocalStorage: () => {},
-  retrieveLocalStorage: () => {},
   resetSpaces: () => {},
+  setSpaces: () => {},
 };

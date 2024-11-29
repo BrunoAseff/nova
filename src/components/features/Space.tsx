@@ -17,6 +17,7 @@ import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
 import { useCallback, useEffect, useState } from "react";
 import Shortcut from "../shortcuts/shortcut";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
+import { fetchSpacesData } from "@/server/actions/spaces";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -29,14 +30,20 @@ declare global {
 }
 
 export default function Space() {
-  const { spaces, selectTab, retrieveLocalStorage } = useSpacesContext();
+  const { selectTab, spaces, setSpaces } = useSpacesContext();
   const { setOpen } = useSidebar();
   const [shortcut, setShortcut] = useState("⌘B");
   const { isSelectOpen, lastSelectCloseTime } = useInteractionLock();
 
   useEffect(() => {
-    retrieveLocalStorage();
-  }, [retrieveLocalStorage]);
+    const fetchSpaces = async () => {
+      const data = await fetchSpacesData();
+
+      setSpaces(data);
+    };
+
+    fetchSpaces();
+  }, [setSpaces]);
 
   const closeSidebar = useCallback(() => {
     setOpen(false);

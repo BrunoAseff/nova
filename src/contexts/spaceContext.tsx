@@ -9,6 +9,7 @@ import {
 import type { ShortcutName, Space } from "../types";
 import { initialState } from "./initialState";
 import type { SpaceContextValue } from "./initialState";
+import { updateLocalStorage } from "@/utils/localStorage";
 
 const SpacesContext = createContext<SpaceContextValue>(initialState);
 
@@ -26,39 +27,10 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const [isAmbientSoundPlaying, setIsAmbientSoundPlaying] = useState(false);
   const ambientAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  function updateLocalStorage(spaces: Space[]) {
-    const spacesToStore = spaces.map((space) => ({
-      ...space,
-      icon: space.name,
-    }));
-    localStorage.setItem("spaces", JSON.stringify(spacesToStore));
-  }
-
   function resetSpaces() {
     localStorage.removeItem("spaces");
     setSpaces(initialState.spaces);
   }
-
-  const retrieveLocalStorage = useCallback(() => {
-    const localData = localStorage.getItem("spaces");
-    if (localData) {
-      try {
-        const parsedData = JSON.parse(localData);
-
-        // Restore icons based on names
-        const restoredSpaces = parsedData.map((space: any) => ({
-          ...initialState.spaces.find((s) => s.name === space.name), // Use initial state as a base
-          ...space,
-          icon: initialState.spaces.find((s) => s.name === space.name)?.icon, // Restore original icon
-        }));
-
-        setSpaces(restoredSpaces);
-      } catch (error) {
-        console.error("Error parsing local storage data:", error);
-        setSpaces(initialState.spaces);
-      }
-    }
-  }, [setSpaces]);
 
   const playAmbientSound = useCallback(
     (soundUrl?: string) => {
@@ -127,59 +99,58 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     setSelectedTab(tab);
   }
 
+  function modifySpaces(callback: (space: Space) => Space) {
+    setSpaces((prevSpaces) => {
+      const updatedSpaces = prevSpaces.map(callback);
+      updateLocalStorage(updatedSpaces);
+      return updatedSpaces;
+    });
+  }
+
   function updateSpaceProperty(
     spaceName: string,
     propertyName: keyof Space,
     value: any,
   ) {
-    setSpaces((prevSpaces) => {
-      const updatedSpaces = prevSpaces.map((space) =>
-        space.name === spaceName ? { ...space, [propertyName]: value } : space,
-      );
-      updateLocalStorage(updatedSpaces);
-      return updatedSpaces;
-    });
+    modifySpaces((space) =>
+      space.name === spaceName ? { ...space, [propertyName]: value } : space,
+    );
   }
 
   function updateSpaceSharedProperty(propertyName: "isHidden", value: boolean) {
-    setSpaces((prevSpaces) => {
-      const updatedSpaces = prevSpaces.map((space) => ({
-        ...space,
-        [propertyName]: value,
-      }));
-      updateLocalStorage(updatedSpaces);
-      return updatedSpaces;
-    });
+    modifySpaces((space) => ({ ...space, [propertyName]: value }));
+  }
+
+  function initializeAudio(url: string, onEndCallback: () => void) {
+    const audio = new Audio(url);
+    audio.addEventListener("ended", onEndCallback);
+    return audio;
   }
 
   async function playPomodoroAlarm() {
-    try {
-      const currentSpace = spaces.find((space) => space.name === selectedTab);
+    const currentSpace = spaces.find((space) => space.name === selectedTab);
 
-      if (!currentSpace?.pomodoro.alarmSound) {
-        return;
-      }
+    if (!currentSpace?.pomodoro.alarmSoundURL) return;
 
-      if (!audioRef.current) {
-        audioRef.current = new Audio(currentSpace.pomodoro.alarmSoundURL);
-
-        // Reset play count and play again when audio ends
-        audioRef.current.addEventListener("ended", () => {
-          playCountRef.current += 1;
-
+    if (!audioRef.current) {
+      audioRef.current = initializeAudio(
+        currentSpace.pomodoro.alarmSoundURL,
+        () => {
+          playCountRef.current++;
           if (playCountRef.current < currentSpace.pomodoro.alarmRepeatTimes) {
             audioRef.current?.play();
           } else {
             stopPomodoroAlarm({ currentSpace });
           }
-        });
-      }
+        },
+      );
+    }
 
-      // Reset play count when starting new alarm
-      playCountRef.current = 0;
-      setIsAlarmPlaying(true);
+    playCountRef.current = 0;
+    setIsAlarmPlaying(true);
+    audioRef.current.currentTime = 0;
 
-      audioRef.current.currentTime = 0;
+    try {
       await audioRef.current.play();
     } catch (error) {
       console.error("Failed to play pomodoro alarm:", error);
@@ -200,6 +171,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
 
   const value: SpaceContextValue = {
     spaces,
+    setSpaces,
     selectedTab,
     selectTab,
     updateSpaceProperty,
@@ -217,8 +189,6 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     updateAmbientSound,
     updateAmbientSoundVolume,
     toggleAmbientSound,
-    updateLocalStorage,
-    retrieveLocalStorage,
     resetSpaces,
   };
 

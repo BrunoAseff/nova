@@ -16,10 +16,6 @@ export interface PomodoroProps {
   alarmRepeatTimes: number;
 }
 
-export interface TimerProps {
-  isHidden?: boolean;
-}
-
 export interface QuoteProps {
   position: Position;
   isHidden?: boolean;
@@ -34,7 +30,6 @@ export interface Space {
   clock: ClockProps;
   pomodoro: PomodoroProps;
   quote: QuoteProps;
-  timer: TimerProps;
   background: Background;
   icon: JSX.Element;
 }
