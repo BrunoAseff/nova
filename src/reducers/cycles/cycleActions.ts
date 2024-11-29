@@ -27,12 +27,3 @@ export function markCurrentCycleAsFinishedAction() {
     type: ActionTypes.MARK_CURRENT_CYCLE_AS_FINISHED,
   };
 }
-
-export function updateCycleStartDateAction(updatedCycle: Cycle) {
-  return {
-    type: ActionTypes.UPDATE_CYCLE_START_DATE,
-    payload: {
-      updatedCycle,
-    },
-  };
-}
