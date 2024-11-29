@@ -52,7 +52,7 @@ export const initialState: SpaceContextValue = {
         alarmSoundURL: DEFAULT_ALARM_SOUND,
         alarmRepeatTimes: 3,
       },
-      timer: { isHidden: true },
+
       quote: { position: "bottom-left", isHidden: false },
       background: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
     },
@@ -69,7 +69,7 @@ export const initialState: SpaceContextValue = {
         alarmSoundURL: DEFAULT_ALARM_SOUND,
         alarmRepeatTimes: 3,
       },
-      timer: { isHidden: true },
+
       quote: { position: "bottom-left", isHidden: true },
       background: backgrounds.find((bg) => bg.name === "Messy Desk")?.url ?? "",
     },
@@ -86,7 +86,7 @@ export const initialState: SpaceContextValue = {
         alarmSoundURL: DEFAULT_ALARM_SOUND,
         alarmRepeatTimes: 3,
       },
-      timer: { isHidden: true },
+
       quote: { position: "top-right", isHidden: false },
       background:
         backgrounds.find((bg) => bg.name === "Green Field")?.url ?? "",
