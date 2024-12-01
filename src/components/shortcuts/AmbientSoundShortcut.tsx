@@ -160,7 +160,7 @@ export default function AmbientSoundShortcut() {
               return (
                 <label
                   key={sound.name}
-                  className={`relative flex h-20 w-24 cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border text-center shadow-sm ring-offset-background transition-colors ${
+                  className={`relative flex h-20 w-[6.5rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border text-center shadow-sm ring-offset-background transition-colors ${
                     isChecked
                       ? "border-secondary bg-secondary-smooth-700/10"
                       : "border-accent"
@@ -171,7 +171,7 @@ export default function AmbientSoundShortcut() {
                     className="sr-only items-center justify-center"
                   />
                   <div
-                    className={`flex h-6 w-6 items-center justify-center ${
+                    className={`flex h-5 w-5 items-center justify-center ${
                       isChecked ? "text-secondary" : "text-foreground"
                     } ${isChecked ? "opacity-100" : "opacity-60"}`}
                   >
