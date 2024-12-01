@@ -7,3 +7,15 @@ export function updateLocalStorage(spaces: Space[]) {
   }));
   localStorage.setItem("spaces", JSON.stringify(spacesToStore));
 }
+
+export function updateShortcutLocalStorage(shortcut: string) {
+  localStorage.setItem("shortcut", shortcut);
+}
+
+export function updateAmbientSoundLocalStorage(ambientSound: string) {
+  localStorage.setItem("ambientSound", ambientSound);
+}
+
+export function updateAmbientSoundVolumeLocalStorage(volume: number) {
+  localStorage.setItem("ambientSoundVolume", volume.toString());
+}

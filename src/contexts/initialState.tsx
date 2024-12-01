@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-
 import { Home } from "@/components/icons/Home";
 import { Focus } from "@/components/icons/Focus";
 import { Relax } from "@/components/icons/Relax";
@@ -34,9 +32,20 @@ export interface SpaceContextValue {
   toggleAmbientSound: () => void;
   resetSpaces: () => void;
   setSpaces: (spaces: Space[]) => void;
+  setShortcut: (shortcut: ShortcutName) => void;
+  setAmbientSound: (ambientSound: string) => void;
+  setAmbientSoundVolume: (volume: number) => void;
 }
 
-export const initialState: SpaceContextValue = {
+export interface userSpace {
+  spaces: Space[];
+  shortcut: ShortcutName;
+  ambientSound: string;
+  ambientSoundVolume: number;
+  isAmbientSoundPlaying: boolean;
+}
+
+export const initialState: userSpace = {
   spaces: [
     {
       name: "Home",
@@ -51,7 +60,7 @@ export const initialState: SpaceContextValue = {
         alarmSoundURL: DEFAULT_ALARM_SOUND,
         alarmRepeatTimes: 3,
       },
-
+      breathingExercise: { isHidden: true, technique: "Box Breathing" },
       quote: { position: "bottom-left", isHidden: false },
       background: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
     },
@@ -68,7 +77,7 @@ export const initialState: SpaceContextValue = {
         alarmSoundURL: DEFAULT_ALARM_SOUND,
         alarmRepeatTimes: 3,
       },
-
+      breathingExercise: { isHidden: true, technique: "Box Breathing" },
       quote: { position: "bottom-left", isHidden: true },
       background: backgrounds.find((bg) => bg.name === "Messy Desk")?.url ?? "",
     },
@@ -85,7 +94,7 @@ export const initialState: SpaceContextValue = {
         alarmSoundURL: DEFAULT_ALARM_SOUND,
         alarmRepeatTimes: 3,
       },
-
+      breathingExercise: { isHidden: false, technique: "Box Breathing" },
       quote: { position: "top-right", isHidden: false },
       background:
         backgrounds.find((bg) => bg.name === "Green Field")?.url ?? "",
@@ -94,21 +103,6 @@ export const initialState: SpaceContextValue = {
   shortcut: "ambientSound",
   ambientSound:
     ambientSounds.find((sound) => sound.name === "Ocean Waves")?.url ?? "",
-  selectedTab: "",
-  selectTab: () => {},
-  updateSpaceProperty: () => {},
-  updateSpaceSharedProperty: () => {},
-  playPomodoroAlarm: async () => {},
-  stopPomodoroAlarm: () => {},
-  isAlarmPlaying: false,
-  updateShortcut: () => {},
   ambientSoundVolume: 50,
   isAmbientSoundPlaying: false,
-  playAmbientSound: () => {},
-  pauseAmbientSound: () => {},
-  updateAmbientSound: () => {},
-  updateAmbientSoundVolume: () => {},
-  toggleAmbientSound: () => {},
-  resetSpaces: () => {},
-  setSpaces: () => {},
 };

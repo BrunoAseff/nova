@@ -30,20 +30,31 @@ declare global {
 }
 
 export default function Space() {
-  const { selectTab, spaces, setSpaces } = useSpacesContext();
+  const {
+    selectTab,
+    spaces,
+    setSpaces,
+    setShortcut,
+    setAmbientSoundVolume,
+    setAmbientSound,
+  } = useSpacesContext();
   const { setOpen } = useSidebar();
-  const [shortcut, setShortcut] = useState("⌘B");
+  const [sidebarShortcut, setSidebarShortcut] = useState("⌘B");
   const { isSelectOpen, lastSelectCloseTime } = useInteractionLock();
 
   useEffect(() => {
     const fetchSpaces = async () => {
-      const data = await fetchSpacesData();
+      const { spaces, shortcut, ambientSound, ambientSoundVolume } =
+        await fetchSpacesData();
 
-      setSpaces(data);
+      setSpaces(spaces);
+      setShortcut(shortcut);
+      setAmbientSound(ambientSound);
+      setAmbientSoundVolume(ambientSoundVolume);
     };
 
     fetchSpaces();
-  }, [setSpaces]);
+  }, [setSpaces, setAmbientSound, setAmbientSoundVolume, setShortcut]);
 
   const closeSidebar = useCallback(() => {
     setOpen(false);
@@ -61,7 +72,7 @@ export default function Space() {
       return isMac ? "⌘B" : "Ctrl B";
     };
 
-    setShortcut(detectPlatform());
+    setSidebarShortcut(detectPlatform());
 
     const handleOutsideClick = (event: MouseEvent) => {
       // Check if this click is happening right after a select close
@@ -190,7 +201,7 @@ export default function Space() {
         <TooltipContent className="flex items-center gap-3 font-open font-light">
           Config
           <p className="rounded-xl text-xs tracking-widest text-secondary">
-            {shortcut}
+            {sidebarShortcut}
           </p>
         </TooltipContent>
       </Tooltip>
