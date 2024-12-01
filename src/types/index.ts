@@ -6,6 +6,15 @@ export interface ClockProps {
   isHidden?: boolean;
 }
 
+export interface breathingExerciseProps {
+  isHidden: boolean;
+  technique:
+    | "4-7-8"
+    | "Box Breathing"
+    | "Alternate Nostril Breathing"
+    | "Wim Hof Method";
+}
+
 export interface PomodoroProps {
   isHidden?: boolean;
   shortBreakDuration: number;
@@ -30,21 +39,11 @@ export interface Space {
   clock: ClockProps;
   pomodoro: PomodoroProps;
   quote: QuoteProps;
+  breathingExercise: breathingExerciseProps;
   background: Background;
   icon: JSX.Element;
 }
 
-export type ShortcutName =
-  | "clock"
-  | "pomodoro"
-  | "quote"
-  | "background"
-  | "music"
-  | "reminder"
-  | "breathingExercise"
-  | "spaces"
-  | "profile"
-  | "ambientSound"
-  | "appearance";
+export type ShortcutName = string;
 
 export type ambientSound = string;

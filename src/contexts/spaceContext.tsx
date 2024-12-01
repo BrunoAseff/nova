@@ -9,9 +9,14 @@ import {
 import type { ShortcutName, Space } from "../types";
 import { initialState } from "./initialState";
 import type { SpaceContextValue } from "./initialState";
-import { updateLocalStorage } from "@/utils/localStorage";
+import {
+  updateAmbientSoundLocalStorage,
+  updateAmbientSoundVolumeLocalStorage,
+  updateLocalStorage,
+  updateShortcutLocalStorage,
+} from "@/utils/localStorage";
 
-const SpacesContext = createContext<SpaceContextValue>(initialState);
+const SpacesContext = createContext({} as SpaceContextValue);
 
 export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const [selectedTab, setSelectedTab] = useState("Focus");
@@ -61,8 +66,8 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const updateAmbientSound = useCallback(
     (soundUrl: string) => {
       setAmbientSound(soundUrl);
+      updateAmbientSoundLocalStorage(soundUrl);
 
-      // If currently playing, update the audio source and continue playing
       if (isAmbientSoundPlaying) {
         if (ambientAudioRef.current) {
           ambientAudioRef.current.src = soundUrl;
@@ -77,6 +82,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
 
   const updateAmbientSoundVolume = useCallback((volume: number) => {
     setAmbientSoundVolume(volume);
+    updateAmbientSoundVolumeLocalStorage(volume);
 
     if (ambientAudioRef.current) {
       ambientAudioRef.current.volume = volume / 100;
@@ -93,6 +99,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
 
   const updateShortcut = useCallback((newShortcut: ShortcutName) => {
     setShortcut(newShortcut);
+    updateShortcutLocalStorage(newShortcut);
   }, []);
 
   function selectTab(tab: string) {
@@ -190,6 +197,9 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     updateAmbientSoundVolume,
     toggleAmbientSound,
     resetSpaces,
+    setShortcut,
+    setAmbientSound,
+    setAmbientSoundVolume,
   };
 
   return (
