@@ -2,50 +2,12 @@ import { Home } from "@/components/icons/Home";
 import { Focus } from "@/components/icons/Focus";
 import { Relax } from "@/components/icons/Relax";
 import { backgrounds } from "content/backgrounds";
-import type { ShortcutName, Space } from "@/types";
 import { ambientSounds } from "content/ambientSounds";
+import type { settingsType } from "@/types/settings";
 
 const DEFAULT_ALARM_SOUND = "/alarm-sounds/calming-alarm.wav";
 
-export interface SpaceContextValue {
-  spaces: Space[];
-  selectedTab: string;
-  selectTab: (tab: string) => void;
-  updateSpaceProperty: (
-    spaceName: string,
-    propertyName: keyof Space,
-    value: any,
-  ) => void;
-  updateSpaceSharedProperty: (propertyName: "isHidden", value: boolean) => void;
-  playPomodoroAlarm: () => Promise<void>;
-  stopPomodoroAlarm: ({ currentSpace }: { currentSpace: Space }) => void;
-  isAlarmPlaying: boolean;
-  shortcut: ShortcutName;
-  ambientSound: string;
-  updateShortcut: (newShortcut: ShortcutName) => void;
-  ambientSoundVolume: number;
-  isAmbientSoundPlaying: boolean;
-  playAmbientSound: (soundUrl?: string) => void;
-  pauseAmbientSound: () => void;
-  updateAmbientSound: (soundUrl: string) => void;
-  updateAmbientSoundVolume: (volume: number) => void;
-  toggleAmbientSound: () => void;
-  resetSpaces: () => void;
-  setSpaces: (spaces: Space[]) => void;
-  setShortcut: (shortcut: ShortcutName) => void;
-  setAmbientSound: (ambientSound: string) => void;
-  setAmbientSoundVolume: (volume: number) => void;
-}
-
-export interface userSpace {
-  spaces: Space[];
-  shortcut: ShortcutName;
-  ambientSound: string;
-  ambientSoundVolume: number;
-  isAmbientSoundPlaying: boolean;
-}
-
-export const initialState: userSpace = {
+export const settings: settingsType = {
   spaces: [
     {
       name: "Home",

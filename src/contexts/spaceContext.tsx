@@ -7,26 +7,26 @@ import {
   useCallback,
 } from "react";
 import type { ShortcutName, Space } from "../types";
-import { initialState } from "./initialState";
-import type { SpaceContextValue } from "./initialState";
 import {
   updateAmbientSoundLocalStorage,
   updateAmbientSoundVolumeLocalStorage,
   updateLocalStorage,
   updateShortcutLocalStorage,
 } from "@/utils/localStorage";
+import type { SpaceContextValue } from "@/types/settings";
+import { settings } from "./settings";
 
 const SpacesContext = createContext({} as SpaceContextValue);
 
 export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const [selectedTab, setSelectedTab] = useState("Focus");
-  const [spaces, setSpaces] = useState<Space[]>(initialState.spaces);
+  const [spaces, setSpaces] = useState<Space[]>(settings.spaces);
   const [isAlarmPlaying, setIsAlarmPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playCountRef = useRef(0);
-  const [shortcut, setShortcut] = useState<ShortcutName>(initialState.shortcut);
+  const [shortcut, setShortcut] = useState<ShortcutName>(settings.shortcut);
   const [ambientSound, setAmbientSound] = useState<string>(
-    initialState.ambientSound,
+    settings.ambientSound,
   );
   const [ambientSoundVolume, setAmbientSoundVolume] = useState(50);
   const [isAmbientSoundPlaying, setIsAmbientSoundPlaying] = useState(false);
@@ -34,7 +34,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
 
   function resetSpaces() {
     localStorage.removeItem("spaces");
-    setSpaces(initialState.spaces);
+    setSpaces(settings.spaces);
   }
 
   const playAmbientSound = useCallback(
