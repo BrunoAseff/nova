@@ -18,6 +18,7 @@ import { useCallback, useEffect, useState } from "react";
 import Shortcut from "../shortcuts/shortcut";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
 import { fetchSpacesData } from "@/server/actions/spaces";
+import BreathingExercise from "./breathingExercise/BreathingExercise";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -184,6 +185,7 @@ export default function Space() {
               <Clock {...space.clock} />
               <Pomodoro {...space.pomodoro} />
               <Quote {...space.quote} />
+              <BreathingExercise {...space.breathingExercise} />
             </div>
           </TabsContent>
         ))}
