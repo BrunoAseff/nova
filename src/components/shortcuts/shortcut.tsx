@@ -104,6 +104,7 @@ export default function Shortcut() {
           <TooltipTrigger asChild>
             <DropdownMenuTrigger asChild>
               <Button
+                aria-label="Shortcut"
                 className="absolute bottom-10 right-72 z-10 overflow-hidden rounded-xl bg-background text-sm text-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-secondary"
                 size="icon"
               >
