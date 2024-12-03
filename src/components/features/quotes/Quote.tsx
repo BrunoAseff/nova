@@ -22,11 +22,11 @@ export default function Quote(props: QuoteProps) {
   const positionClass = (): string => {
     switch (position) {
       case "top-left":
-        return "top-0 left-0 m-16 text-left";
+        return "top-0 left-0 m-10 text-left";
       case "top-right":
-        return "top-0 right-0 m-16 text-right";
+        return "top-0 right-0 m-10 text-right";
       case "bottom-left":
-        return "bottom-0 left-0 m-16 text-left";
+        return "bottom-0 left-0 m-10 text-left";
       case "center":
         return "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center";
       default:
@@ -71,7 +71,7 @@ export default function Quote(props: QuoteProps) {
 
   return (
     <div
-      className={`fixed w-fit rounded-2xl p-4 font-montserrat backdrop-blur-sm backdrop-brightness-75 ${positionClass()} group max-w-md`}
+      className={`fixed w-fit rounded-2xl p-4 font-montserrat ${positionClass()} group max-w-md`}
     >
       <AnimatePresence mode="wait">
         <motion.div

@@ -64,6 +64,7 @@ export function NewCycleForm() {
         />
         <span>minutes.</span>
       </div>
+
     </div>
   );
 }

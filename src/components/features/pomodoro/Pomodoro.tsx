@@ -28,15 +28,17 @@ export default function Pomodoro(props: PomodoroProps) {
     >
 
         <Tooltip delayDuration={0}>
-        <TooltipTrigger asChild>
-      <div className="hover:none flex justify-center font-montserrat">
+      <div className="hover:none flex flex-col items-center justify-center font-montserrat">
+      <TooltipTrigger asChild>
+
         <TabsList>
           <TabsTrigger value="Focus">Focus</TabsTrigger>
           <TabsTrigger value="Short Break">Short Break</TabsTrigger>
           <TabsTrigger value="Long Break">Long Break</TabsTrigger>
         </TabsList>
+        </TooltipTrigger>
+
       </div>
-      </TooltipTrigger>
       <TooltipContent className="font-open font-light">The tabs switch automatically</TooltipContent>
       </Tooltip>
 
