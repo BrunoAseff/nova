@@ -34,6 +34,10 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
 
   function resetSpaces() {
     localStorage.removeItem("spaces");
+    localStorage.removeItem("shortcut");
+    localStorage.removeItem("ambientSound");
+    setShortcut(settings.shortcut);
+    setAmbientSound(settings.ambientSound);
     setSpaces(settings.spaces);
   }
 
