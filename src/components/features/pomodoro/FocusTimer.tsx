@@ -21,6 +21,7 @@ import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { Button } from "@/components/nova/buttons/Button";
 
+
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
   minutesAmount: zod
@@ -159,15 +160,17 @@ export default function FocusTimer() {
             {activeCycle ? (
               <>
                 <div className="absolute left-1/2 mb-4 flex -translate-x-1/2 gap-4 md:mb-0">
-                  <IconBtn onClick={resetCurrentSession}>
+                
+                  <IconBtn tooltipContent="Restart pomodoro" onClick={resetCurrentSession}>
                     <Restart />
                   </IconBtn>
 
-                  <IconBtn onClick={togglePauseAndAlarm}>
+                  <IconBtn tooltipContent={isPaused ? "Play pomodoro" : "Pause pomodoro"} onClick={togglePauseAndAlarm}>
                     {isPaused ? <Play /> : <Pause />}
                   </IconBtn>
 
                   <IconBtn
+                  tooltipContent="Stop pomodoro"
                     onClick={interruptCurrentCycle}
                     variant="destructive"
                     className="rounded-full border-[1px] border-background bg-background text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive"
@@ -198,5 +201,6 @@ export default function FocusTimer() {
         </motion.div>
       </form>
     </div>
+
   );
 }
