@@ -134,6 +134,7 @@ export default function Space() {
         <TabsList className="absolute bottom-10 right-28 z-10">
           {spaces.map((space) => (
             <TabsTrigger
+              aria-labelledby="tooltip"
               onClick={() => selectTab(space.name)}
               className="hover:bg-accent-foreground hover:text-foreground"
               key={space.name}
@@ -143,7 +144,7 @@ export default function Space() {
                 <TooltipTrigger asChild>
                   <span>{space.icon}</span>
                 </TooltipTrigger>
-                <TooltipContent className="font-open font-light">
+                <TooltipContent id="tooltip" className="font-open font-light">
                   {space.name}
                 </TooltipContent>
               </Tooltip>
@@ -160,12 +161,14 @@ export default function Space() {
             <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
 
             {/* Preload the first background image */}
-            <link
-              rel="preload"
-              as="image"
-              href={spaces[0]?.background}
-              key={spaces[0]?.name}
-            />
+            {space.name === "Focus" ? (
+              <link
+                rel="preload"
+                as="image"
+                href={space.background}
+                key={space.background}
+              />
+            ) : null}
 
             <div className="absolute inset-0 z-0">
               <Image
@@ -194,13 +197,17 @@ export default function Space() {
         <TooltipTrigger asChild>
           <Button
             size="icon"
+            aria-labelledby="config"
             onClick={() => setOpen(true)}
             className="absolute bottom-10 right-14 z-10 overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
           >
             <AnimatedConfig />
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="flex items-center gap-3 font-open font-light">
+        <TooltipContent
+          id="config"
+          className="flex items-center gap-3 font-open font-light"
+        >
           Config
           <p className="rounded-xl text-xs tracking-widest text-secondary">
             {sidebarShortcut}
