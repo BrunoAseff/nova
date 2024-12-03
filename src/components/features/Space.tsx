@@ -134,6 +134,7 @@ export default function Space() {
         <TabsList className="absolute bottom-10 right-28 z-10">
           {spaces.map((space) => (
             <TabsTrigger
+              aria-label={space.name}
               aria-labelledby="tooltip"
               onClick={() => selectTab(space.name)}
               className="hover:bg-accent-foreground hover:text-foreground"
@@ -198,6 +199,7 @@ export default function Space() {
           <Button
             size="icon"
             aria-labelledby="config"
+            aria-label="Open config"
             onClick={() => setOpen(true)}
             className="absolute bottom-10 right-14 z-10 overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
           >
