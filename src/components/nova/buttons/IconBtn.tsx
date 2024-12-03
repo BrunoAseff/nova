@@ -47,8 +47,8 @@ export default function IconBtn({
   // If there's no link but a tooltip is provided, wrap the button in a tooltip
   if (!hasLink && tooltipContent) {
     return (
-      <TooltipProvider delay={0}>
-        <Tooltip>
+      <TooltipProvider >
+        <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
             {buttonElement}
           </TooltipTrigger>
