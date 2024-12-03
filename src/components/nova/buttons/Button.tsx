@@ -11,6 +11,7 @@ const buttonVariants = {
   fill: "bg-transparent border-[1px] border-transparent hover:border-secondary text-foreground hover:text-secondary hover:bg-secondary-smooth-700/10",
   destructive:
     "rounded-full border-[1px] border-transparent bg-transparent text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive",
+  dark: " border-[1px] border-background  text-foreground hover:text-background bg-background hover:border-secondary hover:text-secondary",
 } as const;
 
 type ButtonVariant = keyof typeof buttonVariants;
