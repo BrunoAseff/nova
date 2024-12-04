@@ -233,7 +233,7 @@ const Sidebar = React.forwardRef<
         >
           <div
             className={cn(
-              "fixed inset-y-0 z-10 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex",
+              "fixed inset-y-0 z-50 hidden h-svh w-[--sidebar-width] transition-[left,right,width] duration-200 ease-linear md:flex",
               "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
               // Adjust the padding for floating and inset variants.
               variant === "floating" || variant === "inset"
