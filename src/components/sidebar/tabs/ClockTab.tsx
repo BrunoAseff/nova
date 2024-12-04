@@ -69,6 +69,7 @@ export default function ClockTab() {
             </p>
           </div>
           <Switch
+            aria-label="Change clock visibility"
             className="ml-auto"
             id="clock-visibility"
             checked={isClockVisible}
@@ -108,7 +109,11 @@ export default function ClockTab() {
                     {pos.charAt(0).toUpperCase() +
                       pos.slice(1).replace("-", " ")}
                   </Label>
-                  <RadioGroupItem value={pos} id={`pos-${pos}`} />
+                  <RadioGroupItem
+                    aria-label={`Select ${pos} position`}
+                    value={pos}
+                    id={`pos-${pos}`}
+                  />
                 </div>
               ))}
             </RadioGroup>
@@ -148,7 +153,11 @@ export default function ClockTab() {
                   >
                     {format}
                   </Label>
-                  <RadioGroupItem value={format} id={`format-${format}`} />
+                  <RadioGroupItem
+                    aria-label={`Choose ${format} format`}
+                    value={format}
+                    id={`format-${format}`}
+                  />
                 </div>
               ))}
             </RadioGroup>
