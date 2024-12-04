@@ -31,6 +31,7 @@ export default function SpacePicker() {
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            aria-label="Select Space"
             variant="outline"
             role="combobox"
             aria-expanded={open}
