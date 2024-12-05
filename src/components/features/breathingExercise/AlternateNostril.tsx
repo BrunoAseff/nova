@@ -49,10 +49,10 @@ export default function AlternateNostril() {
   }, [phase, countdown]);
 
   const phaseText = {
-    "inhale-left": "Inhale through the left nostril",
-    "exhale-right": "Exhale through the right nostril",
-    "inhale-right": "Inhale through the right nostril",
-    "exhale-left": "Exhale through the left nostril",
+    "inhale-left": "Inhale",
+    "exhale-right": "Exhale",
+    "inhale-right": "Inhale",
+    "exhale-left": "Exhale",
   };
 
   const circleVariants = {
@@ -82,10 +82,17 @@ export default function AlternateNostril() {
         animate={phase}
       >
         <div className="flex flex-col items-center justify-center text-center">
-          <div className="text-xl font-semibold text-foreground">
-            {phaseText[phase]}
+          <div className="flex flex-col items-center justify-center gap-1">
+            <div className="text-xl font-semibold text-foreground">
+              {phaseText[phase]}
+            </div>
+            <p className="text-sm text-foreground/80">
+              {phase === "inhale-left" || "exhale-left"
+                ? "through the left nostril"
+                : "through the right nostril"}
+            </p>
           </div>
-          <div className="mt-6 flex h-12 w-12 items-center justify-center rounded-full border-[1px] border-background bg-background/10 text-3xl font-bold text-background">
+          <div className="mt-6 flex h-10 w-10 items-center justify-center rounded-full border-[1px] border-background bg-background/10 text-xl font-bold text-background">
             {countdown}
           </div>
         </div>
