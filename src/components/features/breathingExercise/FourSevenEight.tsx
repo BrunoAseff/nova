@@ -39,9 +39,9 @@ export default function FourSevenEight() {
   }, [phase, countdown]);
 
   const phaseText = {
-    inhale: "Inhale for 4 seconds",
-    hold: "Hold for 7 seconds",
-    exhale: "Exhale for 8 seconds",
+    inhale: "Inhale",
+    hold: "Hold",
+    exhale: "Exhale",
   };
 
   const circleVariants = {
@@ -66,11 +66,13 @@ export default function FourSevenEight() {
         variants={circleVariants}
         animate={phase}
       >
-        <div className="text-center">
+        <div className="flex flex-col items-center justify-center text-center">
           <div className="text-2xl font-bold text-foreground">
             {phaseText[phase]}
           </div>
-          <div className="text-4xl font-bold text-foreground">{countdown}</div>
+          <div className="mt-6 flex h-12 w-12 items-center justify-center rounded-full border-[1px] border-background bg-background/10 text-3xl font-bold text-background">
+            {countdown}
+          </div>
         </div>
       </motion.div>
     </div>
