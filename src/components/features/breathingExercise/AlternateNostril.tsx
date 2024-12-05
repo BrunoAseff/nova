@@ -58,22 +58,18 @@ export default function AlternateNostril() {
   const circleVariants = {
     "inhale-left": {
       scale: 1.5,
-      backgroundColor: "#ADD8E6",
       transition: { duration: 4, ease: "easeInOut" },
     },
     "exhale-right": {
       scale: 1,
-      backgroundColor: "#FFD700",
       transition: { duration: 4, ease: "easeInOut" },
     },
     "inhale-right": {
       scale: 1.5,
-      backgroundColor: "#90EE90",
       transition: { duration: 4, ease: "easeInOut" },
     },
     "exhale-left": {
       scale: 1,
-      backgroundColor: "#FFB6C1",
       transition: { duration: 4, ease: "easeInOut" },
     },
   };
@@ -81,15 +77,17 @@ export default function AlternateNostril() {
   return (
     <div className="flex flex-col items-center justify-center space-y-4">
       <motion.div
-        className="flex h-64 w-64 items-center justify-center rounded-full"
+        className="flex h-64 w-64 items-center justify-center rounded-full bg-background/20"
         variants={circleVariants}
         animate={phase}
       >
-        <div className="text-center">
-          <div className="text-2xl font-bold text-foreground">
+        <div className="flex flex-col items-center justify-center text-center">
+          <div className="text-xl font-bold text-foreground">
             {phaseText[phase]}
           </div>
-          <div className="text-4xl font-bold text-foreground">{countdown}</div>
+          <div className="mt-6 flex h-12 w-12 items-center justify-center rounded-full border-[1px] border-background bg-background/10 text-3xl font-bold text-background">
+            {countdown}
+          </div>
         </div>
       </motion.div>
     </div>
