@@ -252,7 +252,7 @@ export default function PomodoroTab() {
                     return (
                       <label
                         key={sound.value}
-                        className={`relative flex max-w-36 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+                        className={`relative flex max-w-36 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors hover:bg-accent-foreground ${
                           isChecked
                             ? "border-secondary bg-secondary-smooth-700/10"
                             : "border-input"

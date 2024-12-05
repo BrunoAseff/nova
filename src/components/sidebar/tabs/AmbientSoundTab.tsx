@@ -174,7 +174,7 @@ export default function AmbientSoundTab() {
                 return (
                   <label
                     key={sound.name}
-                    className={`relative z-50 flex h-[5.5rem] w-[7rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border text-center shadow-sm ring-offset-background transition-colors ${
+                    className={`relative z-50 flex h-[5.5rem] w-[7rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border text-center shadow-sm ring-offset-background transition-colors hover:bg-accent-foreground ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
                         : "border-accent"
