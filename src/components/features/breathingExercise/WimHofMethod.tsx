@@ -41,7 +41,7 @@ export default function WimHofMethod() {
   }, [phase, countdown]);
 
   const phaseText = {
-    breathe: "Breathe deeply (30 breaths)",
+    breathe: "Breathe deeply",
     hold: "Hold your breath",
     recovery: "Recovery breath",
   };
@@ -69,10 +69,15 @@ export default function WimHofMethod() {
         animate={phase}
       >
         <div className="flex flex-col items-center justify-center text-center">
-          <div className="text-xl font-semibold text-foreground">
-            {phaseText[phase]}
+          <div className="flex flex-col items-center justify-center gap-1">
+            <div className="text-xl font-semibold text-foreground">
+              {phaseText[phase]}
+            </div>
+            <p className="text-sm text-foreground/80">
+              {phase === "breathe" ? "(do 30 breaths)" : null}
+            </p>
           </div>
-          <div className="mt-6 flex h-12 w-12 items-center justify-center rounded-full border-[1px] border-background bg-background/10 text-3xl font-bold text-background">
+          <div className="mt-6 flex h-10 w-10 items-center justify-center rounded-full border-[1px] border-background bg-background/10 text-xl font-bold text-background">
             {countdown}
           </div>
         </div>
