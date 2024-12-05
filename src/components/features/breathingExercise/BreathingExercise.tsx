@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 
 import BoxBreathing from "./BoxBreathing";
-import { useState } from "react";
+import React, { useState } from "react";
 import FourSevenEight from "./FourSevenEight";
 import AlternateNostril from "./AlternateNostril";
 import WimHofMethod from "./WimHofMethod";
@@ -31,20 +31,20 @@ export default function BreathingExercise({
     },
   };
 
+  const techniqueComponents = {
+    "Box Breathing": BoxBreathing,
+    "4-7-8": FourSevenEight,
+    "Alternate Nostril Breathing": AlternateNostril,
+    "Wim Hof Method": WimHofMethod,
+  };
+
   return (
     <div className="fixed left-1/2 top-[55%] flex h-[30rem] w-[30rem] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-full border-[1px] border-background/60 bg-gradient-to-t from-transparent via-muted/20 to-muted/50 p-10 font-montserrat text-foreground">
-      {isExerciseRunning ? (
-        <div>
-          <div>{technique === "Box Breathing" && <BoxBreathing />}</div>
-          <div>{technique === "4-7-8" && <FourSevenEight />}</div>
-          <div>
-            {technique === "Alternate Nostril Breathing" && (
-              <AlternateNostril />
-            )}
-          </div>
-          <div>{technique === "Wim Hof Method" && <WimHofMethod />}</div>
-        </div>
-      ) : (
+      {isExerciseRunning &&
+        technique in techniqueComponents &&
+        React.createElement(techniqueComponents[technique])}
+
+      {!isExerciseRunning && (
         <div className="z-50 flex w-fit flex-col items-center justify-center gap-6">
           <div className="flex w-full flex-col items-center justify-center gap-2">
             <h1 className="font-delius text-3xl font-semibold text-foreground">
@@ -67,6 +67,13 @@ export default function BreathingExercise({
             onClick={() => setIsExerciseRunning(!isExerciseRunning)}
           >
             Start
+          </Button>
+        </div>
+      )}
+      {isExerciseRunning && (
+        <div className="absolute -bottom-5">
+          <Button onClick={() => setIsExerciseRunning(false)} variant="dark">
+            Stop
           </Button>
         </div>
       )}
