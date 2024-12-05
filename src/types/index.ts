@@ -6,13 +6,15 @@ export interface ClockProps {
   isHidden?: boolean;
 }
 
+export type techniqueType =
+  | "4-7-8"
+  | "Box Breathing"
+  | "Alternate Nostril Breathing"
+  | "Wim Hof Method";
+
 export interface breathingExerciseProps {
   isHidden: boolean;
-  technique:
-    | "4-7-8"
-    | "Box Breathing"
-    | "Alternate Nostril Breathing"
-    | "Wim Hof Method";
+  technique: techniqueType;
 }
 
 export interface PomodoroProps {
