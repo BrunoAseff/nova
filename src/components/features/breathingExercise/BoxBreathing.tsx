@@ -81,11 +81,13 @@ export default function BoxBreathing() {
         variants={circleVariants}
         animate={phase}
       >
-        <div className="text-center">
-          <div className="text-2xl font-bold text-foreground">
+        <div className="flex flex-col items-center justify-center text-center">
+          <div className="text-2xl font-semibold text-foreground">
             {phaseText[phase]}
           </div>
-          <div className="text-4xl font-bold text-foreground">{countdown}</div>
+          <div className="mt-6 flex h-12 w-12 items-center justify-center rounded-full border-[1px] border-background bg-background/10 text-3xl font-bold text-background">
+            {countdown}
+          </div>
         </div>
       </motion.div>
     </div>
