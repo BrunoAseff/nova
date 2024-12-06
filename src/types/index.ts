@@ -25,12 +25,16 @@ export type ReminderMessage = {
     | "Affirmation"
     | "Challenge"
     | "Dream"
-    | "Mindeset";
-};
+    | "Mindset";
+} | null;
+
+export interface ReminderSettings {
+  isHidden?: boolean;
+  position: Position;
+}
 
 export interface ReminderProps {
   isHidden?: boolean;
-  messages: ReminderMessage[];
   position: Position;
 }
 
@@ -59,7 +63,7 @@ export interface Space {
   pomodoro: PomodoroProps;
   quote: QuoteProps;
   breathingExercise: breathingExerciseProps;
-  reminder: ReminderProps;
+  reminder: ReminderSettings;
   background: Background;
   icon: JSX.Element;
 }

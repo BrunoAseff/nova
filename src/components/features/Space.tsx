@@ -19,6 +19,7 @@ import Shortcut from "../shortcuts/shortcut";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
 import { fetchSpacesData } from "@/server/actions/spaces";
 import BreathingExercise from "./breathingExercise/BreathingExercise";
+import Reminder from "./Reminder";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -190,6 +191,7 @@ export default function Space() {
               <Pomodoro {...space.pomodoro} />
               <Quote {...space.quote} />
               <BreathingExercise {...space.breathingExercise} />
+              <Reminder {...space.reminder} />
             </div>
           </TabsContent>
         ))}

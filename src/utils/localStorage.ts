@@ -19,3 +19,7 @@ export function updateAmbientSoundLocalStorage(ambientSound: string) {
 export function updateAmbientSoundVolumeLocalStorage(volume: number) {
   localStorage.setItem("ambientSoundVolume", volume.toString());
 }
+
+export function updateReminderMessagesLocalStorage(messages: string[]) {
+  localStorage.setItem("reminderMessages", JSON.stringify(messages));
+}

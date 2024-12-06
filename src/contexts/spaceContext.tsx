@@ -6,7 +6,7 @@ import {
   useRef,
   useCallback,
 } from "react";
-import type { ShortcutName, Space } from "../types";
+import type { ReminderMessage, ShortcutName, Space } from "../types";
 import {
   updateAmbientSoundLocalStorage,
   updateAmbientSoundVolumeLocalStorage,
@@ -21,6 +21,9 @@ const SpacesContext = createContext({} as SpaceContextValue);
 export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const [selectedTab, setSelectedTab] = useState("Focus");
   const [spaces, setSpaces] = useState<Space[]>(settings.spaces);
+  const [reminderMessages, setReminderMessages] = useState<ReminderMessage[]>(
+    settings.reminderMessages,
+  );
   const [isAlarmPlaying, setIsAlarmPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playCountRef = useRef(0);
@@ -36,9 +39,11 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("spaces");
     localStorage.removeItem("shortcut");
     localStorage.removeItem("ambientSound");
+    localStorage.removeItem("reminderMessages");
     setShortcut(settings.shortcut);
     setAmbientSound(settings.ambientSound);
     setSpaces(settings.spaces);
+    setReminderMessages(settings.reminderMessages);
   }
 
   const playAmbientSound = useCallback(
@@ -204,6 +209,8 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     setShortcut,
     setAmbientSound,
     setAmbientSoundVolume,
+    reminderMessages,
+    setReminderMessages,
   };
 
   return (
