@@ -18,6 +18,7 @@ import { useInteractionLock } from "@/contexts/InteractionLockContext";
 import { Badge } from "@/components/ui/badge";
 import { Close } from "@/components/icons/Close";
 import { TabHeader } from "@/components/tabHeader";
+import { Label } from "@/components/ui/label";
 
 export default function BackgroundTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
@@ -174,7 +175,7 @@ export default function BackgroundTab() {
             />
             <label
               htmlFor="exclude-ai"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className={`text-sm font-medium leading-none hover:text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${excludeAI ? "text-secondary hover:text-secondary" : ""}`}
             >
               Exclude AI Generated
             </label>
@@ -209,7 +210,7 @@ export default function BackgroundTab() {
                 const isChecked = background.url === currentBackgroundURL;
 
                 return (
-                  <label
+                  <Label
                     key={background.name}
                     className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
                       isChecked
@@ -236,7 +237,7 @@ export default function BackgroundTab() {
                     >
                       {background.name}
                     </p>
-                  </label>
+                  </Label>
                 );
               })}
             </RadioGroup>
