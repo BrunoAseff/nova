@@ -23,6 +23,7 @@ export const settings: settingsType = {
         alarmRepeatTimes: 3,
       },
       breathingExercise: { isHidden: true, technique: "Box Breathing" },
+      reminder: { isHidden: true, position: "top-right", messages: [] },
       quote: { position: "bottom-left", isHidden: false },
       background: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
     },
@@ -40,6 +41,7 @@ export const settings: settingsType = {
         alarmRepeatTimes: 3,
       },
       breathingExercise: { isHidden: true, technique: "Box Breathing" },
+      reminder: { isHidden: true, position: "top-right", messages: [] },
       quote: { position: "bottom-left", isHidden: true },
       background: backgrounds.find((bg) => bg.name === "Messy Desk")?.url ?? "",
     },
@@ -57,6 +59,7 @@ export const settings: settingsType = {
         alarmRepeatTimes: 3,
       },
       breathingExercise: { isHidden: false, technique: "Box Breathing" },
+      reminder: { isHidden: true, position: "top-right", messages: [] },
       quote: { position: "top-right", isHidden: false },
       background:
         backgrounds.find((bg) => bg.name === "Green Field")?.url ?? "",
