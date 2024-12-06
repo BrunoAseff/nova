@@ -1,4 +1,4 @@
-import type { ShortcutName, Space } from "@/types";
+import type { ReminderMessage, ShortcutName, Space } from "@/types";
 
 export interface SpaceContextValue {
   spaces: Space[];
@@ -28,11 +28,14 @@ export interface SpaceContextValue {
   setShortcut: (shortcut: ShortcutName) => void;
   setAmbientSound: (ambientSound: string) => void;
   setAmbientSoundVolume: (volume: number) => void;
+  setReminderMessages: (messages: ReminderMessage[]) => void;
+  reminderMessages: ReminderMessage[];
 }
 
 export interface settingsType {
   spaces: Space[];
   shortcut: ShortcutName;
+  reminderMessages: ReminderMessage[];
   ambientSound: string;
   ambientSoundVolume: number;
   isAmbientSoundPlaying: boolean;

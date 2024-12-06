@@ -12,6 +12,7 @@ export const fetchSpacesData = async () => {
     // Fetch spaces from local storage
     const localSpacesData = localStorage.getItem("spaces");
     const localShortcut = localStorage.getItem("shortcut") ?? settings.shortcut;
+    const localReminderMessages = localStorage.getItem("reminderMessages");
     const localAmbientSound =
       localStorage.getItem("ambientSound") ?? settings.ambientSound;
     const localAmbientSoundVolume = localStorage.getItem("ambientSoundVolume")
@@ -31,6 +32,7 @@ export const fetchSpacesData = async () => {
         shortcut: localShortcut,
         ambientSound: localAmbientSound,
         ambientSoundVolume: localAmbientSoundVolume,
+        reminderMessages: localReminderMessages,
       };
     }
 

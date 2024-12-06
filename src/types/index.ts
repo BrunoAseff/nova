@@ -17,6 +17,27 @@ export interface breathingExerciseProps {
   technique: techniqueType;
 }
 
+export type ReminderMessage = {
+  text: string;
+  type:
+    | "Gratitude"
+    | "Motivation"
+    | "Affirmation"
+    | "Challenge"
+    | "Dream"
+    | "Mindset";
+} | null;
+
+export interface ReminderSettings {
+  isHidden?: boolean;
+  position: Position;
+}
+
+export interface ReminderProps {
+  isHidden?: boolean;
+  position: Position;
+}
+
 export interface PomodoroProps {
   isHidden?: boolean;
   shortBreakDuration: number;
@@ -42,6 +63,7 @@ export interface Space {
   pomodoro: PomodoroProps;
   quote: QuoteProps;
   breathingExercise: breathingExerciseProps;
+  reminder: ReminderSettings;
   background: Background;
   icon: JSX.Element;
 }
