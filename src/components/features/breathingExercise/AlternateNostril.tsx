@@ -6,7 +6,7 @@ export default function AlternateNostril() {
     "inhale-left" | "exhale-right" | "inhale-right" | "exhale-left"
   >("inhale-left");
   const [countdown, setCountdown] = useState(4);
-
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       switch (phase) {
@@ -44,7 +44,6 @@ export default function AlternateNostril() {
           break;
       }
     }, 1000);
-
     return () => clearTimeout(timer);
   }, [phase, countdown]);
 
@@ -74,6 +73,17 @@ export default function AlternateNostril() {
     },
   };
 
+  const getnostrilText = () => {
+    switch (phase) {
+      case "inhale-left":
+      case "exhale-left":
+        return "through the left nostril";
+      case "inhale-right":
+      case "exhale-right":
+        return "through the right nostril";
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center space-y-4">
       <motion.div
@@ -87,9 +97,7 @@ export default function AlternateNostril() {
               {phaseText[phase]}
             </div>
             <p className="text-sm text-foreground/80">
-              {phase === "inhale-left" || "exhale-left"
-                ? "through the left nostril"
-                : "through the right nostril"}
+              {getnostrilText()}
             </p>
           </div>
           <div className="mt-6 flex h-10 w-10 items-center justify-center rounded-full border-[1px] border-background bg-background/10 text-xl font-bold text-background">
