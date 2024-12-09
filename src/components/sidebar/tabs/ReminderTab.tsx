@@ -229,7 +229,7 @@ export default function ReminderTab() {
           )}
           <button
             onClick={handleAddReminder}
-            className="mt-4 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+            className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
           >
             <PlusIcon />
           </button>
