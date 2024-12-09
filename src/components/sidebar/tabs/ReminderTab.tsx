@@ -87,7 +87,13 @@ export default function ReminderTab() {
   ];
 
   return (
-    <main className="h-screen">
+    <main
+      className={clsx("h-screen", {
+        "w-[95%]": reminderMessages.length === 0,
+        "w-auto": reminderMessages.length > 0,
+      })}
+    >
+      {" "}
       <TabHeader
         title="Reminder"
         subtitle="Set up and manage your personal reminders and notifications."
