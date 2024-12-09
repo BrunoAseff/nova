@@ -27,7 +27,7 @@ export type ReminderMessage = {
     | "Challenge"
     | "Dream"
     | "Mindset";
-} | null;
+};
 
 export interface ReminderSettings {
   isHidden?: boolean;

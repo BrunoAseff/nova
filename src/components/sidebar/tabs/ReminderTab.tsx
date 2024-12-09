@@ -19,23 +19,24 @@ export default function ReminderTab() {
     updateSpaceProperty,
     reminderMessages,
     updateReminder,
+    deleteReminder,
+    updateReminderType,
+    updateReminderText,
   } = useSpacesContext();
+
   const [selectedPosition, setSelectedPosition] = useState<
     "bottom-left" | "top-right" | "top-left" | "center"
   >("bottom-left");
+
   const [isReminderVisible, setIsReminderVisible] = useState(true);
-  const [currentReminderMessages, setCurrentReminderMessages] = useState<
-    ReminderMessage[]
-  >([]);
 
   useEffect(() => {
     const selectedSpace = spaces.find((space) => space.name === selectedTab);
     if (selectedSpace) {
       setSelectedPosition(selectedSpace.reminder.position);
       setIsReminderVisible(!selectedSpace.reminder.isHidden);
-      setCurrentReminderMessages(reminderMessages);
     }
-  }, [spaces, selectedTab, reminderMessages]);
+  }, [spaces, selectedTab]);
 
   const handleReminderVisibilityChange = (visible: boolean) => {
     setIsReminderVisible(visible);
@@ -62,6 +63,18 @@ export default function ReminderTab() {
       type: "Gratitude",
     };
     updateReminder(newReminder);
+  };
+
+  const handleDeleteReminder = (id: string) => {
+    deleteReminder(id);
+  };
+
+  const handleTextChange = (id: string, text: string) => {
+    updateReminderText(id, text);
+  };
+
+  const handleTypeChange = (id: string, type: ReminderMessage["type"]) => {
+    updateReminderType(id, type);
   };
 
   const types = [
@@ -121,15 +134,6 @@ export default function ReminderTab() {
                       "hover:bg-accent-foreground": selectedPosition !== pos,
                     },
                   )}
-                  onClick={() =>
-                    handleReminderPositionChange(
-                      pos as
-                        | "bottom-left"
-                        | "top-right"
-                        | "top-left"
-                        | "center",
-                    )
-                  }
                 >
                   <Label
                     htmlFor={`pos-${pos}`}
@@ -151,7 +155,7 @@ export default function ReminderTab() {
           <Label htmlFor="reminders" className="text-md text-foreground">
             Create reminders
           </Label>
-          {currentReminderMessages.length === 0 ? (
+          {reminderMessages.length === 0 ? (
             <div className="w-full text-sm text-muted-foreground">
               <p>
                 Tip: Write anything you want your future self to know: what you
@@ -160,16 +164,25 @@ export default function ReminderTab() {
               </p>
             </div>
           ) : (
-            currentReminderMessages.map((message) => (
+            reminderMessages.map((message) => (
               <div
-                key={message?.id}
+                key={message.id}
                 className="flex flex-col gap-2 rounded-2xl border-[1px] border-accent p-4"
               >
-                <RadioGroup className="flex gap-2" defaultValue="Gratitude">
-                  {types.map((type, index) => (
+                <RadioGroup
+                  className="flex gap-2"
+                  value={message.type}
+                  onValueChange={(type) =>
+                    handleTypeChange(
+                      message.id,
+                      type as ReminderMessage["type"],
+                    )
+                  }
+                >
+                  {types.map((type) => (
                     <label
-                      key={index}
-                      className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-accent p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
+                      key={type}
+                      className="w-fit cursor-pointer rounded-2xl border-[1px] border-accent p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground data-[state=checked]:border-secondary data-[state=checked]:bg-secondary-smooth-700/10 data-[state=checked]:text-secondary"
                     >
                       <RadioGroupItem
                         value={type}
@@ -182,12 +195,16 @@ export default function ReminderTab() {
 
                 <Textarea
                   placeholder="Write your reminder message here..."
-                  defaultValue={message?.text}
+                  defaultValue={message.text}
                   className="mt-2 w-full"
                   rows={3}
+                  onBlur={(e) => handleTextChange(message.id, e.target.value)}
                 />
                 <div className="ml-auto">
-                  <IconBtn variant="destructive">
+                  <IconBtn
+                    variant="destructive"
+                    onClick={() => handleDeleteReminder(message.id)}
+                  >
                     <TrashIcon />
                   </IconBtn>
                 </div>

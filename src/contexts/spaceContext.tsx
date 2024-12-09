@@ -121,6 +121,39 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     [reminderMessages],
   );
 
+  const deleteReminder = useCallback(
+    (id: string) => {
+      const updatedReminders = reminderMessages.filter(
+        (reminder) => reminder?.id !== id,
+      );
+      setReminderMessages(updatedReminders);
+      updateReminderMessagesLocalStorage(updatedReminders);
+    },
+    [reminderMessages],
+  );
+
+  const updateReminderType = useCallback(
+    (id: string, newType: ReminderMessage["type"]) => {
+      const updatedReminders = reminderMessages.map((reminder) =>
+        reminder?.id === id ? { ...reminder, type: newType } : reminder,
+      );
+      setReminderMessages(updatedReminders);
+      updateReminderMessagesLocalStorage(updatedReminders);
+    },
+    [reminderMessages],
+  );
+
+  const updateReminderText = useCallback(
+    (id: string, newText: string) => {
+      const updatedReminders = reminderMessages.map((reminder) =>
+        reminder?.id === id ? { ...reminder, text: newText } : reminder,
+      );
+      setReminderMessages(updatedReminders);
+      updateReminderMessagesLocalStorage(updatedReminders);
+    },
+    [reminderMessages],
+  );
+
   function selectTab(tab: string) {
     setSelectedTab(tab);
   }
@@ -222,6 +255,9 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     reminderMessages,
     setReminderMessages,
     updateReminder,
+    deleteReminder,
+    updateReminderType,
+    updateReminderText,
   };
 
   return (
