@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import type { ReminderMessage } from "@/types";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function ReminderTab() {
   const {
@@ -77,23 +78,37 @@ export default function ReminderTab() {
     updateReminderType(id, type);
   };
 
-  const types = [
-    "Gratitude",
-    "Motivation",
-    "Affirmation",
-    "Challenge",
-    "Dream",
-    "Mindset",
-  ];
+  const reminderPlaceholders = {
+    Gratitude:
+      "\"I'm grateful for my family's unwavering support through everything.\"",
+    Motivation:
+      '"I will become a successful entrepreneur and make a positive impact."',
+    Affirmation:
+      '"I am capable of learning and growing beyond my current limitations."',
+    Challenge:
+      '"I will overcome my fear of public speaking and become a confident communicator."',
+    Dream:
+      '"My dream is to travel to all continents and experience diverse cultures."',
+    Mindset:
+      '"I choose to see obstacles as opportunities for growth and learning."',
+  };
+
+  const types = Object.keys(reminderPlaceholders) as ReminderMessage["type"][];
 
   return (
-    <main className="h-screen">
+    <main
+      className={clsx("h-screen", {
+        "w-[95%]": reminderMessages.length === 0,
+        "w-auto": reminderMessages.length > 0,
+      })}
+    >
+      {" "}
       <TabHeader
         title="Reminder"
-        subtitle="Set up and manage your personal reminders and notifications."
+        subtitle="Set up and manage your personal reminders to keep what you want in mind."
         src="/illustrations/reminder.svg"
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-36 max-h-[65vh] min-w-[95%] max-w-[115%] space-y-6 overflow-y-auto pr-6">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-32 max-h-[65vh] min-w-[95%] max-w-[115%] space-y-6 overflow-y-auto pr-6">
         <div className="flex min-h-16 max-w-[99%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label
@@ -173,56 +188,65 @@ export default function ReminderTab() {
               </p>
             </div>
           ) : (
-            reminderMessages.map((message) => (
-              <div
-                key={message.id}
-                className="flex flex-col gap-2 rounded-2xl border-[1px] border-accent p-4"
-              >
-                <RadioGroup
-                  className="flex gap-2"
-                  value={message.type}
-                  onValueChange={(type) =>
-                    handleTypeChange(
-                      message.id,
-                      type as ReminderMessage["type"],
-                    )
-                  }
+            <AnimatePresence>
+              {reminderMessages.map((message) => (
+                <motion.div
+                  key={message.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col gap-2 rounded-2xl border-[1px] border-accent p-4"
                 >
-                  {types.map((type) => (
-                    <label
-                      key={type}
-                      className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-accent p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
-                    >
-                      <RadioGroupItem
-                        value={type}
-                        className="sr-only after:absolute after:inset-0"
-                      />
-                      <p className="font-medium leading-none">{type}</p>
-                    </label>
-                  ))}
-                </RadioGroup>
-
-                <Textarea
-                  placeholder="Write your reminder message here..."
-                  defaultValue={message.text}
-                  className="mt-2 w-full"
-                  rows={3}
-                  onBlur={(e) => handleTextChange(message.id, e.target.value)}
-                />
-                <div className="ml-auto">
-                  <IconBtn
-                    variant="destructive"
-                    onClick={() => handleDeleteReminder(message.id)}
+                  <RadioGroup
+                    className="flex gap-2"
+                    value={message.type}
+                    onValueChange={(type) =>
+                      handleTypeChange(
+                        message.id,
+                        type as ReminderMessage["type"],
+                      )
+                    }
                   >
-                    <TrashIcon />
-                  </IconBtn>
-                </div>
-              </div>
-            ))
+                    {types.map((type) => (
+                      <label
+                        key={type}
+                        className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-accent p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
+                      >
+                        <RadioGroupItem
+                          value={type}
+                          className="sr-only after:absolute after:inset-0"
+                        />
+                        <p className="font-medium leading-none">{type}</p>
+                      </label>
+                    ))}
+                  </RadioGroup>
+                  <div className="flex w-full justify-between">
+                    <Textarea
+                      placeholder={reminderPlaceholders[message.type]}
+                      defaultValue={message.text}
+                      className="mt-2 w-[90%]"
+                      rows={3}
+                      onBlur={(e) =>
+                        handleTextChange(message.id, e.target.value)
+                      }
+                    />
+                    <div className="mt-auto">
+                      <IconBtn
+                        variant="destructive"
+                        onClick={() => handleDeleteReminder(message.id)}
+                      >
+                        <TrashIcon />
+                      </IconBtn>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           )}
           <button
             onClick={handleAddReminder}
-            className="mt-4 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+            className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
           >
             <PlusIcon />
           </button>
