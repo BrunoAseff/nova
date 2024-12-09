@@ -29,20 +29,20 @@ export default function Reminder(props: ReminderProps) {
   };
 
   const messageTypeClass = (message: ReminderMessage): string => {
-    if (!message) return ""; // Verifica se o message é null
+    if (!message) return "";
     switch (message.type) {
       case "Gratitude":
-        return "bg-background/10";
+        return "bg-yellow-500/10 border-yellow-500/50   text-yellow-100 border-[1px]";
       case "Motivation":
-        return "bg-background/10";
+        return "bg-purple-500/10 border-purple-500/50  text-purple-100 border-[1px]";
       case "Affirmation":
-        return "bg-background/10";
+        return "bg-green-500/10 border-green-500/50  text-green-100 border-[1px]";
       case "Challenge":
-        return "bg-background/10";
+        return "bg-red-500/10 border-red-500/50  text-red-100 border-[1px]";
       case "Dream":
-        return "bg-background/10";
+        return "bg-orange-500/10 border-orange-500/50  text-orange-100 border-[1px]";
       case "Mindset":
-        return "bg-background/10";
+        return "bg-white/10  border-white/50 text-white/80 border-[1px]";
       default:
         return "";
     }
@@ -69,7 +69,7 @@ export default function Reminder(props: ReminderProps) {
 
   return (
     <div
-      className={`fixed w-fit rounded-2xl p-4 font-montserrat ${positionClass()} group max-w-md`}
+      className={`rounded-4xl fixed w-96 p-4 font-montserrat ${positionClass()} group max-w-md`}
     >
       <AnimatePresence mode="wait">
         {currentMessage ? (
@@ -79,11 +79,9 @@ export default function Reminder(props: ReminderProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className={`rounded-lg p-4 ${messageTypeClass(currentMessage)}`}
+            className={`rounded-2xl p-4 ${messageTypeClass(currentMessage)}`}
           >
-            <p className="text-lg font-medium text-secondary-foreground">
-              {currentMessage.text}
-            </p>
+            <p className="text-lg font-medium">{currentMessage.text}</p>
           </motion.div>
         ) : (
           <motion.div
@@ -92,7 +90,7 @@ export default function Reminder(props: ReminderProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="bg-neutral rounded-lg p-4"
+            className="rounded-2xl p-4"
           >
             <p className="text-lg font-medium text-secondary-foreground">
               Add reminders in the settings to stay on track!
@@ -103,7 +101,7 @@ export default function Reminder(props: ReminderProps) {
       <IconBtn
         onClick={refreshMessage}
         variant="default"
-        className="absolute bottom-2 right-2 bg-transparent text-foreground opacity-0 transition-opacity group-hover:opacity-100"
+        className="absolute bottom-3 right-3 z-50 m-1 bg-transparent opacity-0 transition-opacity group-hover:opacity-100"
       >
         <Refresh />
       </IconBtn>
