@@ -201,21 +201,22 @@ export default function ReminderTab() {
                     </label>
                   ))}
                 </RadioGroup>
-
-                <Textarea
-                  placeholder="Write your reminder message here..."
-                  defaultValue={message.text}
-                  className="mt-2 w-full"
-                  rows={3}
-                  onBlur={(e) => handleTextChange(message.id, e.target.value)}
-                />
-                <div className="ml-auto">
-                  <IconBtn
-                    variant="destructive"
-                    onClick={() => handleDeleteReminder(message.id)}
-                  >
-                    <TrashIcon />
-                  </IconBtn>
+                <div className="flex w-full justify-between">
+                  <Textarea
+                    placeholder="Write your reminder message here..."
+                    defaultValue={message.text}
+                    className="mt-2 w-[90%]"
+                    rows={3}
+                    onBlur={(e) => handleTextChange(message.id, e.target.value)}
+                  />
+                  <div className="mt-auto">
+                    <IconBtn
+                      variant="destructive"
+                      onClick={() => handleDeleteReminder(message.id)}
+                    >
+                      <TrashIcon />
+                    </IconBtn>
+                  </div>
                 </div>
               </div>
             ))
