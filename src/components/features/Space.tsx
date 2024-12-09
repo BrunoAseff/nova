@@ -39,6 +39,7 @@ export default function Space() {
     setShortcut,
     setAmbientSoundVolume,
     setAmbientSound,
+    setReminderMessages,
   } = useSpacesContext();
   const { setOpen } = useSidebar();
   const [sidebarShortcut, setSidebarShortcut] = useState("⌘B");
@@ -46,17 +47,29 @@ export default function Space() {
 
   useEffect(() => {
     const fetchSpaces = async () => {
-      const { spaces, shortcut, ambientSound, ambientSoundVolume } =
-        await fetchSpacesData();
+      const {
+        spaces,
+        shortcut,
+        ambientSound,
+        ambientSoundVolume,
+        reminderMessages,
+      } = await fetchSpacesData();
 
       setSpaces(spaces);
       setShortcut(shortcut);
       setAmbientSound(ambientSound);
       setAmbientSoundVolume(ambientSoundVolume);
+      setReminderMessages(reminderMessages);
     };
 
     fetchSpaces();
-  }, [setSpaces, setAmbientSound, setAmbientSoundVolume, setShortcut]);
+  }, [
+    setSpaces,
+    setAmbientSound,
+    setAmbientSoundVolume,
+    setShortcut,
+    setReminderMessages,
+  ]);
 
   const closeSidebar = useCallback(() => {
     setOpen(false);

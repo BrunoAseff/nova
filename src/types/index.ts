@@ -18,6 +18,7 @@ export interface breathingExerciseProps {
 }
 
 export type ReminderMessage = {
+  id: string;
   text: string;
   type:
     | "Gratitude"
@@ -26,7 +27,7 @@ export type ReminderMessage = {
     | "Challenge"
     | "Dream"
     | "Mindset";
-} | null;
+};
 
 export interface ReminderSettings {
   isHidden?: boolean;

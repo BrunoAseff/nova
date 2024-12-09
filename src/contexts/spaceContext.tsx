@@ -11,6 +11,7 @@ import {
   updateAmbientSoundLocalStorage,
   updateAmbientSoundVolumeLocalStorage,
   updateLocalStorage,
+  updateReminderMessagesLocalStorage,
   updateShortcutLocalStorage,
 } from "@/utils/localStorage";
 import type { SpaceContextValue } from "@/types/settings";
@@ -110,6 +111,48 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     setShortcut(newShortcut);
     updateShortcutLocalStorage(newShortcut);
   }, []);
+
+  const updateReminder = useCallback(
+    (newReminder: ReminderMessage) => {
+      const updatedReminders = [...reminderMessages, newReminder];
+      setReminderMessages(updatedReminders);
+      updateReminderMessagesLocalStorage(updatedReminders);
+    },
+    [reminderMessages],
+  );
+
+  const deleteReminder = useCallback(
+    (id: string) => {
+      const updatedReminders = reminderMessages.filter(
+        (reminder) => reminder?.id !== id,
+      );
+      setReminderMessages(updatedReminders);
+      updateReminderMessagesLocalStorage(updatedReminders);
+    },
+    [reminderMessages],
+  );
+
+  const updateReminderType = useCallback(
+    (id: string, newType: ReminderMessage["type"]) => {
+      const updatedReminders = reminderMessages.map((reminder) =>
+        reminder?.id === id ? { ...reminder, type: newType } : reminder,
+      );
+      setReminderMessages(updatedReminders);
+      updateReminderMessagesLocalStorage(updatedReminders);
+    },
+    [reminderMessages],
+  );
+
+  const updateReminderText = useCallback(
+    (id: string, newText: string) => {
+      const updatedReminders = reminderMessages.map((reminder) =>
+        reminder?.id === id ? { ...reminder, text: newText } : reminder,
+      );
+      setReminderMessages(updatedReminders);
+      updateReminderMessagesLocalStorage(updatedReminders);
+    },
+    [reminderMessages],
+  );
 
   function selectTab(tab: string) {
     setSelectedTab(tab);
@@ -211,6 +254,10 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     setAmbientSoundVolume,
     reminderMessages,
     setReminderMessages,
+    updateReminder,
+    deleteReminder,
+    updateReminderType,
+    updateReminderText,
   };
 
   return (

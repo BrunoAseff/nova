@@ -1,4 +1,4 @@
-import type { Space } from "@/types";
+import type { ReminderMessage, Space } from "@/types";
 
 export function updateLocalStorage(spaces: Space[]) {
   const spacesToStore = spaces.map((space) => ({
@@ -20,6 +20,8 @@ export function updateAmbientSoundVolumeLocalStorage(volume: number) {
   localStorage.setItem("ambientSoundVolume", volume.toString());
 }
 
-export function updateReminderMessagesLocalStorage(messages: string[]) {
+export function updateReminderMessagesLocalStorage(
+  messages: ReminderMessage[],
+) {
   localStorage.setItem("reminderMessages", JSON.stringify(messages));
 }
