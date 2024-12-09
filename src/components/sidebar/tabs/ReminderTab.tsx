@@ -134,6 +134,15 @@ export default function ReminderTab() {
                       "hover:bg-accent-foreground": selectedPosition !== pos,
                     },
                   )}
+                  onClick={() =>
+                    handleReminderPositionChange(
+                      pos as
+                        | "bottom-left"
+                        | "top-right"
+                        | "top-left"
+                        | "center",
+                    )
+                  }
                 >
                   <Label
                     htmlFor={`pos-${pos}`}
@@ -182,7 +191,7 @@ export default function ReminderTab() {
                   {types.map((type) => (
                     <label
                       key={type}
-                      className="w-fit cursor-pointer rounded-2xl border-[1px] border-accent p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground data-[state=checked]:border-secondary data-[state=checked]:bg-secondary-smooth-700/10 data-[state=checked]:text-secondary"
+                      className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-accent p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
                     >
                       <RadioGroupItem
                         value={type}
