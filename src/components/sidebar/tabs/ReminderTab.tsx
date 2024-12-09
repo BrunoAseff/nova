@@ -96,10 +96,10 @@ export default function ReminderTab() {
       {" "}
       <TabHeader
         title="Reminder"
-        subtitle="Set up and manage your personal reminders and notifications."
+        subtitle="Set up and manage your personal reminders to keep what you want in mind."
         src="/illustrations/reminder.svg"
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-36 max-h-[65vh] min-w-[95%] max-w-[115%] space-y-6 overflow-y-auto pr-6">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-32 max-h-[65vh] min-w-[95%] max-w-[115%] space-y-6 overflow-y-auto pr-6">
         <div className="flex min-h-16 max-w-[99%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
           <div className="flex flex-col gap-1">
             <Label
