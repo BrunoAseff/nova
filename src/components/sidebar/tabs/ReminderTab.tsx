@@ -77,14 +77,22 @@ export default function ReminderTab() {
     updateReminderType(id, type);
   };
 
-  const types = [
-    "Gratitude",
-    "Motivation",
-    "Affirmation",
-    "Challenge",
-    "Dream",
-    "Mindset",
-  ];
+  const reminderPlaceholders = {
+    Gratitude:
+      "\"I'm grateful for my family's unwavering support through everything.\"",
+    Motivation:
+      '"I will become a successful entrepreneur and make a positive impact."',
+    Affirmation:
+      '"I am capable of learning and growing beyond my current limitations."',
+    Challenge:
+      '"I will overcome my fear of public speaking and become a confident communicator."',
+    Dream:
+      '"My dream is to travel to all continents and experience diverse cultures."',
+    Mindset:
+      '"I choose to see obstacles as opportunities for growth and learning."',
+  };
+
+  const types = Object.keys(reminderPlaceholders) as ReminderMessage["type"][];
 
   return (
     <main
@@ -209,7 +217,7 @@ export default function ReminderTab() {
                 </RadioGroup>
                 <div className="flex w-full justify-between">
                   <Textarea
-                    placeholder="Write your reminder message here..."
+                    placeholder={reminderPlaceholders[message.type]}
                     defaultValue={message.text}
                     className="mt-2 w-[90%]"
                     rows={3}
