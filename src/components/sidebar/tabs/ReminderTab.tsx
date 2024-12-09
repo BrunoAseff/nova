@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import type { ReminderMessage } from "@/types";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function ReminderTab() {
   const {
@@ -187,53 +188,61 @@ export default function ReminderTab() {
               </p>
             </div>
           ) : (
-            reminderMessages.map((message) => (
-              <div
-                key={message.id}
-                className="flex flex-col gap-2 rounded-2xl border-[1px] border-accent p-4"
-              >
-                <RadioGroup
-                  className="flex gap-2"
-                  value={message.type}
-                  onValueChange={(type) =>
-                    handleTypeChange(
-                      message.id,
-                      type as ReminderMessage["type"],
-                    )
-                  }
+            <AnimatePresence>
+              {reminderMessages.map((message) => (
+                <motion.div
+                  key={message.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col gap-2 rounded-2xl border-[1px] border-accent p-4"
                 >
-                  {types.map((type) => (
-                    <label
-                      key={type}
-                      className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-accent p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
-                    >
-                      <RadioGroupItem
-                        value={type}
-                        className="sr-only after:absolute after:inset-0"
-                      />
-                      <p className="font-medium leading-none">{type}</p>
-                    </label>
-                  ))}
-                </RadioGroup>
-                <div className="flex w-full justify-between">
-                  <Textarea
-                    placeholder={reminderPlaceholders[message.type]}
-                    defaultValue={message.text}
-                    className="mt-2 w-[90%]"
-                    rows={3}
-                    onBlur={(e) => handleTextChange(message.id, e.target.value)}
-                  />
-                  <div className="mt-auto">
-                    <IconBtn
-                      variant="destructive"
-                      onClick={() => handleDeleteReminder(message.id)}
-                    >
-                      <TrashIcon />
-                    </IconBtn>
+                  <RadioGroup
+                    className="flex gap-2"
+                    value={message.type}
+                    onValueChange={(type) =>
+                      handleTypeChange(
+                        message.id,
+                        type as ReminderMessage["type"],
+                      )
+                    }
+                  >
+                    {types.map((type) => (
+                      <label
+                        key={type}
+                        className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-accent p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
+                      >
+                        <RadioGroupItem
+                          value={type}
+                          className="sr-only after:absolute after:inset-0"
+                        />
+                        <p className="font-medium leading-none">{type}</p>
+                      </label>
+                    ))}
+                  </RadioGroup>
+                  <div className="flex w-full justify-between">
+                    <Textarea
+                      placeholder={reminderPlaceholders[message.type]}
+                      defaultValue={message.text}
+                      className="mt-2 w-[90%]"
+                      rows={3}
+                      onBlur={(e) =>
+                        handleTextChange(message.id, e.target.value)
+                      }
+                    />
+                    <div className="mt-auto">
+                      <IconBtn
+                        variant="destructive"
+                        onClick={() => handleDeleteReminder(message.id)}
+                      >
+                        <TrashIcon />
+                      </IconBtn>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))
+                </motion.div>
+              ))}
+            </AnimatePresence>
           )}
           <button
             onClick={handleAddReminder}
