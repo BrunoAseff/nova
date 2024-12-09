@@ -11,6 +11,7 @@ import {
   updateAmbientSoundLocalStorage,
   updateAmbientSoundVolumeLocalStorage,
   updateLocalStorage,
+  updateReminderMessagesLocalStorage,
   updateShortcutLocalStorage,
 } from "@/utils/localStorage";
 import type { SpaceContextValue } from "@/types/settings";
@@ -110,6 +111,15 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     setShortcut(newShortcut);
     updateShortcutLocalStorage(newShortcut);
   }, []);
+
+  const updateReminder = useCallback(
+    (newReminder: ReminderMessage) => {
+      const updatedReminders = [...reminderMessages, newReminder];
+      setReminderMessages(updatedReminders);
+      updateReminderMessagesLocalStorage(updatedReminders);
+    },
+    [reminderMessages],
+  );
 
   function selectTab(tab: string) {
     setSelectedTab(tab);
@@ -211,6 +221,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     setAmbientSoundVolume,
     reminderMessages,
     setReminderMessages,
+    updateReminder,
   };
 
   return (

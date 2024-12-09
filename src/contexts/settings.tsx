@@ -66,7 +66,7 @@ export const settings: settingsType = {
     },
   ],
   shortcut: "ambientSound",
-  reminderMessages: [{ text: "test", type: "Gratitude" }],
+  reminderMessages: [],
   ambientSound:
     ambientSounds.find((sound) => sound.name === "Ocean Waves")?.url ?? "",
   ambientSoundVolume: 50,

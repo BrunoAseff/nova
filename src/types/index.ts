@@ -18,6 +18,7 @@ export interface breathingExerciseProps {
 }
 
 export type ReminderMessage = {
+  id: string;
   text: string;
   type:
     | "Gratitude"

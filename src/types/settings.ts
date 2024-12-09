@@ -30,6 +30,7 @@ export interface SpaceContextValue {
   setAmbientSoundVolume: (volume: number) => void;
   setReminderMessages: (messages: ReminderMessage[]) => void;
   reminderMessages: ReminderMessage[];
+  updateReminder: (newReminder: ReminderMessage) => void;
 }
 
 export interface settingsType {
