@@ -173,7 +173,7 @@ export default function PomodoroTab() {
         src="/illustrations/pomodoro.svg"
       />
       <TabBody>
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="pomodoro-visibility"
@@ -192,7 +192,7 @@ export default function PomodoroTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="pomodoro-autostart"
@@ -212,7 +212,7 @@ export default function PomodoroTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[95%] flex-col items-center justify-between gap-10 space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] flex-col items-center justify-between gap-10 space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="space-between flex items-center">
             <div className="flex flex-col gap-1">
               <Label
@@ -252,10 +252,10 @@ export default function PomodoroTab() {
                     return (
                       <label
                         key={sound.value}
-                        className={`relative flex max-w-36 cursor-pointer flex-col items-center gap-3 rounded-xl border px-2 py-3 text-center shadow-sm ring-offset-background transition-colors hover:bg-accent-foreground ${
+                        className={`relative flex max-w-36 cursor-pointer flex-col items-center gap-3 rounded-xl border-[1px] px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
                           isChecked
                             ? "border-secondary bg-secondary-smooth-700/10"
-                            : "border-input"
+                            : "border-input hover:bg-background"
                         } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                       >
                         <RadioGroupItem
@@ -309,7 +309,7 @@ export default function PomodoroTab() {
           </AnimatePresence>
         </div>
 
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="short-break-duration"
@@ -342,7 +342,7 @@ export default function PomodoroTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="long-break-duration"
