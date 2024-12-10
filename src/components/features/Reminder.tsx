@@ -11,6 +11,7 @@ import {
   HandHeart,
   ShootingStar,
   Brain,
+  Note,
 } from "@phosphor-icons/react";
 
 const typeStyles = {
@@ -124,9 +125,13 @@ export default function Reminder(props: ReminderProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="rounded-2xl p-4"
+            className={`flex-col gap-4 rounded-3xl border-[1px] border-accent bg-background p-4`}
           >
-            <p className="text-md font-medium text-secondary-foreground">
+            <div className="mb-1 flex items-center gap-1">
+              <Note className="text-foreground" size={20} weight="duotone" />
+              <p className="text-xs font-semibold text-foreground">Reminder</p>
+            </div>
+            <p className="font-sm text-md text-foreground/70">
               Add reminders in the settings to stay on track!
             </p>
           </motion.div>
