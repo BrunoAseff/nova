@@ -32,11 +32,11 @@ const typeStyles = {
   },
   Dream: {
     icon: ShootingStar,
-    color: "#006FEE",
+    color: "#06B7DB",
   },
   Mindset: {
     icon: Brain,
-    color: "#D4D4D8",
+    color: "#A1A1AA",
   },
 } as const;
 
