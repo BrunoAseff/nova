@@ -159,7 +159,7 @@ export default function SpacesTab() {
               data-exclude-sidebar
             >
               <AlertDialogTrigger asChild>
-                <DangerBtn>Reset Spaces</DangerBtn>
+                <DangerBtn>Reset</DangerBtn>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
