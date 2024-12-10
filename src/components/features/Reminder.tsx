@@ -20,7 +20,7 @@ const typeStyles = {
   },
   Motivation: {
     icon: Clover,
-    color: "#9353D3",
+    color: "#FF4ECD",
   },
   Affirmation: {
     icon: HandHeart,
@@ -36,7 +36,7 @@ const typeStyles = {
   },
   Mindset: {
     icon: Brain,
-    color: "#A1A1AA",
+    color: "#E4E4E7",
   },
 } as const;
 
@@ -94,9 +94,8 @@ export default function Reminder(props: ReminderProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
-        className={`flex-col gap-4 rounded-3xl border-[1px] p-4`}
+        className={`flex-col gap-4 rounded-3xl border-[1px] bg-background p-4`}
         style={{
-          backgroundColor: `${color}4D`, // 30% opacity
           borderColor: `${color}80`, // 50% opacity
         }}
       >
@@ -106,7 +105,7 @@ export default function Reminder(props: ReminderProps) {
             {type}
           </p>
         </div>
-        <p className="font-sm text-lg">{text}</p>
+        <p className="font-sm text-md">{text}</p>
       </motion.div>
     );
   };
@@ -127,7 +126,7 @@ export default function Reminder(props: ReminderProps) {
             transition={{ duration: 0.3 }}
             className="rounded-2xl p-4"
           >
-            <p className="text-lg font-medium text-secondary-foreground">
+            <p className="text-md font-medium text-secondary-foreground">
               Add reminders in the settings to stay on track!
             </p>
           </motion.div>
@@ -136,7 +135,7 @@ export default function Reminder(props: ReminderProps) {
       <IconBtn
         onClick={refreshMessage}
         variant="default"
-        className="absolute bottom-3 right-3 z-50 m-1 bg-transparent opacity-0 transition-opacity group-hover:opacity-100"
+        className="absolute bottom-4 right-4 z-50 m-1 rounded-full bg-background opacity-0 transition-opacity hover:bg-background group-hover:opacity-100"
       >
         <Refresh />
       </IconBtn>
