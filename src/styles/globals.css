@@ -103,14 +103,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/30 transition-colors hover:bg-muted-foreground/50;
+  @apply bg-accent/30 transition-colors hover:bg-accent/50;
   border-radius: 5px;
 }
 
 /* Firefox scrollbar styles */
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--muted-foreground)) transparent;
+  scrollbar-color: hsl(var(--accent)) transparent;
 }
 
 .scrollbar-gutter-stable {

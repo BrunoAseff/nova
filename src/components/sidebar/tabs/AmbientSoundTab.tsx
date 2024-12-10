@@ -98,7 +98,7 @@ export default function AmbientSoundTab() {
         subtitle="Customize the appearance and behavior of the clock on your screen."
         src="/illustrations/ambient-sound.svg"
       />
-      <TabBody hasScrollbar={false}>
+      <TabBody hasScrollbar={true}>
         <div className="mt-4 flex min-h-10 min-w-[110%] items-center gap-2 space-x-2 rounded-2xl border-[1px] border-background pl-4">
           <div className="justify-left mt-2 flex w-full flex-col gap-1">
             <Label htmlFor="controls" className="text-md text-foreground">
