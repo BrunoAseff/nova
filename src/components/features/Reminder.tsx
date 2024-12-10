@@ -4,14 +4,50 @@ import type { ReminderProps, ReminderMessage } from "@/types";
 import { Refresh } from "@/components/icons/Refresh";
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import { useSpacesContext } from "@/contexts/spaceContext";
+import {
+  PuzzlePiece,
+  FlowerLotus,
+  Clover,
+  HandHeart,
+  ShootingStar,
+  Brain,
+} from "@phosphor-icons/react";
+
+const typeStyles = {
+  Gratitude: {
+    icon: FlowerLotus,
+    color: "#F5A524",
+  },
+  Motivation: {
+    icon: Clover,
+    color: "#9353D3",
+  },
+  Affirmation: {
+    icon: HandHeart,
+    color: "#17C964",
+  },
+  Challenge: {
+    icon: PuzzlePiece,
+    color: "#F31260",
+  },
+  Dream: {
+    icon: ShootingStar,
+    color: "#06B7DB",
+  },
+  Mindset: {
+    icon: Brain,
+    color: "#A1A1AA",
+  },
+} as const;
 
 export default function Reminder(props: ReminderProps) {
   const { reminderMessages } = useSpacesContext();
   const { isHidden = false, position } = props;
 
-  const [currentMessage, setCurrentMessage] = useState<ReminderMessage | null>(
-    null,
+  const [filteredMessages, setFilteredMessages] = useState<ReminderMessage[]>(
+    [],
   );
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const positionClass = (): string => {
     switch (position) {
@@ -28,61 +64,60 @@ export default function Reminder(props: ReminderProps) {
     }
   };
 
-  const messageTypeClass = (message: ReminderMessage): string => {
-    if (!message) return "";
-    switch (message.type) {
-      case "Gratitude":
-        return "bg-yellow-500/10 border-yellow-500/50   text-yellow-100 border-[1px]";
-      case "Motivation":
-        return "bg-purple-500/10 border-purple-500/50  text-purple-100 border-[1px]";
-      case "Affirmation":
-        return "bg-green-500/10 border-green-500/50  text-green-100 border-[1px]";
-      case "Challenge":
-        return "bg-red-500/10 border-red-500/50  text-red-100 border-[1px]";
-      case "Dream":
-        return "bg-orange-500/10 border-orange-500/50  text-orange-100 border-[1px]";
-      case "Mindset":
-        return "bg-white/10  border-white/50 text-white/80 border-[1px]";
-      default:
-        return "";
-    }
-  };
-
-  const getRandomMessage = useCallback((): ReminderMessage | null => {
-    if (reminderMessages.length === 0) return null;
-    return (
-      reminderMessages[Math.floor(Math.random() * reminderMessages.length)] ??
-      null
-    );
-  }, [reminderMessages]);
-
   const refreshMessage = useCallback(() => {
-    const newMessage = getRandomMessage();
-    setCurrentMessage(newMessage);
-  }, [getRandomMessage]);
+    if (filteredMessages.length > 1) {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % filteredMessages.length);
+    }
+  }, [filteredMessages]);
 
   useEffect(() => {
-    refreshMessage();
-  }, [refreshMessage]);
+    // Filter messages to exclude those with empty text
+    const validMessages = reminderMessages.filter(
+      (message) => message.text && message.text.trim() !== "",
+    );
+    setFilteredMessages(validMessages);
+    setCurrentIndex(0); // Reset index when messages change
+  }, [reminderMessages]);
 
   if (isHidden) return null;
 
+  const currentMessage =
+    filteredMessages.length > 0 ? filteredMessages[currentIndex] : null;
+
+  const renderMessageContent = (message: ReminderMessage) => {
+    const { type, text } = message;
+    const { icon: Icon, color } = typeStyles[type] || {};
+    return (
+      <motion.div
+        key={text}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+        className={`flex-col gap-4 rounded-3xl border-[1px] p-4`}
+        style={{
+          backgroundColor: `${color}4D`, // 30% opacity
+          borderColor: `${color}80`, // 50% opacity
+        }}
+      >
+        <div className="mb-1 flex items-center gap-1">
+          <Icon size={20} color={color} weight="duotone" />
+          <p className="text-xs font-semibold" style={{ color }}>
+            {type}
+          </p>
+        </div>
+        <p className="font-sm text-lg">{text}</p>
+      </motion.div>
+    );
+  };
+
   return (
     <div
-      className={`rounded-4xl fixed w-96 p-4 font-montserrat ${positionClass()} group max-w-md`}
+      className={`rounded-4xl fixed min-w-96 p-4 font-montserrat ${positionClass()} group max-w-md`}
     >
       <AnimatePresence mode="wait">
         {currentMessage ? (
-          <motion.div
-            key={currentMessage.text}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className={`rounded-2xl p-4 ${messageTypeClass(currentMessage)}`}
-          >
-            <p className="text-lg font-medium">{currentMessage.text}</p>
-          </motion.div>
+          renderMessageContent(currentMessage)
         ) : (
           <motion.div
             key="no-reminderMessages"
