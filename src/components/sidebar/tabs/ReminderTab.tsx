@@ -196,7 +196,7 @@ export default function ReminderTab() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3 }}
-                    className="flex flex-col gap-2 rounded-2xl border-[1px] border-accent bg-background p-4"
+                    className="flex flex-col gap-2 rounded-2xl border-[1px] border-accent/60 bg-background p-4"
                   >
                     <RadioGroup
                       className="flex gap-2"
@@ -211,7 +211,7 @@ export default function ReminderTab() {
                       {types.map((type) => (
                         <label
                           key={type}
-                          className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-accent p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
+                          className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-accent/60 p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
                         >
                           <RadioGroupItem
                             value={type}
