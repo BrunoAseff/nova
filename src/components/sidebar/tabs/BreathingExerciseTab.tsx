@@ -42,14 +42,14 @@ export default function BreathingExerciseTab() {
   };
 
   return (
-    <main className="h-screen">
+    <main className="h-screen w-[110%]">
       <TabHeader
         title="Breathing Exercise"
         subtitle="Configure and select guided breathing techniques.
 "
         src="/illustrations/breathing-exercise.svg"
       />
-      <div className="mt-32 flex h-full min-w-[110%] flex-col gap-8">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-36 max-h-[65vh] min-w-[95%] max-w-[115%] space-y-6 overflow-y-auto pr-2">
         <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex w-full flex-col gap-1">
             <Label
@@ -69,7 +69,7 @@ export default function BreathingExerciseTab() {
             onCheckedChange={handleBreathingExerciseVisibilityChange}
           />
         </div>
-        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 pb-10">
           <div className="flex w-full flex-col gap-1">
             <Label
               htmlFor="BreathingExercise-technique"

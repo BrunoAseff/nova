@@ -93,7 +93,7 @@ export default function QuoteTab() {
         subtitle="Personalize your quotes."
         src="/illustrations/quote.svg"
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-36 max-h-[65vh] max-w-[95%] space-y-6 overflow-y-auto pr-2">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-32 max-h-[65vh] max-w-[95%] space-y-6 overflow-y-auto pr-2">
         <div className="flex min-h-16 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label
@@ -170,13 +170,13 @@ export default function QuoteTab() {
           </div>
         </div>
 
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex h-fit w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-3">
           <div className="ml-3 flex w-[95%] flex-col gap-4 pb-10">
             <Label className="text-md text-foreground">Categories</Label>
             <div className="flex flex-wrap gap-4">
               <div
                 className={clsx(
-                  "cursor-pointer rounded-xl border-[1px] border-accent px-6 py-4 transition-colors",
+                  "cursor-pointer rounded-2xl border-[1px] border-accent px-4 py-4 transition-colors",
                   {
                     "border-secondary bg-secondary-smooth-700/10":
                       selectedCategories.includes("all"),
@@ -197,7 +197,7 @@ export default function QuoteTab() {
                 <div
                   key={category}
                   className={clsx(
-                    "cursor-pointer rounded-xl border-[1px] border-accent px-6 py-4 transition-colors",
+                    "cursor-pointer rounded-2xl border-[1px] border-accent px-6 py-4 transition-colors",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedCategories.includes(category),
