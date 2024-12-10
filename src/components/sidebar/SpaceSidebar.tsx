@@ -6,19 +6,7 @@ import IconBtn from "../nova/buttons/IconBtn";
 import { Close } from "../icons/Close";
 import { SidebarTabs, TabsContent, TabsList, TabsTrigger } from "./SidebarTabs";
 import ClockTab from "./tabs/ClockTab";
-import { ClockIcon } from "../icons/featureIcons/ClockIcon";
-import { PomodoroIcon } from "../icons/featureIcons/PomodoroIcon";
-import { QuoteIcon } from "../icons/featureIcons/QuoteIcon";
-import { BackgroundIcon } from "../icons/featureIcons/BackgroundIcon";
-import PomodoroTab from "./tabs/PomodoroTab";
-import QuoteTab from "./tabs/QuoteTab";
-import { AmbientSoundIcon } from "../icons/featureIcons/AmbientSoundIcon";
-import { MusicIcon } from "../icons/featureIcons/MusicIcon";
-import { ReminderIcon } from "../icons/featureIcons/ReminderIcon";
-import { BreathingIcon } from "../icons/featureIcons/BreathingIcon";
-import { SpacesIcon } from "../icons/featureIcons/SpacesIcon";
-import { AppearanceIcon } from "../icons/featureIcons/AppearanceIcon";
-import { ProfileIcon } from "../icons/featureIcons/ProfileIcon";
+
 import BackgroundTab from "./tabs/BackgroundTab";
 import AmbientSoundTab from "./tabs/AmbientSoundTab";
 import MusicTab from "./tabs/MusicTab";
@@ -27,6 +15,21 @@ import BreathingExerciseTab from "./tabs/BreathingExerciseTab";
 import SpacesTab from "./tabs/SpacesTab";
 import AppearanceTab from "./tabs/AppearanceTab";
 import ProfileTab from "./tabs/ProfileTab";
+import {
+  Alarm,
+  Exclude,
+  HourglassHigh,
+  Images,
+  LightbulbFilament,
+  MusicNotes,
+  Palette,
+  Quotes,
+  UserCircle,
+  Waveform,
+  Wind,
+} from "@phosphor-icons/react";
+import PomodoroTab from "./tabs/PomodoroTab";
+import QuoteTab from "./tabs/QuoteTab";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
@@ -54,52 +57,52 @@ export function SpaceSidebar() {
           orientation="vertical"
           className="z-50 ml-5 mt-5 flex h-screen w-full items-start justify-start gap-4"
         >
-          <TabsList className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent flex h-[100%] max-h-[85%] w-[25%] min-w-[25%] flex-col items-start justify-start gap-4 overflow-y-auto pb-6 text-left text-sm">
+          <TabsList className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent flex h-[100%] max-h-[85%] w-[26%] min-w-[26%] flex-col items-start justify-start gap-3 overflow-y-auto pb-6 pl-0 pr-2 text-left text-xs">
             <TabsTrigger className="flex items-center gap-2" value="clock">
-              <ClockIcon />
+              <Alarm size={21} weight="duotone" />
               Clock
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="pomodoro">
-              <PomodoroIcon />
+              <HourglassHigh size={21} weight="duotone" />
               Pomodoro
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="background">
-              <BackgroundIcon />
+              <Images size={21} weight="duotone" />
               Background
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="quote">
-              <QuoteIcon />
+              <Quotes size={21} weight="duotone" />
               Quote
             </TabsTrigger>
             <TabsTrigger
               className="flex items-center gap-2"
               value="ambientSound"
             >
-              <AmbientSoundIcon />
+              <Waveform size={21} weight="duotone" />
               Ambient Sound
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="music">
-              <MusicIcon />
+              <MusicNotes size={21} weight="duotone" />
               Music
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="reminder">
-              <ReminderIcon />
+              <LightbulbFilament size={21} weight="duotone" />
               Reminder
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="breathing">
-              <BreathingIcon />
+              <Wind size={21} weight="duotone" />
               Breathing Exercise
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="spaces">
-              <SpacesIcon />
+              <Exclude size={21} weight="duotone" />
               Spaces
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="appearance">
-              <AppearanceIcon />
+              <Palette size={21} weight="duotone" />
               Appearance
             </TabsTrigger>
             <TabsTrigger className="flex items-center gap-2" value="profile">
-              <ProfileIcon />
+              <UserCircle size={21} weight="duotone" />
               Profile
             </TabsTrigger>
           </TabsList>
