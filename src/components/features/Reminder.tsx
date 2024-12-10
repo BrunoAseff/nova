@@ -44,9 +44,10 @@ export default function Reminder(props: ReminderProps) {
   const { reminderMessages } = useSpacesContext();
   const { isHidden = false, position } = props;
 
-  const [currentMessage, setCurrentMessage] = useState<ReminderMessage | null>(
-    null,
+  const [filteredMessages, setFilteredMessages] = useState<ReminderMessage[]>(
+    [],
   );
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const positionClass = (): string => {
     switch (position) {
@@ -63,24 +64,25 @@ export default function Reminder(props: ReminderProps) {
     }
   };
 
-  const getRandomMessage = useCallback((): ReminderMessage | null => {
-    if (reminderMessages.length === 0) return null;
-    return (
-      reminderMessages[Math.floor(Math.random() * reminderMessages.length)] ??
-      null
-    );
-  }, [reminderMessages]);
-
   const refreshMessage = useCallback(() => {
-    const newMessage = getRandomMessage();
-    setCurrentMessage(newMessage);
-  }, [getRandomMessage]);
+    if (filteredMessages.length > 1) {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % filteredMessages.length);
+    }
+  }, [filteredMessages]);
 
   useEffect(() => {
-    refreshMessage();
-  }, [refreshMessage]);
+    // Filter messages to exclude those with empty text
+    const validMessages = reminderMessages.filter(
+      (message) => message.text && message.text.trim() !== "",
+    );
+    setFilteredMessages(validMessages);
+    setCurrentIndex(0); // Reset index when messages change
+  }, [reminderMessages]);
 
   if (isHidden) return null;
+
+  const currentMessage =
+    filteredMessages.length > 0 ? filteredMessages[currentIndex] : null;
 
   const renderMessageContent = (message: ReminderMessage) => {
     const { type, text } = message;
@@ -94,7 +96,7 @@ export default function Reminder(props: ReminderProps) {
         transition={{ duration: 0.3 }}
         className={`flex-col gap-4 rounded-3xl border-[1px] p-4`}
         style={{
-          backgroundColor: `${color}4D`, // 10% opacity
+          backgroundColor: `${color}4D`, // 30% opacity
           borderColor: `${color}80`, // 50% opacity
         }}
       >
