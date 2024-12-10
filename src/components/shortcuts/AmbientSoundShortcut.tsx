@@ -160,10 +160,10 @@ export default function AmbientSoundShortcut() {
               return (
                 <label
                   key={sound.name}
-                  className={`relative flex h-20 w-[6.5rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border text-center shadow-sm ring-offset-background transition-colors ${
+                  className={`relative z-50 flex h-[5rem] w-[6.3rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] border-accent/20 bg-accent-foreground text-center shadow-sm ring-offset-background transition-colors ${
                     isChecked
                       ? "border-secondary bg-secondary-smooth-700/10"
-                      : "border-accent"
+                      : "border-accent hover:border-secondary-smooth-700/10 hover:bg-secondary-smooth-700/10"
                   } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                 >
                   <RadioGroupItem
@@ -171,9 +171,9 @@ export default function AmbientSoundShortcut() {
                     className="sr-only items-center justify-center"
                   />
                   <div
-                    className={`flex h-5 w-5 items-center justify-center ${
-                      isChecked ? "text-secondary" : "text-foreground"
-                    } ${isChecked ? "opacity-100" : "opacity-60"}`}
+                    className={`flex h-6 w-6 items-center justify-center ${
+                      isChecked ? "text-secondary" : "text-muted-foreground"
+                    } ${isChecked ? "opacity-100" : "opacity-100"}`}
                   >
                     {SoundIcon ? <SoundIcon /> : null}
                   </div>

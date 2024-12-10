@@ -93,8 +93,8 @@ export default function QuoteTab() {
         subtitle="Personalize your quotes."
         src="/illustrations/quote.svg"
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-36 max-h-[65vh] max-w-[95%] space-y-10 overflow-y-auto pr-2">
-        <div className="flex min-h-16 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-36 max-h-[65vh] max-w-[95%] space-y-6 overflow-y-auto pr-2">
+        <div className="flex min-h-16 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="quote-visibility"
@@ -114,7 +114,7 @@ export default function QuoteTab() {
         </div>
 
         {/* Show Author Switch */}
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent p-4">
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label htmlFor="show-author" className="text-md text-foreground">
               Show Author
@@ -130,91 +130,93 @@ export default function QuoteTab() {
           />
         </div>
 
-        {/* Position Selector */}
-        <div className="ml-3 flex flex-col gap-4">
-          <Label htmlFor="quote-position" className="text-md text-foreground">
-            Position
-          </Label>
-          <RadioGroup
-            className="flex w-[95%] items-center justify-evenly gap-2"
-            orientation="horizontal"
-            value={selectedPosition}
-            onValueChange={handleQuotePositionChange}
-          >
-            {["top-right", "top-left", "bottom-left", "center"].map((pos) => (
-              <div
-                key={pos}
-                className={clsx(
-                  "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
-                  {
-                    "border-secondary bg-secondary-smooth-700/10":
-                      selectedPosition === pos,
-                    "hover:bg-accent-foreground": selectedPosition !== pos,
-                  },
-                )}
-                onClick={() => handleQuotePositionChange(pos as Position)}
-              >
-                <Label
-                  htmlFor={`pos-${pos}`}
-                  className={clsx({
-                    "text-secondary": selectedPosition === pos,
-                  })}
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+          <div className="ml-3 flex flex-col gap-4">
+            <Label htmlFor="quote-position" className="text-md text-foreground">
+              Position
+            </Label>
+            <RadioGroup
+              className="flex w-full items-center justify-between"
+              orientation="horizontal"
+              value={selectedPosition}
+              onValueChange={handleQuotePositionChange}
+            >
+              {["top-right", "top-left", "bottom-left", "center"].map((pos) => (
+                <div
+                  key={pos}
+                  className={clsx(
+                    "flex cursor-pointer flex-col items-center justify-between gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
+                    {
+                      "border-secondary bg-secondary-smooth-700/10":
+                        selectedPosition === pos,
+                      "hover:bg-background": selectedPosition !== pos,
+                    },
+                  )}
+                  onClick={() => handleQuotePositionChange(pos as Position)}
                 >
-                  {pos.charAt(0).toUpperCase() + pos.slice(1).replace("-", " ")}
-                </Label>
-                <RadioGroupItem value={pos} id={`pos-${pos}`} />
-              </div>
-            ))}
-          </RadioGroup>
+                  <Label
+                    htmlFor={`pos-${pos}`}
+                    className={clsx({
+                      "text-secondary": selectedPosition === pos,
+                    })}
+                  >
+                    {pos.charAt(0).toUpperCase() +
+                      pos.slice(1).replace("-", " ")}
+                  </Label>
+                  <RadioGroupItem value={pos} id={`pos-${pos}`} />
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
         </div>
 
-        {/* Categories Selector */}
-        <div className="ml-3 flex w-[95%] flex-col gap-4 pb-10">
-          <Label className="text-md text-foreground">Categories</Label>
-          <div className="flex flex-wrap gap-4">
-            <div
-              className={clsx(
-                "cursor-pointer rounded-xl border-[1px] border-accent px-6 py-4 transition-colors",
-                {
-                  "border-secondary bg-secondary-smooth-700/10":
-                    selectedCategories.includes("all"),
-                  "hover:bg-accent-foreground":
-                    !selectedCategories.includes("all"),
-                },
-              )}
-              onClick={() => setSelectedCategories(["all"])}
-            >
-              <span
-                className={clsx({
-                  "text-secondary": selectedCategories.includes("all"),
-                })}
-              >
-                All Categories
-              </span>
-            </div>
-            {CATEGORIES.map((category) => (
+        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+          <div className="ml-3 flex w-[95%] flex-col gap-4 pb-10">
+            <Label className="text-md text-foreground">Categories</Label>
+            <div className="flex flex-wrap gap-4">
               <div
-                key={category}
                 className={clsx(
                   "cursor-pointer rounded-xl border-[1px] border-accent px-6 py-4 transition-colors",
                   {
                     "border-secondary bg-secondary-smooth-700/10":
-                      selectedCategories.includes(category),
-                    "hover:bg-accent-foreground":
-                      !selectedCategories.includes(category),
+                      selectedCategories.includes("all"),
+                    "hover:bg-background": !selectedCategories.includes("all"),
                   },
                 )}
-                onClick={() => handleCategoryChange(category)}
+                onClick={() => setSelectedCategories(["all"])}
               >
                 <span
                   className={clsx({
-                    "text-secondary": selectedCategories.includes(category),
+                    "text-secondary": selectedCategories.includes("all"),
                   })}
                 >
-                  {category}
+                  All Categories
                 </span>
               </div>
-            ))}
+              {CATEGORIES.map((category) => (
+                <div
+                  key={category}
+                  className={clsx(
+                    "cursor-pointer rounded-xl border-[1px] border-accent px-6 py-4 transition-colors",
+                    {
+                      "border-secondary bg-secondary-smooth-700/10":
+                        selectedCategories.includes(category),
+                      "hover:bg-background":
+                        !selectedCategories.includes(category),
+                    },
+                  )}
+                  onClick={() => handleCategoryChange(category)}
+                >
+                  <span
+                    className={clsx({
+                      "text-secondary": selectedCategories.includes(category),
+                    })}
+                  >
+                    {category}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
