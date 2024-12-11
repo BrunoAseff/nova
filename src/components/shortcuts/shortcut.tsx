@@ -3,17 +3,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ClockIcon } from "../icons/featureIcons/ClockIcon";
-import { PomodoroIcon } from "../icons/featureIcons/PomodoroIcon";
-import { QuoteIcon } from "../icons/featureIcons/QuoteIcon";
-import { BackgroundIcon } from "../icons/featureIcons/BackgroundIcon";
-import { AmbientSoundIcon } from "../icons/featureIcons/AmbientSoundIcon";
-import { MusicIcon } from "../icons/featureIcons/MusicIcon";
-import { ReminderIcon } from "../icons/featureIcons/ReminderIcon";
-import { BreathingIcon } from "../icons/featureIcons/BreathingIcon";
-import { SpacesIcon } from "../icons/featureIcons/SpacesIcon";
-import { AppearanceIcon } from "../icons/featureIcons/AppearanceIcon";
-import { ProfileIcon } from "../icons/featureIcons/ProfileIcon";
 import { Button } from "../ui/button";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import AmbientSoundShortcut from "./AmbientSoundShortcut";
@@ -34,6 +23,19 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import {
+  Alarm,
+  Exclude,
+  HourglassHigh,
+  Images,
+  LightbulbFilament,
+  MusicNotes,
+  Palette,
+  Quotes,
+  UserCircle,
+  Waveform,
+  Wind,
+} from "@phosphor-icons/react";
 
 type ShortcutConfig = {
   icon: React.ComponentType;
@@ -42,47 +44,47 @@ type ShortcutConfig = {
 
 const shortcutConfigs: Record<ShortcutName, ShortcutConfig> = {
   clock: {
-    icon: ClockIcon,
+    icon: Alarm,
     component: ClockShortcut,
   },
   pomodoro: {
-    icon: PomodoroIcon,
+    icon: HourglassHigh,
     component: PomodoroShortcut,
   },
   quote: {
-    icon: QuoteIcon,
+    icon: Quotes,
     component: QuoteShortcut,
   },
   background: {
-    icon: BackgroundIcon,
+    icon: Images,
     component: BackgroundShortcut,
   },
   music: {
-    icon: MusicIcon,
+    icon: MusicNotes,
     component: MusicShortcut,
   },
   reminder: {
-    icon: ReminderIcon,
+    icon: LightbulbFilament,
     component: ReminderShortcut,
   },
   breathingExercise: {
-    icon: BreathingIcon,
+    icon: Wind,
     component: BreathingExerciseShortcut,
   },
   spaces: {
-    icon: SpacesIcon,
+    icon: Exclude,
     component: SpacesShortcut,
   },
   profile: {
-    icon: ProfileIcon,
+    icon: UserCircle,
     component: ProfileShortcut,
   },
   ambientSound: {
-    icon: AmbientSoundIcon,
+    icon: Waveform,
     component: AmbientSoundShortcut,
   },
   appearance: {
-    icon: AppearanceIcon,
+    icon: Palette,
     component: AppearanceShortcut,
   },
 };
@@ -108,7 +110,7 @@ export default function Shortcut() {
                 className="absolute bottom-10 right-72 z-10 overflow-hidden rounded-xl bg-background text-sm text-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-secondary"
                 size="icon"
               >
-                <div className="scale-110">
+                <div className="text-xl">
                   <ShortcutIcon />
                 </div>
               </Button>
