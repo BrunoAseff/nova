@@ -200,7 +200,7 @@ export default function PomodoroTab() {
             >
               Auto Start
             </Label>
-            <p className="text-sm text-muted-foreground">
+            <p className="max-w-[90%] text-sm text-muted-foreground">
               Controls if the Pomodoro timer automatically starts when the tab
               is switched.
             </p>
@@ -221,7 +221,7 @@ export default function PomodoroTab() {
               >
                 Alarm Sound
               </Label>
-              <p className="text-sm text-muted-foreground">
+              <p className="max-w-[90%] text-sm text-muted-foreground">
                 Controls if the Pomodoro timer should play a sound when the time
                 is up.
               </p>
