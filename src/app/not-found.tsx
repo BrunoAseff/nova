@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import FourZeroFourIllustration from "@/components/svgs/FourZeroFour";
 
 export default function NotFound() {
   return (
@@ -10,12 +10,8 @@ export default function NotFound() {
       <h1 className="mb-4 text-4xl font-bold text-foreground">
         Page Not Found
       </h1>
-      <Image
-        src="/illustrations/404.svg"
-        alt="Page Not Found"
-        width={400}
-        height={300}
-      />
+      <FourZeroFourIllustration className="h-80 w-80 fill-secondary" />
+
       <p className="mb-6 text-foreground">
         The page you are looking for might have been removed or does not exist.
       </p>

@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import type { Position } from "@/types";
 import { TabHeader } from "@/components/tabHeader";
+import QuoteIllustration from "@/components/svgs/QuoteIllustration";
 
 type Category = "Fact" | "Success" | "Motivational" | "Gratitude" | "Self Care";
 const CATEGORIES: Category[] = [
@@ -90,8 +91,8 @@ export default function QuoteTab() {
     <main className="h-screen">
       <TabHeader
         title="Quote"
-        subtitle="Personalize your quotes."
-        src="/illustrations/quote.svg"
+        subtitle="Personalize your quotes and choose what you want to see."
+        Icon={QuoteIllustration}
       />
       <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-32 max-h-[65vh] max-w-[95%] space-y-6 overflow-y-auto pr-2">
         <div className="flex min-h-16 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">

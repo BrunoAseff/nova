@@ -1,3 +1,4 @@
+import AppearanceIllustration from "@/components/svgs/AppearanceIllustration";
 import { TabHeader } from "@/components/tabHeader";
 
 export default function AppearanceTab() {
@@ -6,7 +7,7 @@ export default function AppearanceTab() {
       <TabHeader
         title="Appearance"
         subtitle="Personalize the visual theme to match your aesthetic preferences."
-        src="/illustrations/appearance.svg"
+        Icon={AppearanceIllustration}
       />
       <div className="mt-28 flex h-full flex-col gap-10"></div>
     </main>

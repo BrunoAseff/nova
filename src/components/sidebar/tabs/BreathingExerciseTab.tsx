@@ -2,6 +2,7 @@ import { AlternateIcon } from "@/components/icons/breathingExercise/AlternateIco
 import { BoxIcon } from "@/components/icons/breathingExercise/BoxIcon";
 import { FourSevenEightIcon } from "@/components/icons/breathingExercise/FourSevenEightIcon";
 import { WimHofIcon } from "@/components/icons/breathingExercise/WimHofIcon";
+import BreathingExerciseIllustration from "@/components/svgs/BreathingExerciseIllustration";
 import { TabHeader } from "@/components/tabHeader";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -47,7 +48,7 @@ export default function BreathingExerciseTab() {
         title="Breathing Exercise"
         subtitle="Configure and select guided breathing techniques.
 "
-        src="/illustrations/breathing-exercise.svg"
+        Icon={BreathingExerciseIllustration}
       />
       <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-36 max-h-[65vh] min-w-[95%] max-w-[115%] space-y-6 overflow-y-auto pr-2">
         <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">

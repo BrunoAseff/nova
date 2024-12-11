@@ -19,6 +19,8 @@ import { Badge } from "@/components/ui/badge";
 import { Close } from "@/components/icons/Close";
 import { TabHeader } from "@/components/tabHeader";
 import { Label } from "@/components/ui/label";
+import BackgroundIllustration from "@/components/svgs/BackgroundIllustration";
+import NoResultsIllustration from "@/components/svgs/NoResultsIllustration";
 
 export default function BackgroundTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
@@ -87,7 +89,7 @@ export default function BackgroundTab() {
       <TabHeader
         title="Background"
         subtitle="Choose background images to create your ideal workspace atmosphere."
-        src="/illustrations/background.svg"
+        Icon={BackgroundIllustration}
       />
 
       <div className="mt-28 flex w-[100%] flex-col">
@@ -244,12 +246,7 @@ export default function BackgroundTab() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center gap-4 text-center">
-            <Image
-              src="/illustrations/no-results.svg"
-              alt="No results found"
-              width={300}
-              height={300}
-            />
+            <NoResultsIllustration className="h-44 w-44 fill-muted-foreground" />
             <h2 className="text-xl font-semibold text-muted-foreground">
               No backgrounds found
             </h2>

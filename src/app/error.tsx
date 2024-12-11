@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import FiveHundredIllustration from "@/components/svgs/FiveHundredIllustration";
 
 export default function Error({
   error,
@@ -20,12 +20,7 @@ export default function Error({
       <h1 className="mb-4 text-3xl font-bold text-foreground">
         Something went wrong!
       </h1>
-      <Image
-        src="/illustrations/500.svg"
-        alt="Error 500"
-        width={400}
-        height={300}
-      />
+      <FiveHundredIllustration className="h-80 w-80 fill-secondary" />
       <p className="mb-6 text-foreground">
         We apologize for the inconvenience. Please try again or contact support.
       </p>

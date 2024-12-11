@@ -27,6 +27,7 @@ import {
 import { TabHeader } from "@/components/tabHeader";
 import TabBody from "@/components/tabBody";
 import TabCard from "@/components/tabCard";
+import SpacesIllustration from "@/components/svgs/SpacesIllustration";
 
 // Map display names to shortcut values
 const shortcutMapping: Record<string, ShortcutName> = {
@@ -61,7 +62,7 @@ export default function SpacesTab() {
       <TabHeader
         title="Spaces"
         subtitle="Customize and organize your workspace layouts."
-        src="/illustrations/spaces.svg"
+        Icon={SpacesIllustration}
       />
       <TabBody>
         <TabCard>

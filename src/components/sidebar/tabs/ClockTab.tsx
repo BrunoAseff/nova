@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import type { Position } from "@/types";
 import { TabHeader } from "@/components/tabHeader";
+import ClockIllustration from "@/components/svgs/ClockIllustration";
 
 export default function ClockTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
@@ -52,7 +53,7 @@ export default function ClockTab() {
       <TabHeader
         title="Clock"
         subtitle="Customize the appearance and behavior of the clock on your screen."
-        src="/illustrations/clock.svg"
+        Icon={ClockIllustration}
       />
       <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-[7.2rem] h-[calc(100vh-250px)] w-[110%] flex-col gap-6 space-y-4 overflow-y-auto pb-10 pr-6">
         {" "}
