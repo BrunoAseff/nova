@@ -13,6 +13,7 @@ import { GameControllerIcon } from "@/components/icons/GameController"; // for g
 import { RoosterIcon } from "@/components/icons/RoosterIcon";
 import { TabHeader } from "@/components/tabHeader";
 import TabBody from "@/components/tabBody";
+import PomodoroIllustration from "@/components/svgs/PomodoroIllustration";
 
 const alarmSounds = [
   { name: "Melodic", value: "/alarm-sounds/calming-alarm.wav", icon: WindIcon },
@@ -170,7 +171,7 @@ export default function PomodoroTab() {
         title="Pomodoro"
         subtitle="Configure your Pomodoro timer settings for effective time
               management."
-        src="/illustrations/pomodoro.svg"
+        Icon={PomodoroIllustration}
       />
       <TabBody>
         <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">

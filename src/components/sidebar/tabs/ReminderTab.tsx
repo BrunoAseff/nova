@@ -12,6 +12,7 @@ import { nanoid } from "nanoid";
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import type { ReminderMessage } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
+import ReminderIllustration from "@/components/svgs/ReminderIllustration";
 
 export default function ReminderTab() {
   const {
@@ -106,9 +107,9 @@ export default function ReminderTab() {
       <TabHeader
         title="Reminder"
         subtitle="Set up and manage your personal reminders to keep what you want in mind."
-        src="/illustrations/reminder.svg"
+        Icon={ReminderIllustration}
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-[6.5rem] max-h-[65vh] min-w-[95%] max-w-[115%] space-y-6 overflow-y-auto pr-6">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-[7rem] max-h-[65vh] min-w-[95%] max-w-[115%] space-y-6 overflow-y-auto pr-6">
         <div className="flex min-h-16 max-w-[99%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label

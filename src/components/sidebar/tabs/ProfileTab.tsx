@@ -2,6 +2,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { TabHeader } from "@/components/tabHeader";
+import ProfileIllustration from "@/components/svgs/ProfileIllustration";
 
 export default function ProfileTab() {
   return (
@@ -9,7 +10,7 @@ export default function ProfileTab() {
       <TabHeader
         title="Profile"
         subtitle="Manage and customize your personal profile details."
-        src="/illustrations/profile.svg"
+        Icon={ProfileIllustration}
       />
       <div className="mx-auto mt-32 flex h-full w-full flex-col gap-6">
         <div className="via mt-6 flex min-h-10 w-full flex-col items-center justify-between gap-6 space-x-2 rounded-2xl border-[1px] border-accent bg-gradient-to-tl from-primary via-secondary-smooth-500 to-secondary-smooth-700 p-4">
