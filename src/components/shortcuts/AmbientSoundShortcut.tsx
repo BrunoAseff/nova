@@ -113,10 +113,11 @@ export default function AmbientSoundShortcut() {
       </div>
       {/* Volume Control with Play/Pause */}
 
-      <div className="my-1 flex min-h-10 min-w-[110%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-background">
+      <div className="my-1 flex min-h-10 min-w-[110%] items-center justify-between rounded-2xl border-[1px] border-background">
         <div className="flex flex-col gap-1">
           <div className="flex items-center justify-between space-x-2">
             <div className="flex flex-col gap-1">
+              <p className="text-md text-muted-foreground">Filter by type</p>
               <Select
                 onOpenChange={(isOpen) => {
                   setSelectOpen(isOpen);
@@ -130,7 +131,7 @@ export default function AmbientSoundShortcut() {
                   setSelectedType(value as Type | "All")
                 }
               >
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="mb-3 w-40">
                   <SelectValue placeholder="All" />
                 </SelectTrigger>
                 <SelectContent>
