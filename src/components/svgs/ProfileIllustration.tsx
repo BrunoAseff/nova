@@ -19,11 +19,7 @@ export default function ProfileIllustration({
       viewBox="0 0 520 520"
     >
       <defs>
-        <style>
-          {
-            ".cls-1,.cls-2,.cls-3{fill:hsla(210, 100%, 67%, 0.7);}.cls-2{opacity:.1;}.cls-3{opacity:.2;}"
-          }
-        </style>
+        <style>{".cls-2{opacity:.1;}.cls-3{opacity:.2;}"}</style>
       </defs>
       <path
         className="cls-1"

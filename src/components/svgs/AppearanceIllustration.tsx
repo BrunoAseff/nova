@@ -18,9 +18,7 @@ export default function AppearanceIllustration({
     >
       <defs>
         <style>
-          {
-            ".cls-1,.cls-2,.cls-3{fill:hsla(210, 100%, 67%, 0.7);}.cls-2{opacity:0.2;}.cls-3{opacity:0.23;}"
-          }
+          {".cls-1,.cls-2,.cls-3.cls-2{opacity:1;}.cls-3{opacity:0.23;}"}
         </style>
       </defs>
       <title>{"Notioly New"}</title>

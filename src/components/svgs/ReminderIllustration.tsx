@@ -21,7 +21,7 @@ export default function ReminderIllustration({
       <defs>
         <style>
           {
-            ".cls-1,.cls-2,.cls-3,.cls-4,.cls-5,.cls-6{fill:hsla(210, 100%, 67%, 0.7);}.cls-2{opacity:.2;}.cls-3{opacity:.25;}.cls-4{opacity:.4;}.cls-5{opacity:.35;}.cls-6{opacity:.65;}"
+            ".cls-2{opacity:.2;}.cls-3{opacity:.25;}.cls-4{opacity:.4;}.cls-5{opacity:.35;}.cls-6{opacity:.65;}"
           }
         </style>
       </defs>
