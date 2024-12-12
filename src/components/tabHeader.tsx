@@ -17,7 +17,7 @@ export function TabHeader({ title, subtitle, Icon }: TabHeaderProps) {
           <p className="text-sm text-muted-foreground">{subtitle}</p>
         </div>
         <div className="flex items-center justify-center">
-          <Icon className="h-52 w-52 fill-secondary text-secondary" />
+          <Icon className="h-52 w-52 fill-secondary text-secondary opacity-80" />
         </div>
       </div>
     </div>

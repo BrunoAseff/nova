@@ -21,7 +21,7 @@ export default function ClockIllustration({
       <defs>
         <style>
           {
-            ".cls-1{opacity:.35;}.cls-1,.cls-2,.cls-3,.cls-4{fill:hsla(210, 100%, 67%, 0.7);stroke-width:0px;}.cls-2,.cls-5{opacity:.2;}.cls-6{fill:none;stroke:#231f20;stroke-miterlimit:10;stroke-width:.75px;}.cls-3{opacity:.15;}"
+            ".cls-1{opacity:.35;}.cls-1,.cls-2,.cls-3,.cls-4{stroke-width:0px;}.cls-2,.cls-5{opacity:.2;}.cls-6{fill:none;stroke:#231f20;stroke-miterlimit:10;stroke-width:.75px;}.cls-3{opacity:.15;}"
           }
         </style>
       </defs>

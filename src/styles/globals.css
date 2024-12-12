@@ -116,12 +116,3 @@
 .scrollbar-gutter-stable {
   scrollbar-gutter: stable;
 }
-
-svg {
-  --secondary-color: var(--secondary);
-}
-
-.cls-1,
-.cls-2 {
-  fill: var(--secondary-color);
-}

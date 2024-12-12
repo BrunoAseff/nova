@@ -21,7 +21,7 @@ export default function SpacesIllustration({
       <defs>
         <style>
           {
-            ".cls-1{opacity:.2;}.cls-1,.cls-2,.cls-3,.cls-4,.cls-5{fill:hsla(210, 100%, 67%, 0.7);stroke-width:0px;}.cls-2{opacity:.4;}.cls-3,.cls-6{opacity:.45;}.cls-7{opacity:.55;}.cls-4{opacity:.3;}"
+            ".cls-1{opacity:.2;}.cls-1,.cls-2,.cls-3,.cls-4,.cls-5{stroke-width:0px;}.cls-2{opacity:.4;}.cls-3,.cls-6{opacity:.45;}.cls-7{opacity:.55;}.cls-4{opacity:.3;}"
           }
         </style>
       </defs>

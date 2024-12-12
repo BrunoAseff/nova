@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import FourSevenEight from "./FourSevenEight";
 import AlternateNostril from "./AlternateNostril";
 import WimHofMethod from "./WimHofMethod";
-import Image from "next/image";
+import BreathingExerciseIllustration from "@/components/svgs/BreathingExerciseIllustration";
 
 export default function BreathingExercise({
   isHidden,
@@ -64,12 +64,7 @@ export default function BreathingExercise({
                 Scientifically-backed breathing exercises
               </p>
               <motion.div variants={floatingVariants} animate="float">
-                <Image
-                  src={`/illustrations/breathing-white.svg`}
-                  alt="Breathing Exercise illustration"
-                  width={300}
-                  height={300}
-                />
+                <BreathingExerciseIllustration className="h-60 w-60 !fill-foreground text-foreground" />
               </motion.div>
             </div>
             <Button variant="dark" onClick={() => setIsExerciseRunning(true)}>

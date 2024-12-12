@@ -19,11 +19,7 @@ export default function QuoteIllustration({
       viewBox="0 0 520 520"
     >
       <defs>
-        <style>
-          {
-            ".cls-1,.cls-2{fill:hsla(210, 100%, 67%, 0.7);}.cls-3{opacity:.3;}.cls-2{opacity:.15;}"
-          }
-        </style>
+        <style>{".cls-3{opacity:.3;}.cls-2{opacity:.15;}"}</style>
       </defs>
       <path
         className="cls-1"

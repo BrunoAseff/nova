@@ -19,7 +19,7 @@ export default function PomodoroIllustration({
       viewBox="0 0 520 520"
     >
       <defs>
-        <style>{".cls-1{fill:hsla(210, 100%, 67%, 0.7);}"}</style>
+        <style>{".cls-1"}</style>
       </defs>
       <title>{"Notioly New september"}</title>
       <g id="_164.Please-Wait" data-name="164.Please-Wait">

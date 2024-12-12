@@ -18,9 +18,7 @@ export default function MusicIllustration({
       className={twMerge(className)}
       viewBox="0 0 520 520"
     >
-      <defs>
-        <style>{".cls-1{fill:hsla(210, 100%, 67%, 0.7);}"}</style>
-      </defs>
+      <defs></defs>
       <title>{"Notioly New"}</title>
       <g id="_177.Music" data-name="177.Music">
         <path

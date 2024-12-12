@@ -20,9 +20,7 @@ export default function BackgroundIllustration({
     >
       <defs>
         <style>
-          {
-            ".cls-1,.cls-2,.cls-3,.cls-4{fill:hsla(210, 100%, 67%, 0.7);}.cls-2{opacity:.15;}.cls-3{opacity:.2;}.cls-4{opacity:.4;}"
-          }
+          {".cls-2{opacity:.15;}.cls-3{opacity:.2;}.cls-4{opacity:.4;}"}
         </style>
       </defs>
       <path
