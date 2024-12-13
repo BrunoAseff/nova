@@ -77,29 +77,20 @@ export default function Space() {
 
   useEffect(() => {
     const detectPlatform = () => {
-      if ("userAgentData" in navigator && navigator.userAgentData?.platform) {
-        return navigator.userAgentData.platform.toLowerCase() === "windows"
-          ? "Ctrl B"
-          : "⌘B";
+      if (navigator.userAgentData?.platform?.toLowerCase() === "windows") {
+        return "Ctrl B";
       }
-
-      const isMac = /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent);
-      return isMac ? "⌘B" : "Ctrl B";
+      return /(Mac|iPhone|iPod|iPad)/i.test(navigator.userAgent)
+        ? "⌘B"
+        : "Ctrl B";
     };
 
     setSidebarShortcut(detectPlatform());
 
     const handleOutsideClick = (event: MouseEvent) => {
-      // Check if this click is happening right after a select close
-      const timeSinceLastSelectClose = Date.now() - lastSelectCloseTime.current;
-      if (timeSinceLastSelectClose < 100) {
-        // 100ms threshold
-        return;
-      }
+      if (Date.now() - lastSelectCloseTime.current < 100) return;
 
-      if (isSelectOpen) {
-        return;
-      }
+      if (isSelectOpen) return;
 
       const sidebar = document.querySelector("[data-sidebar]");
       const excludedElements = document.querySelectorAll(
@@ -112,24 +103,18 @@ export default function Space() {
         (el) => !el.contains(event.target as Node),
       );
 
-      if (!isOutsideSidebar || !isNotExcluded) {
-        return;
-      }
-
-      closeSidebar();
-    };
-
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (isOutsideSidebar && isNotExcluded) {
         closeSidebar();
       }
     };
 
-    // Add event listeners
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeSidebar();
+    };
+
     document.addEventListener("mousedown", handleOutsideClick);
     document.addEventListener("keydown", handleEscapeKey);
 
-    // Cleanup event listeners
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
       document.removeEventListener("keydown", handleEscapeKey);
@@ -172,18 +157,16 @@ export default function Space() {
             key={space.name}
             value={space.name}
           >
-            {/* Add initial colored background div */}
             <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
 
-            {/* Preload the first background image */}
-            {space.name === "Focus" ? (
+            {space.name === "Focus" && (
               <link
                 rel="preload"
                 as="image"
                 href={space.background}
                 key={space.background}
               />
-            ) : null}
+            )}
 
             <div className="absolute inset-0 z-0">
               <Image
