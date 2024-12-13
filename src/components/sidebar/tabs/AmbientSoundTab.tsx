@@ -93,7 +93,7 @@ export default function AmbientSoundTab() {
   };
 
   return (
-    <main className="h-screen min-w-[110%]">
+    <main className="h-screen min-w-[115%]">
       <TabHeader
         title="Ambient Sound"
         subtitle="Customize the appearance and behavior of the clock on your screen."
@@ -101,13 +101,13 @@ export default function AmbientSoundTab() {
       />
 
       <TabBody hasScrollbar={true}>
-        <div className="mt-4 flex min-h-10 min-w-[110%] items-center gap-2 space-x-2 rounded-2xl border-[1px] border-background pl-4">
+        <div className="mt-4 flex min-h-10 min-w-[100%] items-center gap-2 space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="justify-left mt-2 flex w-full flex-col gap-1">
             <Label htmlFor="controls" className="text-md text-foreground">
               Controls
             </Label>
 
-            <div className="flex w-fit items-center space-x-4 rounded-full border-[1px] border-muted p-3">
+            <div className="flex w-fit items-center space-x-4 rounded-full border-[1px] border-muted bg-background p-3">
               <IconBtn onClick={handlePlayPause}>
                 {isAmbientSoundPlaying ? <Pause /> : <Play />}
               </IconBtn>
@@ -129,7 +129,7 @@ export default function AmbientSoundTab() {
           </div>
         </div>
 
-        <div className="flex min-h-10 min-w-[110%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-background pl-4">
+        <div className="flex min-h-10 min-w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground pl-4">
           <div className="flex flex-col gap-1">
             <div className="my-3 flex items-center justify-between space-x-2">
               <div className="flex flex-col gap-1">
@@ -176,10 +176,10 @@ export default function AmbientSoundTab() {
                 return (
                   <label
                     key={sound.name}
-                    className={`relative z-50 flex h-[5.5rem] w-[7rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] border-accent/20 bg-accent-foreground text-center shadow-sm ring-offset-background transition-colors ${
+                    className={`relative z-50 flex h-[5.5rem] w-[7rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] bg-accent-foreground text-center shadow-sm ring-offset-background transition-colors ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
-                        : "border-accent hover:border-secondary-smooth-700/10 hover:bg-secondary-smooth-700/10"
+                        : "hover:bg-background"
                     } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                   >
                     <RadioGroupItem
