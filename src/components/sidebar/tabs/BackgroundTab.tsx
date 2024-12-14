@@ -3,7 +3,7 @@ import { useSpacesContext } from "@/contexts/spaceContext";
 import { backgrounds } from "content/backgrounds";
 import type { Color, Environment } from "content/backgrounds";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -51,15 +51,17 @@ export default function BackgroundTab() {
     }
   };
 
-  const filteredBackgrounds = backgrounds.filter((bg) => {
-    const matchesEnvironment =
-      selectedEnvironment === "all" ||
-      bg.environment.includes(selectedEnvironment as Environment);
-    const matchesColor =
-      selectedColor === "all" || bg.color.includes(selectedColor as Color);
-    const matchesAI = excludeAI ? !bg.AIgenerated : true;
-    return matchesEnvironment && matchesColor && matchesAI;
-  });
+  const filteredBackgrounds = useMemo(() => {
+    return backgrounds.filter((bg) => {
+      const matchesEnvironment =
+        selectedEnvironment === "all" ||
+        bg.environment.includes(selectedEnvironment);
+      const matchesColor =
+        selectedColor === "all" || bg.color.includes(selectedColor);
+      const matchesAI = excludeAI ? !bg.AIgenerated : true;
+      return matchesEnvironment && matchesColor && matchesAI;
+    });
+  }, [selectedEnvironment, selectedColor, excludeAI]);
 
   const COLOR_MAP: Record<Color, string> = {
     Green: "bg-green-500",
