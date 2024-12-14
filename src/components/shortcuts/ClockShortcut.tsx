@@ -36,11 +36,11 @@ export default function ClockShortcut() {
 
   return (
     <main className="h-fit">
-      <h1 className="font-delius text-xl text-secondary-foreground/80">
+      <h1 className="mb-2 font-delius text-xl text-secondary-foreground/80">
         <span className="text-secondary">Clock</span> settings
       </h1>
-      <div className="flex flex-col gap-1">
-        <div className="flex w-full items-center justify-between space-x-2 rounded-2xl p-4">
+      <div className="flex flex-col gap-3">
+        <div className="flex w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 py-2">
           <div className="flex w-full flex-col gap-4">
             <Label
               htmlFor="clock-position"
@@ -49,7 +49,7 @@ export default function ClockShortcut() {
               Position
             </Label>
             <RadioGroup
-              className="flex w-full cursor-pointer items-center justify-evenly gap-2"
+              className="grid w-full cursor-pointer grid-cols-2 items-center justify-evenly gap-4 text-center"
               orientation="horizontal"
               value={selectedPosition}
               onValueChange={handleClockPositionChange}
@@ -58,7 +58,7 @@ export default function ClockShortcut() {
                 <div
                   key={pos}
                   className={clsx(
-                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-5 py-3 text-xs",
+                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-4 py-3 text-xs",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedPosition === pos,
@@ -86,8 +86,8 @@ export default function ClockShortcut() {
             </RadioGroup>
           </div>
         </div>
-        <div className="mr-auto flex w-full space-x-2 rounded-2xl p-4">
-          <div className="flex w-[50%] flex-col gap-4">
+        <div className="ml-auto flex w-full space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+          <div className="flex flex-col gap-4">
             <Label
               htmlFor="time-format"
               className="text-sm text-muted-foreground"
@@ -95,7 +95,7 @@ export default function ClockShortcut() {
               Time Format
             </Label>
             <RadioGroup
-              className="flex w-full cursor-pointer items-center justify-center gap-4"
+              className="grid w-full cursor-pointer grid-cols-2 items-center justify-evenly gap-4 text-center"
               orientation="horizontal"
               value={timeFormat}
               onValueChange={handleTimeFormatChange}
@@ -104,7 +104,7 @@ export default function ClockShortcut() {
                 <div
                   key={format}
                   className={clsx(
-                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-5 py-3 text-sm",
+                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-3 text-xs",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         timeFormat === format,
