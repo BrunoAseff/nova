@@ -1,51 +1,26 @@
-import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import clsx from "clsx";
-import { useSpacesContext } from "@/contexts/spaceContext";
 import type { Position } from "@/types";
 import { TabHeader } from "@/components/tabHeader";
 import ClockIllustration from "@/components/svgs/ClockIllustration";
+import { useClockSettings } from "@/hooks/feature-settings/useClockSettings";
 
 export default function ClockTab() {
-  const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
-  const [selectedPosition, setSelectedPosition] = useState<Position>("center");
-  const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("24h");
-  const [isClockVisible, setIsClockVisible] = useState(true);
-
-  // Synchronize local state with the selected space
-  useEffect(() => {
-    const selectedSpace = spaces.find((space) => space.name === selectedTab);
-    if (selectedSpace) {
-      setSelectedPosition(selectedSpace.clock.position);
-      setTimeFormat(selectedSpace.clock.timeFormat);
-      setIsClockVisible(!selectedSpace.clock.isHidden);
-    }
-  }, [spaces, selectedTab]);
+  const { selectedPosition, timeFormat, isClockVisible, updateClockProperty } =
+    useClockSettings();
 
   const handleClockVisibilityChange = (visible: boolean) => {
-    setIsClockVisible(visible);
-    updateSpaceProperty(selectedTab, "clock", {
-      ...spaces.find((s) => s.name === selectedTab)?.clock,
-      isHidden: !visible,
-    });
+    updateClockProperty("isHidden", !visible);
   };
 
   const handleClockPositionChange = (position: Position) => {
-    setSelectedPosition(position);
-    updateSpaceProperty(selectedTab, "clock", {
-      ...spaces.find((s) => s.name === selectedTab)?.clock,
-      position,
-    });
+    updateClockProperty("position", position);
   };
 
   const handleTimeFormatChange = (format: "12h" | "24h") => {
-    setTimeFormat(format);
-    updateSpaceProperty(selectedTab, "clock", {
-      ...spaces.find((s) => s.name === selectedTab)?.clock,
-      timeFormat: format,
-    });
+    updateClockProperty("timeFormat", format);
   };
 
   return (
