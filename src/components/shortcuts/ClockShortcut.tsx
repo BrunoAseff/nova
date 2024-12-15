@@ -42,10 +42,7 @@ export default function ClockShortcut() {
       <div className="flex flex-col gap-3">
         <div className="flex w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 py-2">
           <div className="flex w-full flex-col gap-4">
-            <Label
-              htmlFor="clock-position"
-              className="text-sm text-muted-foreground"
-            >
+            <Label htmlFor="clock-position" className="text-sm text-foreground">
               Position
             </Label>
             <RadioGroup
@@ -58,11 +55,11 @@ export default function ClockShortcut() {
                 <div
                   key={pos}
                   className={clsx(
-                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-4 py-3 text-xs",
+                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent bg-accent-foreground px-4 py-3 text-xs",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedPosition === pos,
-                      "hover:bg-accent-foreground": selectedPosition !== pos,
+                      "hover:bg-background": selectedPosition !== pos,
                     },
                   )}
                   onClick={() => handleClockPositionChange(pos as Position)}
@@ -88,10 +85,7 @@ export default function ClockShortcut() {
         </div>
         <div className="ml-auto flex w-full space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-4">
-            <Label
-              htmlFor="time-format"
-              className="text-sm text-muted-foreground"
-            >
+            <Label htmlFor="time-format" className="text-sm text-foreground">
               Time Format
             </Label>
             <RadioGroup
@@ -104,11 +98,11 @@ export default function ClockShortcut() {
                 <div
                   key={format}
                   className={clsx(
-                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-3 text-xs",
+                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent bg-accent-foreground px-6 py-3 text-xs",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         timeFormat === format,
-                      "hover:bg-accent-foreground": timeFormat !== format,
+                      "hover:bg-background": timeFormat !== format,
                     },
                   )}
                   onClick={() =>

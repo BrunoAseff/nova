@@ -153,7 +153,7 @@ export default function AmbientSoundShortcut() {
           <RadioGroup
             value={currentSound?.name ?? ""}
             onValueChange={handleSoundChange}
-            className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent overflow mt-2 grid max-h-[43vh] w-full grid-cols-3 items-center justify-between gap-4 overflow-y-auto pb-10 pr-2"
+            className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent overflow mt-2 grid max-h-[43vh] w-full grid-cols-3 items-center justify-between gap-4 overflow-y-auto pb-2 pr-2"
           >
             {filteredSounds.map((sound) => {
               const isChecked = sound.url === ambientSound;
