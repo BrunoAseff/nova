@@ -12,10 +12,8 @@ import BreathingExerciseShortcut from "./BreathingExerciseShortcut";
 import ClockShortcut from "./ClockShortcut";
 import MusicShortcut from "./MusicShortcut";
 import PomodoroShortcut from "./PomodoroShortcut";
-import ProfileShortcut from "./ProfileShortcut";
 import QuoteShortcut from "./QuoteShortcut";
 import ReminderShortcut from "./ReminderShortcut";
-import SpacesShortcut from "./SpacesShortcut";
 import type { ShortcutName } from "@/types";
 import {
   Tooltip,
@@ -25,14 +23,12 @@ import {
 } from "../ui/tooltip";
 import {
   Alarm,
-  Exclude,
   HourglassHigh,
   Images,
   LightbulbFilament,
   MusicNotes,
   Palette,
   Quotes,
-  UserCircle,
   Waveform,
   Wind,
 } from "@phosphor-icons/react";
@@ -71,14 +67,7 @@ const shortcutConfigs: Record<ShortcutName, ShortcutConfig> = {
     icon: Wind,
     component: BreathingExerciseShortcut,
   },
-  spaces: {
-    icon: Exclude,
-    component: SpacesShortcut,
-  },
-  profile: {
-    icon: UserCircle,
-    component: ProfileShortcut,
-  },
+
   ambientSound: {
     icon: Waveform,
     component: AmbientSoundShortcut,
