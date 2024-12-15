@@ -38,8 +38,6 @@ const shortcutMapping: Record<string, ShortcutName> = {
   Music: "music",
   Reminder: "reminder",
   "Breathing Exercise": "breathingExercise",
-  Spaces: "spaces",
-  Profile: "profile",
   "Ambient Sound": "ambientSound",
   Appearance: "appearance",
 };
