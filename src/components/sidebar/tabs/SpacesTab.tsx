@@ -158,7 +158,7 @@ export default function SpacesTab() {
               data-exclude-sidebar
             >
               <AlertDialogTrigger asChild>
-                <DangerBtn>Reset</DangerBtn>
+                <DangerBtn>Reset spaces</DangerBtn>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -169,12 +169,12 @@ export default function SpacesTab() {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
+                  <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={resetSpaces}
-                    className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive"
+                    className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive"
                   >
                     Reset Spaces
                   </AlertDialogAction>
