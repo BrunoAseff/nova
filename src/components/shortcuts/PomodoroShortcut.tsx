@@ -95,7 +95,7 @@ export default function PomodoroShortcut() {
           <div className="flex w-full justify-between gap-2">
             <Label
               htmlFor="pomodoro-autostart"
-              className="text-sm text-muted-foreground"
+              className="text-sm text-foreground"
             >
               Auto Start
             </Label>
@@ -108,10 +108,7 @@ export default function PomodoroShortcut() {
         </div>
         <div className="my-1 flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-2">
-            <Label
-              htmlFor="pomodoro-alarm"
-              className="text-sm text-muted-foreground"
-            >
+            <Label htmlFor="pomodoro-alarm" className="text-sm text-foreground">
               Alarm Sound
             </Label>
           </div>
@@ -126,7 +123,7 @@ export default function PomodoroShortcut() {
           <div className="flex flex-col gap-2">
             <Label
               htmlFor="short-break-duration"
-              className="text-sm text-muted-foreground"
+              className="text-sm text-foreground"
             >
               Short Break Duration
             </Label>
@@ -156,7 +153,7 @@ export default function PomodoroShortcut() {
           <div className="flex flex-col gap-2">
             <Label
               htmlFor="long-break-duration"
-              className="text-sm text-muted-foreground"
+              className="text-sm text-foreground"
             >
               Long Break Duration
             </Label>
