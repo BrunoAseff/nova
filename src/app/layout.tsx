@@ -55,6 +55,7 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
+          themes={["light", "dark", "system", "nebula_light", "nebula_dark"]}
         >
           <CyclesContextProvider>
             <SpacesProvider>{children}</SpacesProvider>
