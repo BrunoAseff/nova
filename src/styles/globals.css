@@ -3,7 +3,7 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --background: 240, 5.9%, 90%;
+    --background: 240 5.9% 90%;
     --foreground: 204 25% 5%;
     --card: 255 13% 96%;
     --card-foreground: 255 13% 96%;
@@ -15,19 +15,19 @@
     --secondary-foreground: 0 0% 0%;
     --muted: 0 0% 80%;
     --muted-foreground: 0 0% 30%;
-    --accent: 240, 4.9%, 50%;
-    --accent-foreground: 240, 4.9%, 85.9%;
+    --accent: 240 4.9% 50%;
+    --accent-foreground: 240 4.9% 85.9%;
     --destructive: 1 80% 42%;
     --destructive-foreground: 130 100% 94%;
     --border: 0 0% 65%;
-    --input: 240, 4.9%, 50%;
-    --ring: 240, 4.9%, 83.9%;
+    --input: 240 4.9% 50%;
+    --ring: 240 4.9% 83.9%;
     --chart-1: 220 70% 60%;
     --chart-2: 160 60% 55%;
     --chart-3: 30 80% 65%;
     --chart-4: 280 65% 70%;
     --chart-5: 340 75% 65%;
-    --sidebar-background: 240, 5.9%, 90%;
+    --sidebar-background: 240 5.9% 90%;
     --sidebar-foreground: 0 0% 30%;
     --sidebar-primary: 189 100% 45%;
     --sidebar-primary-foreground: 209 100% 10%;
@@ -47,16 +47,16 @@
     --card-foreground: 255 13% 6%;
     --popover: 215 81% 96%;
     --popover-foreground: 0 0% 98%;
-    --primary: 185, 100%, 55%;
-    --primary-foreground: 209, 100%, 91%;
-    --secondary: 210, 100%, 67%;
+    --primary: 185 100% 55%;
+    --primary-foreground: 209 100% 91%;
+    --secondary: 210 100% 67%;
     --secondary-foreground: 0 0% 98%;
     --muted: 230 15% 17%;
     --muted-foreground: 0 0% 63.9%;
     --accent: 230 7% 25%;
     --accent-foreground: 220 15% 8%;
     --destructive: 345.3 82.7% 40.8%;
-    --destructive-foreground: 130, 100%, 6%;
+    --destructive-foreground: 130 100% 6%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
@@ -67,8 +67,8 @@
     --chart-5: 340 75% 55%;
     --sidebar-background: 220 20% 6%;
     --sidebar-foreground: 0 0% 63.9%;
-    --sidebar-primary: 189, 100%, 55%;
-    --sidebar-primary-foreground: 209, 100%, 91%;
+    --sidebar-primary: 189 100% 55%;
+    --sidebar-primary-foreground: 209 100% 91%;
     --sidebar-accent: 0 0% 96.1%;
     --sidebar-accent-foreground: 0 0% 63.9%;
     --sidebar-border: 240 3.7% 15.9%;
@@ -79,8 +79,8 @@
   }
 
   .nebula_light {
-    --background: 240, 5.9%, 90%;
-    --foreground: 204 25% 5%;
+    --background: 290 5.9% 85%;
+    --foreground: 290 25% 5%;
     --card: 255 13% 96%;
     --card-foreground: 255 13% 96%;
     --popover: 215 81% 6%;
@@ -89,21 +89,21 @@
     --primary-foreground: 209 100% 5%;
     --secondary: 263.4 69.3% 42.2%;
     --secondary-foreground: 0 0% 0%;
-    --muted: 0 0% 80%;
-    --muted-foreground: 0 0% 30%;
-    --accent: 240, 4.9%, 50%;
-    --accent-foreground: 240, 4.9%, 85.9%;
+    --muted: 290 7% 80%;
+    --muted-foreground: 260 10% 30%;
+    --accent: 290 10% 20%;
+    --accent-foreground: 260 10% 83%;
     --destructive: 1 80% 42%;
     --destructive-foreground: 130 100% 94%;
-    --border: 0 0% 65%;
-    --input: 240, 4.9%, 50%;
-    --ring: 240, 4.9%, 83.9%;
+    --border: 290 3% 60%;
+    --input: 290 3% 60%;
+    --ring: 0 5% 60%;
     --chart-1: 220 70% 60%;
     --chart-2: 160 60% 55%;
     --chart-3: 30 80% 65%;
     --chart-4: 280 65% 70%;
     --chart-5: 340 75% 65%;
-    --sidebar-background: 240, 5.9%, 90%;
+    --sidebar-background: 290 10% 85%;
     --sidebar-foreground: 0 0% 30%;
     --sidebar-primary: 189 100% 45%;
     --sidebar-primary-foreground: 209 100% 10%;
@@ -123,8 +123,8 @@
     --card-foreground: 255 13% 6%;
     --popover: 215 81% 96%;
     --popover-foreground: 0 0% 98%;
-    --primary: 185, 100%, 55%;
-    --primary-foreground: 209, 100%, 91%;
+    --primary: 185 100% 55%;
+    --primary-foreground: 209 100% 91%;
     --secondary: 238.7 83.5% 66.7%;
     --secondary-foreground: 0 0% 98%;
     --muted: 230 15% 17%;
@@ -132,7 +132,7 @@
     --accent: 230 7% 25%;
     --accent-foreground: 243.8 20% 9%;
     --destructive: 345.3 82.7% 40.8%;
-    --destructive-foreground: 130, 100%, 6%;
+    --destructive-foreground: 130 100% 6%;
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
@@ -143,8 +143,8 @@
     --chart-5: 340 75% 55%;
     --sidebar-background: 290 10% 3%;
     --sidebar-foreground: 0 0% 63.9%;
-    --sidebar-primary: 189, 100%, 55%;
-    --sidebar-primary-foreground: 209, 100%, 91%;
+    --sidebar-primary: 189 100% 55%;
+    --sidebar-primary-foreground: 209 100% 91%;
     --sidebar-accent: 0 0% 96.1%;
     --sidebar-accent-foreground: 0 0% 63.9%;
     --sidebar-border: 240 3.7% 15.9%;
@@ -172,16 +172,6 @@
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-background/50;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-accent/30 transition-colors hover:bg-accent/50;
-  border-radius: 5px;
 }
 
 /* Firefox scrollbar styles */

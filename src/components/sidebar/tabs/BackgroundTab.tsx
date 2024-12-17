@@ -216,7 +216,7 @@ export default function BackgroundTab() {
                 return (
                   <Label
                     key={background.name}
-                    className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center shadow-sm ring-offset-background transition-colors ${
+                    className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center ring-offset-background transition-colors ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
                         : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
