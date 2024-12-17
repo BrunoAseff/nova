@@ -83,9 +83,8 @@ export default function BackgroundShortcut() {
 
   return (
     <main className="h-fit">
-      <h1 className="mb-6 font-delius text-xl text-secondary-foreground/80">
-        <span className="text-secondary">Background</span> settings
-      </h1>
+      <h1 className="mb-3 text-lg text-secondary-foreground/80">Background</h1>
+
       <div className="flex items-center justify-center gap-4">
         <div className="flex flex-col gap-1">
           <p className="text-sm text-muted-foreground">Environment</p>

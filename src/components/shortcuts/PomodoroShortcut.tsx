@@ -87,9 +87,8 @@ export default function PomodoroShortcut() {
 
   return (
     <main className="h-fit">
-      <h1 className="mb-2 font-delius text-xl text-secondary-foreground/80">
-        <span className="text-secondary">Pomodoro</span> settings
-      </h1>
+      <h1 className="mb-3 text-lg text-secondary-foreground/80">Pomodoro</h1>
+
       <div className="flex flex-col gap-1">
         <div className="my-1 flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex w-full justify-between gap-2">

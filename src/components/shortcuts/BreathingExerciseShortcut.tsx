@@ -42,15 +42,16 @@ export default function BreathingExerciseShortcut() {
 
   return (
     <main className="h-fit">
-      <h1 className="mb-6 font-delius text-xl text-secondary-foreground/80">
-        <span className="text-secondary">Breathing Exercise</span> settings
+      <h1 className="mb-3 text-lg text-secondary-foreground/80">
+        Breathing Exercise
       </h1>
+
       <div className="z-50 space-y-3">
         <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex w-full flex-col gap-1">
             <Label
               htmlFor="BreathingExercise-visibility"
-              className="text-md text-foreground"
+              className="text-sm text-foreground"
             >
               Visibility
             </Label>
@@ -66,16 +67,16 @@ export default function BreathingExerciseShortcut() {
           <div className="flex w-full flex-col gap-1">
             <Label
               htmlFor="BreathingExercise-technique"
-              className="text-md text-foreground"
+              className="text-sm text-foreground"
             >
               Technique
             </Label>
             <RadioGroup
               onValueChange={HandleTechniqueChange}
-              className="mt-1 gap-4"
+              className="mt-1 gap-2"
               defaultValue={technique}
             >
-              <div className="relative flex w-full items-center justify-center gap-3 rounded-2xl border border-accent p-4 hover:bg-background has-[[data-state=checked]]:border-purple-500 has-[[data-state=checked]]:bg-purple-700/10 has-[[data-state=checked]]:text-purple-500">
+              <div className="relative flex w-full items-center justify-center gap-3 rounded-2xl border border-accent p-3 hover:bg-background has-[[data-state=checked]]:border-emerald-500 has-[[data-state=checked]]:bg-emerald-700/10 has-[[data-state=checked]]:text-emerald-500">
                 <RadioGroupItem
                   onClick={() => HandleTechniqueChange("Box Breathing")}
                   value="Box Breathing"
@@ -94,7 +95,7 @@ export default function BreathingExerciseShortcut() {
                 </div>
               </div>
 
-              <div className="relative flex w-full items-center justify-center gap-3 rounded-2xl border border-accent p-4 hover:bg-background has-[[data-state=checked]]:border-blue-500 has-[[data-state=checked]]:bg-blue-700/10 has-[[data-state=checked]]:text-blue-500">
+              <div className="relative flex w-full items-center justify-center gap-3 rounded-2xl border border-accent p-3 hover:bg-background has-[[data-state=checked]]:border-indigo-500 has-[[data-state=checked]]:bg-indigo-700/10 has-[[data-state=checked]]:text-indigo-500">
                 <RadioGroupItem
                   onClick={() => HandleTechniqueChange("4-7-8")}
                   value="4-7-8"
@@ -110,7 +111,7 @@ export default function BreathingExerciseShortcut() {
                 </div>
               </div>
 
-              <div className="relative flex w-full items-center justify-center gap-3 rounded-2xl border border-accent p-4 hover:bg-background has-[[data-state=checked]]:border-yellow-500 has-[[data-state=checked]]:bg-yellow-700/10 has-[[data-state=checked]]:text-yellow-500">
+              <div className="relative flex w-full items-center justify-center gap-3 rounded-2xl border border-accent p-3 hover:bg-background has-[[data-state=checked]]:border-amber-500 has-[[data-state=checked]]:bg-amber-700/10 has-[[data-state=checked]]:text-amber-500">
                 <RadioGroupItem
                   onClick={() =>
                     HandleTechniqueChange("Alternate Nostril Breathing")
@@ -133,7 +134,7 @@ export default function BreathingExerciseShortcut() {
                 </div>
               </div>
 
-              <div className="relative flex w-full items-center justify-center gap-3 rounded-2xl border border-accent p-4 hover:bg-background has-[[data-state=checked]]:border-red-500 has-[[data-state=checked]]:bg-red-700/10 has-[[data-state=checked]]:text-red-500">
+              <div className="relative flex w-full items-center justify-center gap-3 rounded-2xl border border-accent p-3 hover:bg-background has-[[data-state=checked]]:border-rose-500 has-[[data-state=checked]]:bg-rose-700/10 has-[[data-state=checked]]:text-rose-500">
                 <RadioGroupItem
                   onClick={() => HandleTechniqueChange("Wim Hof Method")}
                   value="Wim Hof Method"
