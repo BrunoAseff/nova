@@ -48,16 +48,14 @@ export default function QuoteShortcut() {
 
   return (
     <main className="h-fit">
-      <h1 className="mb-2 font-delius text-xl text-secondary-foreground/80">
-        <span className="text-secondary">Quote</span> settings
-      </h1>
+      <h1 className="mb-3 text-lg text-secondary-foreground/80">Quote</h1>
 
       <div className="z-50 max-w-full space-y-4">
         <div className="flex min-h-16 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="quote-visibility"
-              className="text-md text-foreground"
+              className="text-sm text-foreground"
             >
               Visibility
             </Label>
@@ -72,7 +70,7 @@ export default function QuoteShortcut() {
         {/* Show Author Switch */}
         <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
-            <Label htmlFor="show-author" className="text-md text-foreground">
+            <Label htmlFor="show-author" className="text-sm text-foreground">
               Show Author
             </Label>
           </div>
@@ -84,8 +82,8 @@ export default function QuoteShortcut() {
         </div>
 
         <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
-          <div className="ml-3 flex flex-col gap-4">
-            <Label htmlFor="quote-position" className="text-md text-foreground">
+          <div className="flex flex-col gap-4">
+            <Label htmlFor="quote-position" className="text-sm text-foreground">
               Position
             </Label>
             <RadioGroup
@@ -98,7 +96,7 @@ export default function QuoteShortcut() {
                 <div
                   key={pos}
                   className={clsx(
-                    "flex cursor-pointer flex-col items-center justify-between gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
+                    "flex cursor-pointer flex-col items-center justify-between gap-2 space-x-2 rounded-xl border-[1px] border-accent px-5 py-3 text-sm",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedPosition === pos,

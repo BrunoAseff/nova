@@ -81,11 +81,11 @@ export default function Quote(props: QuoteProps) {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <p className="text-xl font-medium text-secondary-foreground">
+          <p className="text-xl font-medium text-gray-100">
             &ldquo;{currentQuote.text}&rdquo;
           </p>
           {showAuthor && (
-            <p className="mt-2 text-sm text-secondary-foreground">
+            <p className="mt-2 text-sm text-gray-100">
               - {currentQuote.author}
             </p>
           )}

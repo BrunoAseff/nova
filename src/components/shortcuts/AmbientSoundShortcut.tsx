@@ -89,9 +89,10 @@ export default function AmbientSoundShortcut() {
 
   return (
     <main className="h-fit">
-      <h1 className="font-delius text-xl text-secondary-foreground/80">
-        <span className="text-secondary">Ambient Sound</span> settings
+      <h1 className="mb-3 text-lg text-secondary-foreground/80">
+        Ambient Sound
       </h1>
+
       <div className="w-fill flex items-center gap-2 space-x-2 rounded-2xl border-[1px] border-background p-2">
         <div className="flex w-full items-center justify-evenly gap-1">
           <div className="mt-1 flex items-center space-x-4 rounded-full">
