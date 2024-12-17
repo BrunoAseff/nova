@@ -21,11 +21,11 @@ const typeStyles = {
   },
   Motivation: {
     icon: Clover,
-    color: "#FF4ECD",
+    color: "#10b981",
   },
   Affirmation: {
     icon: HandHeart,
-    color: "#17C964",
+    color: "#ec4899",
   },
   Challenge: {
     icon: PuzzlePiece,
@@ -33,7 +33,7 @@ const typeStyles = {
   },
   Dream: {
     icon: ShootingStar,
-    color: "#06B7DB",
+    color: "#14b8a6",
   },
   Mindset: {
     icon: Brain,
