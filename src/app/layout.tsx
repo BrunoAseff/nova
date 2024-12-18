@@ -67,6 +67,8 @@ export default function RootLayout({
             "quasar_dark",
             "supernova_light",
             "supernova_dark",
+            "singularity_light",
+            "singularity_dark",
           ]}
         >
           <CyclesContextProvider>

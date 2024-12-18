@@ -174,9 +174,9 @@ export default function AmbientSoundTab() {
                 const isChecked = sound.url === ambientSound;
                 const SoundIcon = SoundIconMap[sound.name];
                 return (
-                  <label
+                  <Label
                     key={sound.name}
-                    className={`relative z-50 flex h-[5.5rem] w-[7rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] bg-accent-foreground text-center shadow-sm ring-offset-background transition-colors ${
+                    className={`relative z-50 flex h-[5.5rem] w-[7rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] border-accent bg-accent-foreground text-center shadow-sm ring-offset-background transition-colors ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
                         : "hover:bg-background"
@@ -200,7 +200,7 @@ export default function AmbientSoundTab() {
                     >
                       {sound.name}
                     </p>
-                  </label>
+                  </Label>
                 );
               })}
             </RadioGroup>

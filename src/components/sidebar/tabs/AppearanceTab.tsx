@@ -55,18 +55,15 @@ export default function AppearanceTab() {
     { id: "ignition", label: "Ignition", image: "/ui-dark.webp" },
     { id: "quasar", label: "Quasar", image: "/ui-dark.webp" },
     { id: "supernova", label: "Supernova", image: "/ui-dark.webp" },
-    // { id: "singularity", label: "Singularity", image: "/ui-dark.webp" },
+    { id: "singularity", label: "Singularity", image: "/ui-dark.webp" },
   ];
 
   const handleThemeChange = (value: string) => {
-    // Update base theme (light, dark, system)
     setSelectedTheme(value);
 
     if (selectedCustomTheme === "nova") {
-      // Nova theme should directly use the base theme
       setTheme(value);
     } else {
-      // Combine custom theme with the base theme
       const newTheme = `${selectedCustomTheme}_${value}`;
       setTheme(newTheme);
     }
@@ -142,7 +139,7 @@ export default function AppearanceTab() {
             Choose a custom theme
           </legend>
           <RadioGroup
-            className="flex gap-3"
+            className="grid w-full grid-cols-3 gap-10"
             value={selectedCustomTheme}
             onValueChange={handleCustomThemeChange}
           >
@@ -156,7 +153,7 @@ export default function AppearanceTab() {
                 <Image
                   src={item.image}
                   alt={item.label}
-                  width={88}
+                  width={110}
                   height={70}
                   className="relative cursor-pointer overflow-hidden rounded-lg border-2 border-input shadow-sm shadow-black/5 outline-offset-2 transition-colors peer-[:focus-visible]:outline peer-[:focus-visible]:outline-2 peer-[:focus-visible]:outline-ring/70 peer-data-[disabled]:cursor-not-allowed peer-data-[state=checked]:border-secondary peer-data-[state=checked]:bg-accent peer-data-[disabled]:opacity-50"
                 />
