@@ -73,7 +73,7 @@ export default function Clock(props: ClockProps) {
             ))}
           </div>
         </div>
-        <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-1 text-center text-sm italic text-popover/90">
+        <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-1 text-center text-sm italic text-white/80">
           <ClockIcon />
           {timeMessage}
         </div>
