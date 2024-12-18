@@ -55,7 +55,21 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
-          themes={["light", "dark", "system", "nebula_light", "nebula_dark"]}
+          themes={[
+            "light",
+            "dark",
+            "system",
+            "nebula_light",
+            "nebula_dark",
+            "ignition_light",
+            "ignition_dark",
+            "quasar_light",
+            "quasar_dark",
+            "supernova_light",
+            "supernova_dark",
+            "singularity_light",
+            "singularity_dark",
+          ]}
         >
           <CyclesContextProvider>
             <SpacesProvider>{children}</SpacesProvider>

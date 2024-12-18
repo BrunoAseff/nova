@@ -25,7 +25,7 @@ export default function IconBtn({
 }: PrimaryBtnProps) {
   const variantClasses = {
     default:
-      "bg-background border-[1px] border-background hover:border-secondary text-foreground hover:text-secondary hover:bg-blue-700/10",
+      "bg-background border-[1px] border-background hover:border-secondary text-foreground hover:text-secondary hover:bg-secondary-smooth-700/10",
     secondary: "bg-foreground text-background hover:bg-foreground-muted",
     destructive:
       "bg-background border-[1px] border-background text-destructive hover:border-destructive hover:bg-red-700/20",
@@ -47,14 +47,10 @@ export default function IconBtn({
   // If there's no link but a tooltip is provided, wrap the button in a tooltip
   if (!hasLink && tooltipContent) {
     return (
-      <TooltipProvider >
+      <TooltipProvider>
         <Tooltip delayDuration={0}>
-          <TooltipTrigger asChild>
-            {buttonElement}
-          </TooltipTrigger>
-          <TooltipContent className="bg-muted" >
-            {tooltipContent}
-          </TooltipContent>
+          <TooltipTrigger asChild>{buttonElement}</TooltipTrigger>
+          <TooltipContent className="bg-muted">{tooltipContent}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
     );

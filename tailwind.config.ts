@@ -56,6 +56,10 @@ export default {
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
+          20: "hsl(var(--accent) / 0.2)",
+          40: "hsl(var(--accent) / 0.4)",
+          60: "hsl(var(--accent) / 0.6)",
+          80: "hsl(var(--accent) / 0.8)",
           foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
