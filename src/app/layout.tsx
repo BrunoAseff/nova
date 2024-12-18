@@ -63,6 +63,8 @@ export default function RootLayout({
             "nebula_dark",
             "ignition_light",
             "ignition_dark",
+            "quasar_light",
+            "quasar_dark",
           ]}
         >
           <CyclesContextProvider>
