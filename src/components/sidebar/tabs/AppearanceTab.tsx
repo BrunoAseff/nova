@@ -5,6 +5,10 @@ import { useTheme } from "next-themes";
 import { Check, Minus } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import NovaTheme from "@/components/svgs/NovaTheme";
+import NebulaTheme from "@/components/svgs/NebulaTheme";
+import QuasarTheme from "@/components/svgs/QuasarTheme";
+import IgnitionTheme from "@/components/svgs/IgnitionTheme";
 
 export default function AppearanceTab() {
   const { theme, setTheme } = useTheme();
@@ -50,12 +54,36 @@ export default function AppearanceTab() {
   ];
 
   const themeItems = [
-    { id: "nova", label: "Nova", image: "/ui-dark.webp" },
-    { id: "nebula", label: "Nebula", image: "/ui-dark.webp" },
-    { id: "ignition", label: "Ignition", image: "/ui-dark.webp" },
-    { id: "quasar", label: "Quasar", image: "/ui-dark.webp" },
-    { id: "supernova", label: "Supernova", image: "/ui-dark.webp" },
-    { id: "singularity", label: "Singularity", image: "/ui-dark.webp" },
+    {
+      id: "nova",
+      label: "Nova",
+      icon: <NovaTheme />,
+    },
+    {
+      id: "nebula",
+      label: "Nebula",
+      icon: <NebulaTheme />,
+    },
+    {
+      id: "ignition",
+      label: "Ignition",
+      icon: <IgnitionTheme />,
+    },
+    {
+      id: "quasar",
+      label: "Quasar",
+      icon: <QuasarTheme />,
+    },
+    {
+      id: "supernova",
+      label: "Supernova",
+      icon: <NovaTheme />,
+    },
+    {
+      id: "singularity",
+      label: "Singularity",
+      icon: <NovaTheme />,
+    },
   ];
 
   const handleThemeChange = (value: string) => {
@@ -91,7 +119,7 @@ export default function AppearanceTab() {
       <div className="mt-28 flex h-full flex-col gap-10">
         {/* System Theme Selection */}
         <fieldset className="space-y-4">
-          <legend className="text-sm font-medium leading-none text-foreground">
+          <legend className="text-md font-medium leading-none text-foreground">
             Choose a theme
           </legend>
           <RadioGroup
@@ -109,7 +137,7 @@ export default function AppearanceTab() {
                 <Image
                   src={item.image}
                   alt={item.label}
-                  width={88}
+                  width={100}
                   height={70}
                   className="relative cursor-pointer overflow-hidden rounded-lg border-2 border-input shadow-sm shadow-black/5 outline-offset-2 transition-colors peer-[:focus-visible]:outline peer-[:focus-visible]:outline-2 peer-[:focus-visible]:outline-ring/70 peer-data-[disabled]:cursor-not-allowed peer-data-[state=checked]:border-secondary peer-data-[state=checked]:bg-accent peer-data-[disabled]:opacity-50"
                 />
@@ -135,7 +163,7 @@ export default function AppearanceTab() {
 
         {/* Custom Theme Selection */}
         <fieldset className="space-y-4">
-          <legend className="text-sm font-medium leading-none text-foreground">
+          <legend className="text-md font-medium leading-none text-foreground">
             Choose a custom theme
           </legend>
           <RadioGroup
@@ -150,13 +178,9 @@ export default function AppearanceTab() {
                   value={item.id}
                   className="peer sr-only after:absolute after:inset-0"
                 />
-                <Image
-                  src={item.image}
-                  alt={item.label}
-                  width={110}
-                  height={70}
-                  className="relative cursor-pointer overflow-hidden rounded-lg border-2 border-input shadow-sm shadow-black/5 outline-offset-2 transition-colors peer-[:focus-visible]:outline peer-[:focus-visible]:outline-2 peer-[:focus-visible]:outline-ring/70 peer-data-[disabled]:cursor-not-allowed peer-data-[state=checked]:border-secondary peer-data-[state=checked]:bg-accent peer-data-[disabled]:opacity-50"
-                />
+                <div className="relative cursor-pointer overflow-hidden rounded-2xl border-2 border-input fill-foreground px-3 py-1 outline-offset-1 transition-colors peer-[:focus-visible]:outline peer-[:focus-visible]:outline-2 peer-[:focus-visible]:outline-ring/70 peer-data-[disabled]:cursor-not-allowed peer-data-[state=checked]:border-secondary peer-data-[state=checked]:bg-secondary-smooth-700/10 peer-data-[state=checked]:fill-secondary peer-data-[disabled]:opacity-50">
+                  {item.icon}
+                </div>
                 <span className="group mt-2 flex items-center gap-1 text-secondary peer-data-[state=unchecked]:text-muted-foreground/70">
                   <Check
                     size={16}
