@@ -54,7 +54,7 @@ export default function AppearanceTab() {
     { id: "nebula", label: "Nebula", image: "/ui-dark.webp" },
     { id: "ignition", label: "Ignition", image: "/ui-dark.webp" },
     { id: "quasar", label: "Quasar", image: "/ui-dark.webp" },
-    // { id: "supernova", label: "Supernova", image: "/ui-dark.webp" },
+    { id: "supernova", label: "Supernova", image: "/ui-dark.webp" },
     // { id: "singularity", label: "Singularity", image: "/ui-dark.webp" },
   ];
 

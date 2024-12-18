@@ -65,6 +65,8 @@ export default function RootLayout({
             "ignition_dark",
             "quasar_light",
             "quasar_dark",
+            "supernova_light",
+            "supernova_dark",
           ]}
         >
           <CyclesContextProvider>
