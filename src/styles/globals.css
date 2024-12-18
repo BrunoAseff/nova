@@ -307,7 +307,7 @@
   }
 
   .supernova_light {
-    --background: 300 10% 87.1%;
+    --background: 300 6% 87.1%;
     --foreground: 290 25% 5%;
     --card: 255 13% 96%;
     --card-foreground: 255 13% 96%;
@@ -331,7 +331,7 @@
     --chart-3: 30 80% 65%;
     --chart-4: 280 65% 70%;
     --chart-5: 340 75% 65%;
-    --sidebar-background: 50 10% 87.1%;
+    --sidebar-background: 300 6% 87.1%;
     --sidebar-foreground: 0 0% 30%;
     --sidebar-primary: 189 100% 45%;
     --sidebar-primary-foreground: 209 100% 10%;
