@@ -10,7 +10,6 @@ import { Stop } from "@/components/icons/Stop";
 import { Play } from "@/components/icons/Play";
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import { Pause } from "@/components/icons/pause";
-import { Air } from "@/components/icons/Air";
 import InfoCard from "./InfoCard";
 import { Restart } from "@/components/icons/Restart";
 import { Fire } from "@/components/icons/Fire";
@@ -20,7 +19,7 @@ import FocusingOnMessage from "./FocusingOnMessage";
 import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { Button } from "@/components/nova/buttons/Button";
-
+import { Air } from "@/components/icons/Air";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -89,7 +88,7 @@ export default function FocusTimer() {
         onSubmit={onSubmit(handleCreateNewCycle)}
       >
         <motion.div
-          className="text-md flex min-h-[320px] flex-col items-center rounded-3xl text-center font-open font-extralight text-foreground"
+          className="text-md flex min-h-[320px] flex-col items-center rounded-3xl text-center font-open font-medium text-muted-foreground"
           key={currentTab}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -135,11 +134,11 @@ export default function FocusTimer() {
 
             {activeCycle &&
               (currentTab === "Long Break" || currentTab === "Short Break") && (
-                <div className="mt-auto flex w-fit items-center gap-3 rounded-3xl p-2 text-2xl">
-                  <h1 className="bg-gradient-to-br from-primary from-10% via-secondary via-50% to-primary-foreground to-90% bg-clip-text font-montserrat font-semibold text-transparent">
+                <div className="mt-auto flex w-fit items-center justify-evenly gap-3 rounded-3xl fill-secondary p-2">
+                  <p className="font-500 text-left font-delius text-2xl text-foreground">
                     Take a breath!
-                  </h1>
-                  <Air color="hsl(209, 100%, 91%)" />
+                  </p>
+                  <Air className="text-secondary" />
                 </div>
               )}
           </div>
@@ -160,17 +159,24 @@ export default function FocusTimer() {
             {activeCycle ? (
               <>
                 <div className="absolute left-1/2 mb-4 flex -translate-x-1/2 gap-4 md:mb-0">
-                
-                  <IconBtn tooltipContent="Restart pomodoro" onClick={resetCurrentSession}>
+                  <IconBtn
+                    tooltipContent="Restart pomodoro"
+                    onClick={resetCurrentSession}
+                  >
                     <Restart />
                   </IconBtn>
 
-                  <IconBtn tooltipContent={isPaused ? "Play pomodoro" : "Pause pomodoro"} onClick={togglePauseAndAlarm}>
+                  <IconBtn
+                    tooltipContent={
+                      isPaused ? "Play pomodoro" : "Pause pomodoro"
+                    }
+                    onClick={togglePauseAndAlarm}
+                  >
                     {isPaused ? <Play /> : <Pause />}
                   </IconBtn>
 
                   <IconBtn
-                  tooltipContent="Stop pomodoro"
+                    tooltipContent="Stop pomodoro"
                     onClick={interruptCurrentCycle}
                     variant="destructive"
                     className="rounded-full border-[1px] border-background bg-background text-foreground hover:border-destructive hover:bg-red-700/20 hover:text-destructive"
@@ -201,6 +207,5 @@ export default function FocusTimer() {
         </motion.div>
       </form>
     </div>
-
   );
 }
