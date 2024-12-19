@@ -95,7 +95,7 @@ export default function Reminder(props: ReminderProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
-        className={`flex-col gap-4 rounded-3xl border-[1px] bg-background p-4`}
+        className={`flex-col gap-4 rounded-3xl border-[1px] bg-[#0c0e12] p-4 text-[#d0dbe3]`}
         style={{
           borderColor: `${color}80`, // 50% opacity
         }}
@@ -125,13 +125,15 @@ export default function Reminder(props: ReminderProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className={`flex-col gap-4 rounded-3xl border-[1px] border-accent bg-background p-4`}
+            className={`flex-col gap-4 rounded-3xl border-[1px] border-accent bg-[#0c0e12] p-4`}
           >
             <div className="mb-1 flex items-center gap-1">
-              <Note className="text-foreground" size={20} weight="duotone" />
-              <p className="text-xs font-semibold text-foreground">Reminder</p>
+              <Note className="text-[ #d0dbe3]" size={20} weight="duotone" />
+              <p className="text-[204, 25%, 85.1%] text-xs font-semibold">
+                Reminder
+              </p>
             </div>
-            <p className="font-sm text-md text-foreground/70">
+            <p className="font-sm text-md text-[204, 25%, 80.1%]">
               Add reminders in the settings to stay on track!
             </p>
           </motion.div>
@@ -140,7 +142,7 @@ export default function Reminder(props: ReminderProps) {
       <IconBtn
         onClick={refreshMessage}
         variant="default"
-        className="absolute bottom-4 right-4 z-50 m-1 rounded-full bg-background opacity-0 transition-opacity hover:bg-background group-hover:opacity-100"
+        className="absolute bottom-4 right-4 z-50 m-1 rounded-full bg-[#0c0e12] text-[#d0dbe3] opacity-0 transition-opacity hover:bg-[#0c0e12] group-hover:opacity-100"
       >
         <Refresh />
       </IconBtn>
