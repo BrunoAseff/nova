@@ -8,11 +8,11 @@ import { motion } from "framer-motion";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center overflow-hidden bg-background">
+    <main className="flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#0c0e12]">
       <div className="flex flex-col items-center justify-center gap-4 px-12 py-16 md:px-4">
         <Logo />
 
-        <p className="italic text-foreground">
+        <p className="italic text-[#d0dbe3]">
           A platform that helps you shine through focus and calm.
         </p>
       </div>
@@ -34,7 +34,7 @@ export default function HomePage() {
           whileTap={{ scale: 0.95 }}
           whileDrag={{ scale: 0.9, rotate: 10 }}
           drag
-          className="group relative mx-auto mt-4 w-fit overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 transition-colors duration-200 ease-in-out"
+          className="group relative mx-auto mt-4 w-fit overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 text-[#d0dbe3]/90 transition-colors duration-200 ease-in-out"
         >
           <Link
             href="/spaces"
@@ -48,7 +48,7 @@ export default function HomePage() {
         <LinkBtn>
           {" "}
           <Link
-            className="flex items-center font-open text-sm font-light text-secondary-foreground"
+            className="flex items-center font-open text-sm font-light text-[#d0dbe3]"
             href="/spaces"
           >
             Continue without login
