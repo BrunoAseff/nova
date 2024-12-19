@@ -29,10 +29,11 @@ export function NewCycleForm() {
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2 text-foreground">
+    <div className="flex flex-wrap items-center gap-2 font-medium text-muted-foreground">
       <div className="flex items-center gap-1 whitespace-nowrap">
         <label htmlFor="task">I will focus on</label>
         <PomodoroInput
+          className="w-44"
           id="task"
           type="text"
           list="task-suggestions"
@@ -64,7 +65,6 @@ export function NewCycleForm() {
         />
         <span>minutes.</span>
       </div>
-
     </div>
   );
 }

@@ -9,6 +9,8 @@ import NovaTheme from "@/components/svgs/NovaTheme";
 import NebulaTheme from "@/components/svgs/NebulaTheme";
 import QuasarTheme from "@/components/svgs/QuasarTheme";
 import IgnitionTheme from "@/components/svgs/IgnitionTheme";
+import SupernovaTheme from "@/components/svgs/SupernovaTheme";
+import SingularityTheme from "@/components/svgs/SingularityTheme";
 
 export default function AppearanceTab() {
   const { theme, setTheme } = useTheme();
@@ -77,12 +79,12 @@ export default function AppearanceTab() {
     {
       id: "supernova",
       label: "Supernova",
-      icon: <NovaTheme />,
+      icon: <SupernovaTheme />,
     },
     {
       id: "singularity",
       label: "Singularity",
-      icon: <NovaTheme />,
+      icon: <SingularityTheme />,
     },
   ];
 

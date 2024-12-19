@@ -64,20 +64,20 @@ export default function WimHofMethod() {
   return (
     <div className="flex flex-col items-center justify-center space-y-4">
       <motion.div
-        className="flex h-64 w-64 items-center justify-center rounded-full bg-background/20"
+        className="flex h-64 w-64 items-center justify-center rounded-full bg-[#0c0e12]/20"
         variants={circleVariants}
         animate={phase}
       >
         <div className="flex flex-col items-center justify-center text-center">
           <div className="flex flex-col items-center justify-center gap-1">
-            <div className="text-xl font-semibold text-foreground">
+            <div className="text-xl font-semibold text-[#d0dbe3]">
               {phaseText[phase]}
             </div>
-            <p className="text-sm text-foreground/80">
+            <p className="text-sm text-[#d0dbe3]/80">
               {phase === "breathe" ? "(do 30 breaths)" : null}
             </p>
           </div>
-          <div className="mt-6 flex h-10 w-10 items-center justify-center rounded-full border-[1px] border-background bg-background/10 text-xl font-bold text-background">
+          <div className="mt-6 flex h-10 w-10 items-center justify-center rounded-full border-[1px] border-[#0c0e12] bg-[#0c0e12]/10 text-xl font-bold text-[#0c0e12]">
             {countdown}
           </div>
         </div>

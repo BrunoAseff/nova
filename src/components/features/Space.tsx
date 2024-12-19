@@ -144,7 +144,7 @@ export default function Space() {
                 <TooltipTrigger asChild>
                   <span>{space.icon}</span>
                 </TooltipTrigger>
-                <TooltipContent id="tooltip" className="font-open font-light">
+                <TooltipContent id="tooltip" className="font-inter font-medium">
                   {space.name}
                 </TooltipContent>
               </Tooltip>
@@ -206,7 +206,7 @@ export default function Space() {
         </TooltipTrigger>
         <TooltipContent
           id="config"
-          className="flex items-center gap-3 font-open font-light"
+          className="font-inter flex items-center gap-3 font-medium"
         >
           Config
           <p className="rounded-xl text-xs tracking-widest text-secondary">

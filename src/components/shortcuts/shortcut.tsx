@@ -111,7 +111,7 @@ export default function Shortcut() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <TooltipContent className="flex items-center gap-3 font-open font-light">
+        <TooltipContent className="font-inter flex items-center gap-3 font-medium">
           Shortcut
         </TooltipContent>
       </Tooltip>

@@ -45,7 +45,7 @@ export default function BreathingExercise({
   };
 
   return (
-    <div className="fixed left-1/2 top-[55%] flex h-[30rem] w-[30rem] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-full border-[1px] border-background/60 bg-gradient-to-t from-transparent via-muted/20 to-muted/50 p-10 font-montserrat text-foreground">
+    <div className="fixed left-1/2 top-[55%] flex h-[30rem] w-[30rem] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-full border-[1px] border-[#0c0e12]/60 bg-gradient-to-t from-transparent via-[#0c0e12]/30 to-[#0c0e12]/40 p-10 font-montserrat text-[#d0dbe3]">
       <AnimatePresence mode="wait">
         {!isExerciseRunning && (
           <motion.div
@@ -57,14 +57,14 @@ export default function BreathingExercise({
             className="z-50 flex w-fit flex-col items-center justify-center gap-6"
           >
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              <h1 className="font-delius text-3xl font-semibold text-foreground">
+              <h1 className="font-delius text-3xl font-semibold text-[#d0dbe3]">
                 Breathing Exercise
               </h1>
-              <p className="text-md italic text-foreground/80">
+              <p className="text-md italic text-[#d0dbe3]/80">
                 Scientifically-backed breathing exercises
               </p>
               <motion.div variants={floatingVariants} animate="float">
-                <BreathingExerciseIllustration className="h-60 w-60 !fill-foreground text-foreground" />
+                <BreathingExerciseIllustration className="h-60 w-60 !fill-[#d0dbe3] text-[#d0dbe3]" />
               </motion.div>
             </div>
             <Button variant="dark" onClick={() => setIsExerciseRunning(true)}>
