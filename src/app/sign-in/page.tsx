@@ -71,20 +71,19 @@ export default function Page() {
   async function handleLogin(data: z.infer<typeof loginSchema>) {
     setAuthError(null); // Clear previous errors
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Login failed");
+      // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+      if (!result || !result.ok) {
+        throw new Error(result?.error ?? "Login failed");
       }
 
-      const result = await response.json();
-      console.log(result);
-      router.push("/spaces"); // Redirect on success
+      // Redirect on success
+      router.push("/spaces");
     } catch (error) {
       setAuthError((error as Error).message);
       console.error(error);
