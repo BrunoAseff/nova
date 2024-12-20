@@ -5,6 +5,9 @@ export default {
   content: ["./src/**/*.tsx"],
   theme: {
     extend: {
+      boxShadow: {
+        DEFAULT: "0 35px 60px -15px rgba(0, 0, 0, 1)",
+      },
       keyframes: {
         shine: {
           from: { backgroundPosition: "200% 0" },

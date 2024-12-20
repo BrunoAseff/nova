@@ -37,7 +37,7 @@ export default function HomePage() {
           className="group relative mx-auto mt-4 w-fit overflow-hidden rounded-full border border-blue-500/20 bg-blue-500/10 text-[#d0dbe3]/90 transition-colors duration-200 ease-in-out"
         >
           <Link
-            href="/spaces"
+            href="/sign-in"
             className="relative flex items-center gap-2 px-8 py-3"
           >
             <span className="text-sm font-medium">Get Started</span>

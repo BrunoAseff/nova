@@ -7,23 +7,7 @@ generator client {
 
 datasource db {
     provider = "postgresql"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
-}
-
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
 }
 
 // Necessary for Next auth
@@ -33,12 +17,12 @@ model Account {
     type                     String
     provider                 String
     providerAccountId        String
-    refresh_token            String? // @db.Text
-    access_token             String? // @db.Text
+    refresh_token            String?
+    access_token             String?
     expires_at               Int?
     token_type               String?
     scope                    String?
-    id_token                 String? // @db.Text
+    id_token                 String?
     session_state            String?
     user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
     refresh_token_expires_in Int?
@@ -58,11 +42,12 @@ model User {
     id            String    @id @default(cuid())
     name          String?
     email         String?   @unique
+    password      String?
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    settings      Settings?
 }
 
 model VerificationToken {
@@ -71,4 +56,49 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// Configuration for user settings and spaces
+model Settings {
+    id                  String      @id @default(cuid())
+    userId              String      @unique
+    user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    ambientSound        String?
+    ambientSoundVolume  Int         @default(50)
+    isAmbientSoundPlaying Boolean   @default(false)
+    shortcut            String?
+    spaces              Space[]
+    reminders           Reminder[]
+}
+
+model Space {
+    id                  String      @id @default(cuid())
+    settingsId          String
+    settings            Settings    @relation(fields: [settingsId], references: [id], onDelete: Cascade)
+    name                String
+    clockIsHidden       Boolean     @default(false)
+    clockPosition       String?     // E.g., "center", "top-right"
+    clockTimeFormat     String?     // E.g., "24h" or "12h"
+    pomodoroIsHidden    Boolean     @default(true)
+    shortBreakDuration  Int         @default(5)
+    longBreakDuration   Int         @default(15)
+    pomodoroAutoStart   Boolean     @default(false)
+    alarmSound          Boolean     @default(true)
+    alarmSoundURL       String?
+    alarmRepeatTimes    Int         @default(3)
+    breathingIsHidden   Boolean     @default(true)
+    breathingTechnique  String?     // E.g., "Box Breathing"
+    reminderIsHidden    Boolean     @default(true)
+    reminderPosition    String?     // E.g., "top-right"
+    quoteIsHidden       Boolean     @default(false)
+    quotePosition       String?     // E.g., "bottom-left"
+    background          String?     // URL of the background image
+}
+
+model Reminder {
+    id          String  @id @default(cuid())
+    settingsId  String
+    settings    Settings @relation(fields: [settingsId], references: [id], onDelete: Cascade)
+    message     String
+    position    String? // E.g., "top-right"
 }

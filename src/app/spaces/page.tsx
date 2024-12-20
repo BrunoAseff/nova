@@ -1,9 +1,12 @@
+"use client";
+
 import Space from "@/components/features/Space";
+import { SessionProvider } from "next-auth/react";
 
 export default function SpacesPage() {
   return (
-    <main>
+    <SessionProvider>
       <Space />
-    </main>
+    </SessionProvider>
   );
 }
