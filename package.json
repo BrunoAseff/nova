@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "cross-env SKIP_ENV_VALIDATION=1 next dev --turbopack",
-    "build": "cross-env SKIP_ENV_VALIDATION=1 next build",
+    "dev": "next dev --turbopack",
+    "build": "next build",
     "scan": "next dev & npx react-scan@latest localhost:3000",
     "db:generate": "prisma migrate dev",
     "db:migrate": "prisma migrate deploy",
