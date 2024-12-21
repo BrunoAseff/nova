@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/nova/logo";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -25,6 +25,7 @@ import DotPattern from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";
 import { signIn } from "next-auth/react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const loginSchema = z.object({
   email: z
@@ -49,6 +50,13 @@ export default function Page() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      router.push("/spaces");
+    }
+  }, [session, router]);
 
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
