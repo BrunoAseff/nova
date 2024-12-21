@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Eye, EyeSlash } from "@phosphor-icons/react";
+import { CircleNotch, Eye, EyeSlash } from "@phosphor-icons/react";
 import PrimaryBtn from "@/components/nova/buttons/PrimaryBtn";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,6 +51,8 @@ export default function Page() {
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const { data: session } = useSession();
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
+  const [isSignUpLoading, setIsSignUpLoading] = useState(false);
 
   useEffect(() => {
     if (session) {
@@ -78,6 +80,8 @@ export default function Page() {
 
   async function handleLogin(data: z.infer<typeof loginSchema>) {
     setAuthError(null); // Clear previous errors
+    setIsLoginLoading(true);
+
     try {
       const result = await signIn("credentials", {
         redirect: false,
@@ -95,11 +99,15 @@ export default function Page() {
     } catch (error) {
       setAuthError((error as Error).message);
       console.error(error);
+    } finally {
+      setIsLoginLoading(false);
     }
   }
 
   async function handleSignUp(data: z.infer<typeof signUpSchema>) {
     setAuthError(null);
+    setIsSignUpLoading(true);
+
     try {
       const result = await signUp({
         email: data.email,
@@ -124,6 +132,8 @@ export default function Page() {
     } catch (error) {
       setAuthError("Signup failed");
       console.error(error);
+    } finally {
+      setIsSignUpLoading(false);
     }
   }
 
@@ -231,7 +241,16 @@ export default function Page() {
                     )}
                   />
                   <div className="flex w-full items-center justify-center">
-                    <PrimaryBtn type="submit">Log In</PrimaryBtn>
+                    <PrimaryBtn disabled={isLoginLoading} type="submit">
+                      {isLoginLoading ? (
+                        <div className="flex items-center justify-around gap-1">
+                          <CircleNotch className="animate-spin" size={18} />
+                          <p>Log in</p>
+                        </div>
+                      ) : (
+                        "Log In"
+                      )}
+                    </PrimaryBtn>
                   </div>
                 </form>
               </Form>
@@ -358,7 +377,16 @@ export default function Page() {
                     )}
                   />
                   <div className="flex w-full items-center justify-center">
-                    <PrimaryBtn type="submit">Sign Up</PrimaryBtn>
+                    <PrimaryBtn disabled={isSignUpLoading} type="submit">
+                      {isSignUpLoading ? (
+                        <div className="flex items-center justify-around gap-1">
+                          <CircleNotch className="animate-spin" size={18} />
+                          <p>Sign Up</p>
+                        </div>
+                      ) : (
+                        "Sign Up"
+                      )}
+                    </PrimaryBtn>
                   </div>
                 </form>
               </Form>
