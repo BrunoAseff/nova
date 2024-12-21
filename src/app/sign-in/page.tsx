@@ -24,8 +24,8 @@ import { SiGoogle } from "react-icons/si";
 import DotPattern from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";
 import { signIn } from "next-auth/react";
-import axios from "axios";
 import { useSession } from "next-auth/react";
+import { signUp } from "@/server/actions/signUp";
 
 const loginSchema = z.object({
   email: z
@@ -101,29 +101,28 @@ export default function Page() {
   async function handleSignUp(data: z.infer<typeof signUpSchema>) {
     setAuthError(null);
     try {
-      const response = await axios({
-        method: "POST",
-        url: "/api/signup",
-        data: {
-          email: data.email,
-          password: data.password,
-          name: data.username, // Adjust to match your API payload
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const result = await signUp({
+        email: data.email,
+        password: data.password,
+        username: data.username,
       });
 
-      if (response.status === 201) {
-        console.log("User created:", response.data);
-        router.push("/spaces");
+      if (result.success) {
+        // Sign in the user after successful signup
+        const signInResult = await signIn("credentials", {
+          redirect: false,
+          email: data.email,
+          password: data.password,
+        });
+
+        if (signInResult?.ok) {
+          router.push("/spaces");
+        }
+      } else {
+        if (result.error) setAuthError(result.error);
       }
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.data?.error) {
-        setAuthError(error.response.data.error);
-      } else {
-        setAuthError("An unexpected error occurred.");
-      }
+      setAuthError("Signup failed");
       console.error(error);
     }
   }
