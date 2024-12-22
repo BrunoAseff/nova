@@ -143,8 +143,8 @@ export default function Page() {
     </div>
   );
   return (
-    <main className="relative flex size-full h-screen items-center justify-center overflow-hidden rounded-lg border bg-background p-20 md:shadow-xl">
-      <div className="z-50 m-auto min-h-[80vh] w-[40rem] rounded-2xl border-[1px] border-secondary/60 bg-background shadow-[0px_20px_207px_10px_rgba(87,_171,_255,_0.48)]">
+    <main className="relative flex size-full h-screen items-center justify-center overflow-hidden rounded-lg bg-background p-20">
+      <div className="z-50 m-auto min-h-[80vh] w-[40rem] rounded-2xl border-[1px] border-secondary/60 bg-background shadow-[0px_20px_207px_10px] shadow-secondary/60">
         <div className="flex flex-col items-center p-8">
           <div className="mb-6 scale-75">
             <Logo />
