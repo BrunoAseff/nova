@@ -112,13 +112,13 @@ export default function AppearanceTab() {
   };
 
   return (
-    <main className="h-screen">
+    <main className="h-screen min-w-full">
       <TabHeader
         title="Appearance"
         subtitle="Personalize the visual theme to match your aesthetic preferences."
         Icon={AppearanceIllustration}
       />
-      <div className="mt-28 flex h-full flex-col gap-10">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-28 flex h-full max-h-[65vh] flex-col gap-10 overflow-y-auto pb-10 pr-10">
         {/* System Theme Selection */}
         <fieldset className="space-y-4">
           <legend className="text-md font-medium leading-none text-foreground">
