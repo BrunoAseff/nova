@@ -45,7 +45,6 @@ export default function ProfileTab() {
   const [isLoading, setIsLoading] = useState(false);
   const [usernameError, setUsernameError] = useState("");
 
-  // Update local state when session changes
   useEffect(() => {
     if (session?.user?.name) {
       setCurrentUsername(session.user.name);
@@ -60,8 +59,13 @@ export default function ProfileTab() {
 
       setIsLoading(true);
       await changeUsername(session?.user?.id! as string, newUsername);
-      await updateSession(); // Update the session with new username
-      setCurrentUsername(newUsername); // Update our local state
+
+      await updateSession({
+        ...session,
+        name: newUsername,
+      });
+
+      setCurrentUsername(newUsername);
       setIsEditingUsername(false);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -74,10 +78,9 @@ export default function ProfileTab() {
     }
   };
 
-  // In the cancel handler, use currentUsername instead of session.user.name
   const handleCancelEdit = () => {
     setIsEditingUsername(false);
-    setNewUsername(currentUsername); // Use the tracked current username
+    setNewUsername(currentUsername);
     setUsernameError("");
   };
 

@@ -40,13 +40,21 @@ declare module "next-auth" {
 
 export const authOptions: NextAuthOptions = {
   session: {
-    strategy: "jwt", // or "database" if using PrismaAdapter for session management
+    strategy: "jwt",
   },
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, trigger, session }) => {
       if (user) {
         token.sub = user.id;
+        token.name = user.name;
+        token.email = user.email;
       }
+
+      // Handle the update trigger
+      if (trigger === "update" && session?.name) {
+        token.name = session.name;
+      }
+
       return token;
     },
     session: async ({ session, token }) => {
@@ -54,11 +62,14 @@ export const authOptions: NextAuthOptions = {
         session.user = {
           ...session.user,
           id: token.sub! as string,
+          name: token.name! as string,
+          email: token.email! as string,
         };
       }
       return session;
     },
   },
+
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
     GoogleProvider({
