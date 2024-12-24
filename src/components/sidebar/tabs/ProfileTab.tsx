@@ -27,7 +27,7 @@ import {
 import DangerBtn from "@/components/nova/buttons/DangerBtn";
 import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { changeUsername, deleteUserAccount } from "@/server/actions/user";
 import { z } from "zod";
 
@@ -39,8 +39,19 @@ export default function ProfileTab() {
   const { data: session, update: updateSession } = useSession();
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [newUsername, setNewUsername] = useState(session?.user?.name ?? "");
+  const [currentUsername, setCurrentUsername] = useState(
+    session?.user?.name ?? "",
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [usernameError, setUsernameError] = useState("");
+
+  // Update local state when session changes
+  useEffect(() => {
+    if (session?.user?.name) {
+      setCurrentUsername(session.user.name);
+      setNewUsername(session.user.name);
+    }
+  }, [session?.user?.name]);
 
   const handleUsernameChange = async () => {
     try {
@@ -50,6 +61,7 @@ export default function ProfileTab() {
       setIsLoading(true);
       await changeUsername(session?.user?.id! as string, newUsername);
       await updateSession(); // Update the session with new username
+      setCurrentUsername(newUsername); // Update our local state
       setIsEditingUsername(false);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -60,6 +72,13 @@ export default function ProfileTab() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // In the cancel handler, use currentUsername instead of session.user.name
+  const handleCancelEdit = () => {
+    setIsEditingUsername(false);
+    setNewUsername(currentUsername); // Use the tracked current username
+    setUsernameError("");
   };
 
   const handleDeleteAccount = async () => {
@@ -144,11 +163,7 @@ export default function ProfileTab() {
                         </Button>
                         <Button
                           className="text-sm"
-                          onClick={() => {
-                            setIsEditingUsername(false);
-                            setNewUsername(session.user.name ?? "");
-                            setUsernameError("");
-                          }}
+                          onClick={handleCancelEdit}
                           disabled={isLoading}
                         >
                           Cancel
