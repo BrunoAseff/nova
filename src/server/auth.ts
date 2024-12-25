@@ -69,6 +69,21 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    signIn: async ({ user, account }) => {
+      if (account?.provider === "google") {
+        return true;
+      }
+
+      if (account?.provider === "credentials") {
+        const dbUser = await db.user.findUnique({
+          where: { email: user.email! },
+        });
+
+        return dbUser?.emailVerified != null;
+      }
+
+      return true;
+    },
   },
 
   adapter: PrismaAdapter(db) as Adapter,
