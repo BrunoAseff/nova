@@ -36,8 +36,8 @@ export default function ForgotPassword() {
         <div className="z-50 m-auto flex max-w-[450px] flex-col items-center justify-center rounded-2xl border-[1px] border-secondary/60 bg-background p-10 shadow-[0px_20px_207px_10px] shadow-secondary/60">
           <h1 className="mb-2 text-2xl font-bold">Check your email</h1>
           <p className="text-center text-sm text-muted-foreground">
-            If an account exists for{" "}
-            <span className="text-foreground"> {email} </span>, we&apos;ve sent
+            If an account exists for
+            <span className="text-foreground"> {email}</span>, we&apos;ve sent
             <br />
             password reset instructions.
           </p>
