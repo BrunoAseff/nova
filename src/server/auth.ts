@@ -122,12 +122,12 @@ export const authOptions: NextAuthOptions = {
     }),
     EmailProvider({
       server: `smtp.resend.com`,
-      from: env.EMAIL_FROM,
+      from: "nova@novaspaces.io",
       // Replace the default email implementation
-      sendVerificationRequest: async ({ identifier, url, provider }) => {
+      sendVerificationRequest: async ({ identifier, url }) => {
         try {
           await resend.emails.send({
-            from: provider.from!,
+            from: "nova@novaspaces.io",
             to: identifier,
             subject: "Verify your email address",
             react: VerifyEmail({ url }),

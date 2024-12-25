@@ -26,7 +26,7 @@ export function VerifyEmail({ url }: VerifyEmailProps) {
       <Tailwind>
         <Body className="bg-gray-50 font-sans">
           <Container className="mx-auto my-8 max-w-[480px] rounded bg-white p-6 shadow-sm">
-            <Heading className="text-[#006edb ] mb-4 text-center text-[24px] font-semibold">
+            <Heading className="mb-4 text-center text-[24px] font-semibold text-[#006edb]">
               Welcome to Nova!
             </Heading>
             <Text className="mb-6 text-center text-[16px] leading-6 text-gray-700">
