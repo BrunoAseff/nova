@@ -187,10 +187,10 @@ export default function ProfileTab() {
                     </Label>
                     <Input value={"*********************"} readOnly disabled />
                     <LinkBtn className="mt-2 w-fit text-xs text-secondary">
-                      Forgot my password
+                      <Link href="/forgot-password">Forgot my password</Link>
                     </LinkBtn>
                   </div>
-                  <p className="text-md m-auto text-center text-muted-foreground">
+                  <p className="text-md m-auto text-center text-accent-foreground">
                     Put verification thing in here later
                   </p>
                 </div>

@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { signUp } from "@/server/actions/signUp";
+import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 
 const loginSchema = z.object({
   email: z
@@ -239,6 +240,11 @@ export default function Page() {
                             </button>
                           </div>
                         </FormControl>
+                        <LinkBtn className="mt-2 w-fit text-xs text-secondary">
+                          <Link href="/forgot-password">
+                            Forgot my password
+                          </Link>
+                        </LinkBtn>
                       </FormItem>
                     )}
                   />
