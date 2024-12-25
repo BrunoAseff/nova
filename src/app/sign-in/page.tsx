@@ -109,34 +109,36 @@ export default function Page() {
     setIsSignUpLoading(true);
 
     try {
-      const result = await signUp({
+      const signUpResult = await signUp({
         email: data.email,
         password: data.password,
         username: data.username,
       });
 
-      if (result.success) {
-        // Sign in the user after successful signup
-        const signInResult = await signIn("credentials", {
-          redirect: false,
-          email: data.email,
-          password: data.password,
-        });
+      if (!signUpResult.success) {
+        throw new Error(signUpResult.error);
+      }
 
-        if (signInResult?.ok) {
-          router.push("/spaces");
-        }
+      const verificationResult = await signIn("email", {
+        email: data.email,
+        redirect: false,
+        callbackUrl: "/spaces",
+      });
+
+      if (verificationResult?.ok) {
+        router.push("/verify-email");
       } else {
-        if (result.error) setAuthError(result.error);
+        setAuthError(
+          "Account created but verification email failed. Please try logging in and requesting a new verification email.",
+        );
       }
     } catch (error) {
-      setAuthError("Signup failed");
+      setAuthError((error as Error).message ?? "Signup failed");
       console.error(error);
     } finally {
       setIsSignUpLoading(false);
     }
   }
-
   const FormFieldWrapper = ({ children }: { children: React.ReactNode }) => (
     <div className="min-h-6 space-y-2">
       <div className="flex items-center justify-between">{children}</div>

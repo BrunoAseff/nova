@@ -10,6 +10,9 @@ import { env } from "@/env";
 import { db } from "@/server/db";
 import bcrypt from "bcrypt";
 import Credentials from "next-auth/providers/credentials";
+import EmailProvider from "next-auth/providers/email";
+import { Resend } from "resend";
+const resend = new Resend(env.RESEND_API_KEY);
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -68,6 +71,21 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    signIn: async ({ user, account }) => {
+      if (account?.provider === "google") {
+        return true;
+      }
+
+      if (account?.provider === "credentials") {
+        const dbUser = await db.user.findUnique({
+          where: { email: user.email! },
+        });
+
+        return dbUser?.emailVerified != null;
+      }
+
+      return true;
+    },
   },
 
   adapter: PrismaAdapter(db) as Adapter,
@@ -102,9 +120,32 @@ export const authOptions: NextAuthOptions = {
         return { id: user.id, email: user.email, name: user.name };
       },
     }),
+    EmailProvider({
+      server: `smtp.resend.com`,
+      from: env.EMAIL_FROM,
+      // Replace the default email implementation
+      sendVerificationRequest: async ({ identifier, url, provider }) => {
+        try {
+          await resend.emails.send({
+            from: provider.from!,
+            to: identifier,
+            subject: "Verify your email address",
+            html: `
+              <p>Click the link below to verify your email address:</p>
+              <a href="${url}">Verify Email</a>
+            `,
+          });
+        } catch (error) {
+          console.error("Error sending verification email", error);
+          throw new Error("Failed to send verification email");
+        }
+      },
+    }),
   ],
+
   pages: {
     signIn: "/sign-in",
+    verifyRequest: "/verify-email",
   },
 };
 
