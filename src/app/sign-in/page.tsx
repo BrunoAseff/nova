@@ -122,13 +122,12 @@ export default function Page() {
       const verificationResult = await signIn("email", {
         email: data.email,
         redirect: false,
+        callbackUrl: "/spaces",
       });
 
       if (verificationResult?.ok) {
-        // 3. Show verification page
         router.push("/verify-email");
       } else {
-        // User was created but verification email failed
         setAuthError(
           "Account created but verification email failed. Please try logging in and requesting a new verification email.",
         );
@@ -140,7 +139,6 @@ export default function Page() {
       setIsSignUpLoading(false);
     }
   }
-
   const FormFieldWrapper = ({ children }: { children: React.ReactNode }) => (
     <div className="min-h-6 space-y-2">
       <div className="flex items-center justify-between">{children}</div>

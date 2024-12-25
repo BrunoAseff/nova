@@ -11,6 +11,8 @@ import { db } from "@/server/db";
 import bcrypt from "bcrypt";
 import Credentials from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
+import { Resend } from "resend";
+const resend = new Resend(env.RESEND_API_KEY);
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -119,20 +121,31 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
+      server: `smtp.resend.com`,
+      from: env.EMAIL_FROM,
+      // Replace the default email implementation
+      sendVerificationRequest: async ({ identifier, url, provider }) => {
+        try {
+          await resend.emails.send({
+            from: provider.from!,
+            to: identifier,
+            subject: "Verify your email address",
+            html: `
+              <p>Click the link below to verify your email address:</p>
+              <a href="${url}">Verify Email</a>
+            `,
+          });
+        } catch (error) {
+          console.error("Error sending verification email", error);
+          throw new Error("Failed to send verification email");
+        }
       },
-      from: process.env.EMAIL_FROM,
     }),
   ],
 
   pages: {
     signIn: "/sign-in",
+    verifyRequest: "/verify-email",
   },
 };
 
