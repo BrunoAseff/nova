@@ -13,7 +13,7 @@ import Credentials from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
 import { Resend } from "resend";
 const resend = new Resend(env.RESEND_API_KEY);
-
+import VerifyEmail from "@/lib/emails/verify-email";
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -130,10 +130,7 @@ export const authOptions: NextAuthOptions = {
             from: provider.from!,
             to: identifier,
             subject: "Verify your email address",
-            html: `
-              <p>Click the link below to verify your email address:</p>
-              <a href="${url}">Verify Email</a>
-            `,
+            react: VerifyEmail({ url }),
           });
         } catch (error) {
           console.error("Error sending verification email", error);
