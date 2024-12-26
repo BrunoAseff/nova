@@ -128,8 +128,8 @@ export default function Reminder(props: ReminderProps) {
             className={`flex-col gap-4 rounded-3xl border-[1px] border-accent bg-[#0c0e12] p-4`}
           >
             <div className="mb-1 flex items-center gap-1">
-              <Note className="text-[ #d0dbe3]" size={20} weight="duotone" />
-              <p className="text-[204, 25%, 85.1%] text-xs font-semibold">
+              <Note className="text-[#d0dbe3]" size={20} weight="duotone" />
+              <p className="text-[hsl(204, 25%, 85.1%)] text-xs font-semibold">
                 Reminder
               </p>
             </div>
