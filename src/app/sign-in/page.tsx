@@ -146,14 +146,14 @@ export default function Page() {
     </div>
   );
   return (
-    <main className="relative flex size-full h-screen items-center justify-center overflow-hidden rounded-lg bg-background p-20">
-      <div className="z-50 m-auto min-h-[80vh] w-[40rem] rounded-2xl border-[1px] border-secondary/60 bg-background shadow-[0px_20px_207px_10px] shadow-secondary/60">
-        <div className="flex flex-col items-center p-8">
-          <div className="mb-6 scale-75">
+    <main className="relative flex size-full h-screen items-center justify-center overflow-hidden overflow-y-auto rounded-lg bg-background p-20">
+      <div className="z-50 m-auto h-fit w-[40rem] rounded-2xl border-[1px] border-secondary/60 bg-background px-4 shadow-[0px_20px_207px_10px] shadow-secondary/60">
+        <div className="flex flex-col items-center px-4 pb-10 pt-3">
+          <div className="mb-2 scale-[55%]">
             <Logo />
           </div>
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="mb-10 flex justify-center">
+            <TabsList className="mb-6 flex justify-center">
               <TabsTrigger
                 className="rounded-none border-[2px] border-background data-[state=active]:border-b-foreground data-[state=active]:text-foreground"
                 value="login"
