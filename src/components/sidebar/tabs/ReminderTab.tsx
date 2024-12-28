@@ -13,6 +13,7 @@ import IconBtn from "@/components/nova/buttons/IconBtn";
 import type { ReminderMessage } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import ReminderIllustration from "@/components/svgs/ReminderIllustration";
+import LimitedFeature from "@/components/limitedFeature";
 
 export default function ReminderTab() {
   const {
@@ -31,6 +32,7 @@ export default function ReminderTab() {
   >("bottom-left");
 
   const [isReminderVisible, setIsReminderVisible] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const selectedSpace = spaces.find((space) => space.name === selectedTab);
@@ -59,12 +61,16 @@ export default function ReminderTab() {
   };
 
   const handleAddReminder = () => {
-    const newReminder: ReminderMessage = {
-      id: nanoid(),
-      text: "",
-      type: "Gratitude",
-    };
-    updateReminder(newReminder);
+    if (reminderMessages.length >= 3) {
+      setIsModalOpen(true);
+    } else {
+      const newReminder: ReminderMessage = {
+        id: nanoid(),
+        text: "",
+        type: "Gratitude",
+      };
+      updateReminder(newReminder);
+    }
   };
 
   const handleDeleteReminder = (id: string) => {
@@ -251,6 +257,12 @@ export default function ReminderTab() {
             >
               <PlusIcon />
             </button>
+            <LimitedFeature
+              feature="remiders"
+              limit="3 reminders"
+              open={isModalOpen}
+              onOpenChange={() => setIsModalOpen(!isModalOpen)}
+            />
           </div>
         </div>
       </div>
