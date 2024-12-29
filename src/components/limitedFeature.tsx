@@ -26,7 +26,7 @@ export default function LimitedFeature({
 }: props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-xl border-none shadow-[0px_20px_207px_10px] shadow-secondary/60 sm:max-w-[425px]">
+      <DialogContent className="rounded-xl border-none shadow-[0px_20px_207px_10px] shadow-secondary/40 sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Upgrade to Supernova</DialogTitle>
           <DialogDescription>
@@ -50,7 +50,7 @@ export default function LimitedFeature({
 
           <Button
             asChild
-            className="w-fit gap-2 rounded-xl border-[1px] bg-gradient-to-r from-secondary via-secondary-smooth-400 to-secondary-smooth-500 p-3 font-sans text-sm font-[600] text-background transition-colors hover:border-foreground hover:bg-secondary-smooth-700/10"
+            className="w-fit gap-2 rounded-xl border-[1px] border-transparent bg-gradient-to-r from-secondary via-secondary-smooth-400 to-secondary-smooth-500 p-3 font-sans text-sm font-[600] text-background transition-all hover:bg-secondary-smooth-700/10 hover:brightness-110"
           >
             <Link href="/pricing">Upgrade</Link>
           </Button>
