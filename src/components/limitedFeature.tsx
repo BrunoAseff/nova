@@ -5,9 +5,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 type props = {
   limit: string;
@@ -24,12 +26,14 @@ export default function LimitedFeature({
 }: props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="rounded-xl border-none shadow-[0px_20px_207px_10px] shadow-secondary/40 sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Upgrade to Supernova</DialogTitle>
           <DialogDescription>
-            You&apos;ve reached your limit of {limit}. Upgrade to Supernova to
-            have unlimited {feature}.
+            You&apos;ve reached your limit of{" "}
+            <span className="text-secondary">{limit}</span>. Upgrade to
+            Supernova to have{" "}
+            <span className="text-secondary">unlimited {feature}</span>.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -39,13 +43,16 @@ export default function LimitedFeature({
             </Label>
           </div>
         </div>
-        <DialogFooter className="">
-          <Button className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-sm font-[600] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
+        <DialogFooter>
+          <DialogClose className="flex h-10 w-fit items-center justify-center gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-sm font-[600] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
             Not now
-          </Button>
+          </DialogClose>
 
-          <Button className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-sm font-[600] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive">
-            Upgrade!
+          <Button
+            asChild
+            className="w-fit gap-2 rounded-xl border-[1px] border-transparent bg-gradient-to-r from-secondary via-secondary-smooth-400 to-secondary-smooth-500 p-3 font-sans text-sm font-[600] text-background transition-all hover:bg-secondary-smooth-700/10 hover:brightness-110"
+          >
+            <Link href="/pricing">Upgrade</Link>
           </Button>
         </DialogFooter>
       </DialogContent>

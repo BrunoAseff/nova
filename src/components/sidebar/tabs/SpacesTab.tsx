@@ -28,6 +28,11 @@ import { TabHeader } from "@/components/tabHeader";
 import TabBody from "@/components/tabBody";
 import TabCard from "@/components/tabCard";
 import SpacesIllustration from "@/components/svgs/SpacesIllustration";
+import LimitedFeature from "@/components/limitedFeature";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { CircleNotch } from "@phosphor-icons/react";
 
 // Map display names to shortcut values
 const shortcutMapping: Record<string, ShortcutName> = {
@@ -42,7 +47,6 @@ const shortcutMapping: Record<string, ShortcutName> = {
   Appearance: "appearance",
 };
 
-// Reverse mapping for displaying the current value
 const reverseShortcutMapping: Record<ShortcutName, string> = Object.entries(
   shortcutMapping,
 ).reduce(
@@ -54,6 +58,21 @@ export default function SpacesTab() {
   const { shortcut, updateShortcut, spaces, resetSpaces } = useSpacesContext();
   const shortcutOptions = Object.keys(shortcutMapping);
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditingSpace, setIsEditingSpace] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  function handleAddSpaces() {
+    setIsModalOpen(true);
+  }
+
+  function handleSpaceNameChange() {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }
 
   return (
     <main className="h-screen">
@@ -70,22 +89,71 @@ export default function SpacesTab() {
               Manage your personalized spaces and create new ones to suit your
               needs.
             </p>
-            <div className="space-between mt-6 flex gap-10">
+            <div className="mt-2 flex w-full flex-col items-center gap-4">
               {spaces.map((space) => (
                 <div
                   key={space.name}
-                  className="flex h-24 w-24 flex-col items-center justify-center gap-2 rounded-2xl border-[1px] border-secondary bg-secondary-smooth-700/10 p-12 text-secondary"
+                  className="flex w-full items-center gap-2 rounded-2xl p-4 text-muted-foreground"
                 >
                   <p>{space.icon}</p>
-                  <p>{space.name}</p>
+
+                  <Input
+                    className="w-fit"
+                    value={space.name ?? "failed to load your space"}
+                    readOnly={!isEditingSpace}
+                    disabled={!isEditingSpace}
+                  />
+
+                  {!isEditingSpace ? (
+                    <Button
+                      variant="ghost"
+                      className="mx-auto text-sm"
+                      onClick={() => setIsEditingSpace(true)}
+                    >
+                      Change space name
+                    </Button>
+                  ) : (
+                    <div className="flex items-center justify-center gap-3">
+                      <Button
+                        variant="ghost"
+                        className="w-[7.3rem] text-sm"
+                        onClick={() => {
+                          handleSpaceNameChange();
+                        }}
+                        disabled={isLoading}
+                      >
+                        {isLoading ? (
+                          <CircleNotch className="animate-spin" size={18} />
+                        ) : (
+                          "Save change"
+                        )}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="text-sm"
+                        onClick={() => {
+                          setIsEditingSpace(false);
+                        }}
+                        disabled={isLoading}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
-              <div className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-[1px] border-dashed border-muted-foreground p-12 text-muted-foreground transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
-                <p>
-                  <PlusIcon />
-                </p>
-                <p>Add</p>
-              </div>
+              <button
+                onClick={handleAddSpaces}
+                className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+              >
+                <PlusIcon />
+              </button>
+              <LimitedFeature
+                feature="spaces"
+                limit="3 spaces"
+                open={isModalOpen}
+                onOpenChange={() => setIsModalOpen(!isModalOpen)}
+              />{" "}
             </div>
           </div>
         </TabCard>
