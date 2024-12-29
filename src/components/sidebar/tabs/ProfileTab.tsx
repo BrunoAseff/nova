@@ -154,6 +154,7 @@ export default function ProfileTab() {
                     ) : (
                       <div className="flex items-center justify-center gap-3">
                         <Button
+                          variant="ghost"
                           className="text-sm"
                           onClick={handleUsernameChange}
                           disabled={isLoading}
@@ -165,7 +166,8 @@ export default function ProfileTab() {
                           )}
                         </Button>
                         <Button
-                          className="text-sm"
+                          variant="ghost"
+                          className="text-sm transition-all hover:border-destructive hover:bg-destructive/10 hover:text-destructive"
                           onClick={handleCancelEdit}
                           disabled={isLoading}
                         >
