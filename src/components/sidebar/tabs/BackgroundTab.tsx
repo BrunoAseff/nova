@@ -21,6 +21,7 @@ import { TabHeader } from "@/components/tabHeader";
 import { Label } from "@/components/ui/label";
 import BackgroundIllustration from "@/components/svgs/BackgroundIllustration";
 import NoResultsIllustration from "@/components/svgs/NoResultsIllustration";
+import { FileUpload } from "@/components/ui/file-upload";
 
 export default function BackgroundTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
@@ -94,7 +95,8 @@ export default function BackgroundTab() {
         Icon={BackgroundIllustration}
       />
 
-      <div className="mt-28 flex w-[100%] flex-col">
+      <div className="mt-20 flex w-[93%] flex-col">
+        <FileUpload />
         <div className="flex items-center justify-center gap-4">
           <div className="flex flex-col gap-1">
             <p className="text-sm text-foreground">Environment</p>
@@ -208,7 +210,7 @@ export default function BackgroundTab() {
                   ?.name ?? ""
               }
               onValueChange={handleBackgroundURLChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-full grid-cols-2 justify-between gap-4 overflow-y-auto pb-14 pr-2"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-full scroll-pb-56 grid-cols-3 justify-between gap-4 overflow-y-auto pb-36 pr-4"
             >
               {filteredBackgrounds.map((background) => {
                 const isChecked = background.url === currentBackgroundURL;

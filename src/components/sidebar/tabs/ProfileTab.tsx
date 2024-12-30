@@ -281,7 +281,7 @@ export default function ProfileTab() {
             whileTap={{ scale: 0.95 }}
             whileDrag={{ scale: 0.9, rotate: 10 }}
             drag
-            className="group relative mx-auto mt-4 w-fit overflow-hidden rounded-full border border-blue-500/20 bg-background transition-colors duration-200 ease-in-out"
+            className="group relative mx-auto mt-4 w-fit overflow-hidden rounded-full border border-secondary-smooth-500/20 bg-background transition-colors duration-200 ease-in-out"
           >
             <Link
               href="/sign-in"

@@ -10,6 +10,7 @@ const DEFAULT_ALARM_SOUND = "/alarm-sounds/calming-alarm.wav";
 export const settings: settingsType = {
   spaces: [
     {
+      id: 1,
       name: "Home",
       icon: <Home />,
       clock: { isHidden: false, position: "center", timeFormat: "24h" },
@@ -28,6 +29,7 @@ export const settings: settingsType = {
       background: backgrounds.find((bg) => bg.name === "River Path")?.url ?? "",
     },
     {
+      id: 2,
       name: "Focus",
       icon: <Focus />,
       clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
@@ -46,6 +48,7 @@ export const settings: settingsType = {
       background: backgrounds.find((bg) => bg.name === "Messy Desk")?.url ?? "",
     },
     {
+      id: 3,
       name: "Relax",
       icon: <Relax />,
       clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
