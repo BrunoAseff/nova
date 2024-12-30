@@ -210,7 +210,7 @@ export default function BackgroundTab() {
                   ?.name ?? ""
               }
               onValueChange={handleBackgroundURLChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-full grid-cols-3 justify-between gap-4 overflow-y-auto pb-32 pr-4"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-full scroll-pb-56 grid-cols-3 justify-between gap-4 overflow-y-auto pb-36 pr-4"
             >
               {filteredBackgrounds.map((background) => {
                 const isChecked = background.url === currentBackgroundURL;
