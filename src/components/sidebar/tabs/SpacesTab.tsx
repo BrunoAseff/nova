@@ -32,9 +32,7 @@ import LimitedFeature from "@/components/limitedFeature";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CircleNotch } from "@phosphor-icons/react";
 
-// Map display names to shortcut values
 const shortcutMapping: Record<string, ShortcutName> = {
   Clock: "clock",
   Pomodoro: "pomodoro",
@@ -55,23 +53,47 @@ const reverseShortcutMapping: Record<ShortcutName, string> = Object.entries(
 );
 
 export default function SpacesTab() {
-  const { shortcut, updateShortcut, spaces, resetSpaces } = useSpacesContext();
+  const {
+    shortcut,
+    updateShortcut,
+    spaces,
+    resetSpaces,
+
+    updateSpaceProperty,
+  } = useSpacesContext();
+
   const shortcutOptions = Object.keys(shortcutMapping);
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditingSpace, setIsEditingSpace] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [editingSpaceIndex, setEditingSpaceIndex] = useState<number | null>(
+    null,
+  ); // Track which space is being edited
+  const [tempSpaceNames, setTempSpaceNames] = useState<string[]>(
+    spaces.map((space) => space.name), // Temp state to hold names while editing
+  );
 
-  function handleAddSpaces() {
+  function handleAddSpaces(): void {
     setIsModalOpen(true);
   }
 
-  function handleSpaceNameChange() {
-    setIsLoading(true);
+  function handleSpaceNameChange(index: number): void {
+    const space = spaces[index];
+    if (!space) return; // Ensure the space exists
+    const newName = tempSpaceNames[index];
+    updateSpaceProperty(space.name, "name", newName);
+    setEditingSpaceIndex(null);
+  }
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+  function handleCancelEdit(index: number): void {
+    const space = spaces[index];
+    if (!space) return;
+    const originalName = space.name;
+    setTempSpaceNames((prev: string[]) => {
+      const updatedNames = [...prev];
+      updatedNames[index] = originalName;
+      return updatedNames;
+    });
+    setEditingSpaceIndex(null);
   }
 
   return (
@@ -90,25 +112,32 @@ export default function SpacesTab() {
               needs.
             </p>
             <div className="mt-2 flex w-full flex-col items-center gap-4">
-              {spaces.map((space) => (
+              {spaces.map((space, index) => (
                 <div
-                  key={space.name}
+                  key={index}
                   className="flex w-full items-center gap-2 rounded-2xl p-4 text-muted-foreground"
                 >
                   <p>{space.icon}</p>
 
                   <Input
                     className="w-fit"
-                    value={space.name ?? "failed to load your space"}
-                    readOnly={!isEditingSpace}
-                    disabled={!isEditingSpace}
+                    value={tempSpaceNames[index] ?? "failed to load your space"}
+                    readOnly={editingSpaceIndex !== index}
+                    onChange={(e) => {
+                      const newName = e.target.value;
+                      setTempSpaceNames((prev: string[]) => {
+                        const updatedNames = [...prev];
+                        updatedNames[index] = newName;
+                        return updatedNames;
+                      });
+                    }}
                   />
 
-                  {!isEditingSpace ? (
+                  {editingSpaceIndex !== index ? (
                     <Button
                       variant="ghost"
                       className="mx-auto text-sm"
-                      onClick={() => setIsEditingSpace(true)}
+                      onClick={() => setEditingSpaceIndex(index)}
                     >
                       Change space name
                     </Button>
@@ -117,24 +146,14 @@ export default function SpacesTab() {
                       <Button
                         variant="ghost"
                         className="w-[7.3rem] text-sm"
-                        onClick={() => {
-                          handleSpaceNameChange();
-                        }}
-                        disabled={isLoading}
+                        onClick={() => handleSpaceNameChange(index)}
                       >
-                        {isLoading ? (
-                          <CircleNotch className="animate-spin" size={18} />
-                        ) : (
-                          "Save change"
-                        )}
+                        Save change
                       </Button>
                       <Button
                         variant="ghost"
                         className="text-sm"
-                        onClick={() => {
-                          setIsEditingSpace(false);
-                        }}
-                        disabled={isLoading}
+                        onClick={() => handleCancelEdit(index)}
                       >
                         Cancel
                       </Button>
@@ -153,11 +172,10 @@ export default function SpacesTab() {
                 limit="3 spaces"
                 open={isModalOpen}
                 onOpenChange={() => setIsModalOpen(!isModalOpen)}
-              />{" "}
+              />
             </div>
           </div>
         </TabCard>
-
         <TabCard>
           <div>
             {" "}

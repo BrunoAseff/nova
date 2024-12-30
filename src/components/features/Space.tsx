@@ -137,7 +137,7 @@ export default function Space() {
               aria-labelledby="tooltip"
               onClick={() => selectTab(space.name)}
               className="hover:bg-accent-foreground hover:text-foreground"
-              key={space.name}
+              key={space.id}
               value={space.name}
             >
               <Tooltip delayDuration={200}>
@@ -154,7 +154,7 @@ export default function Space() {
         {spaces.map((space) => (
           <TabsContent
             className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
-            key={space.name}
+            key={space.id}
             value={space.name}
           >
             <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
@@ -164,7 +164,7 @@ export default function Space() {
                 rel="preload"
                 as="image"
                 href={space.background}
-                key={space.background}
+                key={space.id}
               />
             )}
 

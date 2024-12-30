@@ -10,7 +10,7 @@ export const ambientSounds: Sound[] = [
   {
     name: "Ocean Waves",
     url: "https://utfs.io/f/C3k2e5UQDa972ez8jJ7CdSL1HsIwEuK4TvJXprUencqoxa8W",
-    type: ["Nature"],
+    type: ["Weather"],
   },
   {
     name: "Rain",

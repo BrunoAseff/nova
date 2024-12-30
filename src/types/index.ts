@@ -59,6 +59,7 @@ export interface QuoteProps {
 export type Background = string;
 
 export interface Space {
+  id: number;
   name: string;
   clock: ClockProps;
   pomodoro: PomodoroProps;
