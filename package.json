@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "scan": "next dev & npx react-scan@latest localhost:3000",
     "db:generate": "prisma migrate dev",
