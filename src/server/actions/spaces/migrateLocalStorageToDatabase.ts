@@ -87,13 +87,13 @@ export const migrateLocalStorageToDatabase = async (
         where: { id: reminder.id?.toString() || "" },
         update: {
           message: reminder.text,
-          position: reminder.type,
+          type: reminder.type,
           settingsId: settings.id,
         },
         create: {
           id: reminder.id?.toString() || undefined,
           message: reminder.text,
-          position: reminder.type,
+          type: reminder.type,
           settingsId: settings.id,
         },
       });
