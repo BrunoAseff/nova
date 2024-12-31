@@ -44,6 +44,7 @@ model User {
     email           String?   @unique
     password        String?
     emailVerified   DateTime?
+    dataMigrated Boolean   @default(false)
     image           String?
     resetToken      String?   @unique
     resetTokenExpiry DateTime?
@@ -66,7 +67,6 @@ model Settings {
     userId              String      @unique
     user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
     ambientSound        String?
-    ambientSoundVolume  Int         @default(50)
     isAmbientSoundPlaying Boolean   @default(false)
     shortcut            String?
     spaces              Space[]
