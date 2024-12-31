@@ -17,7 +17,7 @@ import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
 import { useCallback, useEffect, useState } from "react";
 import Shortcut from "../shortcuts/shortcut";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
-import { fetchSpacesData } from "@/server/actions/spaces";
+import { fetchSpacesData } from "@/server/actions/spaces/spaces";
 import BreathingExercise from "./breathingExercise/BreathingExercise";
 import Reminder from "./Reminder";
 

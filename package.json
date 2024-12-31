@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npm run services:up && next dev",
+    "dev": "next dev",
     "build": "next build",
     "services:up": "docker compose up -d",
     "scan": "next dev & npx react-scan@latest localhost:3000",
