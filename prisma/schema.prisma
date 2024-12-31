@@ -102,5 +102,5 @@ model Reminder {
     settingsId  String
     settings    Settings @relation(fields: [settingsId], references: [id], onDelete: Cascade)
     message     String
-    position    String? // E.g., "top-right"
+    type    String? // E.g., "top-right"
 }

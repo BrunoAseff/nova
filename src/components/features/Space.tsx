@@ -20,6 +20,7 @@ import { useInteractionLock } from "@/contexts/InteractionLockContext";
 import { fetchSpacesData } from "@/server/actions/spaces/spaces";
 import BreathingExercise from "./breathingExercise/BreathingExercise";
 import Reminder from "./Reminder";
+import SyncingInfo from "../syncingInfo";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -124,7 +125,7 @@ export default function Space() {
   return (
     <TooltipProvider>
       <Shortcut />
-
+      <SyncingInfo />
       <Tabs
         defaultValue="Focus"
         className="relative m-0 h-screen w-full overflow-hidden p-0 font-sans"
