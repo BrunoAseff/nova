@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run services:up && next dev",
     "build": "next build",
+    "services:up": "docker compose up -d",
     "scan": "next dev & npx react-scan@latest localhost:3000",
     "db:generate": "prisma migrate dev",
     "db:migrate": "prisma migrate deploy",
