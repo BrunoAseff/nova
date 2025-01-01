@@ -1,7 +1,5 @@
 "use server";
-
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
 
 export const migrateLocalStorageToDatabase = async (
@@ -21,6 +19,7 @@ export const migrateLocalStorageToDatabase = async (
 
     const { spaces, shortcut, ambientSound, reminderMessages } = localData;
 
+    // Create or update settings for the user
     const settings = await prisma.settings.upsert({
       where: { userId },
       update: {
@@ -34,64 +33,44 @@ export const migrateLocalStorageToDatabase = async (
       },
     });
 
-    for (const space of spaces) {
-      await prisma.space.upsert({
-        where: { id: space.id?.toString() || "" },
-        update: {
-          name: space.name,
-          clockIsHidden: space.clock.isHidden,
-          clockPosition: space.clock.position,
-          clockTimeFormat: space.clock.timeFormat,
-          pomodoroIsHidden: space.pomodoro.isHidden,
-          shortBreakDuration: space.pomodoro.shortBreakDuration,
-          longBreakDuration: space.pomodoro.longBreakDuration,
-          pomodoroAutoStart: space.pomodoro.autoStart,
-          alarmSound: space.pomodoro.alarmSound,
-          alarmSoundURL: space.pomodoro.alarmSoundURL,
-          alarmRepeatTimes: space.pomodoro.alarmRepeatTimes,
-          breathingIsHidden: space.breathingExercise.isHidden,
-          breathingTechnique: space.breathingExercise.technique,
-          reminderIsHidden: space.reminder.isHidden,
-          reminderPosition: space.reminder.position,
-          quoteIsHidden: space.quote.isHidden,
-          quotePosition: space.quote.position,
-          background: space.background,
-        },
-        create: {
-          id: space.id?.toString() || undefined,
-          settingsId: settings.id,
-          name: space.name,
-          clockIsHidden: space.clock.isHidden,
-          clockPosition: space.clock.position,
-          clockTimeFormat: space.clock.timeFormat,
-          pomodoroIsHidden: space.pomodoro.isHidden,
-          shortBreakDuration: space.pomodoro.shortBreakDuration,
-          longBreakDuration: space.pomodoro.longBreakDuration,
-          pomodoroAutoStart: space.pomodoro.autoStart,
-          alarmSound: space.pomodoro.alarmSound,
-          alarmSoundURL: space.pomodoro.alarmSoundURL,
-          alarmRepeatTimes: space.pomodoro.alarmRepeatTimes,
-          breathingIsHidden: space.breathingExercise.isHidden,
-          breathingTechnique: space.breathingExercise.technique,
-          reminderIsHidden: space.reminder.isHidden,
-          reminderPosition: space.reminder.position,
-          quoteIsHidden: space.quote.isHidden,
-          quotePosition: space.quote.position,
-          background: space.background,
-        },
-      });
+    // For spaces, first check if this settings ID already has any spaces
+    const existingSpaces = await prisma.space.findMany({
+      where: { settingsId: settings.id },
+    });
+
+    // If no existing spaces, create new ones
+    if (existingSpaces.length === 0) {
+      for (const space of spaces) {
+        await prisma.space.create({
+          data: {
+            settingsId: settings.id,
+            name: space.name,
+            clockIsHidden: space.clock.isHidden,
+            clockPosition: space.clock.position,
+            clockTimeFormat: space.clock.timeFormat,
+            pomodoroIsHidden: space.pomodoro.isHidden,
+            shortBreakDuration: space.pomodoro.shortBreakDuration,
+            longBreakDuration: space.pomodoro.longBreakDuration,
+            pomodoroAutoStart: space.pomodoro.autoStart,
+            alarmSound: space.pomodoro.alarmSound,
+            alarmSoundURL: space.pomodoro.alarmSoundURL,
+            alarmRepeatTimes: space.pomodoro.alarmRepeatTimes,
+            breathingIsHidden: space.breathingExercise.isHidden,
+            breathingTechnique: space.breathingExercise.technique,
+            reminderIsHidden: space.reminder.isHidden,
+            reminderPosition: space.reminder.position,
+            quoteIsHidden: space.quote.isHidden,
+            quotePosition: space.quote.position,
+            background: space.background,
+          },
+        });
+      }
     }
 
+    // Handle reminders
     for (const reminder of reminderMessages) {
-      await prisma.reminder.upsert({
-        where: { id: reminder.id?.toString() || "" },
-        update: {
-          message: reminder.text,
-          type: reminder.type,
-          settingsId: settings.id,
-        },
-        create: {
-          id: reminder.id?.toString() || undefined,
+      await prisma.reminder.create({
+        data: {
           message: reminder.text,
           type: reminder.type,
           settingsId: settings.id,
@@ -108,5 +87,6 @@ export const migrateLocalStorageToDatabase = async (
     console.log("Data successfully migrated to the database.");
   } catch (error) {
     console.error("Error during data migration:", error);
+    throw error;
   }
 };
