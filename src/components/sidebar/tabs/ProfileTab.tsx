@@ -276,8 +276,8 @@ export default function ProfileTab() {
           <Label className="text-md px-3 font-montserrat text-foreground">
             Login or create an account to have a complete experience
           </Label>
-          <PrimaryBtn>
-            <Link href="/pricing">
+          <PrimaryBtn className="rounded-xl border-[1px] border-secondary/60 bg-secondary-smooth-700/10 px-4 py-3 text-sm text-foreground transition-all duration-1000 hover:rounded-full hover:bg-secondary-smooth-700/10">
+            <Link href="/sign-in">
               <p>Enter now</p>
             </Link>
           </PrimaryBtn>

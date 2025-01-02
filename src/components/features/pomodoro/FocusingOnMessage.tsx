@@ -37,6 +37,7 @@ export default function FocusingOnMessage() {
     <input
       ref={inputRef}
       type="text"
+      maxLength={30}
       value={tempMessage}
       onChange={(e) => setTempMessage(e.target.value)}
       onBlur={handleBlur}
