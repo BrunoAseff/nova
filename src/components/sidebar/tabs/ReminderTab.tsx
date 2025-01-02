@@ -230,6 +230,7 @@ export default function ReminderTab() {
                     </RadioGroup>
                     <div className="flex w-full justify-between">
                       <Textarea
+                        maxLength={140}
                         placeholder={reminderPlaceholders[message.type]}
                         defaultValue={message.text}
                         className="mt-2 w-[90%]"

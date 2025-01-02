@@ -38,6 +38,7 @@ export function NewCycleForm() {
           type="text"
           list="task-suggestions"
           placeholder="Task name"
+          maxLength={40}
           disabled={!!activeCycle}
           {...register("task")}
         />
