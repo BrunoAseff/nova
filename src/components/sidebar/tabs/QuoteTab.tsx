@@ -7,6 +7,8 @@ import { useSpacesContext } from "@/contexts/spaceContext";
 import type { Position } from "@/types";
 import { TabHeader } from "@/components/tabHeader";
 import QuoteIllustration from "@/components/svgs/QuoteIllustration";
+import { PlusIcon } from "@/components/icons/PlusIcon";
+import LimitedFeature from "@/components/limitedFeature";
 
 type Category = "Fact" | "Success" | "Motivational" | "Gratitude" | "Self Care";
 const CATEGORIES: Category[] = [
@@ -26,6 +28,7 @@ export default function QuoteTab() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     "all",
   ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Synchronize local state with the selected space
   useEffect(() => {
@@ -86,6 +89,10 @@ export default function QuoteTab() {
       categories: newCategories,
     });
   };
+
+  function handleAddQuote() {
+    setIsModalOpen(true);
+  }
 
   return (
     <main className="h-screen">
@@ -220,6 +227,29 @@ export default function QuoteTab() {
               ))}
             </div>
           </div>
+        </div>
+
+        <div className="flex min-h-16 max-w-[95%] flex-col justify-between gap-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+          <div className="flex max-w-[100%] flex-col gap-1">
+            <Label htmlFor="reminders" className="text-md text-foreground">
+              Your quotes
+            </Label>
+            <div className="w-full text-sm text-muted-foreground">
+              <p>Add your favorite quotes and phrases, from anyone!</p>
+            </div>
+          </div>
+          <button
+            onClick={handleAddQuote}
+            className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+          >
+            <PlusIcon />
+          </button>
+          <LimitedFeature
+            feature="quotes"
+            limit="custom quotes"
+            open={isModalOpen}
+            onOpenChange={() => setIsModalOpen(!isModalOpen)}
+          />
         </div>
       </div>
     </main>
