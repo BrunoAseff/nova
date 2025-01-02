@@ -184,7 +184,7 @@ export default function ReminderTab() {
         <div className="flex min-h-16 max-w-[99%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex max-w-[100%] flex-col gap-4">
             <Label htmlFor="reminders" className="text-md text-foreground">
-              Reminders list
+              Your reminders
             </Label>
             {reminderMessages.length === 0 ? (
               <div className="w-full text-sm text-muted-foreground">
