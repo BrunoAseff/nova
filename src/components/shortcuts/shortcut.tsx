@@ -92,7 +92,7 @@ export default function Shortcut() {
     <TooltipProvider>
       <Tooltip delayDuration={200}>
         <DropdownMenu>
-          <TooltipTrigger asChild>
+          <TooltipTrigger className="hidden md:flex" asChild>
             <DropdownMenuTrigger asChild>
               <Button
                 aria-label="Shortcut"

@@ -1,4 +1,3 @@
-import { PlusIcon } from "@/components/icons/PlusIcon";
 import { Label } from "@/components/ui/label";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import {
@@ -28,7 +27,6 @@ import { TabHeader } from "@/components/tabHeader";
 import TabBody from "@/components/tabBody";
 import TabCard from "@/components/tabCard";
 import SpacesIllustration from "@/components/svgs/SpacesIllustration";
-import LimitedFeature from "@/components/limitedFeature";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -64,17 +62,12 @@ export default function SpacesTab() {
 
   const shortcutOptions = Object.keys(shortcutMapping);
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSpaceIndex, setEditingSpaceIndex] = useState<number | null>(
     null,
   ); // Track which space is being edited
   const [tempSpaceNames, setTempSpaceNames] = useState<string[]>(
     spaces.map((space) => space.name), // Temp state to hold names while editing
   );
-
-  function handleAddSpaces(): void {
-    setIsModalOpen(true);
-  }
 
   function handleSpaceNameChange(index: number): void {
     const space = spaces[index];
@@ -161,18 +154,6 @@ export default function SpacesTab() {
                   )}
                 </div>
               ))}
-              <button
-                onClick={handleAddSpaces}
-                className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
-              >
-                <PlusIcon />
-              </button>
-              <LimitedFeature
-                feature="spaces"
-                limit="3 spaces"
-                open={isModalOpen}
-                onOpenChange={() => setIsModalOpen(!isModalOpen)}
-              />
             </div>
           </div>
         </TabCard>
