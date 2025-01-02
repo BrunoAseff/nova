@@ -132,10 +132,11 @@ export default function QuoteTab() {
         </div>
 
         <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
-          <div className="ml-3 flex flex-col gap-4">
+          <div className="flex w-full flex-col gap-4">
             <Label htmlFor="quote-position" className="text-md text-foreground">
               Position
             </Label>
+
             <RadioGroup
               className="flex w-full items-center justify-between"
               orientation="horizontal"
@@ -172,7 +173,7 @@ export default function QuoteTab() {
         </div>
 
         <div className="flex h-fit w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-3">
-          <div className="ml-3 flex w-[95%] flex-col gap-4 pb-10">
+          <div className="ml-3 flex w-[95%] flex-col gap-4 p-1">
             <Label className="text-md text-foreground">Categories</Label>
             <div className="flex flex-wrap gap-4">
               <div
