@@ -32,10 +32,12 @@ export default function ForgotPassword() {
 
   if (submitted) {
     return (
-      <main className="relative flex size-full h-screen items-center justify-center overflow-hidden rounded-lg bg-background p-10">
-        <div className="z-50 m-auto flex max-w-[450px] flex-col items-center justify-center rounded-2xl border-[1px] border-secondary/60 bg-background p-10 shadow-[0px_20px_207px_10px] shadow-secondary/60">
-          <h1 className="mb-2 text-2xl font-bold">Check your email</h1>
-          <p className="text-center text-sm text-muted-foreground">
+      <main className="relative flex size-full h-screen items-center justify-center overflow-hidden rounded-lg bg-background p-4 md:p-10">
+        <div className="z-50 m-auto flex w-full flex-col items-center justify-center rounded-2xl border-[1px] border-secondary/60 bg-background p-6 shadow-[0px_20px_207px_10px] shadow-secondary/60 md:max-w-[450px] md:p-10">
+          <h1 className="text-md mb-2 font-bold md:text-2xl">
+            Check your email
+          </h1>
+          <p className="text-center text-xs text-muted-foreground md:text-sm">
             If an account exists for
             <span className="text-foreground"> {email}</span>, we&apos;ve sent
             <br />
@@ -62,10 +64,12 @@ export default function ForgotPassword() {
   }
 
   return (
-    <main className="relative flex size-full h-screen items-center justify-center overflow-hidden rounded-lg bg-background p-20">
-      <div className="z-50 m-auto flex max-w-[450px] flex-col items-center justify-center rounded-2xl border-[1px] border-secondary/60 bg-background p-10 shadow-[0px_20px_207px_10px] shadow-secondary/60">
-        <h1 className="mb-2 text-2xl font-bold">Reset your password</h1>
-        <p className="mb-6 text-center text-sm text-muted-foreground">
+    <main className="relative flex size-full h-screen items-center justify-center overflow-hidden rounded-lg bg-background p-4 md:p-10">
+      <div className="z-50 m-auto flex w-full flex-col items-center justify-center rounded-2xl border-[1px] border-secondary/60 bg-background p-6 shadow-[0px_20px_207px_10px] shadow-secondary/60 md:max-w-[450px] md:p-10">
+        <h1 className="text-md mb-2 font-bold md:text-2xl">
+          Reset your password
+        </h1>
+        <p className="mb-6 text-center text-xs text-muted-foreground md:text-sm">
           Enter your email address and we&apos;ll send you
           <br />
           instructions to reset your password.
