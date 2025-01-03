@@ -27,7 +27,7 @@ export default function SpacePicker() {
   }, [selectedTab, spaces]);
 
   return (
-    <div className="ml-5 mt-5 w-full">
+    <div className="ml-5 mt-5 hidden w-full md:block">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

@@ -21,6 +21,7 @@ import { fetchSpacesData } from "@/server/actions/spaces/spaces";
 import BreathingExercise from "./breathingExercise/BreathingExercise";
 import Reminder from "./Reminder";
 import SyncingInfo from "../syncingInfo";
+import { SpaceSidebarMobile } from "../sidebar/SpaceSidebarMobile";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -200,7 +201,7 @@ export default function Space() {
             aria-labelledby="config"
             aria-label="Open config"
             onClick={() => setOpen(true)}
-            className="absolute bottom-10 right-14 z-10 overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
+            className="absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex"
           >
             <AnimatedConfig />
           </Button>
@@ -215,6 +216,7 @@ export default function Space() {
           </p>
         </TooltipContent>
       </Tooltip>
+      <SpaceSidebarMobile />
     </TooltipProvider>
   );
 }

@@ -30,7 +30,7 @@ export default function ClockTab() {
         subtitle="Customize the appearance and behavior of the clock on your screen."
         Icon={ClockIllustration}
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent mt-[7.2rem] h-[calc(100vh-250px)] w-[110%] flex-col gap-6 space-y-4 overflow-y-auto pb-10 pr-6">
+      <div className="scrollbar-thin scrollbar-gutter-stable sm-min-w-full scrollbar-track-background scrollbar-thumb-accent mt-[7.2rem] h-[calc(100vh-190px)] w-[160%] flex-col gap-6 space-y-4 overflow-y-auto pb-10 pr-6 md:h-[calc(100vh-250px)] md:w-[110%]">
         {" "}
         <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex w-full flex-col gap-1">
@@ -40,7 +40,7 @@ export default function ClockTab() {
             >
               Visibility
             </Label>
-            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
+            <p className="hidden overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground md:block">
               Controls if the clock is visible on the screen.
             </p>
           </div>
@@ -58,7 +58,7 @@ export default function ClockTab() {
               Position
             </Label>
             <RadioGroup
-              className="flex w-full cursor-pointer items-center justify-evenly gap-2"
+              className="grid w-full cursor-pointer grid-cols-2 items-center justify-evenly gap-2 md:flex"
               orientation="horizontal"
               value={selectedPosition}
               onValueChange={handleClockPositionChange}
