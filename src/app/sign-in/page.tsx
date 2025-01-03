@@ -146,8 +146,8 @@ export default function Page() {
     </div>
   );
   return (
-    <main className="relative flex size-full h-screen items-center justify-center overflow-hidden overflow-y-auto rounded-lg bg-background p-20">
-      <div className="z-50 m-auto h-fit w-[40rem] rounded-2xl border-[1px] border-secondary/60 bg-background px-4 shadow-[0px_20px_207px_10px] shadow-secondary/60">
+    <main className="relative flex size-full h-screen items-center justify-center overflow-hidden overflow-y-auto rounded-lg bg-background p-6 md:p-20">
+      <div className="z-50 m-auto h-fit w-full rounded-2xl border-[1px] border-secondary/60 bg-background px-4 shadow-[0px_20px_207px_10px] shadow-secondary/60 md:w-[36rem]">
         <div className="flex flex-col items-center px-4 pb-10 pt-3">
           <div className="mb-2 scale-[55%]">
             <Logo />
@@ -173,10 +173,12 @@ export default function Page() {
               <button
                 type="button"
                 onClick={() => signIn("google")}
-                className="mb-6 flex h-[3.5rem] w-full items-center justify-center gap-3 rounded-xl border-[1px] border-muted bg-muted text-foreground transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+                className="mb-6 flex h-12 w-full items-center justify-center gap-3 rounded-xl border-[1px] border-muted bg-muted text-foreground transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:h-[3.5rem]"
               >
                 <SiGoogle size={18} />
-                <p className="text-lg font-medium">Login with Google </p>
+                <p className="text-md font-medium md:text-lg">
+                  Login with Google{" "}
+                </p>
               </button>
               <Form {...loginForm}>
                 <form
@@ -185,7 +187,9 @@ export default function Page() {
                 >
                   <div>
                     {authError && (
-                      <p className="text-sm text-destructive">{authError}</p>
+                      <p className="md:text-md text-xs text-destructive">
+                        {authError}
+                      </p>
                     )}
                   </div>
                   <FormField
@@ -269,10 +273,12 @@ export default function Page() {
               <button
                 type="button"
                 onClick={() => signIn("google")}
-                className="mb-6 flex h-[3.5rem] w-full items-center justify-center gap-3 rounded-xl border-[1px] border-muted bg-muted text-foreground transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+                className="mb-6 flex h-12 w-full items-center justify-center gap-3 rounded-xl border-[1px] border-muted bg-muted text-foreground transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:h-[3.5rem]"
               >
                 <SiGoogle size={18} />
-                <p className="text-lg font-medium">Login with Google </p>
+                <p className="text-md font-medium md:text-lg">
+                  Login with Google{" "}
+                </p>
               </button>
               <Form {...signUpForm}>
                 <form
@@ -281,7 +287,9 @@ export default function Page() {
                 >
                   <div>
                     {authError && (
-                      <p className="text-sm text-destructive">{authError}</p>
+                      <p className="md:text-md text-xs text-destructive">
+                        {authError}
+                      </p>
                     )}
                   </div>
                   <FormField
@@ -367,7 +375,7 @@ export default function Page() {
                             />
                           </FormControl>
                           <div className="flex w-full flex-col">
-                            <FormLabel className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            <FormLabel className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 md:text-sm">
                               I accept the{" "}
                               <Link
                                 className="underline"
@@ -409,7 +417,7 @@ export default function Page() {
         cy={1}
         cr={1}
         className={cn(
-          "[mask-image:radial-gradient(1300px_circle_at_center,white,transparent)]",
+          "hidden [mask-image:radial-gradient(1300px_circle_at_center,white,transparent)] md:block",
         )}
       />
     </main>
