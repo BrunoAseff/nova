@@ -174,7 +174,7 @@ export default function PomodoroTab() {
         Icon={PomodoroIllustration}
       />
       <TabBody>
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-10 items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[55%]">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="pomodoro-visibility"
@@ -182,7 +182,7 @@ export default function PomodoroTab() {
             >
               Visibility
             </Label>
-            <p className="text-sm text-muted-foreground">
+            <p className="hidden text-sm text-muted-foreground md:block">
               Controls if the Pomodoro timer is visible on the screen.
             </p>
           </div>
@@ -193,7 +193,7 @@ export default function PomodoroTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[55%]">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="pomodoro-autostart"
@@ -201,7 +201,7 @@ export default function PomodoroTab() {
             >
               Auto Start
             </Label>
-            <p className="max-w-[90%] text-sm text-muted-foreground">
+            <p className="hidden max-w-[90%] text-sm text-muted-foreground md:block">
               Controls if the Pomodoro timer automatically starts when the tab
               is switched.
             </p>
@@ -213,8 +213,8 @@ export default function PomodoroTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[95%] flex-col items-center justify-between gap-10 space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
-          <div className="space-between flex items-center">
+        <div className="flex min-h-10 w-full flex-col items-center justify-between gap-10 space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[55%]">
+          <div className="flex w-full items-center justify-between md:w-full">
             <div className="flex flex-col gap-1">
               <Label
                 htmlFor="pomodoro-alarm"
@@ -222,7 +222,7 @@ export default function PomodoroTab() {
               >
                 Alarm Sound
               </Label>
-              <p className="max-w-[90%] text-sm text-muted-foreground">
+              <p className="hidden max-w-[90%] text-sm text-muted-foreground md:block">
                 Controls if the Pomodoro timer should play a sound when the time
                 is up.
               </p>
@@ -240,12 +240,12 @@ export default function PomodoroTab() {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="flex w-[95%] flex-col gap-4"
+                className="flex w-full flex-col gap-4 md:w-[90%]"
               >
                 <RadioGroup
                   value={alarmSoundURL}
                   onValueChange={handleAlarmSoundURLChange}
-                  className="mx-auto grid grid-cols-3 gap-4"
+                  className="grid w-full grid-cols-2 gap-4 md:grid-cols-3"
                 >
                   {alarmSounds.map((sound) => {
                     const Icon = sound.icon;
@@ -253,7 +253,7 @@ export default function PomodoroTab() {
                     return (
                       <label
                         key={sound.value}
-                        className={`relative flex max-w-36 cursor-pointer flex-col items-center gap-3 rounded-xl border-[1px] px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+                        className={`relative flex w-full max-w-32 cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
                           isChecked
                             ? "border-secondary bg-secondary-smooth-700/10"
                             : "border-input hover:bg-background"
@@ -310,7 +310,7 @@ export default function PomodoroTab() {
           </AnimatePresence>
         </div>
 
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[55%]">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="short-break-duration"
@@ -318,7 +318,7 @@ export default function PomodoroTab() {
             >
               Short Break Duration
             </Label>
-            <p className="text-sm text-muted-foreground">
+            <p className="hidden text-sm text-muted-foreground md:block">
               The duration of the short break, in minutes.
             </p>
           </div>
@@ -343,7 +343,7 @@ export default function PomodoroTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[55%]">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="long-break-duration"
@@ -351,7 +351,7 @@ export default function PomodoroTab() {
             >
               Long Break Duration
             </Label>
-            <p className="text-sm text-muted-foreground">
+            <p className="hidden text-sm text-muted-foreground md:block">
               The duration of the long break, in minutes.
             </p>
           </div>
