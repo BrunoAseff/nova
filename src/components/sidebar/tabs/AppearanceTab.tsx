@@ -118,7 +118,7 @@ export default function AppearanceTab() {
         subtitle="Personalize the visual theme to match your aesthetic preferences."
         Icon={AppearanceIllustration}
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-28 flex h-full max-h-[65vh] flex-col gap-10 overflow-y-auto pb-10 pr-10">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-28 flex h-full max-h-[65vh] w-[140%] flex-col gap-10 overflow-y-auto pb-10 pr-10 md:w-auto">
         {/* System Theme Selection */}
         <fieldset className="space-y-4">
           <legend className="text-md font-medium leading-none text-foreground">
@@ -169,7 +169,7 @@ export default function AppearanceTab() {
             Choose a custom theme
           </legend>
           <RadioGroup
-            className="grid w-full grid-cols-3 gap-10"
+            className="grid w-[110%] grid-cols-3 gap-1 md:w-full md:gap-10"
             value={selectedCustomTheme}
             onValueChange={handleCustomThemeChange}
           >
@@ -180,7 +180,7 @@ export default function AppearanceTab() {
                   value={item.id}
                   className="peer sr-only after:absolute after:inset-0"
                 />
-                <div className="relative cursor-pointer overflow-hidden rounded-2xl border-2 border-input fill-foreground px-3 py-1 outline-offset-1 transition-colors peer-[:focus-visible]:outline peer-[:focus-visible]:outline-2 peer-[:focus-visible]:outline-ring/70 peer-data-[disabled]:cursor-not-allowed peer-data-[state=checked]:border-secondary peer-data-[state=checked]:bg-secondary-smooth-700/10 peer-data-[state=checked]:fill-secondary peer-data-[disabled]:opacity-50">
+                <div className="relative scale-90 cursor-pointer overflow-hidden rounded-2xl border-2 border-input fill-foreground px-3 py-1 outline-offset-1 transition-colors peer-[:focus-visible]:outline peer-[:focus-visible]:outline-2 peer-[:focus-visible]:outline-ring/70 peer-data-[disabled]:cursor-not-allowed peer-data-[state=checked]:border-secondary peer-data-[state=checked]:bg-secondary-smooth-700/10 peer-data-[state=checked]:fill-secondary peer-data-[disabled]:opacity-50 md:scale-100">
                   {item.icon}
                 </div>
                 <span className="group mt-2 flex items-center gap-1 text-secondary peer-data-[state=unchecked]:text-muted-foreground/70">

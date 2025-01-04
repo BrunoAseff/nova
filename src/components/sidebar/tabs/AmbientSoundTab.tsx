@@ -93,7 +93,7 @@ export default function AmbientSoundTab() {
   };
 
   return (
-    <main className="h-screen min-w-[115%]">
+    <main className="h-screen w-full md:min-w-[115%]">
       <TabHeader
         title="Ambient Sound"
         subtitle="Customize the appearance and behavior of the clock on your screen."
@@ -101,7 +101,7 @@ export default function AmbientSoundTab() {
       />
 
       <TabBody hasScrollbar={true}>
-        <div className="mt-4 flex min-h-10 min-w-[100%] items-center gap-2 space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="mt-4 flex min-h-10 w-[93%] items-center gap-2 space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[60%]">
           <div className="justify-left mt-2 flex w-full flex-col gap-1">
             <Label htmlFor="controls" className="text-md text-foreground">
               Controls
@@ -129,7 +129,7 @@ export default function AmbientSoundTab() {
           </div>
         </div>
 
-        <div className="flex min-h-10 min-w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground pl-4">
+        <div className="min-w-none flex min-h-10 w-[93%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground pl-4 md:w-[60%]">
           <div className="flex flex-col gap-1">
             <div className="my-3 flex items-center justify-between space-x-2">
               <div className="flex flex-col gap-1">
@@ -168,7 +168,7 @@ export default function AmbientSoundTab() {
             <RadioGroup
               value={currentSound?.name ?? ""}
               onValueChange={handleSoundChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent auto-fit z-50 mt-2 grid max-h-[43vh] min-w-0 grid-cols-4 items-center justify-between gap-4 overflow-y-auto pb-10"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent auto-fit z-50 mt-2 grid max-h-[43vh] min-w-0 grid-cols-3 items-center justify-between gap-4 overflow-y-auto pb-10 md:grid-cols-4"
             >
               {filteredSounds.map((sound) => {
                 const isChecked = sound.url === ambientSound;
@@ -176,7 +176,7 @@ export default function AmbientSoundTab() {
                 return (
                   <Label
                     key={sound.name}
-                    className={`relative z-50 flex h-[5.5rem] w-[7rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] border-accent bg-accent-foreground text-center shadow-sm ring-offset-background transition-colors ${
+                    className={`relative z-50 flex h-[4.8rem] w-[6rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] border-accent bg-accent-foreground p-2 text-center shadow-sm ring-offset-background transition-colors md:h-[5.5rem] md:w-[7rem] md:p-0 ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
                         : "hover:bg-background"
@@ -187,7 +187,7 @@ export default function AmbientSoundTab() {
                       className="sr-only items-center justify-center"
                     />
                     <div
-                      className={`flex h-8 w-8 items-center justify-center ${
+                      className={`flex h-6 w-6 items-center justify-center md:h-8 md:w-8 ${
                         isChecked ? "text-secondary" : "text-muted-foreground"
                       } ${isChecked ? "opacity-100" : "opacity-100"}`}
                     >

@@ -42,7 +42,6 @@ import { useState } from "react";
 
 export function SpaceSidebarMobile() {
   const [isTabListOpen, setIsTabListOpen] = useState(false);
-
   const toggleTabList = () => {
     setIsTabListOpen(!isTabListOpen);
   };
@@ -79,9 +78,10 @@ export function SpaceSidebarMobile() {
               className="z-50 ml-5 mt-5 flex h-screen w-full items-start justify-start gap-4"
             >
               <TabsList
+                onClick={() => setIsTabListOpen(false)}
                 className={`scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent absolute ${
                   isTabListOpen ? "left-2" : "-left-56"
-                } z-50 flex h-screen max-h-[90%] w-[60%] min-w-[26%] flex-col items-start justify-start gap-3 overflow-y-auto rounded-lg border-[1px] border-accent/60 bg-background p-2 pb-6 pl-0 pr-2 text-left text-xs transition-all duration-300`}
+                } z-[99] flex h-screen max-h-[90%] w-[60%] min-w-[26%] flex-col items-start justify-start gap-3 overflow-y-auto rounded-lg border-[1px] border-accent/60 bg-background p-2 pb-6 pl-0 pr-2 text-left text-xs transition-all duration-300`}
               >
                 <TabsTrigger className="flex items-center gap-2" value="clock">
                   <Alarm size={21} weight="duotone" />

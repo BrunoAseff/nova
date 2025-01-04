@@ -97,7 +97,7 @@ export default function BackgroundTab() {
 
       <div className="mt-20 flex w-[93%] flex-col">
         <FileUpload />
-        <div className="flex items-center justify-center gap-4">
+        <div className="ml-auto flex w-[145%] items-center justify-center gap-4 md:ml-0 md:w-auto">
           <div className="flex flex-col gap-1">
             <p className="text-sm text-foreground">Environment</p>
             <Select
@@ -113,7 +113,7 @@ export default function BackgroundTab() {
                 setSelectedEnvironment(value as Environment | "all")
               }
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[130px] md:w-[180px]">
                 <SelectValue placeholder="Environment" />
               </SelectTrigger>
               <SelectContent>
@@ -142,7 +142,7 @@ export default function BackgroundTab() {
                 setSelectedColor(value as Color | "all")
               }
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[130px] md:w-[180px]">
                 <SelectValue placeholder="Color" />
               </SelectTrigger>
               <SelectContent
@@ -173,7 +173,7 @@ export default function BackgroundTab() {
               </SelectContent>
             </Select>
           </div>
-          <div className="mt-6 flex items-center gap-2 py-4">
+          <div className="mt-6 hidden items-center gap-2 py-4 md:flex">
             <Checkbox
               id="exclude-ai"
               checked={excludeAI}
@@ -210,7 +210,7 @@ export default function BackgroundTab() {
                   ?.name ?? ""
               }
               onValueChange={handleBackgroundURLChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-full scroll-pb-56 grid-cols-3 justify-between gap-4 overflow-y-auto pb-36 pr-4"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-[145%] scroll-pb-56 grid-cols-2 justify-between gap-4 overflow-y-auto pb-36 pr-4 md:w-full md:grid-cols-3"
             >
               {filteredBackgrounds.map((background) => {
                 const isChecked = background.url === currentBackgroundURL;

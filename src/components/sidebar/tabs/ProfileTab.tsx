@@ -271,12 +271,12 @@ export default function ProfileTab() {
         subtitle="Manage and customize your personal profile details."
         Icon={ProfileIllustration}
       />
-      <div className="mx-auto mt-32 flex h-full w-full flex-col gap-6">
+      <div className="mx-auto mt-32 flex h-full w-[135%] flex-col gap-6 md:w-[100%]">
         <div className="via mt-6 flex min-h-16 w-full flex-col items-center gap-6 space-x-2 rounded-2xl border-[1px] border-secondary/60 bg-background p-4 shadow-[0px_20px_207px_10px] shadow-secondary/40">
           <Label className="text-md px-3 font-montserrat text-foreground">
             Login or create an account to have a complete experience
           </Label>
-          <PrimaryBtn className="rounded-xl border-[1px] border-secondary/60 bg-secondary-smooth-700/10 px-4 py-3 text-sm text-foreground transition-all duration-1000 hover:rounded-full hover:bg-secondary-smooth-700/10">
+          <PrimaryBtn className="rounded-xl border-[1px] border-secondary/60 bg-secondary-smooth-700/10 px-4 py-3 text-sm text-foreground transition-all hover:rounded-full hover:bg-secondary-smooth-700/10">
             <Link href="/sign-in">
               <p>Enter now</p>
             </Link>

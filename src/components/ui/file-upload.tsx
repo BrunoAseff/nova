@@ -61,7 +61,7 @@ export const FileUpload = ({
 
   return (
     <div
-      className="my-6 flex w-full justify-between rounded-2xl border-[1px] border-accent/20 bg-accent-foreground"
+      className="my-6 flex w-[145%] justify-between rounded-2xl border-[1px] border-accent/20 bg-accent-foreground md:w-full"
       {...getRootProps()}
     >
       <LimitedFeature
@@ -73,7 +73,7 @@ export const FileUpload = ({
       <motion.div
         onClick={handleClick}
         whileHover="animate"
-        className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg px-10 py-4"
+        className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg px-6 py-2 md:px-10 md:py-4"
       >
         <input
           ref={fileInputRef}
@@ -89,8 +89,11 @@ export const FileUpload = ({
             <Label htmlFor="file-upload" className="text-md text-foreground">
               Upload file
             </Label>
-            <p className="text-sm text-muted-foreground">
-              Drag or drop your files here or click to upload
+            <p className="hidden text-sm text-muted-foreground md:block">
+              Drag or drop your images here or click to upload
+            </p>
+            <p className="block text-xs text-muted-foreground md:hidden">
+              Click here to to upload your own images
             </p>
           </div>
           <div className="relative ml-auto w-full max-w-xl">
@@ -104,7 +107,7 @@ export const FileUpload = ({
                 damping: 20,
               }}
               className={cn(
-                "relative z-40 ml-auto mt-4 flex h-24 w-full max-w-[7rem] items-center justify-center rounded-2xl border-[1px] border-secondary/40 bg-secondary-smooth-700/10",
+                "relative z-40 ml-auto mt-4 flex h-20 w-full max-w-[5rem] items-center justify-center rounded-2xl border-[1px] border-secondary/40 bg-secondary-smooth-700/10 md:h-24 md:max-w-[7rem]",
                 "shadow-[0px_10px_50px_rgba(0,0,0,0.1)]",
               )}
             >
@@ -124,7 +127,7 @@ export const FileUpload = ({
 
             <motion.div
               variants={secondaryVariant}
-              className="absolute inset-0 z-30 ml-auto mt-4 flex h-24 w-full max-w-[7rem] items-center justify-center rounded-2xl border border-dashed border-secondary bg-transparent opacity-0"
+              className="absolute inset-0 z-30 ml-auto mt-4 flex h-20 w-full max-w-[5rem] items-center justify-center rounded-2xl border border-dashed border-secondary bg-transparent opacity-0 md:h-24 md:max-w-[7rem]"
             ></motion.div>
           </div>
         </div>

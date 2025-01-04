@@ -115,8 +115,8 @@ export default function ReminderTab() {
         subtitle="Set up and manage your personal reminders to keep what you want in mind."
         Icon={ReminderIllustration}
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-[7rem] max-h-[65vh] min-w-[95%] max-w-[115%] space-y-6 overflow-y-auto pr-6">
-        <div className="flex min-h-16 max-w-[99%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-[7rem] max-h-[65vh] w-[150%] min-w-[95%] space-y-6 overflow-y-auto pr-6 md:w-auto md:max-w-[115%]">
+        <div className="flex min-h-16 w-[97%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-auto md:max-w-[99%]">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="reminder-visibility"
@@ -124,7 +124,7 @@ export default function ReminderTab() {
             >
               Visibility
             </Label>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground md:text-sm">
               Controls if the reminder is visible on the screen.
             </p>
           </div>
@@ -134,13 +134,13 @@ export default function ReminderTab() {
             onCheckedChange={handleReminderVisibilityChange}
           />
         </div>
-        <div className="flex min-h-16 max-w-[99%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-16 w-[97%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-auto md:max-w-[99%]">
           <div className="flex w-full flex-col gap-4">
             <Label htmlFor="quote-position" className="text-md text-foreground">
               Position
             </Label>
             <RadioGroup
-              className="flex w-full items-center justify-evenly gap-2"
+              className="grid w-full grid-cols-2 items-center justify-evenly gap-2 md:flex"
               orientation="horizontal"
               value={selectedPosition}
               onValueChange={handleReminderPositionChange}
@@ -149,7 +149,7 @@ export default function ReminderTab() {
                 <div
                   key={pos}
                   className={clsx(
-                    "flex w-full cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-3 py-4",
+                    "flex w-full cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-2.5 py-3.5 md:px-3 md:py-4",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedPosition === pos,
@@ -181,13 +181,13 @@ export default function ReminderTab() {
             </RadioGroup>
           </div>
         </div>
-        <div className="flex min-h-16 max-w-[99%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-16 w-[97%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-auto md:max-w-[99%]">
           <div className="flex max-w-[100%] flex-col gap-4">
             <Label htmlFor="reminders" className="text-md text-foreground">
               Your reminders
             </Label>
             {reminderMessages.length === 0 ? (
-              <div className="w-full text-sm text-muted-foreground">
+              <div className="w-full text-xs text-muted-foreground md:text-sm">
                 <p>
                   Tip: Write anything you want your future self to know: what
                   you are grateful about, the good things in your life, what
@@ -206,7 +206,7 @@ export default function ReminderTab() {
                     className="flex flex-col gap-2 rounded-2xl border-[1px] border-accent/60 bg-background p-4"
                   >
                     <RadioGroup
-                      className="flex gap-2"
+                      className="grid grid-cols-3 gap-2 md:flex"
                       value={message.type}
                       onValueChange={(type) =>
                         handleTypeChange(
@@ -233,13 +233,13 @@ export default function ReminderTab() {
                         maxLength={140}
                         placeholder={reminderPlaceholders[message.type]}
                         defaultValue={message.text}
-                        className="mt-2 w-[90%]"
+                        className="md:text-md mt-2 w-[90%] text-sm"
                         rows={3}
                         onBlur={(e) =>
                           handleTextChange(message.id, e.target.value)
                         }
                       />
-                      <div className="mt-auto">
+                      <div className="ml-2 mt-auto md:ml-0">
                         <IconBtn
                           variant="destructive"
                           onClick={() => handleDeleteReminder(message.id)}

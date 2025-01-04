@@ -100,7 +100,7 @@ export default function SpacesTab() {
         <TabCard>
           <div>
             <Label className="text-md text-foreground">Your Spaces</Label>
-            <p className="max-w-[90%] overflow-hidden text-sm text-muted-foreground">
+            <p className="max-w-[90%] overflow-hidden text-xs text-muted-foreground md:text-sm">
               Manage your personalized spaces and create new ones to suit your
               needs.
             </p>
@@ -108,7 +108,7 @@ export default function SpacesTab() {
               {spaces.map((space, index) => (
                 <div
                   key={index}
-                  className="flex w-full items-center gap-2 rounded-2xl p-4 text-muted-foreground"
+                  className="flex w-full flex-col items-center gap-2 rounded-2xl p-1 text-muted-foreground md:flex-row md:p-4"
                 >
                   <p>{space.icon}</p>
 
@@ -129,7 +129,7 @@ export default function SpacesTab() {
                   {editingSpaceIndex !== index ? (
                     <Button
                       variant="ghost"
-                      className="mx-auto text-sm"
+                      className="mx-auto mt-2 text-sm md:mt-0"
                       onClick={() => setEditingSpaceIndex(index)}
                     >
                       Change space name
@@ -138,14 +138,14 @@ export default function SpacesTab() {
                     <div className="flex items-center justify-center gap-3">
                       <Button
                         variant="ghost"
-                        className="w-[7.3rem] text-sm"
+                        className="mt-2 w-[7.3rem] text-sm md:mt-0"
                         onClick={() => handleSpaceNameChange(index)}
                       >
                         Save change
                       </Button>
                       <Button
                         variant="ghost"
-                        className="text-sm"
+                        className="mt-2 text-sm md:mt-0"
                         onClick={() => handleCancelEdit(index)}
                       >
                         Cancel
@@ -157,11 +157,11 @@ export default function SpacesTab() {
             </div>
           </div>
         </TabCard>
-        <TabCard>
+        <TabCard className="hidden md:block">
           <div>
             {" "}
             <Label className="text-md text-foreground">Shortcut</Label>
-            <p className="overflow-hidden text-sm text-muted-foreground">
+            <p className="overflow-hidden text-xs text-muted-foreground md:text-sm">
               Choose which feature to quickly access from your workspace using
               the shortcut button.
             </p>
@@ -202,16 +202,16 @@ export default function SpacesTab() {
         <div>
           <Label
             htmlFor="clock-reset"
-            className="mb-1 text-sm text-destructive"
+            className="mb-1 text-xs text-destructive md:text-sm"
           >
             Danger Zone
           </Label>
-          <TabCard variant="danger">
+          <TabCard className="flex flex-col gap-4 md:flex-row" variant="danger">
             <div className="flex w-full flex-col gap-1">
               <Label htmlFor="clock-reset" className="text-md text-foreground">
                 Reset spaces
               </Label>
-              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-xs text-muted-foreground md:text-sm">
                 Reset all spaces to their default settings.
               </p>
             </div>
@@ -236,12 +236,12 @@ export default function SpacesTab() {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
+                  <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-xs font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={resetSpaces}
-                    className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive"
+                    className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-xs font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive md:text-sm"
                   >
                     Reset Spaces
                   </AlertDialogAction>
