@@ -101,8 +101,8 @@ export default function QuoteTab() {
         subtitle="Personalize your quotes and choose what you want to see."
         Icon={QuoteIllustration}
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-32 max-h-[65vh] max-w-[95%] space-y-6 overflow-y-auto pr-2">
-        <div className="flex min-h-16 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-32 max-h-[65vh] w-[135%] max-w-none space-y-6 overflow-y-auto pr-2 md:w-auto md:max-w-[95%]">
+        <div className="flex min-h-16 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="quote-visibility"
@@ -110,7 +110,7 @@ export default function QuoteTab() {
             >
               Visibility
             </Label>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground md:text-sm">
               Controls if the quote is visible on the screen.
             </p>
           </div>
@@ -122,12 +122,12 @@ export default function QuoteTab() {
         </div>
 
         {/* Show Author Switch */}
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-10 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex flex-col gap-1">
             <Label htmlFor="show-author" className="text-md text-foreground">
               Show Author
             </Label>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground md:text-sm">
               Display the author&apos;s name with the quote.
             </p>
           </div>
@@ -138,14 +138,14 @@ export default function QuoteTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-10 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
           <div className="flex w-full flex-col gap-4">
             <Label htmlFor="quote-position" className="text-md text-foreground">
               Position
             </Label>
 
             <RadioGroup
-              className="flex w-full items-center justify-between"
+              className="grid w-full grid-cols-2 items-center justify-between md:flex"
               orientation="horizontal"
               value={selectedPosition}
               onValueChange={handleQuotePositionChange}
@@ -179,8 +179,8 @@ export default function QuoteTab() {
           </div>
         </div>
 
-        <div className="flex h-fit w-[95%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-3">
-          <div className="ml-3 flex w-[95%] flex-col gap-4 p-1">
+        <div className="flex h-fit w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-3">
+          <div className="ml-3 flex w-[100%] flex-col gap-4 p-1">
             <Label className="text-md text-foreground">Categories</Label>
             <div className="flex flex-wrap gap-4">
               <div
@@ -234,7 +234,7 @@ export default function QuoteTab() {
             <Label htmlFor="reminders" className="text-md text-foreground">
               Your quotes
             </Label>
-            <div className="w-full text-sm text-muted-foreground">
+            <div className="w-full text-xs text-muted-foreground md:text-sm">
               <p>Add your favorite quotes and phrases, from anyone!</p>
             </div>
           </div>
