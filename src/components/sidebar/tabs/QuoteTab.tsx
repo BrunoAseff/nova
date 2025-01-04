@@ -102,7 +102,7 @@ export default function QuoteTab() {
         Icon={QuoteIllustration}
       />
       <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-32 max-h-[65vh] w-[135%] max-w-none space-y-6 overflow-y-auto pr-2 md:w-auto md:max-w-[95%]">
-        <div className="flex min-h-16 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-16 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[95%]">
           <div className="flex flex-col gap-1">
             <Label
               htmlFor="quote-visibility"
@@ -122,7 +122,7 @@ export default function QuoteTab() {
         </div>
 
         {/* Show Author Switch */}
-        <div className="flex min-h-10 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-10 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[95%]">
           <div className="flex flex-col gap-1">
             <Label htmlFor="show-author" className="text-md text-foreground">
               Show Author
@@ -138,7 +138,7 @@ export default function QuoteTab() {
           />
         </div>
 
-        <div className="flex min-h-10 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-10 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[95%]">
           <div className="flex w-full flex-col gap-4">
             <Label htmlFor="quote-position" className="text-md text-foreground">
               Position
@@ -179,8 +179,8 @@ export default function QuoteTab() {
           </div>
         </div>
 
-        <div className="flex h-fit w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-3">
-          <div className="ml-3 flex w-[100%] flex-col gap-4 p-1">
+        <div className="flex h-fit w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-3 md:w-[95%]">
+          <div className="ml-3 flex w-[100%] flex-col gap-4 p-1 md:w-[95%]">
             <Label className="text-md text-foreground">Categories</Label>
             <div className="flex flex-wrap gap-4">
               <div
@@ -229,7 +229,7 @@ export default function QuoteTab() {
           </div>
         </div>
 
-        <div className="flex min-h-16 max-w-[95%] flex-col justify-between gap-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        <div className="flex min-h-16 w-[100%] flex-col justify-between gap-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[95%]">
           <div className="flex max-w-[100%] flex-col gap-1">
             <Label htmlFor="reminders" className="text-md text-foreground">
               Your quotes
