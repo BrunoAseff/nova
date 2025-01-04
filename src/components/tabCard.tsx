@@ -7,15 +7,15 @@ type TabCardProps = {
   variant?: "default" | "danger";
 };
 
-const TabCard = ({
+export default function TabCard({
   children,
   className,
   variant = "default",
-}: TabCardProps) => {
+}: TabCardProps) {
   return (
     <div
       className={clsx(
-        "flex min-h-16 w-[95%] items-center justify-between rounded-2xl border-[1px] p-4",
+        "flex min-h-16 w-[88%] items-center justify-between rounded-2xl border-[1px] p-4 md:w-[57%]",
         variant === "danger"
           ? "border-destructive bg-destructive/10"
           : "border-accent/20 bg-accent-foreground",
@@ -25,6 +25,4 @@ const TabCard = ({
       {children}
     </div>
   );
-};
-
-export default TabCard;
+}
