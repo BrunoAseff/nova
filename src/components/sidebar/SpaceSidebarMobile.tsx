@@ -55,7 +55,7 @@ export function SpaceSidebarMobile() {
               size="icon"
               aria-labelledby="config"
               aria-label="Open config"
-              className="absolute bottom-10 right-14 z-10 overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
+              className="absolute bottom-6 right-8 z-10 overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground"
             >
               <AnimatedConfig />
             </Button>
