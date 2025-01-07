@@ -2,6 +2,69 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+const DEFAULT_VALUES = {
+  shortcut: "ambientSound",
+  ambientSound:
+    "https://utfs.io/f/C3k2e5UQDa972ez8jJ7CdSL1HsIwEuK4TvJXprUencqoxa8W",
+  reminderMessages: [],
+  spaces: [
+    {
+      name: "Home",
+      clock: { isHidden: false, position: "center", timeFormat: "24h" },
+      pomodoro: {
+        isHidden: true,
+        shortBreakDuration: 5,
+        longBreakDuration: 15,
+        autoStart: false,
+        alarmSound: true,
+        alarmSoundURL: "/alarm-sounds/calming-alarm.wav",
+        alarmRepeatTimes: 3,
+      },
+      breathingExercise: { isHidden: true, technique: "Box Breathing" },
+      reminder: { isHidden: true, position: "top-right" },
+      quote: { position: "bottom-left", isHidden: false },
+      background:
+        "https://utfs.io/f/C3k2e5UQDa979nPTYgc69pKfgXcSlCYx1ADa82uERWQ3BFUM",
+    },
+    {
+      name: "Focus",
+      clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
+      pomodoro: {
+        isHidden: false,
+        shortBreakDuration: 5,
+        longBreakDuration: 15,
+        autoStart: false,
+        alarmSound: true,
+        alarmSoundURL: "/alarm-sounds/calming-alarm.wav",
+        alarmRepeatTimes: 3,
+      },
+      breathingExercise: { isHidden: true, technique: "Box Breathing" },
+      reminder: { isHidden: true, position: "top-right" },
+      quote: { position: "bottom-left", isHidden: true },
+      background:
+        "https://utfs.io/f/C3k2e5UQDa9715lJJA3des8fHYobiMNpx0Z25hGRuCJ9ngSL",
+    },
+    {
+      name: "Relax",
+      clock: { isHidden: true, position: "top-right", timeFormat: "24h" },
+      pomodoro: {
+        isHidden: true,
+        shortBreakDuration: 5,
+        longBreakDuration: 15,
+        autoStart: false,
+        alarmSound: true,
+        alarmSoundURL: "/alarm-sounds/calming-alarm.wav",
+        alarmRepeatTimes: 3,
+      },
+      breathingExercise: { isHidden: false, technique: "Box Breathing" },
+      reminder: { isHidden: true, position: "top-left" },
+      quote: { position: "top-right", isHidden: false },
+      background:
+        "https://utfs.io/f/C3k2e5UQDa97QJVFrk5feZREi0MsQ2bqLCGygxKtDAOzkHFp",
+    },
+  ],
+};
+
 export const migrateLocalStorageToDatabase = async (
   userId: string,
   localData: any,
@@ -17,7 +80,12 @@ export const migrateLocalStorageToDatabase = async (
       return;
     }
 
-    const { spaces, shortcut, ambientSound, reminderMessages } = localData;
+    // Merge local data with defaults
+    const spaces = localData.spaces || DEFAULT_VALUES.spaces;
+    const shortcut = localData.shortcut || DEFAULT_VALUES.shortcut;
+    const ambientSound = localData.ambientSound || DEFAULT_VALUES.ambientSound;
+    const reminderMessages =
+      localData.reminderMessages || DEFAULT_VALUES.reminderMessages;
 
     // Create or update settings for the user
     const settings = await prisma.settings.upsert({
@@ -25,11 +93,13 @@ export const migrateLocalStorageToDatabase = async (
       update: {
         shortcut,
         ambientSound,
+        isAmbientSoundPlaying: false, // Using schema default
       },
       create: {
         userId,
         shortcut,
         ambientSound,
+        isAmbientSoundPlaying: false, // Using schema default
       },
     });
 
@@ -68,14 +138,16 @@ export const migrateLocalStorageToDatabase = async (
     }
 
     // Handle reminders
-    for (const reminder of reminderMessages) {
-      await prisma.reminder.create({
-        data: {
-          message: reminder.text,
-          type: reminder.type,
-          settingsId: settings.id,
-        },
-      });
+    if (reminderMessages.length > 0) {
+      for (const reminder of reminderMessages) {
+        await prisma.reminder.create({
+          data: {
+            message: reminder.text,
+            type: reminder.type,
+            settingsId: settings.id,
+          },
+        });
+      }
     }
 
     // Update the user to mark data as migrated
