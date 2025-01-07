@@ -124,10 +124,6 @@ const SelectItem = React.forwardRef<
       className,
     )}
     {...props}
-    onClick={(event) => {
-      event.preventDefault(); // Prevent the default close behavior
-      props.onSelect && props.onSelect(event); // Call any other `onSelect` logic
-    }}
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
