@@ -57,8 +57,9 @@ const OneTapSignIn = () => {
             client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
             callback: (response: CredentialResponse) => {
               void signIn("google", {
-                id_token: response.credential,
-                redirect: false,
+                credential: response.credential,
+                redirect: true,
+                callbackUrl: "/spaces",
               })
                 .then((result) => {
                   if (result?.error) {
