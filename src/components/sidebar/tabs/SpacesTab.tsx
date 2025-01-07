@@ -227,7 +227,7 @@ export default function SpacesTab() {
               <AlertDialogTrigger asChild>
                 <DangerBtn>Reset spaces</DangerBtn>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="rounded-xl border-none">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
@@ -235,13 +235,13 @@ export default function SpacesTab() {
                     all spaces and their settings.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
+                <AlertDialogFooter className="flex w-full items-center justify-end">
                   <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-xs font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={resetSpaces}
-                    className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-xs font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive md:text-sm"
+                    className="mt-2 w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-xs font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive md:mt-0 md:text-sm"
                   >
                     Reset Spaces
                   </AlertDialogAction>

@@ -5,20 +5,48 @@ const prisma = new PrismaClient();
 
 /**
  * Deletes a user account and all related data.
- * This handles both OAuth users (Account table) and credentials-based users (User table).
+ * This includes:
+ * - Account (OAuth data)
+ * - Sessions
+ * - Settings
+ *   - Spaces
+ *   - Reminders
+ * - User record
  * @param userId - The ID of the user to delete.
  */
 export async function deleteUserAccount(userId: string): Promise<void> {
   try {
     await prisma.$transaction(async (tx) => {
-      // Delete related records in cascade
+      // First get the settings ID for this user
+      const userSettings = await tx.settings.findUnique({
+        where: { userId },
+        select: { id: true },
+      });
+
+      if (userSettings) {
+        // Delete all spaces associated with the user's settings
+        await tx.space.deleteMany({
+          where: { settingsId: userSettings.id },
+        });
+
+        // Delete all reminders associated with the user's settings
+        await tx.reminder.deleteMany({
+          where: { settingsId: userSettings.id },
+        });
+      }
+
+      // Delete the settings record itself
+      await tx.settings.deleteMany({
+        where: { userId },
+      });
+
+      // Delete OAuth accounts
       await tx.account.deleteMany({
         where: { userId },
       });
+
+      // Delete sessions
       await tx.session.deleteMany({
-        where: { userId },
-      });
-      await tx.settings.deleteMany({
         where: { userId },
       });
 
@@ -27,12 +55,13 @@ export async function deleteUserAccount(userId: string): Promise<void> {
         where: { id: userId },
       });
     });
+
     console.log(
-      `User with ID ${userId} and related data were deleted successfully.`,
+      `User with ID ${userId} and all related data were deleted successfully.`,
     );
   } catch (error) {
     console.error(`Failed to delete user account with ID ${userId}:`, error);
-    throw new Error("Failed to delete user account.");
+    throw new Error("Failed to delete user account and related data.");
   }
 }
 
