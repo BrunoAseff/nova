@@ -48,7 +48,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${montserrat.variable} ${delius.className} ${openSans.variable} ${montserrat.className} `}
+      className={`${inter.variable} ${montserrat.variable} ${delius.className} ${openSans.variable} ${montserrat.className}`}
     >
       <body>
         <ThemeProvider
@@ -76,9 +76,10 @@ export default function RootLayout({
             <SpacesProvider>{children}</SpacesProvider>
           </CyclesContextProvider>
         </ThemeProvider>
+
         <SpeedInsights />
+        <Analytics />
       </body>
-      <Analytics />
     </html>
   );
 }
