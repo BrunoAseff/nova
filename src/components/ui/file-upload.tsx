@@ -73,7 +73,7 @@ export const FileUpload = ({
       <motion.div
         onClick={handleClick}
         whileHover="animate"
-        className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg px-6 py-2 md:px-10 md:py-4"
+        className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg px-4 py-2 md:px-10 md:py-4"
       >
         <input
           ref={fileInputRef}
@@ -107,7 +107,7 @@ export const FileUpload = ({
                 damping: 20,
               }}
               className={cn(
-                "relative z-40 ml-auto mt-4 flex h-20 w-full max-w-[5rem] items-center justify-center rounded-2xl border-[1px] border-secondary/40 bg-secondary-smooth-700/10 md:h-24 md:max-w-[7rem]",
+                "relative z-40 ml-auto flex h-20 w-full max-w-[5rem] items-center justify-center rounded-2xl border-[1px] border-secondary/40 bg-secondary-smooth-700/10 md:mt-4 md:h-24 md:max-w-[7rem]",
                 "shadow-[0px_10px_50px_rgba(0,0,0,0.1)]",
               )}
             >

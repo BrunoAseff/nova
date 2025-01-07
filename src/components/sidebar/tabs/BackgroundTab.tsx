@@ -187,7 +187,7 @@ export default function BackgroundTab() {
             </label>
           </div>
         </div>
-        <div className="mt-2 min-h-10">
+        <div className="mt-2 min-h-4 md:min-h-10">
           {" "}
           {isAnyFilterActive && (
             <Badge
@@ -210,7 +210,7 @@ export default function BackgroundTab() {
                   ?.name ?? ""
               }
               onValueChange={handleBackgroundURLChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-[145%] scroll-pb-56 grid-cols-2 justify-between gap-4 overflow-y-auto pb-36 pr-4 md:w-full md:grid-cols-3"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-[145%] scroll-pb-56 grid-cols-2 justify-between gap-4 overflow-y-auto pb-40 pr-4 md:w-full md:grid-cols-3"
             >
               {filteredBackgrounds.map((background) => {
                 const isChecked = background.url === currentBackgroundURL;
