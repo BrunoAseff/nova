@@ -53,7 +53,6 @@ export const authOptions: NextAuthOptions = {
         token.email = user.email;
       }
 
-      // Handle the update trigger
       if (trigger === "update" && session?.name) {
         token.name = session.name;
       }
@@ -72,19 +71,41 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     signIn: async ({ user, account }) => {
-      if (account?.provider === "google") {
+      try {
+        if (account?.provider === "google") {
+          // If it's a One Tap sign-in (which will have an id_token)
+          if (account.id_token) {
+            // Verify the user exists or create them
+            const existingUser = await db.user.findUnique({
+              where: { email: user.email! },
+            });
+
+            if (!existingUser) {
+              await db.user.create({
+                data: {
+                  email: user.email!,
+                  name: user.name,
+                  emailVerified: new Date(),
+                },
+              });
+            }
+          }
+          return true;
+        }
+
+        // Credentials provider check
+        if (account?.provider === "credentials") {
+          const dbUser = await db.user.findUnique({
+            where: { email: user.email! },
+          });
+          return dbUser?.emailVerified != null;
+        }
+
         return true;
+      } catch (error) {
+        console.error("Error in signIn callback:", error);
+        return false; // Always return a boolean or string, never undefined
       }
-
-      if (account?.provider === "credentials") {
-        const dbUser = await db.user.findUnique({
-          where: { email: user.email! },
-        });
-
-        return dbUser?.emailVerified != null;
-      }
-
-      return true;
     },
   },
 
@@ -93,7 +114,15 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: "select_account",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
+
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },
