@@ -36,6 +36,7 @@ const usernameSchema = z
   .min(3, "Username must be at least 3 characters long");
 
 export default function ProfileTab() {
+  const [deleteConfirmation, setDeleteConfirmation] = useState("");
   const { data: session, update: updateSession } = useSession();
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [newUsername, setNewUsername] = useState(session?.user?.name ?? "");
@@ -239,14 +240,28 @@ export default function ProfileTab() {
                         delete your account and all associated data.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
+                    <div className="py-4">
+                      <Label>
+                        Type &quot;delete my account&quot; to confirm.
+                      </Label>
+                      <Input
+                        value={deleteConfirmation}
+                        onChange={(e) => setDeleteConfirmation(e.target.value)}
+                        placeholder="Type 'delete my account'"
+                        className="mt-2"
+                      />
+                    </div>
                     <AlertDialogFooter>
                       <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
                         Cancel
                       </AlertDialogCancel>
                       <AlertDialogAction
                         onClick={handleDeleteAccount}
-                        disabled={isLoading}
-                        className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive"
+                        disabled={
+                          isLoading ||
+                          deleteConfirmation !== "delete my account"
+                        }
+                        className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive disabled:opacity-50"
                       >
                         {isLoading ? (
                           <CircleNotch className="animate-spin" size={18} />
