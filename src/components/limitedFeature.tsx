@@ -26,7 +26,7 @@ export default function LimitedFeature({
 }: props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-xl border-none shadow-[0px_20px_207px_10px] shadow-secondary/40 sm:max-w-[425px]">
+      <DialogContent className="rounded-xl border-none shadow-[0px_20px_207px_10px] shadow-secondary/40">
         <DialogHeader>
           <DialogTitle>Upgrade to Supernova</DialogTitle>
           <DialogDescription>
@@ -43,7 +43,7 @@ export default function LimitedFeature({
             </Label>
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="flex w-full items-end justify-center gap-2">
           <DialogClose className="flex h-10 w-fit items-center justify-center gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-sm font-[600] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
             Not now
           </DialogClose>
