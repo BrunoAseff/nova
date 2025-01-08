@@ -6,6 +6,14 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const config = {
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "https://stunning-guacamole-jjjw45qvw55wf5w66-3000.app.github.dev/",
+        "localhost:3000",
+      ],
+    },
+  },
   images: {
     remotePatterns: [
       {
