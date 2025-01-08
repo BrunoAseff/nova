@@ -240,15 +240,15 @@ export default function ProfileTab() {
                         delete your account and all associated data.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <div className="py-4">
+                    <div className="rounded-2xl border-accent/20 bg-accent-foreground p-3">
                       <Label>
                         Type &quot;delete my account&quot; to confirm.
                       </Label>
                       <Input
                         value={deleteConfirmation}
                         onChange={(e) => setDeleteConfirmation(e.target.value)}
-                        placeholder="Type 'delete my account'"
-                        className="[&:has(:focus-visible)]::bg-red-700/10 mt-2 [&:has(:focus-visible)]:border-destructive"
+                        placeholder="delete my account"
+                        className="mt-2 focus-visible:bg-red-900/10 focus-visible:ring-red-500"
                       />
                     </div>
                     <AlertDialogFooter>
