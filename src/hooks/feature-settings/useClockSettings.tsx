@@ -9,7 +9,7 @@ export function useClockSettings() {
   const [isClockVisible, setIsClockVisible] = useState(true);
 
   useEffect(() => {
-    const selectedSpace = spaces.find((space) => space.name === selectedTab);
+    const selectedSpace = spaces.find((space) => space.id === selectedTab);
     if (selectedSpace) {
       setSelectedPosition(selectedSpace.clock.position);
       setTimeFormat(selectedSpace.clock.timeFormat);
@@ -18,7 +18,7 @@ export function useClockSettings() {
   }, [spaces, selectedTab]);
 
   const updateClockProperty = (key: string, value: any) => {
-    const clock = spaces.find((s) => s.name === selectedTab)?.clock;
+    const clock = spaces.find((s) => s.id === selectedTab)?.clock;
     if (clock) {
       updateSpaceProperty(selectedTab, "clock", {
         ...clock,

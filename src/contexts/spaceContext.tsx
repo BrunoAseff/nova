@@ -20,7 +20,7 @@ import { settings } from "./settings";
 const SpacesContext = createContext({} as SpaceContextValue);
 
 export function SpacesProvider({ children }: { children: React.ReactNode }) {
-  const [selectedTab, setSelectedTab] = useState("Focus");
+  const [selectedTab, setSelectedTab] = useState(2); // Default to first space ID
   const [spaces, setSpaces] = useState<Space[]>(settings.spaces);
   const [reminderMessages, setReminderMessages] = useState<ReminderMessage[]>(
     settings.reminderMessages,
@@ -154,8 +154,8 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     [reminderMessages],
   );
 
-  function selectTab(tab: string) {
-    setSelectedTab(tab);
+  function selectTab(tabId: number) {
+    setSelectedTab(tabId);
   }
 
   function modifySpaces(callback: (space: Space) => Space) {
@@ -167,13 +167,21 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   }
 
   function updateSpaceProperty(
-    spaceName: string,
+    spaceId: number, // Changed from spaceName to spaceId
     propertyName: keyof Space,
     value: any,
   ) {
-    modifySpaces((space) =>
-      space.name === spaceName ? { ...space, [propertyName]: value } : space,
-    );
+    modifySpaces((space) => {
+      if (space.id === spaceId) {
+        // Don't update the icon if that's the property being changed
+        if (propertyName === "icon") {
+          console.warn("Icon property should not be directly modified");
+          return space;
+        }
+        return { ...space, [propertyName]: value };
+      }
+      return space;
+    });
   }
 
   function updateSpaceSharedProperty(propertyName: "isHidden", value: boolean) {
@@ -187,7 +195,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function playPomodoroAlarm() {
-    const currentSpace = spaces.find((space) => space.name === selectedTab);
+    const currentSpace = spaces.find((space) => space.id === selectedTab);
 
     if (!currentSpace?.pomodoro.alarmSoundURL) return;
 

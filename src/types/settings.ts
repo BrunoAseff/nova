@@ -2,10 +2,10 @@ import type { ReminderMessage, ShortcutName, Space } from "@/types";
 
 export interface SpaceContextValue {
   spaces: Space[];
-  selectedTab: string;
-  selectTab: (tab: string) => void;
+  selectedTab: number;
+  selectTab: (tab: number) => void;
   updateSpaceProperty: (
-    spaceName: string,
+    spaceId: number,
     propertyName: keyof Space,
     value: any,
   ) => void;

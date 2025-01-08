@@ -72,7 +72,7 @@ export default function PomodoroTab() {
   );
 
   useEffect(() => {
-    const selectedSpace = spaces.find((space) => space.name === selectedTab);
+    const selectedSpace = spaces.find((space) => space.id === selectedTab);
     if (selectedSpace) {
       setIsHidden(selectedSpace.pomodoro.isHidden ?? false);
       setAutoStart(selectedSpace.pomodoro.autoStart ?? false);
@@ -123,7 +123,7 @@ export default function PomodoroTab() {
         : parseInt(displayValue) || defaultValue;
     displaySetter(String(numberValue));
     updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
+      ...spaces.find((s) => s.id === selectedTab)?.pomodoro,
       [updatePropertyName]: numberValue,
     });
   };
@@ -131,7 +131,7 @@ export default function PomodoroTab() {
   const handleIsHiddenChange = (hidden: boolean) => {
     setIsHidden(!hidden);
     updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
+      ...spaces.find((s) => s.id === selectedTab)?.pomodoro,
       isHidden: !hidden,
     });
   };
@@ -139,7 +139,7 @@ export default function PomodoroTab() {
   const handleAutoStartChange = (start: boolean) => {
     setAutoStart(start);
     updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
+      ...spaces.find((s) => s.id === selectedTab)?.pomodoro,
       autoStart: start,
     });
   };
@@ -147,7 +147,7 @@ export default function PomodoroTab() {
   const handleAlarmSoundChange = (sound: boolean) => {
     setAlarmSound(sound);
     updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
+      ...spaces.find((s) => s.id === selectedTab)?.pomodoro,
       alarmSound: sound,
     });
   };
@@ -155,7 +155,7 @@ export default function PomodoroTab() {
   const handleAlarmSoundURLChange = (url: string) => {
     setAlarmSoundURL(url);
     updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
+      ...spaces.find((s) => s.id === selectedTab)?.pomodoro,
       alarmSoundURL: url,
     });
 

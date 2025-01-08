@@ -48,7 +48,7 @@ export default function FocusTimer() {
 
   const { spaces, selectedTab, stopPomodoroAlarm } = useSpacesContext();
 
-  const currentSpace = spaces.find((space) => space.name === selectedTab);
+  const currentSpace = spaces.find((space) => space.id === selectedTab);
   const autoStart = currentSpace?.pomodoro.autoStart ?? false;
 
   function skipSession() {

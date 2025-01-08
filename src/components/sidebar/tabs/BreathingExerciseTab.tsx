@@ -19,7 +19,7 @@ export default function BreathingExerciseTab() {
     useState(true);
 
   useEffect(() => {
-    const selectedSpace = spaces.find((space) => space.name === selectedTab);
+    const selectedSpace = spaces.find((space) => space.id === selectedTab);
     if (selectedSpace) {
       setIsBreathingExerciseVisible(!selectedSpace.breathingExercise.isHidden);
       setTechnique(selectedSpace.breathingExercise.technique);
@@ -29,7 +29,7 @@ export default function BreathingExerciseTab() {
   const handleBreathingExerciseVisibilityChange = (visible: boolean) => {
     setIsBreathingExerciseVisible(visible);
     updateSpaceProperty(selectedTab, "breathingExercise", {
-      ...spaces.find((s) => s.name === selectedTab)?.breathingExercise,
+      ...spaces.find((s) => s.id === selectedTab)?.breathingExercise,
       isHidden: !visible,
     });
   };
@@ -37,7 +37,7 @@ export default function BreathingExerciseTab() {
   const HandleTechniqueChange = (technique: techniqueType) => {
     setTechnique(technique);
     updateSpaceProperty(selectedTab, "breathingExercise", {
-      ...spaces.find((s) => s.name === selectedTab)?.breathingExercise,
+      ...spaces.find((s) => s.id === selectedTab)?.breathingExercise,
       technique: technique,
     });
   };

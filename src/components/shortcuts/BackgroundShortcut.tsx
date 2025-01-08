@@ -38,7 +38,7 @@ export default function BackgroundShortcut() {
 
   // Get the current background URL from the selected space
   const currentBackgroundURL =
-    spaces.find((space) => space.name === selectedTab)?.background ?? "";
+    spaces.find((space) => space.id === selectedTab)?.background ?? "";
 
   const handleBackgroundURLChange = (name: string) => {
     const selectedBackground = backgrounds.find((bg) => bg.name === name);

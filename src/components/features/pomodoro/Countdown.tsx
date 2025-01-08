@@ -21,7 +21,7 @@ export function Countdown() {
   const lastTickRef = useRef<number>(Date.now());
 
   // Get the short and long break durations from the current tab's space
-  const currentSpace = spaces.find((space) => space.name === selectedTab);
+  const currentSpace = spaces.find((space) => space.id === selectedTab);
   const shortBreakDuration = currentSpace?.pomodoro.shortBreakDuration ?? 5;
   const longBreakDuration = currentSpace?.pomodoro.longBreakDuration ?? 15;
   const autoStart = currentSpace?.pomodoro.autoStart ?? false;

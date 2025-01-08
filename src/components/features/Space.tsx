@@ -137,7 +137,7 @@ export default function Space() {
             <TabsTrigger
               aria-label={space.name}
               aria-labelledby="tooltip"
-              onClick={() => selectTab(space.name)}
+              onClick={() => selectTab(space.id)}
               className="hover:bg-accent-foreground hover:text-foreground"
               key={space.id}
               value={space.name}
@@ -161,7 +161,7 @@ export default function Space() {
           >
             <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
 
-            {space.name === "Focus" && (
+            {space.id === 2 && (
               <link
                 rel="preload"
                 as="image"
@@ -178,10 +178,10 @@ export default function Space() {
                 className="object-cover brightness-75"
                 placeholder="blur"
                 blurDataURL="/blur/blurBackground.png"
-                priority={space.name === "Focus"}
+                priority={space.id === 2}
                 sizes="100vw"
                 quality={100}
-                loading={space.name === "Focus" ? "eager" : "lazy"}
+                loading={space.id === 2 ? "eager" : "lazy"}
               />
             </div>
             <div className="relative z-10">
