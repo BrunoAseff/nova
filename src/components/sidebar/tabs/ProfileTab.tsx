@@ -103,14 +103,14 @@ export default function ProfileTab() {
           subtitle="Manage and customize your personal profile details."
           Icon={ProfileIllustration}
         />
-        <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mx-auto mt-32 flex h-full max-h-[65vh] w-full flex-col overflow-y-auto md:w-[160%]">
+        <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mx-auto mt-32 flex h-full max-h-[65vh] w-[145%] flex-col overflow-y-auto md:w-[160%]">
           <div className="mb-12 flex min-h-fit flex-col gap-6">
             <TabCard>
               <div className="flex w-full flex-col gap-6">
-                <Label className="text-md">Account info</Label>
+                <Label className="text-sm md:text-base">Account info</Label>
                 <div className="grid w-full grid-cols-2 gap-4 p-1">
                   <div className="flex flex-col gap-1">
-                    <Label className="text-md flex items-center gap-1 font-montserrat text-muted-foreground">
+                    <Label className="flex items-center gap-1 font-montserrat text-sm text-muted-foreground md:text-base">
                       <EnvelopeSimple
                         size={17}
                         weight="duotone"
@@ -125,7 +125,7 @@ export default function ProfileTab() {
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <Label className="text-md flex items-center gap-1 font-montserrat text-muted-foreground">
+                    <Label className="flex items-center gap-1 font-montserrat text-sm text-muted-foreground md:text-base">
                       <User
                         size={17}
                         weight="duotone"
@@ -180,7 +180,7 @@ export default function ProfileTab() {
 
                   <div className="flex flex-col gap-1">
                     {" "}
-                    <Label className="text-md flex items-center gap-1 font-montserrat text-muted-foreground">
+                    <Label className="flex items-center gap-1 font-montserrat text-sm text-muted-foreground md:text-base">
                       <Password
                         size={17}
                         weight="duotone"
@@ -193,14 +193,16 @@ export default function ProfileTab() {
                       <Link href="/forgot-password">Forgot my password</Link>
                     </LinkBtn>
                   </div>
-                  <p className="text-md m-auto text-center text-accent-foreground">
+                  <p className="m-auto text-center text-sm text-accent-foreground md:text-base">
                     Put verification thing in here later
                   </p>
                 </div>
               </div>
             </TabCard>
-            <TabCard>
-              <Label className="text-md">Log out from your account</Label>
+            <TabCard className="flex-col md:flex-row">
+              <Label className="md:text- mb-2 text-sm md:mb-0">
+                Log out from your account
+              </Label>
               <Button
                 className="flex justify-around gap-1"
                 onClick={() => signOut()}
@@ -214,11 +216,11 @@ export default function ProfileTab() {
               <Label className="mb-1 text-sm text-destructive">
                 Danger Zone
               </Label>
-              <TabCard variant="danger">
-                <div className="flex w-full flex-col gap-1">
+              <TabCard className="flex-col md:flex-row" variant="danger">
+                <div className="mb-2 flex w-full flex-col gap-1 md:mb-0">
                   <Label
                     htmlFor="clock-reset"
-                    className="text-md text-foreground"
+                    className="text-sm text-foreground md:text-base"
                   >
                     Delete your account
                   </Label>
@@ -230,7 +232,7 @@ export default function ProfileTab() {
                   <AlertDialogTrigger asChild>
                     <DangerBtn>Delete account</DangerBtn>
                   </AlertDialogTrigger>
-                  <AlertDialogContent>
+                  <AlertDialogContent className="rounded-2xl">
                     <AlertDialogHeader>
                       <AlertDialogTitle>
                         Are you absolutely sure?
@@ -240,18 +242,18 @@ export default function ProfileTab() {
                         delete your account and all associated data.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <div className="py-4">
+                    <div className="rounded-2xl border-accent/20 bg-accent-foreground p-3">
                       <Label>
                         Type &quot;delete my account&quot; to confirm.
                       </Label>
                       <Input
                         value={deleteConfirmation}
                         onChange={(e) => setDeleteConfirmation(e.target.value)}
-                        placeholder="Type 'delete my account'"
-                        className="mt-2"
+                        placeholder="delete my account"
+                        className="mt-2 focus-visible:bg-rose-900/10 focus-visible:ring-rose-500"
                       />
                     </div>
-                    <AlertDialogFooter>
+                    <AlertDialogFooter className="flex w-full items-center justify-center">
                       <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
                         Cancel
                       </AlertDialogCancel>
@@ -261,7 +263,7 @@ export default function ProfileTab() {
                           isLoading ||
                           deleteConfirmation !== "delete my account"
                         }
-                        className="w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive disabled:opacity-50"
+                        className="mt-2 w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive disabled:opacity-50 md:mt-0"
                       >
                         {isLoading ? (
                           <CircleNotch className="animate-spin" size={18} />
@@ -288,7 +290,7 @@ export default function ProfileTab() {
       />
       <div className="mx-auto mt-32 flex h-full w-[135%] flex-col gap-6 md:w-[100%]">
         <div className="via mt-6 flex min-h-16 w-full flex-col items-center gap-6 space-x-2 rounded-2xl border-[1px] border-secondary/60 bg-background p-4 shadow-[0px_20px_207px_10px] shadow-secondary/40">
-          <Label className="text-md px-3 font-montserrat text-foreground">
+          <Label className="px-3 font-montserrat text-sm text-foreground md:text-base">
             Login or create an account to have a complete experience
           </Label>
           <PrimaryBtn className="rounded-xl border-[1px] border-secondary/60 bg-secondary-smooth-700/10 px-4 py-3 text-sm text-foreground transition-all hover:rounded-full hover:bg-secondary-smooth-700/10">
