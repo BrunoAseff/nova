@@ -103,7 +103,7 @@ export function Countdown() {
   }, [minutes, seconds, activeCycle]);
 
   return (
-    <div className="flex items-center space-x-1 rounded-3xl text-center font-montserrat text-8xl font-medium tabular-nums text-foreground">
+    <div className="flex items-center space-x-1 rounded-3xl text-center font-montserrat text-7xl font-medium tabular-nums text-foreground md:text-8xl">
       <span>{minutes[0]}</span>
       <span>{minutes[1]}</span>
       <span>:</span>

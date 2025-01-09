@@ -6,6 +6,12 @@ import type { Quote } from "./quotes";
 import type { QuoteProps } from "@/types";
 import { Refresh } from "@/components/icons/Refresh";
 import IconBtn from "@/components/nova/buttons/IconBtn";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Quote(props: QuoteProps) {
   const {
@@ -22,11 +28,11 @@ export default function Quote(props: QuoteProps) {
   const positionClass = (): string => {
     switch (position) {
       case "top-left":
-        return "top-0 left-0 m-10 text-left";
+        return "top-0 left-0 m-4 md:m-10 text-left";
       case "top-right":
-        return "top-0 right-0 m-10 text-right";
+        return "top-0 right-0 m-4 md:m-10 text-right";
       case "bottom-left":
-        return "bottom-0 left-0 m-10 text-left";
+        return "bottom-0 left-0 max-w-[16rem] md:max-w-md mb-16 ml-4 md:m-10 text-left";
       case "center":
         return "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center";
       default:
@@ -81,23 +87,35 @@ export default function Quote(props: QuoteProps) {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <p className="text-xl font-medium text-gray-100">
+          <p className="text-sm font-medium text-gray-100 md:text-xl">
             &ldquo;{currentQuote.text}&rdquo;
           </p>
           {showAuthor && (
-            <p className="mt-2 text-sm text-gray-100">
+            <p className="mt-2 text-xs text-gray-100 md:text-sm">
               - {currentQuote.author}
             </p>
           )}
         </motion.div>
       </AnimatePresence>
-      <IconBtn
-        onClick={refreshQuote}
-        variant="default"
-        className={`absolute bottom-2 ${refreshButtonPositionClass()} bg-transparent text-foreground opacity-0 transition-opacity group-hover:opacity-100`}
-      >
-        <Refresh />
-      </IconBtn>
+      <TooltipProvider>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <IconBtn
+              onClick={refreshQuote}
+              variant="default"
+              className={`absolute bottom-2 ${refreshButtonPositionClass()} border-[1px] border-transparent bg-transparent text-foreground opacity-0 transition-opacity hover:border-white/60 hover:bg-white/5 group-hover:opacity-100`}
+            >
+              <Refresh />
+            </IconBtn>
+          </TooltipTrigger>
+          <TooltipContent
+            id="refresh"
+            className="font-inter flex items-center gap-3 font-medium"
+          >
+            Refresh quote
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 }
