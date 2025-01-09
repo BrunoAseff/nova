@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { useContext, useState, useEffect } from "react";
 import { CyclesContext } from "@/contexts/cycleContext";
-import { PomodoroInput } from "@/components/nova/PomodoroInput";
+import { Input } from "@/components/ui/input";
 
 export function NewCycleForm() {
   const { activeCycle } = useContext(CyclesContext);
@@ -32,7 +32,7 @@ export function NewCycleForm() {
     <div className="flex flex-wrap items-center gap-2 font-medium text-muted-foreground">
       <div className="flex items-center gap-1 whitespace-nowrap">
         <label htmlFor="task">I will focus on</label>
-        <PomodoroInput
+        <Input
           className="w-44"
           id="task"
           type="text"
@@ -52,7 +52,7 @@ export function NewCycleForm() {
 
       <div className="relative flex items-center gap-2">
         <label htmlFor="minutesAmount">for</label>
-        <PomodoroInput
+        <Input
           type="text"
           inputMode="numeric"
           pattern="[0-9]*"
