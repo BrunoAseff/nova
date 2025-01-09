@@ -89,35 +89,35 @@ export default function InfoCard() {
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <p>Current cycle progress:</p>
-              <span className="rounded-full border-[1px] border-none bg-muted px-3 py-1 text-foreground/90">
+              <span className="rounded-full border-[1px] border-muted-foreground/40 bg-background px-3 py-1 text-foreground/90">
                 {cycleCounter}/4
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Cycles completed:</p>
-              <span className="rounded-full border-[1px] border-none bg-muted px-3 py-1 text-foreground/90">
+              <span className="rounded-full border-[1px] border-muted-foreground/40 bg-background px-3 py-1 text-foreground/90">
                 {completedCycles}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Overall time:</p>
-              <span className="rounded-full border-[1px] border-none bg-muted px-3 py-1 text-foreground/90">
+              <span className="rounded-full border-[1px] border-muted-foreground/40 bg-background px-3 py-1 text-foreground/90">
                 {formatTime(overallTimeStat)}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Focused time:</p>
-              <span className="rounded-full border-[1px] border-none bg-muted px-3 py-1 text-foreground/90">
+              <span className="rounded-full border-[1px] border-muted-foreground/40 bg-background px-3 py-1 text-foreground/90">
                 {formatTime(focusedTimeStat)}
               </span>
             </div>
 
             <div className="flex items-center justify-between">
               <p>Break time:</p>
-              <span className="rounded-full border-[1px] border-none bg-muted px-3 py-1 text-foreground/90">
+              <span className="rounded-full border-[1px] border-muted-foreground/40 bg-background px-3 py-1 text-foreground/90">
                 {formatTime(breakTimeStat)}
               </span>
             </div>

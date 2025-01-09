@@ -84,7 +84,7 @@ export default function FocusTimer() {
   return (
     <div className="flex items-center justify-center">
       <form
-        className="flex flex-col items-center justify-center rounded-3xl bg-background p-6 text-center md:min-w-[30rem]"
+        className="flex min-w-[19rem] flex-col items-center justify-center rounded-3xl bg-background p-6 text-center md:min-w-[30rem] md:p-6"
         onSubmit={onSubmit(handleCreateNewCycle)}
       >
         <motion.div
@@ -101,7 +101,7 @@ export default function FocusTimer() {
             </FormProvider>
           )}
 
-          <div className="font-inter text-md flex min-h-14 w-full items-center justify-center">
+          <div className="font-inter text-md flex min-h-12 w-full items-center justify-center md:min-h-14">
             {activeCycle && currentTab === "Focus" && (
               <div className="flex flex-col items-center gap-1">
                 <div className="flex w-fit items-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">

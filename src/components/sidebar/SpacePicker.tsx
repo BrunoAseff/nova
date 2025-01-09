@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/popover";
 import { useEffect, useState } from "react";
 import { useSpacesContext } from "@/contexts/spaceContext";
+import { Label } from "../ui/label";
 
 export default function SpacePicker() {
   const { spaces, selectedTab, selectTab } = useSpacesContext();
@@ -32,49 +33,55 @@ export default function SpacePicker() {
   return (
     <div className="ml-5 mt-5 hidden w-full md:block">
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            aria-label="Select Space"
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="min-w-[25%] justify-between rounded-xl border-[1px] border-muted bg-transparent py-2 text-foreground hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-foreground"
-          >
-            {spaces.find((space) => space.id === value)?.name ??
-              "Select Space..."}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent data-sidebar-exclude className="w-[200px]">
-          <Command>
-            <CommandInput placeholder="Search space..." />
-            <CommandList>
-              <CommandEmpty>No space found.</CommandEmpty>
-              <CommandGroup>
-                {spaces.map((space) => (
-                  <CommandItem
-                    key={space.id}
-                    // Use the space name for searching/filtering
-                    value={space.name}
-                    onSelect={() => {
-                      setValue(space.id);
-                      selectTab(space.id);
-                      setOpen(false);
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        value === space.id ? "opacity-100" : "opacity-0",
-                      )}
-                    />
-                    {space.name}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
+        <div className="flex w-[200px] flex-col gap-1">
+          <Label className="text-xs text-muted-foreground">
+            The <span className="text-foreground">space</span> you are editing
+            is:
+          </Label>
+          <PopoverTrigger asChild>
+            <Button
+              aria-label="Select Space"
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="min-w-[25%] justify-between rounded-xl border-[1px] border-muted bg-transparent py-2 text-foreground hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-foreground"
+            >
+              {spaces.find((space) => space.id === value)?.name ??
+                "Select Space..."}
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent data-sidebar-exclude className="w-[200px]">
+            <Command>
+              <CommandInput placeholder="Search space..." />
+              <CommandList>
+                <CommandEmpty>No space found.</CommandEmpty>
+                <CommandGroup>
+                  {spaces.map((space) => (
+                    <CommandItem
+                      key={space.id}
+                      // Use the space name for searching/filtering
+                      value={space.name}
+                      onSelect={() => {
+                        setValue(space.id);
+                        selectTab(space.id);
+                        setOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          value === space.id ? "opacity-100" : "opacity-0",
+                        )}
+                      />
+                      {space.name}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </div>
       </Popover>
     </div>
   );

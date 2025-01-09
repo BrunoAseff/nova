@@ -103,7 +103,7 @@ export default function ProfileTab() {
           subtitle="Manage and customize your personal profile details."
           Icon={ProfileIllustration}
         />
-        <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mx-auto mt-32 flex h-full max-h-[65vh] w-[145%] flex-col overflow-y-auto md:w-[160%]">
+        <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mx-auto mt-24 flex h-full max-h-[65vh] w-[145%] flex-col overflow-y-auto md:w-[160%]">
           <div className="mb-12 flex min-h-fit flex-col gap-6">
             <TabCard>
               <div className="flex w-full flex-col gap-6">
@@ -234,15 +234,13 @@ export default function ProfileTab() {
                   </AlertDialogTrigger>
                   <AlertDialogContent className="rounded-2xl">
                     <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
+                      <AlertDialogTitle>Delete account</AlertDialogTitle>
                       <AlertDialogDescription>
                         This action cannot be undone. This will permanently
                         delete your account and all associated data.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <div className="rounded-2xl border-accent/20 bg-accent-foreground p-3">
+                    <div>
                       <Label>
                         Type &quot;delete my account&quot; to confirm.
                       </Label>
@@ -254,7 +252,7 @@ export default function ProfileTab() {
                       />
                     </div>
                     <AlertDialogFooter className="flex w-full items-center justify-center">
-                      <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
+                      <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-background p-3 font-sans text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
                         Cancel
                       </AlertDialogCancel>
                       <AlertDialogAction

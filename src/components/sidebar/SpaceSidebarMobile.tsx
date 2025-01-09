@@ -38,13 +38,22 @@ import { SessionProvider } from "next-auth/react";
 import { Button } from "../ui/button";
 import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
 import IconBtn from "../nova/buttons/IconBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSpacesContext } from "@/contexts/spaceContext";
 
 export function SpaceSidebarMobile() {
   const [isTabListOpen, setIsTabListOpen] = useState(false);
   const toggleTabList = () => {
     setIsTabListOpen(!isTabListOpen);
   };
+  const { selectedTab, spaces } = useSpacesContext();
+  const [currentSpace, setCurrentSpace] = useState("");
+
+  useEffect(() => {
+    const space = spaces.find((space) => space.id === selectedTab)!;
+
+    setCurrentSpace(space.name);
+  }, [selectedTab, spaces]);
 
   return (
     <div className="block md:hidden">
@@ -151,6 +160,10 @@ export function SpaceSidebarMobile() {
               </TabsList>
 
               <div>
+                <div className="mb-1 text-xs text-muted-foreground">
+                  The space you are editing is:{" "}
+                  <span className="text-foreground">{currentSpace}</span>
+                </div>
                 <TabsContent
                   className="text-md mt-2 max-w-[70%] items-center justify-center"
                   value="clock"

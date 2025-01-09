@@ -229,14 +229,14 @@ export default function SpacesTab() {
               </AlertDialogTrigger>
               <AlertDialogContent className="rounded-xl border-none">
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogTitle>Reset spaces</AlertDialogTitle>
                   <AlertDialogDescription>
                     This action cannot be undone. This will permanently reset
                     all spaces and their settings.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex w-full items-center justify-end">
-                  <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-muted p-3 font-sans text-xs font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
+                  <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-background p-3 font-sans text-xs font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction

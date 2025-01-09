@@ -95,7 +95,7 @@ export default function BackgroundTab() {
         Icon={BackgroundIllustration}
       />
 
-      <div className="mt-20 flex w-[93%] flex-col">
+      <div className="mt-16 flex w-[93%] flex-col">
         <FileUpload />
         <div className="ml-auto flex w-[145%] items-center justify-center gap-4 md:ml-0 md:w-auto">
           <div className="flex flex-col gap-1">
@@ -187,7 +187,7 @@ export default function BackgroundTab() {
             </label>
           </div>
         </div>
-        <div className="mt-2 min-h-4 md:min-h-10">
+        <div className="mt-1 min-h-4 md:min-h-8">
           {" "}
           {isAnyFilterActive && (
             <Badge
@@ -210,7 +210,7 @@ export default function BackgroundTab() {
                   ?.name ?? ""
               }
               onValueChange={handleBackgroundURLChange}
-              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-[145%] scroll-pb-56 grid-cols-2 justify-between gap-4 overflow-y-auto pb-40 pr-4 md:w-full md:grid-cols-3"
+              className="scrollbar-thin scrollbar-track-background scrollbar-thumb-accent mx-auto grid max-h-[60vh] w-[145%] scroll-pb-56 grid-cols-2 justify-between gap-4 overflow-y-auto pb-56 pr-4 md:w-full md:grid-cols-3"
             >
               {filteredBackgrounds.map((background) => {
                 const isChecked = background.url === currentBackgroundURL;

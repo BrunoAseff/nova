@@ -61,7 +61,7 @@ export const FileUpload = ({
 
   return (
     <div
-      className="my-6 flex w-[145%] justify-between rounded-2xl border-[1px] border-accent/20 bg-accent-foreground md:w-full"
+      className="my-3 flex w-[145%] justify-between rounded-2xl border-[1px] border-accent/20 bg-accent-foreground md:w-full"
       {...getRootProps()}
     >
       <LimitedFeature
@@ -73,7 +73,7 @@ export const FileUpload = ({
       <motion.div
         onClick={handleClick}
         whileHover="animate"
-        className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg px-4 py-2 md:px-10 md:py-4"
+        className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg px-4 py-2 md:px-8 md:py-3"
       >
         <input
           ref={fileInputRef}
