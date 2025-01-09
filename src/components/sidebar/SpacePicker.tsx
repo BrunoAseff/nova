@@ -27,7 +27,6 @@ export default function SpacePicker() {
 
   useEffect(() => {
     setValue(selectedTab ?? spaces[1]?.id);
-    console.log(spaces);
   }, [selectedTab, spaces, selectTab]);
 
   return (
