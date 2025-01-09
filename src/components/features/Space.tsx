@@ -128,19 +128,20 @@ export default function Space() {
       <Shortcut />
       <SyncingInfo />
       <Tabs
-        defaultValue="Focus"
+        defaultValue={spaces[1]?.id.toString()} // Focus is spaces[1]
         className="relative m-0 h-screen w-full overflow-hidden p-0 font-sans"
         aria-label="Space selection tabs"
       >
         <TabsList className="absolute bottom-6 left-8 z-10 md:bottom-10 md:left-auto md:right-28">
           {spaces.map((space) => (
             <TabsTrigger
+              // Only use name in display areas
               aria-label={space.name}
               aria-labelledby="tooltip"
-              onClick={() => selectTab(space.name)}
+              onClick={() => selectTab(space.id)}
               className="hover:bg-accent-foreground hover:text-foreground"
               key={space.id}
-              value={space.name}
+              value={space.id.toString()} // Convert ID to string for Tabs value
             >
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
@@ -157,11 +158,11 @@ export default function Space() {
           <TabsContent
             className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
             key={space.id}
-            value={space.name}
+            value={space.id.toString()} // Match the TabsTrigger value
           >
             <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
 
-            {space.name === "Focus" && (
+            {space.id === 2 && (
               <link
                 rel="preload"
                 as="image"
@@ -178,10 +179,10 @@ export default function Space() {
                 className="object-cover brightness-75"
                 placeholder="blur"
                 blurDataURL="/blur/blurBackground.png"
-                priority={space.name === "Focus"}
+                priority={space.id === 2}
                 sizes="100vw"
                 quality={100}
-                loading={space.name === "Focus" ? "eager" : "lazy"}
+                loading={space.id === 2 ? "eager" : "lazy"}
               />
             </div>
             <div className="relative z-10">

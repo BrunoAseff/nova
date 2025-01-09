@@ -11,7 +11,7 @@ export default function ClockShortcut() {
   const [timeFormat, setTimeFormat] = useState<"12h" | "24h">("24h");
 
   useEffect(() => {
-    const selectedSpace = spaces.find((space) => space.name === selectedTab);
+    const selectedSpace = spaces.find((space) => space.id === selectedTab);
     if (selectedSpace) {
       setSelectedPosition(selectedSpace.clock.position);
       setTimeFormat(selectedSpace.clock.timeFormat);
@@ -21,7 +21,7 @@ export default function ClockShortcut() {
   const handleClockPositionChange = (position: Position) => {
     setSelectedPosition(position);
     updateSpaceProperty(selectedTab, "clock", {
-      ...spaces.find((s) => s.name === selectedTab)?.clock,
+      ...spaces.find((s) => s.id === selectedTab)?.clock,
       position,
     });
   };
@@ -29,7 +29,7 @@ export default function ClockShortcut() {
   const handleTimeFormatChange = (format: "12h" | "24h") => {
     setTimeFormat(format);
     updateSpaceProperty(selectedTab, "clock", {
-      ...spaces.find((s) => s.name === selectedTab)?.clock,
+      ...spaces.find((s) => s.id === selectedTab)?.clock,
       timeFormat: format,
     });
   };

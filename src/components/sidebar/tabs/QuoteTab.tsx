@@ -32,7 +32,7 @@ export default function QuoteTab() {
 
   // Synchronize local state with the selected space
   useEffect(() => {
-    const selectedSpace = spaces.find((space) => space.name === selectedTab);
+    const selectedSpace = spaces.find((space) => space.id === selectedTab);
     if (selectedSpace) {
       setSelectedPosition(selectedSpace.quote.position);
       setIsQuoteVisible(!selectedSpace.quote.isHidden);
@@ -44,7 +44,7 @@ export default function QuoteTab() {
   const handleQuoteVisibilityChange = (visible: boolean) => {
     setIsQuoteVisible(visible);
     updateSpaceProperty(selectedTab, "quote", {
-      ...spaces.find((s) => s.name === selectedTab)?.quote,
+      ...spaces.find((s) => s.id === selectedTab)?.quote,
       isHidden: !visible,
     });
   };
@@ -52,7 +52,7 @@ export default function QuoteTab() {
   const handleQuotePositionChange = (position: Position) => {
     setSelectedPosition(position);
     updateSpaceProperty(selectedTab, "quote", {
-      ...spaces.find((s) => s.name === selectedTab)?.quote,
+      ...spaces.find((s) => s.id === selectedTab)?.quote,
       position,
     });
   };
@@ -60,7 +60,7 @@ export default function QuoteTab() {
   const handleShowAuthorChange = (show: boolean) => {
     setShowAuthor(show);
     updateSpaceProperty(selectedTab, "quote", {
-      ...spaces.find((s) => s.name === selectedTab)?.quote,
+      ...spaces.find((s) => s.id === selectedTab)?.quote,
       showAuthor: show,
     });
   };
@@ -85,7 +85,7 @@ export default function QuoteTab() {
 
     setSelectedCategories(newCategories);
     updateSpaceProperty(selectedTab, "quote", {
-      ...spaces.find((s) => s.name === selectedTab)?.quote,
+      ...spaces.find((s) => s.id === selectedTab)?.quote,
       categories: newCategories,
     });
   };

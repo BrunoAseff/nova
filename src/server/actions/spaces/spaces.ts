@@ -7,7 +7,7 @@ export const fetchSpacesData = async () => {
   };
 
   try {
-    const backendData = await fetchBackendSpaces(); // Placeholder function for backend API call.
+    const backendData = await fetchBackendSpaces();
     if (backendData) return backendData;
 
     // Fetch spaces from local storage
@@ -27,11 +27,21 @@ export const fetchSpacesData = async () => {
 
     if (localSpacesData) {
       const parsedSpacesData = JSON.parse(localSpacesData);
-      const reconstructedSpaces = parsedSpacesData.map((space: any) => ({
-        ...settings.spaces.find((s) => s.name === space.name),
-        ...space,
-        icon: settings.spaces.find((s) => s.name === space.name)?.icon,
-      }));
+      const reconstructedSpaces = parsedSpacesData.map((space: any) => {
+        // Find the corresponding default space from settings by ID
+        const defaultSpace = settings.spaces.find((s) => s.id === space.id);
+
+        if (!defaultSpace) {
+          console.warn(`No default space found for ID ${space.id}`);
+          return space;
+        }
+
+        return {
+          ...defaultSpace, // Get all default settings including the icon
+          ...space, // Override with stored settings
+          icon: defaultSpace.icon, // Ensure we use the icon from settings
+        };
+      });
 
       return {
         spaces: reconstructedSpaces,

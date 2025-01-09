@@ -15,7 +15,7 @@ export default function ReminderShortcut() {
   const [isReminderVisible, setIsReminderVisible] = useState(true);
 
   useEffect(() => {
-    const selectedSpace = spaces.find((space) => space.name === selectedTab);
+    const selectedSpace = spaces.find((space) => space.id === selectedTab);
     if (selectedSpace) {
       setSelectedPosition(selectedSpace.reminder.position);
       setIsReminderVisible(!selectedSpace.reminder.isHidden);
@@ -25,7 +25,7 @@ export default function ReminderShortcut() {
   const handleReminderVisibilityChange = (visible: boolean) => {
     setIsReminderVisible(visible);
     updateSpaceProperty(selectedTab, "reminder", {
-      ...spaces.find((s) => s.name === selectedTab)?.reminder,
+      ...spaces.find((s) => s.id === selectedTab)?.reminder,
       isHidden: !visible,
     });
   };
@@ -35,7 +35,7 @@ export default function ReminderShortcut() {
   ) => {
     setSelectedPosition(position);
     updateSpaceProperty(selectedTab, "reminder", {
-      ...spaces.find((s) => s.name === selectedTab)?.reminder,
+      ...spaces.find((s) => s.id === selectedTab)?.reminder,
       position,
     });
   };

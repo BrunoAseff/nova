@@ -73,7 +73,7 @@ export default function SpacesTab() {
     const space = spaces[index];
     if (!space) return; // Ensure the space exists
     const newName = tempSpaceNames[index];
-    updateSpaceProperty(space.name, "name", newName);
+    updateSpaceProperty(space.id, "name", newName);
     setEditingSpaceIndex(null);
   }
 

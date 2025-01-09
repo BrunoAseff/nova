@@ -1,10 +1,12 @@
 import type { ReminderMessage, Space } from "@/types";
 
 export function updateLocalStorage(spaces: Space[]) {
-  const spacesToStore = spaces.map((space) => ({
-    ...space,
-    icon: space.name,
-  }));
+  const spacesToStore = spaces.map((space) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { icon, ...spaceWithoutIcon } = space;
+    return spaceWithoutIcon;
+  });
+
   localStorage.setItem("spaces", JSON.stringify(spacesToStore));
 }
 

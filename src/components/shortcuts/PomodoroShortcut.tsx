@@ -23,7 +23,7 @@ export default function PomodoroShortcut() {
   );
 
   useEffect(() => {
-    const selectedSpace = spaces.find((space) => space.name === selectedTab);
+    const selectedSpace = spaces.find((space) => space.id === selectedTab);
     if (selectedSpace) {
       setAutoStart(selectedSpace.pomodoro.autoStart ?? false);
       setAlarmSound(selectedSpace.pomodoro.alarmSound ?? false);
@@ -64,7 +64,7 @@ export default function PomodoroShortcut() {
         : parseInt(displayValue) || defaultValue;
     displaySetter(String(numberValue));
     updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
+      ...spaces.find((s) => s.id === selectedTab)?.pomodoro,
       [updatePropertyName]: numberValue,
     });
   };
@@ -72,7 +72,7 @@ export default function PomodoroShortcut() {
   const handleAutoStartChange = (start: boolean) => {
     setAutoStart(start);
     updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
+      ...spaces.find((s) => s.id === selectedTab)?.pomodoro,
       autoStart: start,
     });
   };
@@ -80,7 +80,7 @@ export default function PomodoroShortcut() {
   const handleAlarmSoundChange = (sound: boolean) => {
     setAlarmSound(sound);
     updateSpaceProperty(selectedTab, "pomodoro", {
-      ...spaces.find((s) => s.name === selectedTab)?.pomodoro,
+      ...spaces.find((s) => s.id === selectedTab)?.pomodoro,
       alarmSound: sound,
     });
   };
