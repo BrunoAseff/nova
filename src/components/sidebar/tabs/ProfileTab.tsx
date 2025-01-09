@@ -234,9 +234,7 @@ export default function ProfileTab() {
                   </AlertDialogTrigger>
                   <AlertDialogContent className="rounded-2xl">
                     <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
+                      <AlertDialogTitle>Delete account</AlertDialogTitle>
                       <AlertDialogDescription>
                         This action cannot be undone. This will permanently
                         delete your account and all associated data.
