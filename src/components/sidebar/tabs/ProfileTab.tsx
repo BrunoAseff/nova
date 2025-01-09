@@ -103,7 +103,7 @@ export default function ProfileTab() {
           subtitle="Manage and customize your personal profile details."
           Icon={ProfileIllustration}
         />
-        <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mx-auto mt-32 flex h-full max-h-[65vh] w-[145%] flex-col overflow-y-auto md:w-[160%]">
+        <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mx-auto mt-24 flex h-full max-h-[65vh] w-[145%] flex-col overflow-y-auto md:w-[160%]">
           <div className="mb-12 flex min-h-fit flex-col gap-6">
             <TabCard>
               <div className="flex w-full flex-col gap-6">

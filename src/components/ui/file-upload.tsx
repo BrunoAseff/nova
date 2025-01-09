@@ -61,7 +61,7 @@ export const FileUpload = ({
 
   return (
     <div
-      className="my-6 flex w-[145%] justify-between rounded-2xl border-[1px] border-accent/20 bg-accent-foreground md:w-full"
+      className="my-3 flex w-[145%] justify-between rounded-2xl border-[1px] border-accent/20 bg-accent-foreground md:w-full"
       {...getRootProps()}
     >
       <LimitedFeature
