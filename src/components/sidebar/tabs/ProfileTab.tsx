@@ -291,7 +291,7 @@ export default function ProfileTab() {
           <Label className="px-3 font-montserrat text-sm text-foreground md:text-base">
             Login or create an account to have a complete experience
           </Label>
-          <PrimaryBtn className="rounded-xl border-[1px] border-secondary/60 bg-secondary-smooth-700/10 px-4 py-3 text-sm text-foreground transition-all hover:rounded-full hover:bg-secondary-smooth-700/10">
+          <PrimaryBtn className="rounded-3xl p-4 text-sm">
             <Link href="/sign-in">
               <p>Enter now</p>
             </Link>
