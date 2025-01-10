@@ -75,6 +75,7 @@ model Settings {
 
 model Space {
     id                  String      @id @default(cuid())
+    clientId            Int         @default(0)
     settingsId          String
     settings            Settings    @relation(fields: [settingsId], references: [id], onDelete: Cascade)
     name                String

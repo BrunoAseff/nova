@@ -115,6 +115,7 @@ export const migrateLocalStorageToDatabase = async (
           data: {
             settingsId: settings.id,
             name: space.name,
+            clientId: space.id,
             clockIsHidden: space.clock.isHidden,
             clockPosition: space.clock.position,
             clockTimeFormat: space.clock.timeFormat,
