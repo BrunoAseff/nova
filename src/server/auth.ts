@@ -73,19 +73,40 @@ export const authOptions: NextAuthOptions = {
     signIn: async ({ user, account }) => {
       try {
         if (account?.provider === "google") {
-          // If it's a One Tap sign-in (which will have an id_token)
-          if (account.id_token) {
-            // Verify the user exists or create them
-            const existingUser = await db.user.findUnique({
-              where: { email: user.email! },
+          const existingUser = await db.user.findUnique({
+            where: { email: user.email! },
+          });
+
+          if (!existingUser) {
+            // Create new user if they don't exist
+            await db.user.create({
+              data: {
+                email: user.email!,
+                name: user.name,
+                emailVerified: new Date(),
+              },
+            });
+          } else {
+            // Update existing user's OAuth account link if needed
+            const existingAccount = await db.account.findFirst({
+              where: {
+                userId: existingUser.id,
+                provider: "google",
+              },
             });
 
-            if (!existingUser) {
-              await db.user.create({
+            if (!existingAccount) {
+              await db.account.create({
                 data: {
-                  email: user.email!,
-                  name: user.name,
-                  emailVerified: new Date(),
+                  userId: existingUser.id,
+                  type: account.type,
+                  provider: account.provider,
+                  providerAccountId: account.providerAccountId,
+                  access_token: account.access_token,
+                  expires_at: account.expires_at,
+                  token_type: account.token_type,
+                  scope: account.scope,
+                  id_token: account.id_token,
                 },
               });
             }
@@ -93,7 +114,6 @@ export const authOptions: NextAuthOptions = {
           return true;
         }
 
-        // Credentials provider check
         if (account?.provider === "credentials") {
           const dbUser = await db.user.findUnique({
             where: { email: user.email! },
@@ -104,7 +124,7 @@ export const authOptions: NextAuthOptions = {
         return true;
       } catch (error) {
         console.error("Error in signIn callback:", error);
-        return false; // Always return a boolean or string, never undefined
+        return false;
       }
     },
   },
