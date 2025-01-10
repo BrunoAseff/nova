@@ -13,6 +13,12 @@ import {
   Brain,
   Note,
 } from "@phosphor-icons/react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 const typeStyles = {
   Gratitude: {
@@ -95,7 +101,7 @@ export default function Reminder(props: ReminderProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
-        className={`flex-col gap-4 rounded-3xl border-[1px] bg-[#0c0e12] p-4 text-[#d0dbe3]`}
+        className={`relative flex-col gap-4 rounded-3xl border-[1px] bg-[#0c0e12] p-4 text-[#d0dbe3]`}
         style={{
           borderColor: `${color}80`, // 50% opacity
         }}
@@ -139,13 +145,25 @@ export default function Reminder(props: ReminderProps) {
           </motion.div>
         )}
       </AnimatePresence>
-      <IconBtn
-        onClick={refreshMessage}
-        variant="default"
-        className="absolute bottom-4 right-4 z-50 m-1 rounded-full bg-[#0c0e12] text-[#d0dbe3] opacity-0 transition-opacity hover:bg-[#0c0e12] group-hover:opacity-100"
-      >
-        <Refresh />
-      </IconBtn>
+      <TooltipProvider>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <IconBtn
+              onClick={refreshMessage}
+              variant="default"
+              className="absolute bottom-4 right-4 z-50 m-1 scale-95 rounded-full bg-[#0c0e12] text-[#d0dbe3] opacity-0 transition-opacity hover:bg-[#0c0e12] group-hover:opacity-100"
+            >
+              <Refresh />
+            </IconBtn>
+          </TooltipTrigger>
+          <TooltipContent
+            id="refresh"
+            className="font-inter flex items-center gap-3 text-xs font-medium"
+          >
+            Refresh reminder
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 }
