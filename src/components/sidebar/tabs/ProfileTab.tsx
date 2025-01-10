@@ -252,7 +252,7 @@ export default function ProfileTab() {
                       />
                     </div>
                     <AlertDialogFooter className="flex w-full items-center justify-center">
-                      <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-background p-3 font-sans text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
+                      <AlertDialogCancel className="w-fit gap-2 rounded-3xl border-[1px] border-muted bg-background p-4 font-sans text-sm font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary">
                         Cancel
                       </AlertDialogCancel>
                       <AlertDialogAction
@@ -261,7 +261,7 @@ export default function ProfileTab() {
                           isLoading ||
                           deleteConfirmation !== "delete my account"
                         }
-                        className="mt-2 w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive disabled:opacity-50 md:mt-0"
+                        className="mt-2 w-fit gap-2 rounded-3xl border-[1px] bg-foreground p-4 font-sans text-sm font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive disabled:opacity-50 md:mt-0"
                       >
                         {isLoading ? (
                           <CircleNotch className="animate-spin" size={18} />

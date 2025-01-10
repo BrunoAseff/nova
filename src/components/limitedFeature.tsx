@@ -44,13 +44,15 @@ export default function LimitedFeature({
           </div>
         </div>
         <DialogFooter className="flex w-full items-end justify-center gap-2">
-          <DialogClose className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-background p-3 font-sans text-xs font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
-            Not now
+          <DialogClose asChild>
+            <Button className="w-fit gap-2 border-[1px] border-muted bg-background font-sans text-sm text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
+              Not now
+            </Button>
           </DialogClose>
 
           <Button
             asChild
-            className="w-fit gap-2 rounded-xl border-[1px] border-transparent bg-gradient-to-r from-secondary via-secondary-smooth-400 to-secondary-smooth-500 p-3 font-sans text-sm font-[600] text-background transition-all hover:bg-secondary-smooth-700/10 hover:brightness-110"
+            className="w-fit gap-2 border-[1px] border-transparent bg-gradient-to-r from-secondary via-secondary-smooth-400 to-secondary-smooth-500 font-sans text-sm text-background transition-all hover:bg-secondary-smooth-700/10 hover:brightness-110"
           >
             <Link href="/pricing">Upgrade</Link>
           </Button>

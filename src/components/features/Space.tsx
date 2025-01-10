@@ -202,7 +202,7 @@ export default function Space() {
             aria-labelledby="config"
             aria-label="Open config"
             onClick={() => setOpen(true)}
-            className="absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex"
+            className="absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex"
           >
             <AnimatedConfig />
           </Button>
