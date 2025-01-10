@@ -118,7 +118,7 @@ export default function AppearanceTab() {
         subtitle="Personalize the visual theme to match your aesthetic preferences."
         Icon={AppearanceIllustration}
       />
-      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-28 flex h-full max-h-[65vh] w-[140%] flex-col gap-10 overflow-y-auto pb-10 pr-10 md:w-auto">
+      <div className="scrollbar-thin scrollbar-gutter-stable scrollbar-track-background scrollbar-thumb-accent z-50 mt-28 flex h-full max-h-[65vh] w-[140%] flex-col gap-10 overflow-y-auto pb-10 pr-10 md:w-[110%]">
         {/* System Theme Selection */}
         <fieldset className="space-y-4">
           <legend className="text-md font-medium leading-none text-foreground">
@@ -169,7 +169,7 @@ export default function AppearanceTab() {
             Choose a custom theme
           </legend>
           <RadioGroup
-            className="grid w-[110%] grid-cols-3 gap-1 md:w-full md:gap-10"
+            className="grid w-[110%] grid-cols-3 gap-1 md:w-[90%] md:gap-10"
             value={selectedCustomTheme}
             onValueChange={handleCustomThemeChange}
           >

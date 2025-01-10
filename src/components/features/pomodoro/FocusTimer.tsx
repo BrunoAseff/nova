@@ -135,7 +135,7 @@ export default function FocusTimer() {
             {activeCycle &&
               (currentTab === "Long Break" || currentTab === "Short Break") && (
                 <div className="mt-auto flex w-fit items-center justify-evenly gap-3 rounded-3xl fill-secondary p-2">
-                  <p className="font-500 text-left font-delius text-2xl text-foreground">
+                  <p className="text-left font-montserrat text-2xl text-foreground">
                     Take a breath!
                   </p>
                   <Air className="text-secondary" />

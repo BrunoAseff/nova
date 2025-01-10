@@ -13,6 +13,12 @@ import {
   Brain,
   Note,
 } from "@phosphor-icons/react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 const typeStyles = {
   Gratitude: {
@@ -53,11 +59,11 @@ export default function Reminder(props: ReminderProps) {
   const positionClass = (): string => {
     switch (position) {
       case "top-left":
-        return "top-0 left-0 m-10 text-left";
+        return "top-0 left-0 m-2 md:m-10 text-left";
       case "top-right":
-        return "top-0 right-0 m-10 text-right";
+        return "top-0 right-0 m-2 md:m-10 text-right";
       case "bottom-left":
-        return "bottom-0 left-0 m-10 text-left";
+        return "bottom-0 left-0 m-2 md:m-10 text-left";
       case "center":
         return "top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center";
       default:
@@ -95,7 +101,7 @@ export default function Reminder(props: ReminderProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
-        className={`flex-col gap-4 rounded-3xl border-[1px] bg-[#0c0e12] p-4 text-[#d0dbe3]`}
+        className={`relative flex-col gap-4 rounded-3xl border-[1px] bg-[#0c0e12] p-3 text-[#d0dbe3] md:p-4`}
         style={{
           borderColor: `${color}80`, // 50% opacity
         }}
@@ -106,14 +112,14 @@ export default function Reminder(props: ReminderProps) {
             {type}
           </p>
         </div>
-        <p className="font-sm text-md">{text}</p>
+        <p className="text-sm md:text-base">{text}</p>
       </motion.div>
     );
   };
 
   return (
     <div
-      className={`rounded-4xl fixed min-w-96 p-4 font-montserrat ${positionClass()} group max-w-md`}
+      className={`rounded-4xl fixed min-w-56 p-4 font-montserrat md:min-w-96 ${positionClass()} group max-w-md`}
     >
       <AnimatePresence mode="wait">
         {currentMessage ? (
@@ -133,19 +139,31 @@ export default function Reminder(props: ReminderProps) {
                 Reminder
               </p>
             </div>
-            <p className="font-sm text-md text-[204, 25%, 80.1%]">
+            <p className="text-[204, 25%, 80.1%] text-sm md:text-base">
               Add reminders in the settings to stay on track!
             </p>
           </motion.div>
         )}
       </AnimatePresence>
-      <IconBtn
-        onClick={refreshMessage}
-        variant="default"
-        className="absolute bottom-4 right-4 z-50 m-1 rounded-full bg-[#0c0e12] text-[#d0dbe3] opacity-0 transition-opacity hover:bg-[#0c0e12] group-hover:opacity-100"
-      >
-        <Refresh />
-      </IconBtn>
+      <TooltipProvider>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <IconBtn
+              onClick={refreshMessage}
+              variant="default"
+              className="absolute bottom-4 right-4 z-50 m-1 scale-95 rounded-full bg-[#0c0e12] text-[#d0dbe3] opacity-0 transition-opacity hover:bg-[#0c0e12] group-hover:opacity-100"
+            >
+              <Refresh />
+            </IconBtn>
+          </TooltipTrigger>
+          <TooltipContent
+            id="refresh"
+            className="font-inter flex items-center gap-3 text-xs font-medium"
+          >
+            Refresh reminder
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 }

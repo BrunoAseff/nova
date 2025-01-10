@@ -30,6 +30,9 @@ import SpacesIllustration from "@/components/svgs/SpacesIllustration";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { PlusIcon } from "@/components/icons/PlusIcon";
+import LimitedFeature from "@/components/limitedFeature";
+import { PencilSimpleLine } from "@phosphor-icons/react";
 
 const shortcutMapping: Record<string, ShortcutName> = {
   Clock: "clock",
@@ -68,6 +71,7 @@ export default function SpacesTab() {
   const [tempSpaceNames, setTempSpaceNames] = useState<string[]>(
     spaces.map((space) => space.name), // Temp state to hold names while editing
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleSpaceNameChange(index: number): void {
     const space = spaces[index];
@@ -87,6 +91,10 @@ export default function SpacesTab() {
       return updatedNames;
     });
     setEditingSpaceIndex(null);
+  }
+
+  function handleAddSpace() {
+    setIsModalOpen(true);
   }
 
   return (
@@ -113,6 +121,7 @@ export default function SpacesTab() {
                   <p>{space.icon}</p>
 
                   <Input
+                    disabled={editingSpaceIndex !== index}
                     className="w-fit"
                     value={tempSpaceNames[index] ?? "failed to load your space"}
                     readOnly={editingSpaceIndex !== index}
@@ -129,13 +138,18 @@ export default function SpacesTab() {
                   {editingSpaceIndex !== index ? (
                     <Button
                       variant="ghost"
-                      className="mx-auto mt-2 text-sm md:mt-0"
+                      className="mx-auto mt-2 flex items-center gap-2 text-sm md:mt-0"
                       onClick={() => setEditingSpaceIndex(index)}
                     >
-                      Change space name
+                      <PencilSimpleLine
+                        className="text-foreground"
+                        weight="duotone"
+                        size={17}
+                      />
+                      Change name
                     </Button>
                   ) : (
-                    <div className="flex items-center justify-center gap-3">
+                    <div className="mx-auto flex items-center justify-center gap-2">
                       <Button
                         variant="ghost"
                         className="mt-2 w-[7.3rem] text-sm md:mt-0"
@@ -145,7 +159,7 @@ export default function SpacesTab() {
                       </Button>
                       <Button
                         variant="ghost"
-                        className="mt-2 text-sm md:mt-0"
+                        className="mt-2 text-sm hover:border-destructive hover:bg-destructive/10 hover:text-destructive md:mt-0"
                         onClick={() => handleCancelEdit(index)}
                       >
                         Cancel
@@ -154,6 +168,18 @@ export default function SpacesTab() {
                   )}
                 </div>
               ))}
+              <button
+                onClick={handleAddSpace}
+                className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+              >
+                <PlusIcon />
+              </button>
+              <LimitedFeature
+                feature="spaces"
+                limit="3 spaces"
+                open={isModalOpen}
+                onOpenChange={() => setIsModalOpen(!isModalOpen)}
+              />
             </div>
           </div>
         </TabCard>
@@ -236,12 +262,12 @@ export default function SpacesTab() {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex w-full items-center justify-end">
-                  <AlertDialogCancel className="w-fit gap-2 rounded-xl border-[1px] border-muted bg-background p-3 font-sans text-xs font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
+                  <AlertDialogCancel className="w-fit gap-2 rounded-3xl border-[1px] border-muted bg-background p-4 font-sans text-xs font-[500] text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={resetSpaces}
-                    className="mt-2 w-fit gap-2 rounded-xl border-[1px] bg-foreground p-3 font-sans text-xs font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive md:mt-0 md:text-sm"
+                    className="mt-2 w-fit gap-2 rounded-3xl border-[1px] bg-foreground p-4 font-sans text-xs font-[500] text-background transition-colors hover:border-destructive hover:bg-red-700/10 hover:text-destructive md:mt-0 md:text-sm"
                   >
                     Reset Spaces
                   </AlertDialogAction>

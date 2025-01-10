@@ -110,7 +110,7 @@ export default function Quote(props: QuoteProps) {
           </TooltipTrigger>
           <TooltipContent
             id="refresh"
-            className="font-inter flex items-center gap-3 font-medium"
+            className="font-inter flex items-center gap-3 text-xs font-medium"
           >
             Refresh quote
           </TooltipContent>

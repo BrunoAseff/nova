@@ -19,7 +19,7 @@ export default function MusicTab() {
             <span className="font-semibold text-secondary">Supernova</span> to
             access custom playlists.
           </Label>
-          <PrimaryBtn className="rounded-xl border-[1px] border-secondary/60 bg-secondary-smooth-700/10 px-4 py-3 text-sm text-foreground transition-all hover:rounded-full hover:bg-secondary-smooth-700/10">
+          <PrimaryBtn className="rounded-3xl p-4 text-sm">
             <Link href="/pricing">
               <p>Upgrade</p>
             </Link>
