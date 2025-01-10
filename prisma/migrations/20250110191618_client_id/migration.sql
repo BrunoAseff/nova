@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Space" ADD COLUMN     "clientId" INTEGER NOT NULL DEFAULT 0;
