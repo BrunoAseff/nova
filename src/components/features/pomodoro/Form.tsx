@@ -2,6 +2,7 @@ import { useFormContext } from "react-hook-form";
 import { useContext, useState, useEffect } from "react";
 import { CyclesContext } from "@/contexts/cycleContext";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function NewCycleForm() {
   const { activeCycle } = useContext(CyclesContext);
@@ -29,11 +30,13 @@ export function NewCycleForm() {
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2 font-medium text-muted-foreground">
-      <div className="flex items-center gap-1 whitespace-nowrap">
-        <label htmlFor="task">I will focus on</label>
+    <div className="mb-2 mt-3 flex flex-wrap items-center gap-6 font-montserrat font-medium text-muted-foreground">
+      <div className="flex items-center gap-3 whitespace-nowrap">
+        <Label className="text-base" htmlFor="task">
+          Task:
+        </Label>
         <Input
-          className="w-44"
+          className="w-44 text-foreground"
           id="task"
           type="text"
           list="task-suggestions"
@@ -50,8 +53,10 @@ export function NewCycleForm() {
         <option value="working" />
       </datalist>
 
-      <div className="relative flex items-center gap-2">
-        <label htmlFor="minutesAmount">for</label>
+      <div className="flex items-center gap-3">
+        <Label className="text-base" htmlFor="minutesAmount">
+          Minutes:
+        </Label>
         <Input
           type="text"
           inputMode="numeric"
@@ -62,9 +67,8 @@ export function NewCycleForm() {
           onChange={(e) => handleMinutesAmountChange(e.target.value)}
           onBlur={handleMinutesAmountBlur}
           disabled={!!activeCycle}
-          className="w-16"
+          className="w-16 text-foreground"
         />
-        <span>minutes.</span>
       </div>
     </div>
   );

@@ -13,6 +13,10 @@ export default {
           from: { backgroundPosition: "200% 0" },
           to: { backgroundPosition: "-200% 0" },
         },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-45deg)" },
+          "50%": { transform: "rotate(45deg)" },
+        },
       },
       animation: {
         shine: "shine 8s ease-in-out infinite",
@@ -23,6 +27,7 @@ export default {
         open: ["var(--font-open)"],
         montserrat: ["var(--font-montserrat)"],
         delius: ["var(--font-delius)"],
+        countdown: ["var(--font-countdown)"],
       },
       borderRadius: {
         lg: "var(--radius)",

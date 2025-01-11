@@ -95,6 +95,11 @@ export default function ProfileTab() {
     }
   };
 
+  const handleSignOut = () => {
+    signOut();
+    localStorage.removeItem("dataMigrationComplete");
+  };
+
   if (session) {
     return (
       <main className="h-screen min-w-full">
@@ -205,7 +210,7 @@ export default function ProfileTab() {
               </Label>
               <Button
                 className="flex justify-around gap-1"
-                onClick={() => signOut()}
+                onClick={() => handleSignOut()}
               >
                 Sign Out
                 <SignOut size={19} />
