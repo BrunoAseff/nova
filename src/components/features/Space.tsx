@@ -22,6 +22,7 @@ import BreathingExercise from "./breathingExercise/BreathingExercise";
 import Reminder from "./Reminder";
 import SyncingInfo from "../syncingInfo";
 import { SpaceSidebarMobile } from "../sidebar/SpaceSidebarMobile";
+import { CyclesContextProvider } from "@/contexts/cycleContext";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -187,7 +188,10 @@ export default function Space() {
             </div>
             <div className="relative z-10">
               <Clock {...space.clock} />
-              <Pomodoro {...space.pomodoro} />
+              <CyclesContextProvider>
+                <Pomodoro {...space.pomodoro} />
+              </CyclesContextProvider>
+
               <Quote {...space.quote} />
               <BreathingExercise {...space.breathingExercise} />
               <Reminder {...space.reminder} />
