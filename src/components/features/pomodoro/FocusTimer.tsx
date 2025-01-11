@@ -88,7 +88,7 @@ export default function FocusTimer() {
         onSubmit={onSubmit(handleCreateNewCycle)}
       >
         <motion.div
-          className="text-md flex min-h-[320px] flex-col items-center rounded-3xl text-center font-open font-medium text-muted-foreground"
+          className="text-md flex min-h-[260px] flex-col items-center rounded-3xl text-center font-open font-medium text-muted-foreground"
           key={currentTab}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -101,7 +101,7 @@ export default function FocusTimer() {
             </FormProvider>
           )}
 
-          <div className="font-inter text-md flex min-h-12 w-full items-center justify-center md:min-h-14">
+          <div className="font-inter text-md flex w-full items-center justify-center">
             {activeCycle && currentTab === "Focus" && (
               <div className="flex flex-col items-center gap-1">
                 <div className="flex w-fit items-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">
@@ -143,12 +143,12 @@ export default function FocusTimer() {
               )}
           </div>
 
-          <div className="mb-auto mt-auto">
+          <div className="mt-[2rem]">
             <Countdown />
             {activeCycle && (
               <LinkBtn
                 onClick={skipSession}
-                className="mt-3 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
+                className="mb-[2rem] mt-3 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
               >
                 Skip session
               </LinkBtn>
@@ -185,14 +185,14 @@ export default function FocusTimer() {
                   </IconBtn>
                 </div>
 
-                <div className="relative left-[70%] hidden -translate-x-1/2 md:block">
+                <div className="relative left-[65%] hidden -translate-x-1/2 md:block">
                   <InfoCard />
                 </div>
               </>
             ) : (
-              <div className="m-auto flex">
+              <div className="flex">
                 <Button
-                  className="flex gap-2"
+                  className="mt-[2rem] flex gap-2"
                   variant="default"
                   onClick={falsePause}
                   disabled={isSubmitDisabled}

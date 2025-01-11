@@ -1,9 +1,9 @@
 import "@/styles/globals.css";
 import {
   Montserrat_Alternates,
-  Inter,
   Open_Sans,
   Delius_Swash_Caps,
+  Inter,
 } from "next/font/google";
 import { type Metadata } from "next";
 import { SpacesProvider } from "@/contexts/spaceContext";
@@ -42,13 +42,19 @@ const delius = Delius_Swash_Caps({
   variable: "--font-delius",
 });
 
+const countdown = Inter({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  variable: "--font-countdown",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${montserrat.variable} ${delius.className} ${openSans.variable} ${montserrat.className}`}
+      className={`${inter.variable} ${montserrat.variable} ${delius.className} ${openSans.variable} ${montserrat.className} ${countdown.variable}`}
     >
       <body>
         <ThemeProvider
