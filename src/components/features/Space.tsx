@@ -130,7 +130,7 @@ export default function Space() {
       <SyncingInfo />
       <Tabs
         defaultValue={spaces[1]?.id.toString()} // Focus is spaces[1]
-        className="relative m-0 h-screen w-full overflow-hidden p-0 font-sans"
+        className="relative m-0 h-dvh w-full overflow-hidden p-0 font-sans"
         aria-label="Space selection tabs"
       >
         <TabsList className="absolute bottom-6 left-8 z-10 md:bottom-10 md:left-auto md:right-28">
@@ -206,7 +206,7 @@ export default function Space() {
             aria-labelledby="config"
             aria-label="Open config"
             onClick={() => setOpen(true)}
-            className="absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex"
+            className="absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex md:p-5"
           >
             <AnimatedConfig />
           </Button>
