@@ -1,71 +1,73 @@
-import { settings } from "@/contexts/settings";
-import type { ReminderMessage } from "@/types";
+import { settings as defaultSettings } from "@/contexts/settings";
+import { getUserSettings } from "../getUserSettings";
 
-export const fetchSpacesData = async () => {
-  const fetchBackendSpaces = async () => {
-    return null;
-  };
-
+export const fetchSpacesData = async ({
+  userId,
+}: {
+  userId: string | undefined;
+}) => {
   try {
-    const backendData = await fetchBackendSpaces();
-    if (backendData) return backendData;
+    // Initialize with default settings
+    // eslint-disable-next-line prefer-const
+    let finalSettings = {
+      spaces: defaultSettings.spaces,
+      shortcut: defaultSettings.shortcut,
+      ambientSound: defaultSettings.ambientSound,
+      reminderMessages: [],
+    };
 
-    // Fetch spaces from local storage
+    // Try to get localStorage values
     const localSpacesData = localStorage.getItem("spaces");
-    const localShortcut = localStorage.getItem("shortcut") ?? settings.shortcut;
+    const localShortcut = localStorage.getItem("shortcut");
     const localReminderMessagesRaw = localStorage.getItem("reminderMessages");
-    const localAmbientSound =
-      localStorage.getItem("ambientSound") ?? settings.ambientSound;
-    const localAmbientSoundVolume = localStorage.getItem("ambientSoundVolume")
-      ? parseInt(localStorage.getItem("ambientSoundVolume")!, 10)
-      : settings.ambientSoundVolume;
+    const localAmbientSound = localStorage.getItem("ambientSound");
 
-    // Parse reminder messages safely
-    const localReminderMessages: ReminderMessage[] = localReminderMessagesRaw
-      ? JSON.parse(localReminderMessagesRaw)
-      : [];
-
+    // Override defaults with localStorage values if they exist
     if (localSpacesData) {
-      const parsedSpacesData = JSON.parse(localSpacesData);
-      const reconstructedSpaces = parsedSpacesData.map((space: any) => {
-        // Find the corresponding default space from settings by ID
-        const defaultSpace = settings.spaces.find((s) => s.id === space.id);
-
+      const parsedSpaces = JSON.parse(localSpacesData);
+      finalSettings.spaces = parsedSpaces.map((space: any) => {
+        const defaultSpace = defaultSettings.spaces.find(
+          (s) => s.id === space.id,
+        );
         if (!defaultSpace) {
           console.warn(`No default space found for ID ${space.id}`);
           return space;
         }
-
         return {
-          ...defaultSpace, // Get all default settings including the icon
-          ...space, // Override with stored settings
-          icon: defaultSpace.icon, // Ensure we use the icon from settings
+          ...defaultSpace,
+          ...space,
+          icon: defaultSpace.icon,
         };
       });
-
-      return {
-        spaces: reconstructedSpaces,
-        shortcut: localShortcut,
-        ambientSound: localAmbientSound,
-        ambientSoundVolume: localAmbientSoundVolume,
-        reminderMessages: localReminderMessages,
-      };
     }
 
-    return {
-      spaces: settings.spaces,
-      shortcut: settings.shortcut,
-      ambientSound: settings.ambientSound,
-      ambientSoundVolume: settings.ambientSoundVolume,
-      reminderMessages: [],
-    };
+    if (localShortcut) finalSettings.shortcut = localShortcut;
+    if (localAmbientSound) finalSettings.ambientSound = localAmbientSound;
+    if (localReminderMessagesRaw) {
+      finalSettings.reminderMessages = JSON.parse(localReminderMessagesRaw);
+    }
+
+    // If we have a userId, get database values
+    if (userId) {
+      const dbSettings = await getUserSettings(userId);
+
+      // Override with database values where they exist
+      if (dbSettings.spaces) finalSettings.spaces = dbSettings.spaces;
+      if (dbSettings.shortcut) finalSettings.shortcut = dbSettings.shortcut;
+      if (dbSettings.ambientSound)
+        finalSettings.ambientSound = dbSettings.ambientSound;
+      if (dbSettings.reminderMessages)
+        finalSettings.reminderMessages = dbSettings.reminderMessages;
+    }
+
+    return finalSettings;
   } catch (error) {
     console.error("Error fetching spaces data:", error);
+    // Fall back to defaults if everything fails
     return {
-      spaces: settings.spaces,
-      shortcut: settings.shortcut,
-      ambientSound: settings.ambientSound,
-      ambientSoundVolume: settings.ambientSoundVolume,
+      spaces: defaultSettings.spaces,
+      shortcut: defaultSettings.shortcut,
+      ambientSound: defaultSettings.ambientSound,
       reminderMessages: [],
     };
   }

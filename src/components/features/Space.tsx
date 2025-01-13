@@ -23,6 +23,7 @@ import Reminder from "./Reminder";
 import SyncingInfo from "../syncingInfo";
 import { SpaceSidebarMobile } from "../sidebar/SpaceSidebarMobile";
 import { CyclesContextProvider } from "@/contexts/cycleContext";
+import { useSession } from "next-auth/react";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -40,39 +41,27 @@ export default function Space() {
     spaces,
     setSpaces,
     setShortcut,
-    setAmbientSoundVolume,
     setAmbientSound,
     setReminderMessages,
   } = useSpacesContext();
   const { setOpen } = useSidebar();
   const [sidebarShortcut, setSidebarShortcut] = useState("⌘B");
   const { isSelectOpen, lastSelectCloseTime } = useInteractionLock();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchSpaces = async () => {
-      const {
-        spaces,
-        shortcut,
-        ambientSound,
-        ambientSoundVolume,
-        reminderMessages,
-      } = await fetchSpacesData();
+      const { spaces, shortcut, ambientSound, reminderMessages } =
+        await fetchSpacesData({ userId: session?.user?.id });
 
       setSpaces(spaces);
       setShortcut(shortcut);
       setAmbientSound(ambientSound);
-      setAmbientSoundVolume(ambientSoundVolume);
       setReminderMessages(reminderMessages);
     };
 
     fetchSpaces();
-  }, [
-    setSpaces,
-    setAmbientSound,
-    setAmbientSoundVolume,
-    setShortcut,
-    setReminderMessages,
-  ]);
+  }, [session, setSpaces, setShortcut, setAmbientSound, setReminderMessages]);
 
   const closeSidebar = useCallback(() => {
     setOpen(false);
