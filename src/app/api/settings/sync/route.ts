@@ -182,49 +182,14 @@ async function handleReminderChange(userId: string, change: Change) {
 
   switch (action) {
     case "create": {
-      const reminderData = value as {
-        text?: string;
-        message?: string;
-        type?: string;
-      };
-      await prisma.reminder.create({
-        data: {
-          settingsId: settings.id,
-          message: reminderData.text ?? reminderData.message ?? "", // Ensure message is always a string
-          type: reminderData.type,
-        },
-      });
-      break;
+      console.log(value);
     }
 
     case "update": {
-      const reminderData = value as {
-        id: string;
-        text?: string;
-        message?: string;
-        type?: string;
-      };
-      if (!reminderData.id) {
-        throw new Error("Reminder ID is required for update");
-      }
-
-      // Only update fields that were provided
-      const updateData: { message?: string; type?: string } = {};
-      if (reminderData.text !== undefined) {
-        updateData.message = reminderData.text;
-      } else if (reminderData.message !== undefined) {
-        updateData.message = reminderData.message;
-      }
-
-      if (reminderData.type !== undefined) {
-        updateData.type = reminderData.type;
-      }
-
-      await prisma.reminder.update({
-        where: { id: reminderData.id },
-        data: updateData,
-      });
-      break;
+      console.log(value);
+    }
+    case "delete": {
+      console.log(value);
     }
   }
 }
