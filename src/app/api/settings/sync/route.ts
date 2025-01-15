@@ -64,7 +64,6 @@ export async function POST(req: Request) {
 
 async function handleSpaceChange(userId: string, change: Change) {
   const { spaceId, property, value } = change;
-  console.log("Handling space change:", { userId, spaceId, property, value });
 
   const settings = await prisma.settings.findUnique({
     where: { userId },
@@ -81,21 +80,21 @@ async function handleSpaceChange(userId: string, change: Change) {
     throw new Error("Space not found");
   }
 
-  if (property === "pomodoro") {
-    // Map the nested pomodoro object to the flat database structure
-    const pomodoroValue = value as {
-      isHidden: boolean;
-      shortBreakDuration: number;
-      longBreakDuration: number;
-      autoStart: boolean;
-      alarmSound: boolean;
-      alarmSoundURL: string;
-      alarmRepeatTimes: number;
-    };
+  let updateData = {};
 
-    await prisma.space.update({
-      where: { id: space.id },
-      data: {
+  switch (property) {
+    case "pomodoro":
+      const pomodoroValue = value as {
+        isHidden: boolean;
+        shortBreakDuration: number;
+        longBreakDuration: number;
+        autoStart: boolean;
+        alarmSound: boolean;
+        alarmSoundURL: string;
+        alarmRepeatTimes: number;
+      };
+
+      updateData = {
         pomodoroIsHidden: pomodoroValue.isHidden,
         shortBreakDuration: pomodoroValue.shortBreakDuration,
         longBreakDuration: pomodoroValue.longBreakDuration,
@@ -103,16 +102,71 @@ async function handleSpaceChange(userId: string, change: Change) {
         alarmSound: pomodoroValue.alarmSound,
         alarmSoundURL: pomodoroValue.alarmSoundURL,
         alarmRepeatTimes: pomodoroValue.alarmRepeatTimes,
-      },
-    });
-  } else {
-    await prisma.space.update({
-      where: { id: space.id },
-      data: {
+      };
+      break;
+
+    case "clock":
+      const clockValue = value as {
+        isHidden: boolean;
+        position: string;
+        timeFormat: string;
+      };
+
+      updateData = {
+        clockIsHidden: clockValue.isHidden,
+        clockPosition: clockValue.position,
+        clockTimeFormat: clockValue.timeFormat,
+      };
+      break;
+
+    case "breathingExercise":
+      const breathingValue = value as {
+        isHidden: boolean;
+        technique: string;
+      };
+
+      updateData = {
+        breathingIsHidden: breathingValue.isHidden,
+        breathingTechnique: breathingValue.technique,
+      };
+      break;
+
+    case "reminder":
+      const reminderValue = value as {
+        isHidden: boolean;
+        position: string;
+      };
+
+      updateData = {
+        reminderIsHidden: reminderValue.isHidden,
+        reminderPosition: reminderValue.position,
+      };
+      break;
+
+    case "quote":
+      const quoteValue = value as {
+        isHidden: boolean;
+        position: string;
+      };
+
+      updateData = {
+        quoteIsHidden: quoteValue.isHidden,
+        quotePosition: quoteValue.position,
+      };
+      break;
+
+    default:
+      updateData = {
         [property!]: value,
-      },
-    });
+      };
   }
+
+  console.log("Updating space with data:", updateData);
+
+  await prisma.space.update({
+    where: { id: space.id },
+    data: updateData,
+  });
 }
 
 async function handleReminderChange(userId: string, change: Change) {
@@ -127,35 +181,53 @@ async function handleReminderChange(userId: string, change: Change) {
   const { action, value } = change;
 
   switch (action) {
-    case "create":
+    case "create": {
+      const reminderData = value as {
+        text?: string;
+        message?: string;
+        type?: string;
+      };
       await prisma.reminder.create({
         data: {
           settingsId: settings.id,
-          message: (value as { text: string }).text,
-          type: (value as { type?: string }).type,
+          message: reminderData.text ?? reminderData.message ?? "", // Ensure message is always a string
+          type: reminderData.type,
         },
       });
       break;
+    }
 
-    case "update":
-      const updateData = value as { id: string; text?: string; type?: string };
+    case "update": {
+      const reminderData = value as {
+        id: string;
+        text?: string;
+        message?: string;
+        type?: string;
+      };
+      if (!reminderData.id) {
+        throw new Error("Reminder ID is required for update");
+      }
+
+      // Only update fields that were provided
+      const updateData: { message?: string; type?: string } = {};
+      if (reminderData.text !== undefined) {
+        updateData.message = reminderData.text;
+      } else if (reminderData.message !== undefined) {
+        updateData.message = reminderData.message;
+      }
+
+      if (reminderData.type !== undefined) {
+        updateData.type = reminderData.type;
+      }
+
       await prisma.reminder.update({
-        where: { id: updateData.id },
-        data: {
-          ...(updateData.text && { message: updateData.text }),
-          ...(updateData.type && { type: updateData.type }),
-        },
+        where: { id: reminderData.id },
+        data: updateData,
       });
       break;
-
-    case "delete":
-      await prisma.reminder.delete({
-        where: { id: (value as { id: string }).id },
-      });
-      break;
+    }
   }
 }
-
 async function handleShortcutChange(userId: string, change: Change) {
   await prisma.settings.update({
     where: { userId },

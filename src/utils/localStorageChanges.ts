@@ -1,4 +1,3 @@
-// utils/localStorageChanges.ts
 import type { Change, ChangeAction, Changes } from "@/types/changes";
 
 const CHANGES_STORAGE_KEY = "nova-changes";
@@ -22,7 +21,6 @@ function addChange(change: Omit<Change, "id" | "timestamp">) {
     timestamp: Date.now(),
   };
 
-  // Remove existing changes for the same property/space combination
   changes.pending = changes.pending.filter(
     (existingChange) =>
       !(
