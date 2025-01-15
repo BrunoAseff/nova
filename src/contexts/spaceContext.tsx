@@ -16,6 +16,12 @@ import {
 } from "@/utils/localStorage";
 import type { SpaceContextValue } from "@/types/settings";
 import { settings } from "./settings";
+import {
+  updateAmbientSoundLocalStorageChanges,
+  updateReminderLocalStorageChanges,
+  updateShortcutLocalStorageChanges,
+  updateSpaceLocalStorageChanges,
+} from "@/utils/localStorageChanges";
 
 const SpacesContext = createContext({} as SpaceContextValue);
 
@@ -77,7 +83,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     (soundUrl: string) => {
       setAmbientSound(soundUrl);
       updateAmbientSoundLocalStorage(soundUrl);
-
+      updateAmbientSoundLocalStorageChanges(soundUrl);
       if (isAmbientSoundPlaying) {
         if (ambientAudioRef.current) {
           ambientAudioRef.current.src = soundUrl;
@@ -110,6 +116,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const updateShortcut = useCallback((newShortcut: ShortcutName) => {
     setShortcut(newShortcut);
     updateShortcutLocalStorage(newShortcut);
+    updateShortcutLocalStorageChanges(newShortcut);
   }, []);
 
   const updateReminder = useCallback(
@@ -117,6 +124,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
       const updatedReminders = [...reminderMessages, newReminder];
       setReminderMessages(updatedReminders);
       updateReminderMessagesLocalStorage(updatedReminders);
+      updateReminderLocalStorageChanges("create", newReminder);
     },
     [reminderMessages],
   );
@@ -128,6 +136,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
       );
       setReminderMessages(updatedReminders);
       updateReminderMessagesLocalStorage(updatedReminders);
+      updateReminderLocalStorageChanges("delete", { id });
     },
     [reminderMessages],
   );
@@ -139,6 +148,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
       );
       setReminderMessages(updatedReminders);
       updateReminderMessagesLocalStorage(updatedReminders);
+      updateReminderLocalStorageChanges("update", { id, type: newType });
     },
     [reminderMessages],
   );
@@ -150,6 +160,7 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
       );
       setReminderMessages(updatedReminders);
       updateReminderMessagesLocalStorage(updatedReminders);
+      updateReminderLocalStorageChanges("update", { id, text: newText });
     },
     [reminderMessages],
   );
@@ -167,25 +178,22 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   }
 
   function updateSpaceProperty(
-    spaceId: number, // Changed from spaceName to spaceId
+    spaceId: number,
     propertyName: keyof Space,
     value: any,
   ) {
+    if (propertyName === "icon") {
+      console.warn("Icon property should not be directly modified");
+      return;
+    }
+
     modifySpaces((space) => {
       if (space.id === spaceId) {
-        // Don't update the icon if that's the property being changed
-        if (propertyName === "icon") {
-          console.warn("Icon property should not be directly modified");
-          return space;
-        }
+        updateSpaceLocalStorageChanges(spaceId, propertyName, value);
         return { ...space, [propertyName]: value };
       }
       return space;
     });
-  }
-
-  function updateSpaceSharedProperty(propertyName: "isHidden", value: boolean) {
-    modifySpaces((space) => ({ ...space, [propertyName]: value }));
   }
 
   function initializeAudio(url: string, onEndCallback: () => void) {
@@ -242,7 +250,6 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
     selectedTab,
     selectTab,
     updateSpaceProperty,
-    updateSpaceSharedProperty,
     playPomodoroAlarm,
     stopPomodoroAlarm,
     isAlarmPlaying,

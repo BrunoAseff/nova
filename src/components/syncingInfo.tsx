@@ -23,7 +23,7 @@ export default function SyncingInfo() {
 
       setStatus("syncing");
       try {
-        const localData = await fetchSpacesData();
+        const localData = await fetchSpacesData({ userId: session?.user?.id });
         console.log(localData);
         await migrateLocalStorageToDatabase(session?.user?.id ?? "", localData);
 

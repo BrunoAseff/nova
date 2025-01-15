@@ -23,6 +23,8 @@ import Reminder from "./Reminder";
 import SyncingInfo from "../syncingInfo";
 import { SpaceSidebarMobile } from "../sidebar/SpaceSidebarMobile";
 import { CyclesContextProvider } from "@/contexts/cycleContext";
+import { useSession } from "next-auth/react";
+import { AutoSaveProvider } from "../autoSaveProvider";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -40,39 +42,27 @@ export default function Space() {
     spaces,
     setSpaces,
     setShortcut,
-    setAmbientSoundVolume,
     setAmbientSound,
     setReminderMessages,
   } = useSpacesContext();
   const { setOpen } = useSidebar();
   const [sidebarShortcut, setSidebarShortcut] = useState("⌘B");
   const { isSelectOpen, lastSelectCloseTime } = useInteractionLock();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchSpaces = async () => {
-      const {
-        spaces,
-        shortcut,
-        ambientSound,
-        ambientSoundVolume,
-        reminderMessages,
-      } = await fetchSpacesData();
+      const { spaces, shortcut, ambientSound, reminderMessages } =
+        await fetchSpacesData({ userId: session?.user?.id });
 
       setSpaces(spaces);
       setShortcut(shortcut);
       setAmbientSound(ambientSound);
-      setAmbientSoundVolume(ambientSoundVolume);
       setReminderMessages(reminderMessages);
     };
 
     fetchSpaces();
-  }, [
-    setSpaces,
-    setAmbientSound,
-    setAmbientSoundVolume,
-    setShortcut,
-    setReminderMessages,
-  ]);
+  }, [session, setSpaces, setShortcut, setAmbientSound, setReminderMessages]);
 
   const closeSidebar = useCallback(() => {
     setOpen(false);
@@ -125,103 +115,111 @@ export default function Space() {
   }, [closeSidebar, isSelectOpen, lastSelectCloseTime]);
 
   return (
-    <TooltipProvider>
-      <Shortcut />
-      <SyncingInfo />
-      <Tabs
-        defaultValue={spaces[1]?.id.toString()} // Focus is spaces[1]
-        className="relative m-0 h-dvh w-full overflow-hidden p-0 font-sans"
-        aria-label="Space selection tabs"
-      >
-        <TabsList className="absolute bottom-6 left-8 z-10 md:bottom-10 md:left-auto md:right-28">
-          {spaces.map((space) => (
-            <TabsTrigger
-              // Only use name in display areas
-              aria-label={space.name}
-              aria-labelledby="tooltip"
-              onClick={() => selectTab(space.id)}
-              className="hover:bg-accent-foreground hover:text-foreground"
-              key={space.id}
-              value={space.id.toString()} // Convert ID to string for Tabs value
-            >
-              <Tooltip delayDuration={200}>
-                <TooltipTrigger asChild>
-                  <span>{space.icon}</span>
-                </TooltipTrigger>
-                <TooltipContent id="tooltip" className="font-inter font-medium">
-                  {space.name}
-                </TooltipContent>
-              </Tooltip>
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        {spaces.map((space) => (
-          <TabsContent
-            className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
-            key={space.id}
-            value={space.id.toString()} // Match the TabsTrigger value
-          >
-            <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
-
-            {space.id === 2 && (
-              <link
-                rel="preload"
-                as="image"
-                href={space.background}
-                key={space.id}
-              />
-            )}
-
-            <div className="absolute inset-0 z-0">
-              <Image
-                src={space.background}
-                alt={space.name}
-                fill
-                className="object-cover brightness-75"
-                placeholder="blur"
-                blurDataURL="/blur/blurBackground.png"
-                priority={space.id === 2}
-                sizes="100vw"
-                quality={100}
-                loading={space.id === 2 ? "eager" : "lazy"}
-              />
-            </div>
-            <div className="relative z-10">
-              <Clock {...space.clock} />
-              <CyclesContextProvider>
-                <Pomodoro {...space.pomodoro} />
-              </CyclesContextProvider>
-
-              <Quote {...space.quote} />
-              <BreathingExercise {...space.breathingExercise} />
-              <Reminder {...space.reminder} />
-            </div>
-          </TabsContent>
-        ))}
-      </Tabs>
-      <Tooltip delayDuration={0}>
-        <TooltipTrigger asChild>
-          <Button
-            size="icon"
-            aria-labelledby="config"
-            aria-label="Open config"
-            onClick={() => setOpen(true)}
-            className="absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex md:p-5"
-          >
-            <AnimatedConfig />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent
-          id="config"
-          className="font-inter flex items-center gap-3 font-medium"
+    <AutoSaveProvider userId={session?.user?.id}>
+      <TooltipProvider>
+        <Shortcut />
+        <SyncingInfo />
+        <Tabs
+          defaultValue={spaces[1]?.id.toString()} // Focus is spaces[1]
+          className="relative m-0 h-dvh w-full overflow-hidden p-0 font-sans"
+          aria-label="Space selection tabs"
         >
-          Config
-          <p className="rounded-xl text-xs tracking-widest text-secondary">
-            {sidebarShortcut}
-          </p>
-        </TooltipContent>
-      </Tooltip>
-      <SpaceSidebarMobile />
-    </TooltipProvider>
+          <TabsList className="absolute bottom-6 left-8 z-10 md:bottom-10 md:left-auto md:right-28">
+            {[...spaces]
+              .sort((a, b) => a.id - b.id)
+              .map((space) => (
+                <TabsTrigger
+                  aria-label={space.name}
+                  aria-labelledby="tooltip"
+                  onClick={() => selectTab(space.id)}
+                  className="hover:bg-accent-foreground hover:text-foreground"
+                  key={space.id}
+                  value={space.id.toString()}
+                >
+                  <Tooltip delayDuration={200}>
+                    <TooltipTrigger asChild>
+                      <span>{space.icon}</span>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      id="tooltip"
+                      className="font-inter font-medium"
+                    >
+                      {space.name}
+                    </TooltipContent>
+                  </Tooltip>
+                </TabsTrigger>
+              ))}
+          </TabsList>
+          {[...spaces]
+            .sort((a, b) => a.id - b.id)
+            .map((space) => (
+              <TabsContent
+                className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
+                key={space.id}
+                value={space.id.toString()} // Match the TabsTrigger value
+              >
+                <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
+
+                {space.id === 2 && (
+                  <link
+                    rel="preload"
+                    as="image"
+                    href={space.background}
+                    key={space.id}
+                  />
+                )}
+
+                <div className="absolute inset-0 z-0">
+                  <Image
+                    src={space.background}
+                    alt={space.name}
+                    fill
+                    className="object-cover brightness-75"
+                    placeholder="blur"
+                    blurDataURL="/blur/blurBackground.png"
+                    priority={space.id === 2}
+                    sizes="100vw"
+                    quality={100}
+                    loading={space.id === 2 ? "eager" : "lazy"}
+                  />
+                </div>
+                <div className="relative z-10">
+                  <Clock {...space.clock} />
+                  <CyclesContextProvider>
+                    <Pomodoro {...space.pomodoro} />
+                  </CyclesContextProvider>
+
+                  <Quote {...space.quote} />
+                  <BreathingExercise {...space.breathingExercise} />
+                  <Reminder {...space.reminder} />
+                </div>
+              </TabsContent>
+            ))}
+        </Tabs>
+        <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <Button
+              size="icon"
+              aria-labelledby="config"
+              aria-label="Open config"
+              onClick={() => setOpen(true)}
+              className="absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex md:p-5"
+            >
+              <AnimatedConfig />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent
+            id="config"
+            className="font-inter flex items-center gap-3 font-medium"
+          >
+            Config
+            <p className="rounded-xl text-xs tracking-widest text-secondary">
+              {sidebarShortcut}
+            </p>
+          </TooltipContent>
+        </Tooltip>
+        <SpaceSidebarMobile />
+      </TooltipProvider>
+    </AutoSaveProvider>
   );
 }
