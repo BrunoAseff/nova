@@ -9,7 +9,6 @@ export interface SpaceContextValue {
     propertyName: keyof Space,
     value: any,
   ) => void;
-  updateSpaceSharedProperty: (propertyName: "isHidden", value: boolean) => void;
   playPomodoroAlarm: () => Promise<void>;
   stopPomodoroAlarm: ({ currentSpace }: { currentSpace: Space }) => void;
   isAlarmPlaying: boolean;
