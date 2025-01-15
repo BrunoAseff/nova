@@ -125,73 +125,76 @@ export default function Space() {
           aria-label="Space selection tabs"
         >
           <TabsList className="absolute bottom-6 left-8 z-10 md:bottom-10 md:left-auto md:right-28">
-            {spaces.map((space) => (
-              <TabsTrigger
-                // Only use name in display areas
-                aria-label={space.name}
-                aria-labelledby="tooltip"
-                onClick={() => selectTab(space.id)}
-                className="hover:bg-accent-foreground hover:text-foreground"
-                key={space.id}
-                value={space.id.toString()} // Convert ID to string for Tabs value
-              >
-                <Tooltip delayDuration={200}>
-                  <TooltipTrigger asChild>
-                    <span>{space.icon}</span>
-                  </TooltipTrigger>
-                  <TooltipContent
-                    id="tooltip"
-                    className="font-inter font-medium"
-                  >
-                    {space.name}
-                  </TooltipContent>
-                </Tooltip>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {spaces.map((space) => (
-            <TabsContent
-              className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
-              key={space.id}
-              value={space.id.toString()} // Match the TabsTrigger value
-            >
-              <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
-
-              {space.id === 2 && (
-                <link
-                  rel="preload"
-                  as="image"
-                  href={space.background}
+            {[...spaces]
+              .sort((a, b) => a.id - b.id)
+              .map((space) => (
+                <TabsTrigger
+                  aria-label={space.name}
+                  aria-labelledby="tooltip"
+                  onClick={() => selectTab(space.id)}
+                  className="hover:bg-accent-foreground hover:text-foreground"
                   key={space.id}
-                />
-              )}
+                  value={space.id.toString()}
+                >
+                  <Tooltip delayDuration={200}>
+                    <TooltipTrigger asChild>
+                      <span>{space.icon}</span>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      id="tooltip"
+                      className="font-inter font-medium"
+                    >
+                      {space.name}
+                    </TooltipContent>
+                  </Tooltip>
+                </TabsTrigger>
+              ))}
+          </TabsList>
+          {[...spaces]
+            .sort((a, b) => a.id - b.id)
+            .map((space) => (
+              <TabsContent
+                className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
+                key={space.id}
+                value={space.id.toString()} // Match the TabsTrigger value
+              >
+                <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
 
-              <div className="absolute inset-0 z-0">
-                <Image
-                  src={space.background}
-                  alt={space.name}
-                  fill
-                  className="object-cover brightness-75"
-                  placeholder="blur"
-                  blurDataURL="/blur/blurBackground.png"
-                  priority={space.id === 2}
-                  sizes="100vw"
-                  quality={100}
-                  loading={space.id === 2 ? "eager" : "lazy"}
-                />
-              </div>
-              <div className="relative z-10">
-                <Clock {...space.clock} />
-                <CyclesContextProvider>
-                  <Pomodoro {...space.pomodoro} />
-                </CyclesContextProvider>
+                {space.id === 2 && (
+                  <link
+                    rel="preload"
+                    as="image"
+                    href={space.background}
+                    key={space.id}
+                  />
+                )}
 
-                <Quote {...space.quote} />
-                <BreathingExercise {...space.breathingExercise} />
-                <Reminder {...space.reminder} />
-              </div>
-            </TabsContent>
-          ))}
+                <div className="absolute inset-0 z-0">
+                  <Image
+                    src={space.background}
+                    alt={space.name}
+                    fill
+                    className="object-cover brightness-75"
+                    placeholder="blur"
+                    blurDataURL="/blur/blurBackground.png"
+                    priority={space.id === 2}
+                    sizes="100vw"
+                    quality={100}
+                    loading={space.id === 2 ? "eager" : "lazy"}
+                  />
+                </div>
+                <div className="relative z-10">
+                  <Clock {...space.clock} />
+                  <CyclesContextProvider>
+                    <Pomodoro {...space.pomodoro} />
+                  </CyclesContextProvider>
+
+                  <Quote {...space.quote} />
+                  <BreathingExercise {...space.breathingExercise} />
+                  <Reminder {...space.reminder} />
+                </div>
+              </TabsContent>
+            ))}
         </Tabs>
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>

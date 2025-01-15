@@ -1,14 +1,14 @@
-// lib/useAutoSave.ts
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { getChanges, removeChange } from "@/utils/localStorageChanges";
 import type { Change } from "@/types/changes";
+import type { SyncStatus } from "@/components/autoSaveProvider";
 
 const SYNC_INTERVAL = 3000;
 
 export function useAutoSave(userId?: string) {
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [syncStatus, setSyncStatus] = useState<SyncStatus>("idle");
 
-  // Only add changes if we have a userId
   const addChange = useCallback(
     (change: Omit<Change, "id" | "timestamp">) => {
       if (!userId) return;
@@ -21,7 +21,6 @@ export function useAutoSave(userId?: string) {
 
       const changes = getChanges();
 
-      // Remove existing changes for the same property/space combination
       changes.pending = changes.pending.filter(
         (existingChange) =>
           !(
@@ -41,10 +40,13 @@ export function useAutoSave(userId?: string) {
     if (!userId) return;
 
     const changes = getChanges();
-
-    if (changes.pending.length === 0) return;
+    if (changes.pending.length === 0) {
+      setSyncStatus("idle");
+      return;
+    }
 
     try {
+      setSyncStatus("saving");
       const payload = { changes: changes.pending };
 
       const response = await fetch("/api/settings/sync", {
@@ -56,12 +58,18 @@ export function useAutoSave(userId?: string) {
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Server response:", errorText);
+        setSyncStatus("error");
         throw new Error(`Sync failed: ${errorText}`);
       }
 
       const { processedChangeIds } = await response.json();
       processedChangeIds.forEach(removeChange);
+      setSyncStatus("saved");
+
+      // Reset to idle after a delay
+      setTimeout(() => setSyncStatus("idle"), 2000);
     } catch (error) {
+      setSyncStatus("error");
       console.error("Error syncing changes:", error);
     }
   }, [userId]);
@@ -91,5 +99,5 @@ export function useAutoSave(userId?: string) {
     return syncChanges();
   }, [userId, syncChanges]);
 
-  return { addChange, forceSyncNow };
+  return { addChange, forceSyncNow, syncStatus };
 }
