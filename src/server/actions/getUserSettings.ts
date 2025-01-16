@@ -1,19 +1,46 @@
 "use server";
-import { PrismaClient } from "@prisma/client";
 import { settings as defaultSettings } from "@/contexts/settings";
-
-const prisma = new PrismaClient();
+import { db } from "../db";
 
 export async function getUserSettings(userId: string) {
-  const dbSettings = await prisma.settings.findUnique({
+  const dbSettings = await db.settings.findUnique({
     where: { userId },
-    include: {
-      spaces: true,
-      reminders: true,
+    select: {
+      shortcut: true,
+      ambientSound: true,
+      spaces: {
+        select: {
+          clientId: true,
+          name: true,
+          clockIsHidden: true,
+          clockPosition: true,
+          clockTimeFormat: true,
+          pomodoroIsHidden: true,
+          shortBreakDuration: true,
+          longBreakDuration: true,
+          pomodoroAutoStart: true,
+          alarmSound: true,
+          alarmSoundURL: true,
+          alarmRepeatTimes: true,
+          breathingIsHidden: true,
+          breathingTechnique: true,
+          reminderIsHidden: true,
+          reminderPosition: true,
+          quoteIsHidden: true,
+          quotePosition: true,
+          background: true,
+        },
+      },
+      reminders: {
+        select: {
+          id: true,
+          message: true,
+          type: true,
+        },
+      },
     },
   });
 
-  // Transform and return only the data that exists in the database
   const settings: any = {};
 
   if (
