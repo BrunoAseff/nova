@@ -15,12 +15,7 @@ import PomodoroShortcut from "./PomodoroShortcut";
 import QuoteShortcut from "./QuoteShortcut";
 import ReminderShortcut from "./ReminderShortcut";
 import type { ShortcutName } from "@/types";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import {
   Alarm,
   HourglassHigh,
@@ -89,32 +84,30 @@ export default function Shortcut() {
   const ShortcutComponent = shortcutConfigs[shortcut].component;
 
   return (
-    <TooltipProvider>
-      <Tooltip delayDuration={200}>
-        <DropdownMenu>
-          <TooltipTrigger className="hidden md:flex" asChild>
-            <DropdownMenuTrigger asChild>
-              <Button
-                aria-label="Shortcut"
-                className="absolute bottom-10 right-[17.5rem] z-10 overflow-hidden rounded-xl bg-background p-5 text-sm text-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-secondary"
-                size="icon"
-              >
-                <div className="text-xl">
-                  <ShortcutIcon />
-                </div>
-              </Button>
-            </DropdownMenuTrigger>
-          </TooltipTrigger>
+    <Tooltip delayDuration={200}>
+      <DropdownMenu>
+        <TooltipTrigger className="hidden md:flex" asChild>
+          <DropdownMenuTrigger asChild>
+            <Button
+              aria-label="Shortcut"
+              className="absolute bottom-10 right-[17.5rem] z-10 overflow-hidden rounded-xl bg-background p-5 text-sm text-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-secondary"
+              size="icon"
+            >
+              <div className="text-xl">
+                <ShortcutIcon />
+              </div>
+            </Button>
+          </DropdownMenuTrigger>
+        </TooltipTrigger>
 
-          <DropdownMenuContent className="mb-6 min-h-[300px] min-w-[300px] p-4">
-            <ShortcutComponent />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <DropdownMenuContent className="mb-6 min-h-[300px] min-w-[300px] p-4">
+          <ShortcutComponent />
+        </DropdownMenuContent>
+      </DropdownMenu>
 
-        <TooltipContent className="font-inter flex items-center gap-3 font-medium">
-          Shortcut
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+      <TooltipContent className="font-inter flex items-center gap-3 font-medium">
+        Shortcut
+      </TooltipContent>
+    </Tooltip>
   );
 }

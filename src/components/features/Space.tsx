@@ -124,7 +124,7 @@ export default function Space() {
         <SyncingInfo />
         <Tabs
           ref={contentRef}
-          defaultValue={spaces[1]?.id.toString()} // Focus is spaces[1]
+          defaultValue="2"
           className="relative m-0 h-dvh w-full overflow-hidden p-0 font-sans"
           aria-label="Space selection tabs"
         >
