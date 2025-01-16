@@ -471,6 +471,13 @@
     @apply bg-background text-foreground;
     font-family: var(--font-montserrat);
   }
+
+  *:fullscreen .show-in-fullscreen,
+  *:-webkit-full-screen .show-in-fullscreen,
+  *:-moz-full-screen .show-in-fullscreen,
+  *:-ms-fullscreen .show-in-fullscreen {
+    display: flex !important;
+  }
 }
 
 ::-webkit-scrollbar {

@@ -96,7 +96,7 @@ export default function Shortcut() {
             <DropdownMenuTrigger asChild>
               <Button
                 aria-label="Shortcut"
-                className="absolute bottom-10 right-72 z-10 overflow-hidden rounded-xl bg-background p-5 text-sm text-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-secondary"
+                className="absolute bottom-10 right-[17.5rem] z-10 overflow-hidden rounded-xl bg-background p-5 text-sm text-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-secondary"
                 size="icon"
               >
                 <div className="text-xl">
