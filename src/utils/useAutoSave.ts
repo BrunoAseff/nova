@@ -4,7 +4,7 @@ import type { Change } from "@/types/changes";
 import type { SyncStatus } from "@/components/autoSaveProvider";
 import { getTimestamp } from "@/server/actions/getTimestamp";
 
-const SYNC_INTERVAL = 10000;
+const SYNC_INTERVAL = 5000;
 
 export function useAutoSave(userId?: string) {
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
