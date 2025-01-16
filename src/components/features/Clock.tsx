@@ -43,11 +43,11 @@ export default function Clock(props: ClockProps) {
   const positionClass = (): string => {
     switch (position) {
       case "top-left":
-        return "top-0 left-0 m-16";
+        return "top-0 left-0 m-2 md:m-16";
       case "top-right":
-        return "top-0 right-0 m-16";
+        return "top-0 right-0 m-2 md:m-16";
       case "bottom-left":
-        return "bottom-0 left-0 m-16";
+        return "bottom-0 left-0 m-2 md:m-16";
       case "center":
         return "top-1/2 scale-150 left-1/2 transform -translate-x-1/2 -translate-y-1/2";
       default:
@@ -63,9 +63,9 @@ export default function Clock(props: ClockProps) {
     <div
       className={`fixed ${positionClass()} flex items-center justify-center`}
     >
-      <div className="relative flex h-36 w-56 rounded-3xl bg-transparent p-1 font-montserrat">
+      <div className="relative flex h-28 w-48 rounded-3xl bg-transparent p-1 font-montserrat md:h-36 md:w-56">
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-5xl font-medium tabular-nums text-white">
+          <div className="text-3xl font-medium tabular-nums text-white md:text-5xl">
             {currentTime.split("").map((char, index) => (
               <span key={index} className="inline-block w-[1ch] text-center">
                 {char}
@@ -73,7 +73,7 @@ export default function Clock(props: ClockProps) {
             ))}
           </div>
         </div>
-        <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-1 text-center text-sm italic text-white/80">
+        <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-1 text-center text-xs italic text-white/80 md:text-sm">
           <ClockIcon />
           {timeMessage}
         </div>
