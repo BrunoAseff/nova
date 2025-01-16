@@ -26,7 +26,7 @@ import {
 import DangerBtn from "@/components/nova/buttons/DangerBtn";
 import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { changeUsername, deleteUserAccount } from "@/server/actions/user";
 import { z } from "zod";
 import PrimaryBtn from "@/components/nova/buttons/PrimaryBtn";
@@ -45,6 +45,7 @@ export default function ProfileTab() {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [usernameError, setUsernameError] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (session?.user?.name) {
@@ -52,6 +53,12 @@ export default function ProfileTab() {
       setNewUsername(session.user.name);
     }
   }, [session?.user?.name]);
+
+  useEffect(() => {
+    if (isEditingUsername !== null) {
+      inputRef.current?.focus();
+    }
+  }, [isEditingUsername]);
 
   const handleUsernameChange = async () => {
     try {
@@ -139,6 +146,7 @@ export default function ProfileTab() {
                       Username
                     </Label>
                     <Input
+                      ref={inputRef}
                       className="mb-2"
                       value={newUsername}
                       onChange={(e) => setNewUsername(e.target.value)}

@@ -14,7 +14,7 @@ import Quote from "./quotes/Quote";
 import { Button } from "../ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Shortcut from "../shortcuts/shortcut";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
 import { fetchSpacesData } from "@/server/actions/spaces/spaces";
@@ -25,6 +25,7 @@ import { SpaceSidebarMobile } from "../sidebar/SpaceSidebarMobile";
 import { CyclesContextProvider } from "@/contexts/cycleContext";
 import { useSession } from "next-auth/react";
 import { AutoSaveProvider } from "../autoSaveProvider";
+import FullscreenButton from "../FullScreenButton";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -49,6 +50,7 @@ export default function Space() {
   const [sidebarShortcut, setSidebarShortcut] = useState("⌘B");
   const { isSelectOpen, lastSelectCloseTime } = useInteractionLock();
   const { data: session } = useSession();
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchSpaces = async () => {
@@ -117,9 +119,11 @@ export default function Space() {
   return (
     <AutoSaveProvider userId={session?.user?.id}>
       <TooltipProvider>
+        <FullscreenButton contentRef={contentRef} />
         <Shortcut />
         <SyncingInfo />
         <Tabs
+          ref={contentRef}
           defaultValue={spaces[1]?.id.toString()} // Focus is spaces[1]
           className="relative m-0 h-dvh w-full overflow-hidden p-0 font-sans"
           aria-label="Space selection tabs"
@@ -203,7 +207,7 @@ export default function Space() {
               aria-labelledby="config"
               aria-label="Open config"
               onClick={() => setOpen(true)}
-              className="absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex md:p-5"
+              className="show-in-fullscreen absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex md:p-5"
             >
               <AnimatedConfig />
             </Button>
