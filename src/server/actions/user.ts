@@ -1,7 +1,6 @@
 "use server";
-import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+import { db } from "../db";
 
 /**
  * Deletes a user account and all related data.
@@ -16,7 +15,7 @@ const prisma = new PrismaClient();
  */
 export async function deleteUserAccount(userId: string): Promise<void> {
   try {
-    await prisma.$transaction(async (tx) => {
+    await db.$transaction(async (tx) => {
       // First get the settings ID for this user
       const userSettings = await tx.settings.findUnique({
         where: { userId },
@@ -75,7 +74,7 @@ export async function changeUsername(
   newUsername: string,
 ): Promise<void> {
   try {
-    await prisma.user.update({
+    await db.user.update({
       where: { id: userId },
       data: { name: newUsername },
     });
