@@ -3,7 +3,7 @@ import { getChanges, removeChange } from "@/utils/localStorageChanges";
 import type { Change } from "@/types/changes";
 import type { SyncStatus } from "@/components/autoSaveProvider";
 
-const SYNC_INTERVAL = 3000;
+const SYNC_INTERVAL = 10000;
 
 export function useAutoSave(userId?: string) {
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);

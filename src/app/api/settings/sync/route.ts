@@ -1,21 +1,17 @@
 import { NextResponse } from "next/server";
-import type { Change } from "@/types/changes";
-import { PrismaClient } from "@prisma/client";
+import type { Change, ChangeType } from "@/types/changes";
 import { authOptions } from "@/server/auth";
 import { getServerSession } from "next-auth";
-
-const prisma = new PrismaClient();
+import { db } from "@/server/db";
 
 export async function POST(req: Request) {
   try {
-    // Get user from session
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { changes } = await req.json();
-
     if (!changes?.length) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -23,31 +19,93 @@ export async function POST(req: Request) {
       );
     }
 
-    const processedChangeIds: string[] = [];
+    const groupedChanges = changes.reduce(
+      (acc: Record<ChangeType, Change[]>, change: Change) => {
+        if (!acc[change.type]) acc[change.type] = [];
+        acc[change.type].push(change);
+        return acc;
+      },
+      {} as Record<ChangeType, Change[]>,
+    );
 
-    // Process each change in sequence
-    for (const change of changes) {
-      try {
-        switch (change.type) {
-          case "space":
-            await handleSpaceChange(session.user.id, change);
-            break;
-          case "reminder":
-            await handleReminderChange(session.user.id, change);
-            break;
-          case "shortcut":
-            await handleShortcutChange(session.user.id, change);
-            break;
-          case "ambientSound":
-            await handleAmbientSoundChange(session.user.id, change);
-            break;
-        }
-        processedChangeIds.push(change.id);
-      } catch (error) {
-        console.error("Error details:", error);
-        throw error;
+    const processedChangeIds = await db.$transaction(async (tx) => {
+      const processedIds: string[] = [];
+
+      // Handle space changes in batch
+      if (groupedChanges.space) {
+        const settings = await tx.settings.findUnique({
+          where: { userId: session.user.id },
+          select: { spaces: { select: { id: true, clientId: true } } },
+        });
+
+        if (!settings) throw new Error("Settings not found");
+
+        // Process all space changes
+        await Promise.all(
+          groupedChanges.space.map(async (change: Change) => {
+            const space = settings.spaces.find(
+              (s) => s.clientId === change.spaceId,
+            );
+            if (!space) throw new Error(`Space not found: ${change.spaceId}`);
+
+            const updateData = createSpaceUpdateData(change);
+            await tx.space.update({
+              where: { id: space.id },
+              data: updateData,
+            });
+            processedIds.push(change.id);
+          }),
+        );
       }
-    }
+
+      // Handle reminder changes in batch
+      if (groupedChanges.reminder) {
+        const { action, value } = groupedChanges.reminder[0];
+        switch (action) {
+          case "create": {
+            console.log(value);
+            break;
+          }
+          case "update": {
+            console.log(value);
+            break;
+          }
+          case "delete": {
+            console.log(value);
+            break;
+          }
+        }
+        processedIds.push(
+          ...groupedChanges.reminder.map((change: Change) => change.id),
+        );
+      }
+
+      // Handle shortcut changes
+      if (groupedChanges.shortcut) {
+        await tx.settings.update({
+          where: { userId: session.user.id },
+          data: { shortcut: groupedChanges.shortcut[0].value as string },
+        });
+        processedIds.push(
+          ...groupedChanges.shortcut.map((change: Change) => change.id),
+        );
+      }
+
+      // Handle ambient sound changes
+      if (groupedChanges.ambientSound) {
+        await tx.settings.update({
+          where: { userId: session.user.id },
+          data: {
+            ambientSound: groupedChanges.ambientSound[0].value as string,
+          },
+        });
+        processedIds.push(
+          ...groupedChanges.ambientSound.map((change: Change) => change.id),
+        );
+      }
+
+      return processedIds;
+    });
 
     return NextResponse.json({ processedChangeIds });
   } catch (error) {
@@ -62,28 +120,11 @@ export async function POST(req: Request) {
   }
 }
 
-async function handleSpaceChange(userId: string, change: Change) {
-  const { spaceId, property, value } = change;
-
-  const settings = await prisma.settings.findUnique({
-    where: { userId },
-    include: { spaces: true },
-  });
-
-  if (!settings) {
-    throw new Error("Settings not found");
-  }
-
-  const space = settings.spaces.find((s) => s.clientId === spaceId);
-
-  if (!space) {
-    throw new Error("Space not found");
-  }
-
-  let updateData = {};
+function createSpaceUpdateData(change: Change) {
+  const { property, value } = change;
 
   switch (property) {
-    case "pomodoro":
+    case "pomodoro": {
       const pomodoroValue = value as {
         isHidden: boolean;
         shortBreakDuration: number;
@@ -93,8 +134,7 @@ async function handleSpaceChange(userId: string, change: Change) {
         alarmSoundURL: string;
         alarmRepeatTimes: number;
       };
-
-      updateData = {
+      return {
         pomodoroIsHidden: pomodoroValue.isHidden,
         shortBreakDuration: pomodoroValue.shortBreakDuration,
         longBreakDuration: pomodoroValue.longBreakDuration,
@@ -103,106 +143,57 @@ async function handleSpaceChange(userId: string, change: Change) {
         alarmSoundURL: pomodoroValue.alarmSoundURL,
         alarmRepeatTimes: pomodoroValue.alarmRepeatTimes,
       };
-      break;
+    }
 
-    case "clock":
+    case "clock": {
       const clockValue = value as {
         isHidden: boolean;
         position: string;
         timeFormat: string;
       };
-
-      updateData = {
+      return {
         clockIsHidden: clockValue.isHidden,
         clockPosition: clockValue.position,
         clockTimeFormat: clockValue.timeFormat,
       };
-      break;
+    }
 
-    case "breathingExercise":
+    case "breathingExercise": {
       const breathingValue = value as {
         isHidden: boolean;
         technique: string;
       };
-
-      updateData = {
+      return {
         breathingIsHidden: breathingValue.isHidden,
         breathingTechnique: breathingValue.technique,
       };
-      break;
+    }
 
-    case "reminder":
+    case "reminder": {
       const reminderValue = value as {
         isHidden: boolean;
         position: string;
       };
-
-      updateData = {
+      return {
         reminderIsHidden: reminderValue.isHidden,
         reminderPosition: reminderValue.position,
       };
-      break;
+    }
 
-    case "quote":
+    case "quote": {
       const quoteValue = value as {
         isHidden: boolean;
         position: string;
       };
-
-      updateData = {
+      return {
         quoteIsHidden: quoteValue.isHidden,
         quotePosition: quoteValue.position,
       };
-      break;
+    }
 
     default:
-      updateData = {
+      return {
         [property!]: value,
       };
   }
-
-  console.log("Updating space with data:", updateData);
-
-  await prisma.space.update({
-    where: { id: space.id },
-    data: updateData,
-  });
-}
-
-async function handleReminderChange(userId: string, change: Change) {
-  const settings = await prisma.settings.findUnique({
-    where: { userId },
-  });
-
-  if (!settings) {
-    throw new Error("Settings not found");
-  }
-
-  const { action, value } = change;
-
-  switch (action) {
-    case "create": {
-      console.log(value);
-    }
-
-    case "update": {
-      console.log(value);
-    }
-    case "delete": {
-      console.log(value);
-    }
-  }
-}
-async function handleShortcutChange(userId: string, change: Change) {
-  await prisma.settings.update({
-    where: { userId },
-    data: { shortcut: change.value as string },
-  });
-}
-
-async function handleAmbientSoundChange(userId: string, change: Change) {
-  await prisma.settings.update({
-    where: { userId },
-    data: { ambientSound: change.value as string },
-  });
 }
