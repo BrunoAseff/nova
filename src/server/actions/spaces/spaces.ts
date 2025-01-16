@@ -1,5 +1,6 @@
 import { settings as defaultSettings } from "@/contexts/settings";
 import { getUserSettings } from "../getUserSettings";
+import { getTimestamp } from "../getTimestamp";
 
 export const fetchSpacesData = async ({
   userId,
@@ -7,16 +8,50 @@ export const fetchSpacesData = async ({
   userId: string | undefined;
 }) => {
   try {
-    // Initialize with default settings
-    // eslint-disable-next-line prefer-const
-    let finalSettings = {
+    const finalSettings = {
       spaces: defaultSettings.spaces,
       shortcut: defaultSettings.shortcut,
       ambientSound: defaultSettings.ambientSound,
       reminderMessages: [],
     };
 
-    // Try to get localStorage values
+    if (userId) {
+      const dbTimestamp = await getTimestamp(userId);
+      const localTimestamp = localStorage.getItem("lastModified");
+
+      // Fetch from DB if timestamps don't match or no local timestamp
+      if (
+        !localTimestamp ||
+        !dbTimestamp ||
+        new Date(localTimestamp).getTime() !== dbTimestamp.getTime()
+      ) {
+        const dbSettings = await getUserSettings(userId);
+
+        // Override with database values where they exist
+        if (dbSettings.spaces) finalSettings.spaces = dbSettings.spaces;
+        if (dbSettings.shortcut) finalSettings.shortcut = dbSettings.shortcut;
+        if (dbSettings.ambientSound)
+          finalSettings.ambientSound = dbSettings.ambientSound;
+        if (dbSettings.reminderMessages)
+          finalSettings.reminderMessages = dbSettings.reminderMessages;
+
+        // Update local storage with fresh data
+        localStorage.setItem("spaces", JSON.stringify(finalSettings.spaces));
+        localStorage.setItem("shortcut", finalSettings.shortcut);
+        localStorage.setItem("ambientSound", finalSettings.ambientSound);
+        localStorage.setItem(
+          "reminderMessages",
+          JSON.stringify(finalSettings.reminderMessages),
+        );
+        if (dbTimestamp) {
+          localStorage.setItem("lastModified", dbTimestamp.toISOString());
+        }
+
+        return finalSettings;
+      }
+    }
+
+    // If no userId or timestamps match, try localStorage
     const localSpacesData = localStorage.getItem("spaces");
     const localShortcut = localStorage.getItem("shortcut");
     const localReminderMessagesRaw = localStorage.getItem("reminderMessages");
@@ -45,19 +80,6 @@ export const fetchSpacesData = async ({
     if (localAmbientSound) finalSettings.ambientSound = localAmbientSound;
     if (localReminderMessagesRaw) {
       finalSettings.reminderMessages = JSON.parse(localReminderMessagesRaw);
-    }
-
-    // If we have a userId, get database values
-    if (userId) {
-      const dbSettings = await getUserSettings(userId);
-
-      // Override with database values where they exist
-      if (dbSettings.spaces) finalSettings.spaces = dbSettings.spaces;
-      if (dbSettings.shortcut) finalSettings.shortcut = dbSettings.shortcut;
-      if (dbSettings.ambientSound)
-        finalSettings.ambientSound = dbSettings.ambientSound;
-      if (dbSettings.reminderMessages)
-        finalSettings.reminderMessages = dbSettings.reminderMessages;
     }
 
     return finalSettings;
