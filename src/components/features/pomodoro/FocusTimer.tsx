@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { NewCycleForm } from "./Form";
 import { Countdown } from "./Countdown";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { motion } from "framer-motion";
 import { CyclesContext } from "@/contexts/cycleContext";
 import { Stop } from "@/components/icons/Stop";
@@ -20,6 +20,7 @@ import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { Button } from "@/components/nova/buttons/Button";
 import { Air } from "@/components/icons/Air";
+import PictureInPictureButton from "./PictureInPictureButton";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -47,6 +48,7 @@ export default function FocusTimer() {
   } = useContext(CyclesContext);
 
   const { spaces, selectedTab, stopPomodoroAlarm } = useSpacesContext();
+  const containerRef = useRef<HTMLFormElement>(null);
 
   const currentSpace = spaces.find((space) => space.id === selectedTab);
   const autoStart = currentSpace?.pomodoro.autoStart ?? false;
@@ -82,8 +84,9 @@ export default function FocusTimer() {
   }
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="focus-timer-container flex items-center justify-center">
       <form
+        ref={containerRef}
         className="flex min-w-[19rem] flex-col items-center justify-center rounded-3xl bg-background p-6 text-center md:min-w-[30rem] md:p-6"
         onSubmit={onSubmit(handleCreateNewCycle)}
       >
@@ -101,7 +104,7 @@ export default function FocusTimer() {
             </FormProvider>
           )}
 
-          <div className="font-inter text-md flex w-full items-center justify-center">
+          <div className="font-inter text-md hide-in-pip flex w-full items-center justify-center">
             {activeCycle && currentTab === "Focus" && (
               <div className="flex flex-col items-center gap-1">
                 <div className="flex w-fit items-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">
@@ -148,14 +151,14 @@ export default function FocusTimer() {
             {activeCycle && (
               <LinkBtn
                 onClick={skipSession}
-                className="mb-[2rem] mt-3 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
+                className="hide-in-pip mb-[2rem] mt-3 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
               >
                 Skip session
               </LinkBtn>
             )}
           </div>
 
-          <div className="relative flex w-full items-center justify-center">
+          <div className="hide-in-pip relative flex w-full items-center justify-center">
             {activeCycle ? (
               <>
                 <div className="absolute left-1/2 mb-4 flex -translate-x-1/2 gap-4 md:mb-0">
@@ -185,8 +188,11 @@ export default function FocusTimer() {
                   </IconBtn>
                 </div>
 
-                <div className="relative left-[65%] hidden -translate-x-1/2 md:block">
+                <div className="relative right-[45%] hidden -translate-x-1/2 md:block">
                   <InfoCard />
+                </div>
+                <div className="relative left-[60%] hidden -translate-x-1/2 md:block">
+                  <PictureInPictureButton containerRef={containerRef} />
                 </div>
               </>
             ) : (
