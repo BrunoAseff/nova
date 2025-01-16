@@ -27,7 +27,7 @@ import { TabHeader } from "@/components/tabHeader";
 import TabBody from "@/components/tabBody";
 import TabCard from "@/components/tabCard";
 import SpacesIllustration from "@/components/svgs/SpacesIllustration";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@/components/icons/PlusIcon";
@@ -65,12 +65,20 @@ export default function SpacesTab() {
 
   const shortcutOptions = Object.keys(shortcutMapping);
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [editingSpaceIndex, setEditingSpaceIndex] = useState<number | null>(
     null,
-  ); // Track which space is being edited
-  const [tempSpaceNames, setTempSpaceNames] = useState<string[]>(
-    spaces.map((space) => space.name), // Temp state to hold names while editing
   );
+  const [tempSpaceNames, setTempSpaceNames] = useState<string[]>(
+    spaces.map((space) => space.name),
+  );
+
+  useEffect(() => {
+    if (editingSpaceIndex !== null) {
+      inputRef.current?.focus();
+    }
+  }, [editingSpaceIndex]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleSpaceNameChange(index: number): void {
@@ -121,6 +129,7 @@ export default function SpacesTab() {
                   <p>{space.icon}</p>
 
                   <Input
+                    ref={editingSpaceIndex === index ? inputRef : null}
                     disabled={editingSpaceIndex !== index}
                     className="w-fit"
                     value={tempSpaceNames[index] ?? "failed to load your space"}
