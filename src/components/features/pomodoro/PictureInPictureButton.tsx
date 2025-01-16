@@ -71,7 +71,6 @@ export default function PictureInPictureButton({
 
         // Make sure the clone is visible
         clonedContainer.style.display = "block";
-        clonedContainer.style.visibility = "visible";
         clonedContainer.style.position = "static";
 
         // Set fixed dimensions
@@ -173,21 +172,11 @@ export default function PictureInPictureButton({
         style={{
           position: "absolute",
           left: "-9999px",
-          visibility: "hidden",
           pointerEvents: "none",
           width: "500px",
           height: "300px",
         }}
       />
-
-      {/* Style to hide original container when PiP is active */}
-      {isPiPActive && (
-        <style>{`
-          .focus-timer-container {
-            visibility: hidden;
-          }
-        `}</style>
-      )}
     </>
   );
 }
