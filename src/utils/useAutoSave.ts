@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { getChanges, removeChange } from "@/utils/localStorageChanges";
 import type { Change } from "@/types/changes";
 import type { SyncStatus } from "@/components/autoSaveProvider";
+import { getTimestamp } from "@/server/actions/getTimestamp";
 
 const SYNC_INTERVAL = 10000;
 
@@ -60,6 +61,11 @@ export function useAutoSave(userId?: string) {
         console.error("Server response:", errorText);
         setSyncStatus("error");
         throw new Error(`Sync failed: ${errorText}`);
+      }
+
+      const timestampResponse = await getTimestamp(userId);
+      if (timestampResponse) {
+        localStorage.setItem("lastModified", timestampResponse.toISOString());
       }
 
       const { processedChangeIds } = await response.json();

@@ -61,7 +61,6 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
-// Configuration for user settings and spaces
 model Settings {
     id                  String      @id @default(cuid())
     userId              String      @unique
@@ -71,6 +70,7 @@ model Settings {
     shortcut            String?
     spaces              Space[]
     reminders           Reminder[]
+    lastModified        DateTime    @default(now()) @updatedAt    
 }
 
 model Space {
