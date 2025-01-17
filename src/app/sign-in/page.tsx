@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Logo from "@/components/nova/logo";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -27,6 +26,7 @@ import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { signUp } from "@/server/actions/signUp";
 import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
+import Logo from "@/components/nova/Logo";
 
 const loginSchema = z.object({
   email: z
