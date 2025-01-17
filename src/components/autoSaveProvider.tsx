@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import type { Change } from "@/types/changes";
 import { useAutoSave } from "@/utils/useAutoSave";
 import { createContext, useContext } from "react";
@@ -28,14 +29,20 @@ type Props = {
 };
 
 export function AutoSaveProvider({ children, userId }: Props) {
-  const { addChange, forceSyncNow, syncStatus } = useAutoSave(userId);
-
-  if (!userId) {
-    return <>{children}</>;
-  }
+  const { addChange, forceSyncNow, syncStatus } = useAutoSave(userId ?? "");
 
   return (
-    <AutoSaveContext.Provider value={{ addChange, forceSyncNow, syncStatus }}>
+    <AutoSaveContext.Provider
+      value={
+        userId
+          ? { addChange, forceSyncNow, syncStatus }
+          : {
+              addChange: () => {},
+              forceSyncNow: async () => {},
+              syncStatus: "idle" as const,
+            }
+      }
+    >
       {children}
     </AutoSaveContext.Provider>
   );
