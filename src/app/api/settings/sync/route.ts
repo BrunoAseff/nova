@@ -31,16 +31,17 @@ export async function POST(req: Request) {
     const processedChangeIds = await db.$transaction(async (tx) => {
       const processedIds: string[] = [];
 
-      // Handle space changes in batch
       if (groupedChanges.space) {
         const settings = await tx.settings.findUnique({
           where: { userId: session.user.id },
-          select: { spaces: { select: { id: true, clientId: true } } },
+          select: {
+            id: true,
+            spaces: { select: { id: true, clientId: true } },
+          }, // Added id to select
         });
 
         if (!settings) throw new Error("Settings not found");
 
-        // Process all space changes
         await Promise.all(
           groupedChanges.space.map(async (change: Change) => {
             const space = settings.spaces.find(
@@ -53,6 +54,12 @@ export async function POST(req: Request) {
               where: { id: space.id },
               data: updateData,
             });
+
+            await tx.settings.update({
+              where: { id: settings.id },
+              data: { lastModified: new Date() },
+            });
+
             processedIds.push(change.id);
           }),
         );
