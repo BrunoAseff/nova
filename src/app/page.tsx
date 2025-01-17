@@ -1,10 +1,10 @@
 "use client";
-import Logo from "@/components/nova/logo";
 import Image from "next/image";
 import Link from "next/link";
 import { Star } from "@/components/icons/Star";
 import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 import { motion } from "framer-motion";
+import Logo from "@/components/nova/Logo";
 
 export default function HomePage() {
   return (

@@ -26,6 +26,7 @@ import { CyclesContextProvider } from "@/contexts/cycleContext";
 import { useSession } from "next-auth/react";
 import { AutoSaveProvider } from "../autoSaveProvider";
 import FullscreenButton from "../FullScreenButton";
+import type { Changes } from "@/types/changes";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -51,6 +52,22 @@ export default function Space() {
   const { isSelectOpen, lastSelectCloseTime } = useInteractionLock();
   const { data: session } = useSession();
   const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      const changes = localStorage.getItem("nova-changes");
+      if (!changes) return;
+
+      const { pending } = JSON.parse(changes) as Changes;
+      if (pending.length > 0) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
 
   useEffect(() => {
     const fetchSpaces = async () => {
