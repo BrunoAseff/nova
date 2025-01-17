@@ -149,7 +149,7 @@ export default function Page() {
     <main className="relative flex size-full h-screen items-center justify-center overflow-hidden overflow-y-auto rounded-lg bg-background p-6 md:p-20">
       <div className="z-50 m-auto h-fit w-full rounded-2xl border-[1px] border-secondary/60 bg-background px-4 shadow-[0px_20px_207px_10px] shadow-secondary/60 md:w-[36rem]">
         <div className="flex flex-col items-center px-4 pb-10 pt-3">
-          <div className="mb-2 scale-[55%]">
+          <div className="mb-2">
             <Logo />
           </div>
           <Tabs defaultValue="login" className="w-full">
