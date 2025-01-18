@@ -22,7 +22,6 @@ import BreathingExercise from "./breathingExercise/BreathingExercise";
 import Reminder from "./Reminder";
 import SyncingInfo from "../syncingInfo";
 import { SpaceSidebarMobile } from "../sidebar/SpaceSidebarMobile";
-import { CyclesContextProvider } from "@/contexts/cycleContext";
 import { useSession } from "next-auth/react";
 import { AutoSaveProvider } from "../autoSaveProvider";
 import FullscreenButton from "../FullScreenButton";
@@ -206,9 +205,7 @@ export default function Space() {
                 </div>
                 <div className="relative z-10">
                   <Clock {...space.clock} />
-                  <CyclesContextProvider>
-                    <Pomodoro {...space.pomodoro} />
-                  </CyclesContextProvider>
+                  <Pomodoro {...space.pomodoro} />
 
                   <Quote {...space.quote} />
                   <BreathingExercise {...space.breathingExercise} />

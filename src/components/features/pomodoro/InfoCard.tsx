@@ -5,25 +5,25 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/HoverCard";
-import { CyclesContext } from "@/contexts/cycleContext";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { differenceInSeconds } from "date-fns";
+import { useCycleStore } from "@/stores/useCycleStore";
 
 export default function InfoCard() {
-  const {
-    cycleCounter,
-    completedCycles,
-    startTime,
-    focusedTimeStat,
-    breakTimeStat,
-    overallTimeStat,
-    updateOverallTimeStat,
-    activeCycle,
-    initialStartTime,
-    currentTab,
-    setFocusedTimeStat,
-    setBreakTimeStat,
-  } = useContext(CyclesContext);
+  const cycleCounter = useCycleStore((state) => state.cycleCounter);
+  const completedCycles = useCycleStore((state) => state.completedCycles);
+  const startTime = useCycleStore((state) => state.startTime);
+  const focusedTimeStat = useCycleStore((state) => state.focusedTimeStat);
+  const breakTimeStat = useCycleStore((state) => state.breakTimeStat);
+  const overallTimeStat = useCycleStore((state) => state.overallTimeStat);
+  const updateOverallTimeStat = useCycleStore(
+    (state) => state.updateOverallTimeStat,
+  );
+  const activeCycle = useCycleStore((state) => state.activeCycle);
+  const initialStartTime = useCycleStore((state) => state.initialStartTime);
+  const currentTab = useCycleStore((state) => state.currentTab);
+  const setFocusedTimeStat = useCycleStore((state) => state.setFocusedTimeStat);
+  const setBreakTimeStat = useCycleStore((state) => state.setBreakTimeStat);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -69,6 +69,9 @@ export default function InfoCard() {
     }
     return `${remainingSeconds}s`;
   };
+
+  console.log(cycleCounter);
+  console.log(completedCycles);
 
   return (
     <HoverCard openDelay={500}>

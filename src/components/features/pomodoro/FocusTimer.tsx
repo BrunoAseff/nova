@@ -3,9 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import { NewCycleForm } from "./Form";
 import { Countdown } from "./Countdown";
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { motion } from "framer-motion";
-import { CyclesContext } from "@/contexts/cycleContext";
 import { Stop } from "@/components/icons/Stop";
 import { Play } from "@/components/icons/Play";
 import IconBtn from "@/components/nova/buttons/IconBtn";
@@ -21,6 +20,7 @@ import { useSpacesContext } from "@/contexts/spaceContext";
 import { Button } from "@/components/nova/buttons/Button";
 import { Air } from "@/components/icons/Air";
 import PictureInPictureButton from "./PictureInPictureButton";
+import { useCycleStore } from "@/stores/useCycleStore";
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, "Please enter the task"),
@@ -33,19 +33,21 @@ const newCycleFormValidationSchema = zod.object({
 type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>;
 
 export default function FocusTimer() {
-  const {
-    activeCycle,
-    createNewCycle,
-    interruptCurrentCycle,
-    isPaused,
-    togglePause,
-    falsePause,
-    currentTab,
-    resetCurrentSession,
-    cycleCounter,
-    completedCycles,
-    skipCurrentSession,
-  } = useContext(CyclesContext);
+  const activeCycle = useCycleStore((state) => state.activeCycle);
+  const createNewCycle = useCycleStore((state) => state.createNewCycle);
+  const interruptCurrentCycle = useCycleStore(
+    (state) => state.interruptCurrentCycle,
+  );
+  const isPaused = useCycleStore((state) => state.isPaused);
+  const togglePause = useCycleStore((state) => state.togglePause);
+  const falsePause = useCycleStore((state) => state.falsePause);
+  const currentTab = useCycleStore((state) => state.currentTab);
+  const resetCurrentSession = useCycleStore(
+    (state) => state.resetCurrentSession,
+  );
+  const cycleCounter = useCycleStore((state) => state.cycleCounter);
+  const completedCycles = useCycleStore((state) => state.completedCycles);
+  const skipCurrentSession = useCycleStore((state) => state.skipCurrentSession);
 
   const { spaces, selectedTab, stopPomodoroAlarm } = useSpacesContext();
   const containerRef = useRef<HTMLFormElement>(null);
@@ -60,6 +62,7 @@ export default function FocusTimer() {
       togglePause();
     }
   }
+
   const newCycleForm = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {

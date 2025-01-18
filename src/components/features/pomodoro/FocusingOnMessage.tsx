@@ -1,8 +1,12 @@
-import { CyclesContext } from "@/contexts/cycleContext";
-import { useState, useRef, useContext } from "react";
+import { useCycleStore } from "@/stores/useCycleStore";
+import { useState, useRef } from "react";
 
 export default function FocusingOnMessage() {
-  const { focusingOnMessage, setfocusingOnMessage } = useContext(CyclesContext);
+  const focusingOnMessage = useCycleStore((state) => state.focusingOnMessage);
+  const setfocusingOnMessage = useCycleStore(
+    (state) => state.setfocusingOnMessage,
+  );
+
   const [isEditing, setIsEditing] = useState(false);
   const [tempMessage, setTempMessage] = useState(focusingOnMessage);
   const inputRef = useRef<HTMLInputElement>(null);

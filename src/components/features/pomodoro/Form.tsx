@@ -1,22 +1,21 @@
 import { useFormContext } from "react-hook-form";
-import { useContext, useState, useEffect } from "react";
-import { CyclesContext } from "@/contexts/cycleContext";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useCycleStore } from "@/stores/useCycleStore";
 
 export function NewCycleForm() {
-  const { activeCycle } = useContext(CyclesContext);
+  // Replace context with store selector
+  const activeCycle = useCycleStore((state) => state.activeCycle);
+
   const { register, setValue } = useFormContext();
-  // Input display state
   const [minutesAmountDisplay, setMinutesAmountDisplay] = useState("25");
 
   useEffect(() => {
-    // Set the initial value of `minutesAmount` in the form state
     setValue("minutesAmount", parseInt(minutesAmountDisplay));
   }, [minutesAmountDisplay, setValue]);
 
   const handleMinutesAmountChange = (value: string) => {
-    // Allow empty string or numbers only
     if (value === "" || /^\d{1,2}$/.test(value)) {
       setMinutesAmountDisplay(value);
     }

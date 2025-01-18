@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { CyclesContext } from "@/contexts/cycleContext";
 import type { PomodoroProps } from "@/types";
 import FocusTimer from "./FocusTimer";
 import {
@@ -13,11 +11,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useCycleStore } from "@/stores/useCycleStore";
 
 export default function Pomodoro(props: PomodoroProps) {
   const { isHidden = false } = props;
 
-  const { currentTab } = useContext(CyclesContext);
+  const currentTab = useCycleStore((state) => state.currentTab);
 
   if (isHidden) return null;
 
