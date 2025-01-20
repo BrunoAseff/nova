@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import { PictureInPicture } from "@phosphor-icons/react";
-import { useContext } from "react";
-import { CyclesContext } from "@/contexts/cycleContext";
 import html2canvas from "html2canvas";
+import { useCycleStore } from "@/stores/useCycleStore";
 
 interface PictureInPictureButtonProps {
   containerRef: React.RefObject<HTMLElement>;
@@ -15,7 +14,8 @@ export default function PictureInPictureButton({
   const [isPiPActive, setIsPiPActive] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { activeCycle } = useContext(CyclesContext);
+
+  const activeCycle = useCycleStore((state) => state.activeCycle);
   const pipContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

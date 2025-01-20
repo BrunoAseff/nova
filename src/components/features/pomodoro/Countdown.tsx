@@ -1,8 +1,8 @@
-import { CyclesContext } from "@/contexts/cycleContext";
 import { useSpacesContext } from "@/contexts/spaceContext";
-import { useCallback, useContext, useEffect, useRef, memo } from "react";
+import { useCycleStore } from "@/stores/useCycleStore";
+import { useCallback, useEffect, useRef, memo } from "react";
 
-// Separate the display component to prevent unnecessary re-renders
+// Separate the display component remains the same
 const TimeDisplay = memo(function TimeDisplay({
   minutes,
   seconds,
@@ -22,29 +22,26 @@ const TimeDisplay = memo(function TimeDisplay({
 });
 
 export function Countdown() {
-  // Split context into separate variables to prevent unnecessary re-renders
-  const {
-    activeCycle,
-    currentTab,
-    isPaused,
-    setSecondsPassed,
-    amountSecondsPassed,
-    toggleTab,
-    togglePause,
-  } = useContext(CyclesContext);
+  const activeCycle = useCycleStore((state) => state.activeCycle);
+  const currentTab = useCycleStore((state) => state.currentTab);
+  const isPaused = useCycleStore((state) => state.isPaused);
+  const setSecondsPassed = useCycleStore((state) => state.setSecondsPassed);
+  const amountSecondsPassed = useCycleStore(
+    (state) => state.amountSecondsPassed,
+  );
+  const toggleTab = useCycleStore((state) => state.toggleTab);
+  const togglePause = useCycleStore((state) => state.togglePause);
 
   const { spaces, selectedTab, playPomodoroAlarm } = useSpacesContext();
 
   const intervalRef = useRef<number | null>(null);
   const lastTickRef = useRef<number>(Date.now());
 
-  // Memoize space settings
   const currentSpace = spaces.find((space) => space.id === selectedTab);
   const shortBreakDuration = currentSpace?.pomodoro.shortBreakDuration ?? 5;
   const longBreakDuration = currentSpace?.pomodoro.longBreakDuration ?? 15;
   const autoStart = currentSpace?.pomodoro.autoStart ?? false;
 
-  // Memoize total seconds calculation
   const totalSeconds = useCallback(() => {
     switch (currentTab) {
       case "Focus":
@@ -61,17 +58,26 @@ export function Countdown() {
     shortBreakDuration,
   ])();
 
-  // Memoize the timer update callback
   const updateTimer = useCallback(() => {
     const now = Date.now();
-    const deltaSeconds = Math.floor((now - lastTickRef.current) / 1000);
-    lastTickRef.current = now;
+    const elapsedTime = now - lastTickRef.current;
 
-    if (deltaSeconds > 0) {
-      setSecondsPassed((seconds: number) => {
-        const newTime = seconds + deltaSeconds;
-        if (newTime >= totalSeconds) {
-          clearInterval(intervalRef.current!);
+    // Only update if at least 1 second has passed
+    if (elapsedTime >= 1000) {
+      // Calculate how many whole seconds have passed
+      const deltaSeconds = Math.floor(elapsedTime / 1000);
+
+      // Update the last tick time by the exact number of seconds processed
+      lastTickRef.current = now - (elapsedTime % 1000);
+
+      setSecondsPassed((prev: number) => {
+        const newSeconds = prev + deltaSeconds;
+
+        if (newSeconds >= totalSeconds) {
+          // Clear interval and handle session completion
+          if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+          }
           toggleTab();
           playPomodoroAlarm();
 
@@ -80,25 +86,31 @@ export function Countdown() {
           }
           return 0;
         }
-        return newTime;
+
+        return newSeconds;
       });
     }
   }, [
     totalSeconds,
+    setSecondsPassed,
     toggleTab,
     playPomodoroAlarm,
     autoStart,
     togglePause,
-    setSecondsPassed,
   ]);
 
   useEffect(() => {
-    if (!isPaused) {
-      lastTickRef.current = Date.now();
-    }
-
     if (activeCycle && !isPaused) {
-      intervalRef.current = window.setInterval(updateTimer, 1000);
+      // Reset lastTickRef when starting or unpausing
+      lastTickRef.current = Date.now();
+
+      // Clear any existing interval first
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+
+      // Start new interval - checking more frequently for accuracy
+      intervalRef.current = window.setInterval(updateTimer, 100);
     }
 
     return () => {
@@ -108,20 +120,17 @@ export function Countdown() {
     };
   }, [activeCycle, isPaused, updateTimer]);
 
-  // Calculate time values only when needed
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0;
   const minutesAmount = Math.floor(currentSeconds / 60);
   const secondsAmount = currentSeconds % 60;
   const minutes = String(minutesAmount).padStart(2, "0");
   const seconds = String(secondsAmount).padStart(2, "0");
 
-  // Update document title
   useEffect(() => {
     if (activeCycle) {
       document.title = `${minutes}:${seconds} - Nova`;
     }
   }, [minutes, seconds, activeCycle]);
 
-  // Only render TimeDisplay component with the values it needs
   return <TimeDisplay minutes={minutes} seconds={seconds} />;
 }
