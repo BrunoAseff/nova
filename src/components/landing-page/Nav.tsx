@@ -6,7 +6,7 @@ import { LinkBtn } from "../nova/buttons/LinkBtn";
 export default function Nav() {
   return (
     <nav className="flex w-full items-center justify-evenly py-6">
-      <div className="scale-95">
+      <div className="scale-75">
         <Logo />
       </div>
       <ul className="flex gap-10 text-base text-foreground">
