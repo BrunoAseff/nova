@@ -181,12 +181,7 @@ export default function Space() {
                 <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
 
                 {space.id === 2 && (
-                  <link
-                    rel="preload"
-                    as="image"
-                    href={space.background}
-                    key={space.id}
-                  />
+                  <link as="image" href={space.background} key={space.id} />
                 )}
 
                 <div className="absolute inset-0 z-0">
@@ -199,8 +194,9 @@ export default function Space() {
                     blurDataURL="/blur/blurBackground.png"
                     priority={space.id === 2}
                     sizes="100vw"
-                    quality={100}
+                    quality={85}
                     loading={space.id === 2 ? "eager" : "lazy"}
+                    fetchPriority={space.id === 2 ? "high" : "auto"}
                   />
                 </div>
                 <div className="relative z-10">
