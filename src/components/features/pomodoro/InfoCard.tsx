@@ -70,9 +70,6 @@ export default function InfoCard() {
     return `${remainingSeconds}s`;
   };
 
-  console.log(cycleCounter);
-  console.log(completedCycles);
-
   return (
     <HoverCard openDelay={500}>
       <HoverCardTrigger>
