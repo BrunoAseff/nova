@@ -57,10 +57,10 @@ export function useAutoSave(userId?: string) {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Server response:", errorText);
+        const errorData = await response.json().catch(() => null);
+
         setSyncStatus("error");
-        throw new Error(`Sync failed: ${errorText}`);
+        throw new Error(`Sync failed: ${JSON.stringify(errorData)}`);
       }
 
       const timestampResponse = await getTimestamp(userId);

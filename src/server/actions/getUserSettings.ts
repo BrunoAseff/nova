@@ -140,7 +140,7 @@ export async function getUserSettings(userId: string) {
   ) {
     settings.reminderMessages = dbSettings.reminders.map((reminder) => ({
       id: reminder.id,
-      message: reminder.message,
+      text: reminder.message,
       type: reminder.type ?? undefined,
     }));
   }

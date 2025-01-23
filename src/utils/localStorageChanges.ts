@@ -21,14 +21,25 @@ function addChange(change: Omit<Change, "id" | "timestamp">) {
     timestamp: Date.now(),
   };
 
-  changes.pending = changes.pending.filter(
-    (existingChange) =>
-      !(
-        existingChange.type === change.type &&
-        existingChange.spaceId === change.spaceId &&
-        existingChange.property === change.property
-      ),
-  );
+  if (change.type === "reminder") {
+    changes.pending = changes.pending.filter((existingChange) => {
+      if (existingChange.type !== "reminder") return true;
+
+      const existingId = (existingChange.value as { id?: string })?.id;
+      const newId = (change.value as { id?: string })?.id;
+
+      return !existingId || !newId || existingId !== newId;
+    });
+  } else {
+    changes.pending = changes.pending.filter(
+      (existingChange) =>
+        !(
+          existingChange.type === change.type &&
+          existingChange.spaceId === change.spaceId &&
+          existingChange.property === change.property
+        ),
+    );
+  }
 
   changes.pending.push(newChange);
   localStorage.setItem(CHANGES_STORAGE_KEY, JSON.stringify(changes));
