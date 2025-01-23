@@ -12,6 +12,8 @@ export async function POST(req: Request) {
     }
 
     const { changes } = await req.json();
+    console.log("Received changes:", changes);
+
     if (!changes?.length) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -77,14 +79,18 @@ export async function POST(req: Request) {
           throw new Error("Settings not found");
         }
 
-        // Process each reminder change
-        await Promise.all(
-          groupedChanges.reminder.map(async (change: Change) => {
-            const { action, value } = change;
+        // Sort changes by timestamp to ensure correct order
+        const sortedChanges = [...groupedChanges.reminder].sort(
+          (a, b) => a.timestamp - b.timestamp,
+        );
 
+        // Process each reminder change
+        for (const change of sortedChanges) {
+          const { action, value } = change;
+
+          try {
             switch (action) {
               case "create": {
-                // Type assertion for create operation
                 const createValue = value as {
                   id: string;
                   text: string;
@@ -93,7 +99,7 @@ export async function POST(req: Request) {
 
                 await tx.reminder.create({
                   data: {
-                    id: createValue.id, // Use the client-provided ID
+                    id: createValue.id,
                     message: createValue.text,
                     type: createValue.type,
                     settingsId: settings.id,
@@ -103,54 +109,16 @@ export async function POST(req: Request) {
               }
 
               case "update": {
-                // First verify the reminder exists and belongs to the user
-                const existingReminder = await tx.reminder.findFirst({
-                  where: {
-                    id: (value as { id: string }).id,
-                    settings: {
-                      userId: session.user.id,
-                    },
-                  },
-                });
-
-                if (!existingReminder) {
-                  throw new Error(
-                    `Reminder not found or unauthorized: ${(value as { id: string }).id}`,
-                  );
-                }
-
-                // Type assertion for update operation
                 const updateValue = value as {
                   id: string;
                   text?: string;
                   type?: string;
                 };
 
-                // Build update data based on what was provided
-                const updateData: {
-                  message?: string;
-                  type?: string;
-                } = {};
-
-                if (updateValue.text !== undefined) {
-                  updateData.message = updateValue.text;
-                }
-                if (updateValue.type !== undefined) {
-                  updateData.type = updateValue.type;
-                }
-
-                await tx.reminder.update({
-                  where: { id: updateValue.id },
-                  data: updateData,
-                });
-                break;
-              }
-
-              case "delete": {
-                // First verify the reminder exists and belongs to the user
+                // Check if reminder exists and belongs to user
                 const existingReminder = await tx.reminder.findFirst({
                   where: {
-                    id: (value as { id: string }).id,
+                    id: updateValue.id,
                     settings: {
                       userId: session.user.id,
                     },
@@ -158,29 +126,72 @@ export async function POST(req: Request) {
                 });
 
                 if (!existingReminder) {
-                  throw new Error(
-                    `Reminder not found or unauthorized: ${(value as { id: string }).id}`,
+                  console.log(
+                    `Skipping update for non-existent reminder: ${updateValue.id}`,
                   );
+                  continue;
                 }
 
-                await tx.reminder.delete({
-                  where: { id: (value as { id: string }).id },
-                });
+                const updateData: {
+                  message?: string;
+                  type?: string;
+                } = {};
+
+                if ("text" in updateValue && updateValue.text !== undefined) {
+                  updateData.message = updateValue.text;
+                }
+                if ("type" in updateValue && updateValue.type !== undefined) {
+                  updateData.type = updateValue.type;
+                }
+
+                if (Object.keys(updateData).length > 0) {
+                  await tx.reminder.update({
+                    where: { id: updateValue.id },
+                    data: updateData,
+                  });
+                }
                 break;
               }
 
-              default:
-                throw new Error(`Invalid reminder action: ${action}`);
-            }
-          }),
-        );
+              case "delete": {
+                const deleteValue = value as { id: string };
 
+                // Check if reminder exists and belongs to user before trying to delete
+                const existingReminder = await tx.reminder.findFirst({
+                  where: {
+                    id: deleteValue.id,
+                    settings: {
+                      userId: session.user.id,
+                    },
+                  },
+                });
+
+                if (existingReminder) {
+                  await tx.reminder.delete({
+                    where: { id: deleteValue.id },
+                  });
+                } else {
+                  console.log(
+                    `Skipping delete for non-existent reminder: ${deleteValue.id}`,
+                  );
+                }
+                break;
+              }
+            }
+          } catch (error) {
+            console.log(`Non-critical error processing reminder change:`, {
+              error,
+              change,
+            });
+            continue;
+          }
+        }
+
+        // All changes were processed (even if some were skipped)
         processedIds.push(
           ...groupedChanges.reminder.map((change: Change) => change.id),
         );
       }
-
-      // Handle shortcut changes
       if (groupedChanges.shortcut) {
         await tx.settings.update({
           where: { userId: session.user.id },
@@ -209,11 +220,16 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ processedChangeIds });
   } catch (error) {
-    console.error("Error in sync route:", error);
+    console.error("Error in sync route:", {
+      error,
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
     return NextResponse.json(
       {
         error: "Internal server error",
         details: error instanceof Error ? error.message : String(error),
+        additionalInfo: error instanceof Error ? error.stack : undefined,
       },
       { status: 500 },
     );
