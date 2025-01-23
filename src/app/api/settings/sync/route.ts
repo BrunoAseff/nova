@@ -67,21 +67,114 @@ export async function POST(req: Request) {
 
       // Handle reminder changes in batch
       if (groupedChanges.reminder) {
-        const { action, value } = groupedChanges.reminder[0];
-        switch (action) {
-          case "create": {
-            console.log(value);
-            break;
-          }
-          case "update": {
-            console.log(value);
-            break;
-          }
-          case "delete": {
-            console.log(value);
-            break;
-          }
+        // First, get the settings ID which we'll need for creating new reminders
+        const settings = await tx.settings.findUnique({
+          where: { userId: session.user.id },
+          select: { id: true },
+        });
+
+        if (!settings) {
+          throw new Error("Settings not found");
         }
+
+        // Process each reminder change
+        await Promise.all(
+          groupedChanges.reminder.map(async (change: Change) => {
+            const { action, value } = change;
+
+            switch (action) {
+              case "create": {
+                // Type assertion for create operation
+                const createValue = value as {
+                  id: string;
+                  text: string;
+                  type: string;
+                };
+
+                await tx.reminder.create({
+                  data: {
+                    id: createValue.id, // Use the client-provided ID
+                    message: createValue.text,
+                    type: createValue.type,
+                    settingsId: settings.id,
+                  },
+                });
+                break;
+              }
+
+              case "update": {
+                // First verify the reminder exists and belongs to the user
+                const existingReminder = await tx.reminder.findFirst({
+                  where: {
+                    id: (value as { id: string }).id,
+                    settings: {
+                      userId: session.user.id,
+                    },
+                  },
+                });
+
+                if (!existingReminder) {
+                  throw new Error(
+                    `Reminder not found or unauthorized: ${(value as { id: string }).id}`,
+                  );
+                }
+
+                // Type assertion for update operation
+                const updateValue = value as {
+                  id: string;
+                  text?: string;
+                  type?: string;
+                };
+
+                // Build update data based on what was provided
+                const updateData: {
+                  message?: string;
+                  type?: string;
+                } = {};
+
+                if (updateValue.text !== undefined) {
+                  updateData.message = updateValue.text;
+                }
+                if (updateValue.type !== undefined) {
+                  updateData.type = updateValue.type;
+                }
+
+                await tx.reminder.update({
+                  where: { id: updateValue.id },
+                  data: updateData,
+                });
+                break;
+              }
+
+              case "delete": {
+                // First verify the reminder exists and belongs to the user
+                const existingReminder = await tx.reminder.findFirst({
+                  where: {
+                    id: (value as { id: string }).id,
+                    settings: {
+                      userId: session.user.id,
+                    },
+                  },
+                });
+
+                if (!existingReminder) {
+                  throw new Error(
+                    `Reminder not found or unauthorized: ${(value as { id: string }).id}`,
+                  );
+                }
+
+                await tx.reminder.delete({
+                  where: { id: (value as { id: string }).id },
+                });
+                break;
+              }
+
+              default:
+                throw new Error(`Invalid reminder action: ${action}`);
+            }
+          }),
+        );
+
         processedIds.push(
           ...groupedChanges.reminder.map((change: Change) => change.id),
         );
