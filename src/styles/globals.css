@@ -498,3 +498,8 @@
 .scrollbar-gutter-stable {
   scrollbar-gutter: stable;
 }
+
+::selection {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
