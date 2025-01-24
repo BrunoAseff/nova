@@ -1,6 +1,6 @@
 "use client";
 
-import Contact from "@/components/landing-page/Contact";
+import Footer from "@/components/landing-page/Footer";
 import Features from "@/components/landing-page/Features";
 import Hero from "@/components/landing-page/Hero";
 import Nav from "@/components/landing-page/Nav";
@@ -19,8 +19,8 @@ export default function HomePage() {
       <div id="pricing">
         <Pricing />
       </div>
-      <div id="contact">
-        <Contact />
+      <div className="w-full" id="footer">
+        <Footer />
       </div>
 
       <DotPattern

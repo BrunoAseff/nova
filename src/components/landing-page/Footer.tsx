@@ -1,0 +1,28 @@
+import Link from "next/link";
+import { LinkBtn } from "../nova/buttons/LinkBtn";
+import Logo from "../nova/Logo";
+
+export default function Footer() {
+  return (
+    <footer className="flex w-full justify-between border-t-[1px] border-accent pb-32 pt-6">
+      <div className="flex flex-col items-start px-10">
+        <div className="scale-50">
+          <Logo />
+        </div>
+
+        <p className="text-muted-foreground">© 2025, Nova Inc.</p>
+      </div>
+      <div className="flex flex-col items-end gap-4 px-10">
+        <LinkBtn className="cursor-pointer text-sm text-muted-foreground hover:text-secondary">
+          <Link href="/privacy-policy">Privacy Policy</Link>
+        </LinkBtn>
+        <LinkBtn className="cursor-pointer text-sm text-muted-foreground hover:text-secondary">
+          <Link href="/terms-of-service">Terms of Service</Link>
+        </LinkBtn>
+        <p className="text-sm text-muted-foreground">
+          @team.novaspaces@gmail.com
+        </p>
+      </div>
+    </footer>
+  );
+}

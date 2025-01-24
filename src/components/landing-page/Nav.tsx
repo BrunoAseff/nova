@@ -22,7 +22,7 @@ export default function Nav() {
         </li>
         <li>
           <LinkBtn className="cursor-pointer text-foreground hover:text-secondary">
-            <Link href="#contact">Contact</Link>
+            <Link href="#footer">Contact</Link>
           </LinkBtn>
         </li>
       </ul>
