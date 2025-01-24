@@ -19,9 +19,10 @@ export default function Footer() {
         <LinkBtn className="cursor-pointer text-sm text-muted-foreground hover:text-secondary">
           <Link href="/terms-of-service">Terms of Service</Link>
         </LinkBtn>
-        <p className="text-sm text-muted-foreground">
-          @team.novaspaces@gmail.com
-        </p>
+        <div className="flex flex-col items-end justify-end text-sm text-muted-foreground">
+          <p className="font-semibold">Email</p>{" "}
+          <p>team.novaspaces@gmail.com</p>{" "}
+        </div>
       </div>
     </footer>
   );

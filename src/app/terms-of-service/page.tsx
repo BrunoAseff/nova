@@ -7,12 +7,12 @@ function TermsOfService() {
         Terms of Service
       </h1>
       <p className="mt-4">
-        <strong>Effective Date:</strong> [Insert Date]
+        <strong>Effective Date:</strong> 20/12/2024
       </p>
       <p className="mt-2">
-        Welcome to <strong>[Your App Name]</strong>! By using our application
-        (&quot;the App&quot;), you agree to the following terms and conditions.
-        Please read them carefully.
+        Welcome to <strong>Nova</strong>! By using our application (&quot;the
+        App&quot;), you agree to the following terms and conditions. Please read
+        them carefully.
       </p>
       <h2 className="mt-6 text-xl font-medium text-[#57abff]">
         1. Acceptance of Terms
