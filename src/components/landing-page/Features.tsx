@@ -1,3 +1,3 @@
 export default function Features() {
-  return <section className="min-h-[600px]"></section>;
+  return <div className="min-h-[600px]"></div>;
 }

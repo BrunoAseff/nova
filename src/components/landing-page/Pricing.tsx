@@ -25,7 +25,7 @@ export default function Pricing() {
   ];
 
   return (
-    <section className="flex w-full flex-col items-center justify-center">
+    <div className="flex w-full flex-col items-center justify-center">
       <h1 className="my-10 text-4xl font-[600] text-foreground">Pricing</h1>
 
       <div className="grid w-[65vw] grid-cols-1 items-stretch justify-center gap-4 md:grid-cols-2">
@@ -86,6 +86,6 @@ export default function Pricing() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
