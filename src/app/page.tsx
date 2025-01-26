@@ -13,15 +13,15 @@ export default function HomePage() {
     <main className="relative flex min-h-screen flex-col items-center gap-20 overflow-hidden bg-background">
       <Nav />
       <Hero />
-      <div id="features">
+      <section id="features">
         <Features />
-      </div>
-      <div id="pricing">
+      </section>
+      <section id="pricing">
         <Pricing />
-      </div>
-      <div className="w-full" id="footer">
+      </section>
+      <footer className="w-full" id="footer">
         <Footer />
-      </div>
+      </footer>
 
       <DotPattern
         width={50}

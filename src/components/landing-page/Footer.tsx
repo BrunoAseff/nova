@@ -4,7 +4,7 @@ import Logo from "../nova/Logo";
 
 export default function Footer() {
   return (
-    <footer className="flex w-full justify-between border-t-[1px] border-accent pb-32 pt-6">
+    <div className="flex w-full justify-between border-t-[1px] border-accent pb-32 pt-6">
       <div className="flex flex-col items-start px-10">
         <div className="scale-50">
           <Logo />
@@ -24,6 +24,6 @@ export default function Footer() {
           <p>team.novaspaces@gmail.com</p>{" "}
         </div>
       </div>
-    </footer>
+    </div>
   );
 }
