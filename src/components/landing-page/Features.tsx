@@ -11,6 +11,7 @@ import type { CarouselApi } from "@/components/ui/carousel";
 import { AmbientSoundCard } from "./Cards/AmbientSoundCard";
 import RemindersCard from "./Cards/RemindersCard";
 import QuoteCard from "./Cards/QuoteCard";
+import BackgroundCard from "./Cards/BackgroundCard";
 
 const features = [
   {
@@ -45,7 +46,7 @@ const features = [
     title: "Scenic backgrounds",
     description:
       "Transform your space with beautiful scenes - from serene ocean views to cozy cafés.",
-    component: () => <div>Backgrounds Component Placeholder</div>,
+    component: BackgroundCard,
   },
 ];
 
