@@ -8,15 +8,15 @@ import { Pause } from "@/components/icons/pause";
 import { Play } from "@/components/icons/Play";
 
 import IconBtn from "@/components/nova/buttons/IconBtn";
-import Waves from "../icons/ambientSound/Waves";
-import Rain from "../icons/ambientSound/Rain";
-import Birds from "../icons/ambientSound/Birds";
-import Fire from "../icons/ambientSound/Fire";
-import Underwater from "../icons/ambientSound/Underwater";
-import Cafe from "../icons/ambientSound/Cafe";
-import Beach from "../icons/ambientSound/Beach";
-import Tropical from "../icons/ambientSound/Tropical";
-import HeavyRain from "../icons/ambientSound/HeavyRain";
+import Waves from "../../icons/ambientSound/Waves";
+import Rain from "../../icons/ambientSound/Rain";
+import Birds from "../../icons/ambientSound/Birds";
+import Fire from "../../icons/ambientSound/Fire";
+import Underwater from "../../icons/ambientSound/Underwater";
+import Cafe from "../../icons/ambientSound/Cafe";
+import Beach from "../../icons/ambientSound/Beach";
+import Tropical from "../../icons/ambientSound/Tropical";
+import HeavyRain from "../../icons/ambientSound/HeavyRain";
 
 export const AmbientSoundCard = () => {
   const {

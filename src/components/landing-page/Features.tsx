@@ -8,7 +8,9 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import type { CarouselApi } from "@/components/ui/carousel";
-import { AmbientSoundCard } from "./FeatureFunctions";
+import { AmbientSoundCard } from "./Cards/AmbientSoundCard";
+import RemindersCard from "./Cards/RemindersCard";
+import QuoteCard from "./Cards/QuoteCard";
 
 const features = [
   {
@@ -30,13 +32,13 @@ const features = [
     title: "Grateful reminders",
     description:
       "Create custom reminders to pause and reflect on what matters most to you.",
-    component: () => <div>Reminders Component Placeholder</div>,
+    component: RemindersCard,
   },
   {
     id: 4,
-    title: "Words That Resonate",
+    title: "Words That resonate",
     description: "Find your daily spark with hand-picked quotes.",
-    component: () => <div>Quotes Component Placeholder</div>,
+    component: QuoteCard,
   },
   {
     id: 5,
