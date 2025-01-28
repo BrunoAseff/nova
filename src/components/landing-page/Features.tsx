@@ -12,14 +12,15 @@ import { AmbientSoundCard } from "./Cards/AmbientSoundCard";
 import RemindersCard from "./Cards/RemindersCard";
 import QuoteCard from "./Cards/QuoteCard";
 import BackgroundCard from "./Cards/BackgroundCard";
+import AppearanceCard from "./Cards/AppearanceCard";
 
 const features = [
   {
     id: 1,
-    title: "Create multiple spaces",
+    title: "Personalize your theme",
     description:
-      "Switch between different environments - all personalized to your unique needs.",
-    component: () => <div>Space Component Placeholder</div>,
+      "Choose from a variety of carefully crafted themes to match your mood and style.",
+    component: AppearanceCard,
   },
   {
     id: 2,
@@ -37,8 +38,8 @@ const features = [
   },
   {
     id: 4,
-    title: "Words that resonate",
-    description: "Find your daily spark with hand-picked quotes.",
+    title: "Inspiration quotes",
+    description: "Meaningful quotes that inspire and motivate.",
     component: QuoteCard,
   },
   {
@@ -49,7 +50,6 @@ const features = [
     component: BackgroundCard,
   },
 ];
-
 export default function Features() {
   const [api, setApi] = useState<CarouselApi>();
   const [selectedIndex, setSelectedIndex] = useState(0);
