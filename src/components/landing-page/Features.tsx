@@ -1,142 +1,141 @@
-import { useState, useCallback, useEffect } from "react";
-import Image from "next/image";
-import { Button } from "../ui/button";
-import { ArrowCircleLeft, ArrowCircleRight } from "@phosphor-icons/react";
-import useEmblaCarousel from "embla-carousel-react";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import AutoHeight from "embla-carousel-auto-height";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import type { CarouselApi } from "@/components/ui/carousel";
+import { AmbientSoundCard } from "./FeatureFunctions";
 
 const features = [
   {
     id: 1,
-    image: "/features/feature_1.png",
-    title: "Create Multiple Spaces",
+    title: "Create multiple spaces",
     description:
       "Switch between different environments - all personalized to your unique needs.",
+    component: () => <div>Space Component Placeholder</div>,
   },
   {
     id: 2,
-    image: "/features/feature_1.png",
-    title: "Immerse in Soothing Sounds",
+    title: "Immerse in soothing sounds",
     description:
       "Choose from calming ambient sounds to keep you focused or relaxed.",
+    component: AmbientSoundCard,
   },
   {
     id: 3,
-    image: "/features/feature_1.png",
-    title: "Daily Gratitude Journey",
+    title: "Grateful reminders",
     description:
       "Create custom reminders to pause and reflect on what matters most to you.",
+    component: () => <div>Reminders Component Placeholder</div>,
   },
   {
     id: 4,
-    image: "/features/feature_1.png",
     title: "Words That Resonate",
     description: "Find your daily spark with hand-picked quotes.",
+    component: () => <div>Quotes Component Placeholder</div>,
   },
   {
     id: 5,
-    image: "/features/feature_1.png",
-    title: "Scenic Backgrounds",
+    title: "Scenic backgrounds",
     description:
       "Transform your space with beautiful scenes - from serene ocean views to cozy cafés.",
+    component: () => <div>Backgrounds Component Placeholder</div>,
   },
 ];
 
 export default function Features() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "center",
-    duration: 30,
-    startIndex: 0,
-  });
-
+  const [api, setApi] = useState<CarouselApi>();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPending, setIsPending] = useState(false);
 
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  const scrollPrev = useCallback(() => {
-    if (isPending) return;
-    setIsPending(true);
-    emblaApi?.scrollPrev();
-    setTimeout(() => setIsPending(false), 300);
-  }, [emblaApi, isPending]);
-
-  const scrollNext = useCallback(() => {
-    if (isPending) return;
-    setIsPending(true);
-    emblaApi?.scrollNext();
-    setTimeout(() => setIsPending(false), 300);
-  }, [emblaApi, isPending]);
-
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!api) return;
 
-    onSelect();
-    emblaApi.on("select", onSelect);
-    emblaApi.on("reInit", onSelect);
+    api.on("select", () => {
+      setSelectedIndex(api.selectedScrollSnap());
+    });
 
-    return () => {
-      emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onSelect);
-    };
-  }, [emblaApi, onSelect]);
+    // Initialize selected index
+    setSelectedIndex(api.selectedScrollSnap());
+  }, [api]);
+
+  const scrollPrev = () => {
+    if (isPending) return;
+    setIsPending(true);
+    api?.scrollPrev();
+    setTimeout(() => setIsPending(false), 300);
+  };
+
+  const scrollNext = () => {
+    if (isPending) return;
+    setIsPending(true);
+    api?.scrollNext();
+    setTimeout(() => setIsPending(false), 300);
+  };
 
   return (
-    <div className="mx-auto flex w-[90%] flex-col items-center justify-center">
-      <h1 className="my-10 text-4xl font-[600] text-foreground">Features</h1>
+    <div className="z-50 mx-auto flex w-[90%] flex-col items-center justify-center bg-background">
+      <h1 className="my-10 text-4xl font-[500] text-foreground">Features</h1>
 
       <div className="relative z-50">
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-background to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-background to-transparent" />
-
-        <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex gap-8 pl-8">
-            {features.map((feature, index) => (
-              <div
-                key={feature.id}
-                className={`z-40 flex w-fit flex-none flex-col items-center gap-4 rounded-2xl border border-accent/60 p-6 transition-all duration-300 ${
-                  index === selectedIndex ? "opacity-100" : "opacity-40"
-                } bg-accent-foreground`}
-              >
-                <Image
-                  src={feature.image}
-                  alt={feature.title}
-                  width={600}
-                  height={160}
-                  className="rounded-2xl"
-                />
-                <div className="flex w-full flex-col gap-1">
-                  <h1 className="text-xl font-medium">{feature.title}</h1>
-                  <p className="max-w-[70%] text-left text-sm text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-8 flex justify-center gap-4">
+        <div className="mb-8 flex justify-center gap-4">
           <Button
             onClick={scrollPrev}
             disabled={isPending}
-            className="bg-transparent text-muted-foreground hover:bg-transparent hover:text-foreground disabled:opacity-40"
-            variant="icon"
+            className="w-fit rounded-2xl border-accent/20 bg-accent-foreground px-3 py-6 text-muted-foreground hover:bg-accent-foreground/80 hover:text-foreground disabled:opacity-40"
           >
-            <ArrowCircleLeft weight="duotone" size={32} />
+            <ArrowLeft size={32} />
           </Button>
           <Button
             onClick={scrollNext}
             disabled={isPending}
-            className="bg-transparent text-muted-foreground hover:bg-transparent hover:text-foreground disabled:opacity-40"
-            variant="icon"
+            className="w-fit rounded-2xl border-accent/20 bg-accent-foreground px-3 py-6 text-muted-foreground hover:bg-accent-foreground/80 hover:text-foreground disabled:opacity-40"
           >
-            <ArrowCircleRight weight="duotone" size={32} />
+            <ArrowRight size={32} />
           </Button>
         </div>
+
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-background to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-background to-transparent" />
+
+        <Carousel
+          setApi={setApi}
+          plugins={[AutoHeight()]}
+          className="w-full"
+          opts={{
+            loop: true,
+            align: "center",
+            duration: 30,
+            startIndex: 0,
+          }}
+        >
+          <CarouselContent className="pl-8">
+            {features.map((feature, index) => {
+              const Component = feature.component;
+              return (
+                <CarouselItem key={feature.id} className="basis-auto pl-8">
+                  <div
+                    className={`z-40 flex w-fit flex-none flex-col items-start gap-4 rounded-2xl border border-accent/20 p-6 transition-all duration-300 ${
+                      index === selectedIndex ? "opacity-100" : "opacity-40"
+                    } bg-accent-foreground`}
+                  >
+                    <div className="flex w-full flex-col gap-1">
+                      <h1 className="text-xl font-medium">{feature.title}</h1>
+                      <p className="max-w-[85%] text-left text-sm text-muted-foreground">
+                        {feature.description}
+                      </p>
+                    </div>
+                    <Component />
+                  </div>
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+        </Carousel>
       </div>
     </div>
   );
