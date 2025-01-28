@@ -9,6 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { quotes, type Quote } from "@/components/features/quotes/quotes";
+import Image from "next/image";
 
 export const QuoteCard = () => {
   const [currentQuote, setCurrentQuote] = useState<Quote>(
@@ -29,7 +30,14 @@ export const QuoteCard = () => {
   };
 
   return (
-    <div className="group w-full max-w-md rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 font-montserrat">
+    <div className="group relative w-full max-w-md overflow-hidden rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 font-montserrat">
+      <Image
+        src="/quoteCard.png"
+        alt="Quote background"
+        fill
+        className="object-cover brightness-[0.7]"
+        priority
+      />
       <div className="relative">
         <AnimatePresence mode="wait">
           <motion.div

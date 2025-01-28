@@ -36,7 +36,7 @@ const features = [
   },
   {
     id: 4,
-    title: "Words That resonate",
+    title: "Words that resonate",
     description: "Find your daily spark with hand-picked quotes.",
     component: QuoteCard,
   },
