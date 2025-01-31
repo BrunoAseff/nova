@@ -1,10 +1,20 @@
 import { Button } from "../ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Hero() {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+
+  useEffect(() => {
+    setVideoError(false);
+  }, []);
+
+  const handleVideoError = () => {
+    console.error("Video loading error");
+    setVideoError(true);
+  };
 
   return (
     <section className="z-50 flex w-full flex-col items-center justify-evenly md:flex-row">
@@ -16,19 +26,31 @@ export default function Hero() {
       </div>
       <div className="aspect-[16/9] w-[200%]">
         <div className="relative scale-[0.70] overflow-hidden rounded-lg shadow-[0px_20px_1007px_10px] shadow-secondary/60">
-          {!isVideoLoaded && <Skeleton className="h-full w-full" />}
-          <video
-            className={`h-full w-full scale-[1.1] object-cover ${
-              isVideoLoaded ? "opacity-100" : "opacity-0"
-            }`}
-            autoPlay
-            loop
-            muted
-            playsInline
-            onLoadedData={() => setIsVideoLoaded(true)}
-          >
-            <source src="/pomodoro.mp4" type="video/mp4" />
-          </video>
+          {!isVideoLoaded && !videoError && (
+            <Skeleton className="h-full w-full" />
+          )}
+          {!videoError && (
+            <video
+              className={`h-full w-full scale-[1.1] object-cover ${
+                isVideoLoaded ? "opacity-100" : "opacity-0"
+              }`}
+              autoPlay
+              loop
+              muted
+              playsInline
+              onLoadedData={() => setIsVideoLoaded(true)}
+              onError={handleVideoError}
+            >
+              <source src="/pomodoro.webm" type="video/webm" />
+              <source src="/pomodoro.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+          {videoError && (
+            <div className="flex h-full w-full items-center justify-center bg-background/80 p-4 text-center text-foreground">
+              Unable to load video. Please refresh or try a different browser.
+            </div>
+          )}
         </div>
       </div>
     </section>
