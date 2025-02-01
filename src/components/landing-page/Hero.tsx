@@ -17,8 +17,8 @@ export default function Hero() {
   };
 
   return (
-    <section className="z-50 flex w-full flex-col items-center justify-evenly md:flex-row">
-      <div className="flex w-full flex-col items-center justify-center gap-4 px-6 text-2xl text-foreground md:ml-20 md:items-start md:justify-start md:px-0 md:text-5xl">
+    <section className="z-50 mt-32 flex w-full flex-col items-center justify-evenly md:mt-0 md:flex-row">
+      <div className="flex w-full flex-col items-center justify-center gap-4 px-6 text-center text-2xl text-foreground md:ml-20 md:items-start md:justify-start md:px-0 md:text-left md:text-5xl">
         <h1>Welcome to your mind&apos;s secret garden</h1>
         <Button className="scale-110 font-semibold">
           <Link href="/sign-in">Get started</Link>
