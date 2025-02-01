@@ -24,7 +24,7 @@ export default function Hero() {
           <Link href="/sign-in">Get started</Link>
         </Button>
       </div>
-      <div className="aspect-[16/9] w-[200%]">
+      <div className="aspect-[16/9] w-[130%] md:w-[200%]">
         <div className="relative scale-[0.70] overflow-hidden rounded-lg shadow-[0px_20px_1007px_10px] shadow-secondary/60">
           {!isVideoLoaded && !videoError && (
             <Skeleton className="h-full w-full" />
