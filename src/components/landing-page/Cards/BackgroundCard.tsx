@@ -41,9 +41,9 @@ const FEATURED_BACKGROUNDS = [
 
 export const BackgroundCard = () => {
   return (
-    <div className="w-full min-w-[640px] rounded-2xl bg-accent-foreground">
+    <div className="mb-3 w-full min-w-[440px] items-center justify-center rounded-2xl border-accent bg-accent-foreground md:min-w-[640px]">
       <div className="relative">
-        <div className="grid grid-cols-3 gap-6 pb-[1.5rem]">
+        <div className="grid grid-cols-2 gap-6 pb-[1.5rem]">
           {FEATURED_BACKGROUNDS.map((background) => (
             <div
               key={background.url}

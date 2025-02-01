@@ -84,8 +84,8 @@ export const RemindersCard = () => {
   };
 
   return (
-    <div className="flex w-full flex-col gap-8">
-      <div className="mx-auto w-full max-w-md">
+    <div className="flex max-w-full flex-col gap-8">
+      <div className="mx-auto max-w-full">
         <ReminderPreview />
       </div>
 

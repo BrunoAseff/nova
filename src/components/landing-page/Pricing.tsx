@@ -28,7 +28,7 @@ export default function Pricing() {
     <div className="flex w-full flex-col items-center justify-center">
       <h1 className="my-10 text-4xl font-[500] text-foreground">Pricing</h1>
 
-      <div className="grid w-[65vw] grid-cols-1 items-stretch justify-center gap-4 md:grid-cols-2">
+      <div className="grid w-[90vw] grid-cols-1 items-stretch justify-center gap-4 md:grid-cols-2">
         <div className="z-50 flex rounded-2xl border-[1px] border-foreground/10 bg-background">
           <div className="flex w-full flex-col items-center justify-between p-10">
             <div className="w-full">
