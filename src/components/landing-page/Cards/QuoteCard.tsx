@@ -30,7 +30,7 @@ export const QuoteCard = () => {
   };
 
   return (
-    <div className="group relative w-full max-w-md overflow-hidden rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 font-montserrat">
+    <div className="group relative overflow-hidden rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 font-montserrat md:max-w-md">
       <Image
         src="/quoteCard.png"
         alt="Quote background"

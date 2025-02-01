@@ -82,7 +82,9 @@ export default function Features() {
 
   return (
     <div className="z-50 mx-auto flex w-[90%] flex-col items-center justify-center bg-background">
-      <h1 className="my-10 text-4xl font-[500] text-foreground">Features</h1>
+      <h1 className="mb-4 mt-0 text-4xl font-[500] text-foreground md:my-10">
+        Features
+      </h1>
 
       <div className="relative z-50">
         <div className="mb-8 flex justify-center gap-4">
@@ -120,15 +122,20 @@ export default function Features() {
             {features.map((feature, index) => {
               const Component = feature.component;
               return (
-                <CarouselItem key={feature.id} className="basis-auto pl-8">
+                <CarouselItem
+                  key={feature.id}
+                  className="basis-auto pl-4 md:pl-8"
+                >
                   <div
-                    className={`z-40 flex w-fit flex-none flex-col items-start gap-4 rounded-2xl border border-accent/20 p-6 transition-all duration-300 ${
+                    className={`z-40 flex max-w-[90vw] flex-none flex-col items-start gap-4 rounded-2xl border border-accent/20 p-6 transition-all duration-300 md:w-fit md:max-w-none ${
                       index === selectedIndex ? "opacity-100" : "opacity-40"
                     } bg-accent-foreground`}
                   >
                     <div className="flex w-full flex-col gap-1">
-                      <h1 className="text-xl font-medium">{feature.title}</h1>
-                      <p className="max-w-[85%] text-left text-sm text-muted-foreground">
+                      <h1 className="text-base font-medium md:text-xl">
+                        {feature.title}
+                      </h1>
+                      <p className="hidden max-w-[85%] text-left text-sm text-muted-foreground md:block">
                         {feature.description}
                       </p>
                     </div>

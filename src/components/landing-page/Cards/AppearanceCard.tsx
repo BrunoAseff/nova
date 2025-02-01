@@ -149,7 +149,7 @@ export default function AppearanceCard() {
         ))}
       </RadioGroup>
       <RadioGroup
-        className="mx-auto mt-4 grid w-fit scale-90 grid-cols-3 items-center justify-center gap-6"
+        className="mx-auto mt-4 grid w-fit scale-75 grid-cols-3 items-center justify-center gap-6 md:scale-90"
         value={selectedCustomTheme}
         onValueChange={handleCustomThemeChange}
       >
