@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const FEATURED_BACKGROUNDS = [
   {
@@ -40,11 +41,32 @@ const FEATURED_BACKGROUNDS = [
 ] as const;
 
 export const BackgroundCard = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Add resize listener
+    window.addEventListener("resize", checkMobile);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const displayedBackgrounds = isMobile
+    ? FEATURED_BACKGROUNDS.slice(0, 6)
+    : FEATURED_BACKGROUNDS;
+
   return (
     <div className="mb-3 w-full min-w-[300px] items-center justify-center rounded-2xl border-accent bg-accent-foreground md:min-w-[640px]">
       <div className="relative">
         <div className="grid grid-cols-2 gap-6 pb-[1.5rem] md:grid-cols-3">
-          {FEATURED_BACKGROUNDS.map((background) => (
+          {displayedBackgrounds.map((background) => (
             <div
               key={background.url}
               className="relative aspect-[5/3] overflow-hidden rounded-2xl"
