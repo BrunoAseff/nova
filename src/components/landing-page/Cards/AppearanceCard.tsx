@@ -110,7 +110,7 @@ export default function AppearanceCard() {
   };
 
   return (
-    <div className="mb-3 w-full items-center justify-center rounded-2xl border-accent bg-accent-foreground">
+    <div className="w-full items-center justify-center rounded-2xl border-accent bg-accent-foreground">
       <RadioGroup
         className="flex w-full items-center justify-center gap-4"
         value={selectedTheme}
@@ -149,7 +149,7 @@ export default function AppearanceCard() {
         ))}
       </RadioGroup>
       <RadioGroup
-        className="mx-auto mt-4 grid w-fit scale-75 grid-cols-3 items-center justify-center gap-6 md:scale-90"
+        className="mx-auto mt-4 grid w-fit origin-left scale-75 grid-cols-3 items-center justify-center gap-x-24 md:scale-90 md:gap-6"
         value={selectedCustomTheme}
         onValueChange={handleCustomThemeChange}
       >
@@ -160,7 +160,7 @@ export default function AppearanceCard() {
               value={item.id}
               className="peer sr-only after:absolute after:inset-0"
             />
-            <div className="relative cursor-pointer overflow-hidden rounded-2xl border-2 border-input fill-foreground px-2 py-1 outline-offset-1 transition-colors peer-[:focus-visible]:outline peer-[:focus-visible]:outline-2 peer-[:focus-visible]:outline-ring/70 peer-data-[disabled]:cursor-not-allowed peer-data-[state=checked]:border-secondary peer-data-[state=checked]:bg-secondary-smooth-700/10 peer-data-[state=checked]:fill-secondary peer-data-[disabled]:opacity-50">
+            <div className="md:min-w-none relative min-w-28 cursor-pointer overflow-hidden rounded-2xl border-2 border-input fill-foreground px-2 py-1 outline-offset-1 transition-colors peer-[:focus-visible]:outline peer-[:focus-visible]:outline-2 peer-[:focus-visible]:outline-ring/70 peer-data-[disabled]:cursor-not-allowed peer-data-[state=checked]:border-secondary peer-data-[state=checked]:bg-secondary-smooth-700/10 peer-data-[state=checked]:fill-secondary peer-data-[disabled]:opacity-50">
               {item.icon}
             </div>
             <span className="group mt-2 flex items-center gap-1 text-secondary peer-data-[state=unchecked]:text-muted-foreground/70">

@@ -131,7 +131,7 @@ export default function Features() {
                       index === selectedIndex ? "opacity-100" : "opacity-40"
                     } bg-accent-foreground`}
                   >
-                    <div className="flex w-full flex-col gap-1">
+                    <div className="flex max-w-none flex-col gap-1 md:max-w-[35vw]">
                       <h1 className="text-base font-medium md:text-xl">
                         {feature.title}
                       </h1>
