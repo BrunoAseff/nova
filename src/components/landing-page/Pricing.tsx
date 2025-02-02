@@ -26,13 +26,15 @@ export default function Pricing() {
 
   return (
     <div className="flex w-full flex-col items-center justify-center">
-      <h1 className="my-10 text-4xl font-[500] text-foreground">Pricing</h1>
+      <h1 className="mb-10 mt-0 text-4xl font-[500] text-foreground md:mt-10">
+        Pricing
+      </h1>
 
       <div className="grid w-[90vw] grid-cols-1 items-stretch justify-center gap-4 md:grid-cols-2">
         <div className="z-50 flex rounded-2xl border-[1px] border-foreground/10 bg-background">
-          <div className="flex w-full flex-col items-center justify-between p-10">
+          <div className="flex w-full flex-col items-center justify-between p-8 md:p-10">
             <div className="w-full">
-              <Label className="flex w-full justify-between text-2xl font-[600]">
+              <Label className="flex w-full justify-between text-xl font-[600] md:text-2xl">
                 <p className="text-foreground">Nova</p>
                 <p>Free</p>
               </Label>
@@ -59,9 +61,9 @@ export default function Pricing() {
         </div>
 
         <div className="z-40 flex rounded-2xl border-[1px] border-secondary/20 bg-background">
-          <div className="flex w-full flex-col items-center justify-between p-10">
+          <div className="flex w-full flex-col items-center justify-between p-8 md:p-10">
             <div className="w-full">
-              <Label className="flex w-full justify-between bg-none text-2xl font-[600]">
+              <Label className="flex w-full justify-between bg-none text-xl font-[600] md:text-2xl">
                 <p className="bg-gradient-to-tl from-secondary via-secondary-smooth-500 to-secondary bg-clip-text text-transparent">
                   Supernova
                 </p>
