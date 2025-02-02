@@ -124,7 +124,7 @@ export default function Features() {
               return (
                 <CarouselItem
                   key={feature.id}
-                  className="h-fit basis-auto pl-4 md:pl-8"
+                  className="basis-auto pl-4 md:pl-8"
                 >
                   <div
                     className={`z-40 flex max-w-[90vw] flex-none flex-col items-start gap-4 rounded-2xl border border-accent/20 p-6 transition-all duration-300 md:w-fit md:max-w-none ${
