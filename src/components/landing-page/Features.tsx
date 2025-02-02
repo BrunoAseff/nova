@@ -124,14 +124,14 @@ export default function Features() {
               return (
                 <CarouselItem
                   key={feature.id}
-                  className="basis-auto pl-4 md:pl-8"
+                  className="h-fit basis-auto pl-4 md:pl-8"
                 >
                   <div
                     className={`z-40 flex max-w-[90vw] flex-none flex-col items-start gap-4 rounded-2xl border border-accent/20 p-6 transition-all duration-300 md:w-fit md:max-w-none ${
                       index === selectedIndex ? "opacity-100" : "opacity-40"
                     } bg-accent-foreground`}
                   >
-                    <div className="flex w-full flex-col gap-1">
+                    <div className="flex max-w-none flex-col gap-1 md:max-w-[35vw]">
                       <h1 className="text-base font-medium md:text-xl">
                         {feature.title}
                       </h1>
