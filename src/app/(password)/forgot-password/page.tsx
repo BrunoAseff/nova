@@ -1,29 +1,65 @@
 "use client";
 
 import { useState } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { CircleNotch, EnvelopeSimple } from "@phosphor-icons/react";
 import DotPattern from "@/components/ui/dot-pattern";
 import { cn } from "@/lib/utils";
-import { CircleNotch, EnvelopeSimple } from "@phosphor-icons/react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import PrimaryBtn from "@/components/nova/buttons/PrimaryBtn";
 
+const resetSchema = z.object({
+  email: z
+    .string()
+    .email({ message: "Please enter a valid email." })
+    .min(1, { message: "Email is required." }),
+});
+
+type ResetFormValues = z.infer<typeof resetSchema>;
+
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [submittedEmail, setSubmittedEmail] = useState("");
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  const form = useForm<ResetFormValues>({
+    resolver: zodResolver(resetSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  async function onSubmit(data: ResetFormValues) {
     setIsLoading(true);
+    setError(null);
 
     try {
-      await fetch("/api/reset-password", {
+      const response = await fetch("/api/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: data.email }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to send reset email");
+      }
+
+      setSubmittedEmail(data.email);
       setSubmitted(true);
     } catch (error) {
+      setError(error instanceof Error ? error.message : "An error occurred");
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -39,7 +75,8 @@ export default function ForgotPassword() {
           </h1>
           <p className="text-center text-xs text-muted-foreground md:text-sm">
             If an account exists for
-            <span className="text-foreground"> {email}</span>, we&apos;ve sent
+            <span className="text-foreground"> {submittedEmail}</span>,
+            we&apos;ve sent
             <br />
             password reset instructions.
           </p>
@@ -74,30 +111,43 @@ export default function ForgotPassword() {
           <br />
           instructions to reset your password.
         </p>
-        <form
-          onSubmit={onSubmit}
-          className="w-full items-center justify-center space-y-6"
-        >
-          <Input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <div className="flex w-full items-center justify-center">
-            <PrimaryBtn disabled={isLoading} type="submit">
-              {isLoading ? (
-                <div className="flex items-center justify-around gap-1">
-                  <CircleNotch className="animate-spin" size={18} />
-                  <p>Send email</p>
-                </div>
-              ) : (
-                "Send email"
+        {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full space-y-6"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="sr-only">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your email"
+                      type="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
               )}
-            </PrimaryBtn>
-          </div>
-        </form>
+            />
+            <div className="flex w-full items-center justify-center">
+              <PrimaryBtn disabled={isLoading} type="submit">
+                {isLoading ? (
+                  <div className="flex items-center justify-around gap-1">
+                    <CircleNotch className="animate-spin" size={18} />
+                    <p>Send email</p>
+                  </div>
+                ) : (
+                  "Send email"
+                )}
+              </PrimaryBtn>
+            </div>
+          </form>
+        </Form>
       </div>
       <DotPattern
         width={50}
