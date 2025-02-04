@@ -3,9 +3,10 @@ import crypto from "crypto";
 import { PrismaClient } from "@prisma/client";
 import { Resend } from "resend";
 import ResetPasswordEmail from "@/lib/emails/reset-password";
+import { env } from "../../../env";
 
 const prisma = new PrismaClient();
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
@@ -30,10 +31,10 @@ export async function POST(req: Request) {
       },
     });
 
-    const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password/${token}`;
+    const resetUrl = `${env.NEXTAUTH_URL}/reset-password/${token}`;
 
     await resend.emails.send({
-      from: process.env.EMAIL_FROM!,
+      from: env.EMAIL_FROM,
       to: email,
       subject: "Reset your password",
       react: ResetPasswordEmail({ url: resetUrl }),
