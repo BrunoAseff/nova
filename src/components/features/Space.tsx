@@ -176,7 +176,7 @@ export default function Space() {
               <TabsContent
                 className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
                 key={space.id}
-                value={space.id.toString()} // Match the TabsTrigger value
+                value={space.id.toString()}
               >
                 <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
 

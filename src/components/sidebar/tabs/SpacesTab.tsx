@@ -30,8 +30,6 @@ import SpacesIllustration from "@/components/svgs/SpacesIllustration";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@/components/icons/PlusIcon";
-import LimitedFeature from "@/components/limitedFeature";
 import { PencilSimpleLine } from "@phosphor-icons/react";
 
 const shortcutMapping: Record<string, ShortcutName> = {
@@ -79,11 +77,9 @@ export default function SpacesTab() {
     }
   }, [editingSpaceIndex]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   function handleSpaceNameChange(index: number): void {
     const space = spaces[index];
-    if (!space) return; // Ensure the space exists
+    if (!space) return;
     const newName = tempSpaceNames[index];
     updateSpaceProperty(space.id, "name", newName);
     setEditingSpaceIndex(null);
@@ -99,10 +95,6 @@ export default function SpacesTab() {
       return updatedNames;
     });
     setEditingSpaceIndex(null);
-  }
-
-  function handleAddSpace() {
-    setIsModalOpen(true);
   }
 
   return (
@@ -177,18 +169,6 @@ export default function SpacesTab() {
                   )}
                 </div>
               ))}
-              <button
-                onClick={handleAddSpace}
-                className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
-              >
-                <PlusIcon />
-              </button>
-              <LimitedFeature
-                feature="spaces"
-                limit="3 spaces"
-                open={isModalOpen}
-                onOpenChange={() => setIsModalOpen(!isModalOpen)}
-              />
             </div>
           </div>
         </TabCard>
