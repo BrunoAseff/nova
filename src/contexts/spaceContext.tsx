@@ -43,10 +43,12 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const ambientAudioRef = useRef<HTMLAudioElement | null>(null);
 
   function resetSpaces() {
+    // Clear localStorage
     localStorage.removeItem("spaces");
     localStorage.removeItem("shortcut");
     localStorage.removeItem("ambientSound");
     localStorage.removeItem("reminderMessages");
+
     setShortcut(settings.shortcut);
     setAmbientSound(settings.ambientSound);
     setSpaces(settings.spaces);
