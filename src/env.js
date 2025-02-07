@@ -30,6 +30,8 @@ export const env = createEnv({
     EMAIL_SERVER_PORT: z.string(),
     EMAIL_FROM: z.string(),
     RESEND_API_KEY: z.string(),
+    UPSTASH_REDIS_REST_URL: z.string().url(),
+    UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
   },
 
   /**
@@ -58,6 +60,8 @@ export const env = createEnv({
     EMAIL_SERVER_PORT: process.env.EMAIL_SERVER_PORT,
     EMAIL_FROM: process.env.EMAIL_FROM,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
