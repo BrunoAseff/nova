@@ -6,6 +6,7 @@ import type { Position } from "@/types";
 import { TabHeader } from "@/components/tabHeader";
 import ClockIllustration from "@/components/svgs/ClockIllustration";
 import { useClockSettings } from "@/hooks/feature-settings/useClockSettings";
+import { TabSection } from "@/components/nova/tabSection";
 
 export default function ClockTab() {
   const { selectedPosition, timeFormat, isClockVisible, updateClockProperty } =
@@ -32,27 +33,29 @@ export default function ClockTab() {
       />
       <div className="scrollbar-thin scrollbar-gutter-stable sm-min-w-full scrollbar-track-background scrollbar-thumb-accent mt-[6.1rem] h-[calc(100vh-190px)] w-[140%] flex-col gap-6 space-y-4 overflow-y-auto pb-10 pr-6 md:h-[calc(100vh-250px)] md:w-[110%]">
         {" "}
-        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
-          <div className="flex w-full flex-col gap-1">
-            <Label
-              htmlFor="clock-visibility"
-              className="text-md text-foreground"
-            >
-              Visibility
-            </Label>
-            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-xs text-muted-foreground md:text-sm">
-              Controls if the clock is visible on the screen.
-            </p>
+        <TabSection>
+          <div className="flex items-center justify-between">
+            <div className="flex w-full flex-col gap-1">
+              <Label
+                htmlFor="clock-visibility"
+                className="text-md text-foreground"
+              >
+                Visibility
+              </Label>
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-xs text-muted-foreground md:text-sm">
+                Controls if the clock is visible on the screen.
+              </p>
+            </div>
+            <Switch
+              aria-label="Change clock visibility"
+              className="ml-auto"
+              id="clock-visibility"
+              checked={isClockVisible}
+              onCheckedChange={handleClockVisibilityChange}
+            />
           </div>
-          <Switch
-            aria-label="Change clock visibility"
-            className="ml-auto"
-            id="clock-visibility"
-            checked={isClockVisible}
-            onCheckedChange={handleClockVisibilityChange}
-          />
-        </div>
-        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        </TabSection>
+        <TabSection>
           <div className="flex w-full flex-col gap-4">
             <Label htmlFor="clock-position" className="text-md text-foreground">
               Position
@@ -94,8 +97,8 @@ export default function ClockTab() {
               ))}
             </RadioGroup>
           </div>
-        </div>
-        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4">
+        </TabSection>
+        <TabSection>
           <div className="flex w-[90%] flex-col gap-4">
             <Label htmlFor="time-format" className="text-md text-foreground">
               Time Format
@@ -138,7 +141,7 @@ export default function ClockTab() {
               ))}
             </RadioGroup>
           </div>
-        </div>
+        </TabSection>
       </div>
     </main>
   );
