@@ -52,7 +52,7 @@ model User {
     sessions        Session[]
     settings        Settings?
     stripeCustomerId  String?  @unique
-    subscriptionStatus String? // We'll use this as a cache/quick lookup
+    subscriptionStatus String? 
 }
 
 model VerificationToken {
