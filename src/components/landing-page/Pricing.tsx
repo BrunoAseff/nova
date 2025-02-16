@@ -2,28 +2,9 @@ import { CheckCircle } from "@phosphor-icons/react";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { novaItems, supernovaItems } from "@/content/PricingItems";
 
 export default function Pricing() {
-  const novaItems = [
-    "Pomodoro",
-    "Background images",
-    "Ambient sounds",
-    "Up to 3 customizable spaces",
-    "Up to 3 reminders",
-    "Only available backgrounds",
-    "Only light and dark themes",
-  ];
-
-  const supernovaItems = [
-    "Everything in free",
-    "10 customizable spaces",
-    "Unlimited remiders",
-    "Upload your own background images",
-    "Access to all themes",
-    "Curated playlists",
-    "Add your custom playlists",
-  ];
-
   return (
     <div className="flex w-full flex-col items-center justify-center">
       <h1 className="mb-10 mt-0 text-4xl font-[500] text-foreground md:mt-10">
@@ -60,7 +41,10 @@ export default function Pricing() {
           </div>
         </div>
 
-        <div className="z-40 flex rounded-2xl border-[1px] border-secondary/20 bg-background">
+        <div className="relative z-40 flex rounded-2xl border-[1px] border-secondary/20 bg-background">
+          <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
+            <p className="text-base text-foreground">Coming soon...</p>
+          </div>
           <div className="flex w-full flex-col items-center justify-between p-8 md:p-10">
             <div className="w-full">
               <Label className="flex w-full justify-between bg-none text-xl font-[600] md:text-2xl">
