@@ -39,7 +39,7 @@ export default function LimitedFeature({
         <div className="grid gap-4 py-4">
           <div>
             <Label htmlFor="name" className="text-right">
-              image here soon
+              Coming soon...
             </Label>
           </div>
         </div>

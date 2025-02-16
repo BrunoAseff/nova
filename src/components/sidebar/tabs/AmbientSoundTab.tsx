@@ -5,7 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { MutedVolumeIcon } from "@/components/icons/MutedVolumeIcon";
 import { VolumeIcon } from "@/components/icons/VolumeIcon";
 import { useSpacesContext } from "@/contexts/spaceContext";
-import { ambientSounds, type Type } from "content/ambientSounds";
+import { ambientSounds, type Type } from "@/content/ambientSounds";
 import { Pause } from "@/components/icons/pause";
 import { Play } from "@/components/icons/Play";
 import {

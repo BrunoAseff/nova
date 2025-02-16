@@ -4,29 +4,10 @@ import DotPattern from "@/components/ui/dot-pattern";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { CheckCircle } from "@phosphor-icons/react";
+import { novaItems, supernovaItems } from "@/content/PricingItems";
 import Link from "next/link";
 
 export default function Pricing() {
-  const novaItems = [
-    "Pomodoro",
-    "Background images",
-    "Ambient sounds",
-    "Up to 3 customizable spaces",
-    "Up to 3 reminders",
-    "Only available backgrounds",
-    "Only light and dark themes",
-  ];
-
-  const supernovaItems = [
-    "Everything in free",
-    "10 customizable spaces",
-    "Unlimited remiders",
-    "Upload your own background images",
-    "Access to all themes",
-    "Curated playlists",
-    "Add your custom playlists",
-  ];
-
   return (
     <main className="relative flex min-h-screen flex-col items-center overflow-hidden overflow-y-auto rounded-lg bg-background p-20">
       <h1 className="my-10 text-4xl font-[600] text-foreground">Pricing</h1>
@@ -61,7 +42,10 @@ export default function Pricing() {
           </div>
         </div>
 
-        <div className="z-40 flex rounded-2xl border-[1px] border-secondary/20 bg-background">
+        <div className="relative z-40 flex rounded-2xl border-[1px] border-secondary/20 bg-background">
+          <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
+            <p className="text-base text-foreground">Coming soon...</p>
+          </div>
           <div className="flex w-full flex-col items-center justify-between p-10">
             <div className="w-full">
               <Label className="flex w-full justify-between bg-none text-2xl font-[600]">

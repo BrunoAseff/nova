@@ -1,8 +1,8 @@
 import { Home } from "@/components/icons/Home";
 import { Focus } from "@/components/icons/Focus";
 import { Relax } from "@/components/icons/Relax";
-import { backgrounds } from "content/backgrounds";
-import { ambientSounds } from "content/ambientSounds";
+import { backgrounds } from "@/content/backgrounds";
+import { ambientSounds } from "@/content/ambientSounds";
 import type { settingsType } from "@/types/settings";
 
 const DEFAULT_ALARM_SOUND = "/alarm-sounds/calming-alarm.wav";
