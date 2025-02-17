@@ -54,11 +54,13 @@ export default function Space() {
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      const isLoggedIn = session?.user;
+
       const changes = localStorage.getItem("nova-changes");
       if (!changes) return;
 
       const { pending } = JSON.parse(changes) as Changes;
-      if (pending.length > 0) {
+      if (pending.length > 0 && isLoggedIn) {
         e.preventDefault();
         e.returnValue = "";
       }
@@ -66,7 +68,7 @@ export default function Space() {
 
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, []);
+  }, [session?.user]);
 
   useEffect(() => {
     const fetchSpaces = async () => {
