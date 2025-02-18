@@ -50,7 +50,7 @@ const FullscreenButton = ({ contentRef }: FullscreenButtonProps) => {
           aria-labelledby="full-screen"
           aria-label="full-screen"
           onClick={toggleFullscreen}
-          className="absolute bottom-10 right-[21rem] z-10 hidden overflow-hidden rounded-xl border-[2px] border-accent bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex md:p-5"
+          className="absolute bottom-10 right-[21rem] z-10 hidden overflow-hidden rounded-xl border-[2px] border-muted bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex md:p-5"
         >
           {isFullscreen ? <ArrowsIn size={17} /> : <FullScreenIcon />}
         </Button>
