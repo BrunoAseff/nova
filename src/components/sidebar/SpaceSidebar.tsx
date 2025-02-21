@@ -15,6 +15,8 @@ import BreathingExerciseTab from "./tabs/BreathingExerciseTab";
 import SpacesTab from "./tabs/SpacesTab";
 import AppearanceTab from "./tabs/AppearanceTab";
 import ProfileTab from "./tabs/ProfileTab";
+import { Pause } from "@/components/icons/pause";
+import { Play } from "@/components/icons/Play";
 import {
   Alarm,
   Exclude,
@@ -31,9 +33,39 @@ import {
 import PomodoroTab from "./tabs/PomodoroTab";
 import QuoteTab from "./tabs/QuoteTab";
 import { SessionProvider } from "next-auth/react";
+import { useSpacesContext } from "@/contexts/spaceContext";
+import { MutedVolumeIcon } from "../icons/MutedVolumeIcon";
+import { VolumeIcon } from "../icons/VolumeIcon";
+import { Slider } from "../ui/slider";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
+
+  const {
+    ambientSoundVolume,
+    isAmbientSoundPlaying,
+    updateAmbientSoundVolume,
+    playAmbientSound,
+    pauseAmbientSound,
+  } = useSpacesContext();
+
+  const handleVolumeChange = (value: number[]) => {
+    if (value[0] !== undefined) {
+      updateAmbientSoundVolume(value[0]);
+    }
+  };
+
+  const handleMuteToggle = () => {
+    updateAmbientSoundVolume(ambientSoundVolume > 0 ? 0 : 50);
+  };
+
+  const handlePlayPause = () => {
+    if (isAmbientSoundPlaying) {
+      pauseAmbientSound();
+    } else {
+      playAmbientSound();
+    }
+  };
 
   return (
     <SessionProvider>
@@ -185,6 +217,28 @@ export function SpaceSidebar() {
               >
                 <ProfileTab />
               </TabsContent>
+            </div>
+
+            <div className="absolute bottom-8 left-4 flex">
+              <div className="hidden max-w-[14rem] items-center space-x-2 rounded-full bg-background p-3 md:flex">
+                <IconBtn onClick={handlePlayPause}>
+                  {isAmbientSoundPlaying ? <Pause /> : <Play />}
+                </IconBtn>
+                <IconBtn onClick={handleMuteToggle}>
+                  {ambientSoundVolume === 0 ? (
+                    <MutedVolumeIcon />
+                  ) : (
+                    <VolumeIcon />
+                  )}
+                </IconBtn>
+                <Slider
+                  value={[ambientSoundVolume]}
+                  onValueChange={handleVolumeChange}
+                  max={100}
+                  step={1}
+                  className="w-24 cursor-pointer"
+                />
+              </div>
             </div>
           </SidebarTabs>
         </div>
