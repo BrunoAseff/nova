@@ -146,7 +146,7 @@ export default function Space() {
           className="relative m-0 h-dvh w-full overflow-hidden p-0 font-sans"
           aria-label="Space selection tabs"
         >
-          <TabsList className="absolute bottom-6 left-8 z-10 min-h-[2.75rem] md:bottom-10 md:left-auto md:right-28">
+          <TabsList className="absolute bottom-6 left-8 z-10 md:bottom-10 md:left-auto md:right-28">
             {[...spaces]
               .sort((a, b) => a.id - b.id)
               .map((space) => (
