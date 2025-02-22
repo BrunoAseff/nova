@@ -15,6 +15,9 @@ interface AmbientSoundState {
   play: (soundUrl?: string) => void;
   pause: () => void;
   toggle: () => void;
+  toggleMute: () => void;
+  togglePlayPause: () => void;
+  handleVolumeChange: (values: number[]) => void;
 }
 
 export const useAmbientSound = create<AmbientSoundState>((set, get) => ({
@@ -86,6 +89,26 @@ export const useAmbientSound = create<AmbientSoundState>((set, get) => ({
       get().pause();
     } else {
       get().play();
+    }
+  },
+
+  handleVolumeChange: (values: number[]) => {
+    if (values[0] !== undefined) {
+      get().setVolume(values[0]);
+    }
+  },
+
+  toggleMute: () => {
+    const { ambientSoundVolume, setVolume } = get();
+    setVolume(ambientSoundVolume > 0 ? 0 : 50);
+  },
+
+  togglePlayPause: () => {
+    const { isPlaying, play, pause } = get();
+    if (isPlaying) {
+      pause();
+    } else {
+      play();
     }
   },
 }));
