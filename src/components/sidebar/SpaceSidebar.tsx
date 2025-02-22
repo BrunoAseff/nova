@@ -41,26 +41,13 @@ import { useAmbientSound } from "@/stores/useAmbientSound";
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
 
-  const { ambientSoundVolume, isPlaying, setVolume, play, pause } =
-    useAmbientSound();
-
-  const handleVolumeChange = (value: number[]) => {
-    if (value[0] !== undefined) {
-      setVolume(value[0]);
-    }
-  };
-
-  const handleMuteToggle = () => {
-    setVolume(ambientSoundVolume > 0 ? 0 : 50);
-  };
-
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      pause();
-    } else {
-      play();
-    }
-  };
+  const {
+    ambientSoundVolume,
+    isPlaying,
+    toggleMute,
+    togglePlayPause,
+    handleVolumeChange,
+  } = useAmbientSound();
 
   return (
     <SessionProvider>
@@ -216,10 +203,10 @@ export function SpaceSidebar() {
 
             <div className="absolute bottom-8 left-4 flex">
               <div className="hidden max-w-[14rem] items-center space-x-2 rounded-full bg-background p-3 md:flex">
-                <IconBtn onClick={handlePlayPause}>
+                <IconBtn onClick={togglePlayPause}>
                   {isPlaying ? <Pause /> : <Play />}
                 </IconBtn>
-                <IconBtn onClick={handleMuteToggle}>
+                <IconBtn onClick={toggleMute}>
                   {ambientSoundVolume === 0 ? (
                     <MutedVolumeIcon />
                   ) : (
