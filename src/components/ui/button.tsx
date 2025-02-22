@@ -18,7 +18,7 @@ const buttonVariants = cva(
         secondary:
           "bg-accent w-fit transition-all rounded-3xl hover:bg-foreground hover:text-background text-foreground p-7 font-sans text-sm font-[500]",
         ghost:
-          "w-fit transition-all rounded-3xl hover:bg-accent hover:text-accent-foreground  p-7 font-sans text-sm font-[500] border-[1px] hover:border-secondary hover:text-secondary hover:bg-secondary-smooth-700/10 border-muted-foreground/80 text-muted-foreground/80",
+          "w-fit transition-all rounded-3xl bg-transparent p-7 font-sans text-sm font-[400] border-[1px] hover:border-muted-foreground  hover:bg-accent/40 border-muted-foreground/60 text-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         icon: "bg-primary text-primary-foreground hover:bg-primary/90",
       },
