@@ -23,41 +23,14 @@ export const AmbientSoundCard = () => {
     ambientSound,
     ambientSoundVolume,
     isPlaying,
-    setAmbientSound,
-    setVolume,
-    play,
-    pause,
+    toggleMute,
+    togglePlayPause,
+    handleVolumeChange,
+    handleSoundChange,
+    getCurrentSound,
   } = useAmbientSound();
 
-  const currentSound = ambientSounds.find(
-    (sound) => sound.url === ambientSound,
-  );
-
-  const handleSoundChange = (soundName: string) => {
-    const selected = ambientSounds.find((sound) => sound.name === soundName);
-    if (selected) {
-      setAmbientSound(selected.url);
-    }
-  };
-
-  const handleVolumeChange = (value: number[]) => {
-    if (value[0] !== undefined) {
-      setVolume(value[0]);
-    }
-  };
-
-  const handleMuteToggle = () => {
-    setVolume(ambientSoundVolume > 0 ? 0 : 50);
-  };
-
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      pause();
-    } else {
-      play();
-    }
-  };
-
+  const currentSound = getCurrentSound();
   const SoundIconMap: Record<string, React.ComponentType> = {
     "Ocean Waves": Waves,
     Rain: Rain,
@@ -76,13 +49,13 @@ export const AmbientSoundCard = () => {
         <div className="mt-1 flex w-full items-center justify-center space-x-4">
           <IconBtn
             className="rounded-full border-[1px] border-transparent bg-transparent hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
-            onClick={handlePlayPause}
+            onClick={togglePlayPause}
           >
             {isPlaying ? <Pause /> : <Play />}
           </IconBtn>
           <IconBtn
             className="rounded-full border-[1px] border-transparent bg-transparent hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
-            onClick={handleMuteToggle}
+            onClick={toggleMute}
           >
             {ambientSoundVolume === 0 ? <MutedVolumeIcon /> : <VolumeIcon />}
           </IconBtn>
