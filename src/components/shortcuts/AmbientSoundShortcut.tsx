@@ -3,7 +3,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { MutedVolumeIcon } from "@/components/icons/MutedVolumeIcon";
 import { VolumeIcon } from "@/components/icons/VolumeIcon";
-import { useSpacesContext } from "@/contexts/spaceContext";
 import { ambientSounds, type Type } from "@/content/ambientSounds";
 import { Pause } from "@/components/icons/pause";
 import { Play } from "@/components/icons/Play";
@@ -27,17 +26,18 @@ import Cafe from "../icons/ambientSound/Cafe";
 import Beach from "../icons/ambientSound/Beach";
 import Tropical from "../icons/ambientSound/Tropical";
 import HeavyRain from "../icons/ambientSound/HeavyRain";
+import { useAmbientSound } from "@/stores/useAmbientSound";
 
 export default function AmbientSoundShortcut() {
   const {
     ambientSound,
     ambientSoundVolume,
-    isAmbientSoundPlaying,
-    updateAmbientSound,
-    updateAmbientSoundVolume,
-    playAmbientSound,
-    pauseAmbientSound,
-  } = useSpacesContext();
+    isPlaying,
+    setAmbientSound,
+    setVolume,
+    play,
+    pause,
+  } = useAmbientSound();
 
   const [selectedType, setSelectedType] = useState<Type | "All">("All");
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
@@ -49,25 +49,25 @@ export default function AmbientSoundShortcut() {
   const handleSoundChange = (soundName: string) => {
     const selected = ambientSounds.find((sound) => sound.name === soundName);
     if (selected) {
-      updateAmbientSound(selected.url);
+      setAmbientSound(selected.url);
     }
   };
 
   const handleVolumeChange = (value: number[]) => {
     if (value[0] !== undefined) {
-      updateAmbientSoundVolume(value[0]);
+      setVolume(value[0]);
     }
   };
 
   const handleMuteToggle = () => {
-    updateAmbientSoundVolume(ambientSoundVolume > 0 ? 0 : 50);
+    setVolume(ambientSoundVolume > 0 ? 0 : 50);
   };
 
   const handlePlayPause = () => {
-    if (isAmbientSoundPlaying) {
-      pauseAmbientSound();
+    if (isPlaying) {
+      pause();
     } else {
-      playAmbientSound();
+      play();
     }
   };
 
@@ -97,7 +97,7 @@ export default function AmbientSoundShortcut() {
         <div className="flex w-full items-center justify-evenly gap-1">
           <div className="mt-1 flex items-center space-x-4 rounded-full">
             <IconBtn onClick={handlePlayPause}>
-              {isAmbientSoundPlaying ? <Pause /> : <Play />}
+              {isPlaying ? <Pause /> : <Play />}
             </IconBtn>
             <IconBtn onClick={handleMuteToggle}>
               {ambientSoundVolume === 0 ? <MutedVolumeIcon /> : <VolumeIcon />}
@@ -112,7 +112,6 @@ export default function AmbientSoundShortcut() {
           </div>
         </div>
       </div>
-      {/* Volume Control with Play/Pause */}
 
       <div className="my-1 flex min-h-10 min-w-[110%] items-center justify-between rounded-2xl border-[1px] border-background">
         <div className="flex flex-col gap-1">
@@ -148,8 +147,6 @@ export default function AmbientSoundShortcut() {
               </Select>
             </div>
           </div>
-
-          {/* Sound Selection */}
 
           <RadioGroup
             value={currentSound?.name ?? ""}

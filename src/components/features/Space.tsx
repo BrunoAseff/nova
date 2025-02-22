@@ -26,6 +26,7 @@ import { useSession } from "next-auth/react";
 import { AutoSaveProvider } from "../autoSaveProvider";
 import FullscreenButton from "../FullScreenButton";
 import type { Changes } from "@/types/changes";
+import { useAmbientSound } from "@/stores/useAmbientSound";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -38,14 +39,10 @@ declare global {
 }
 
 export default function Space() {
-  const {
-    selectTab,
-    spaces,
-    setSpaces,
-    setShortcut,
-    setAmbientSound,
-    setReminderMessages,
-  } = useSpacesContext();
+  const { selectTab, spaces, setSpaces, setShortcut, setReminderMessages } =
+    useSpacesContext();
+  const { setAmbientSound } = useAmbientSound();
+
   const { setOpen } = useSidebar();
   const [sidebarShortcut, setSidebarShortcut] = useState("⌘B");
   const { isSelectOpen, lastSelectCloseTime } = useInteractionLock();

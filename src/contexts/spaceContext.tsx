@@ -26,7 +26,7 @@ import {
 const SpacesContext = createContext({} as SpaceContextValue);
 
 export function SpacesProvider({ children }: { children: React.ReactNode }) {
-  const [selectedTab, setSelectedTab] = useState(2); // Default to first space ID
+  const [selectedTab, setSelectedTab] = useState(2);
   const [spaces, setSpaces] = useState<Space[]>(settings.spaces);
   const [reminderMessages, setReminderMessages] = useState<ReminderMessage[]>(
     settings.reminderMessages,
@@ -43,7 +43,6 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
   const ambientAudioRef = useRef<HTMLAudioElement | null>(null);
 
   function resetSpaces() {
-    // Clear localStorage
     localStorage.removeItem("spaces");
     localStorage.removeItem("shortcut");
     localStorage.removeItem("ambientSound");

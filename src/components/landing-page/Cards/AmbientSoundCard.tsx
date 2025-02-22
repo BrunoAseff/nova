@@ -2,10 +2,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { MutedVolumeIcon } from "@/components/icons/MutedVolumeIcon";
 import { VolumeIcon } from "@/components/icons/VolumeIcon";
-import { useSpacesContext } from "@/contexts/spaceContext";
 import { ambientSounds } from "@/content/ambientSounds";
 import { Pause } from "@/components/icons/pause";
 import { Play } from "@/components/icons/Play";
+import { useAmbientSound } from "@/stores/useAmbientSound";
 
 import IconBtn from "@/components/nova/buttons/IconBtn";
 import Waves from "../../icons/ambientSound/Waves";
@@ -22,12 +22,12 @@ export const AmbientSoundCard = () => {
   const {
     ambientSound,
     ambientSoundVolume,
-    isAmbientSoundPlaying,
-    updateAmbientSound,
-    updateAmbientSoundVolume,
-    playAmbientSound,
-    pauseAmbientSound,
-  } = useSpacesContext();
+    isPlaying,
+    setAmbientSound,
+    setVolume,
+    play,
+    pause,
+  } = useAmbientSound();
 
   const currentSound = ambientSounds.find(
     (sound) => sound.url === ambientSound,
@@ -36,25 +36,25 @@ export const AmbientSoundCard = () => {
   const handleSoundChange = (soundName: string) => {
     const selected = ambientSounds.find((sound) => sound.name === soundName);
     if (selected) {
-      updateAmbientSound(selected.url);
+      setAmbientSound(selected.url);
     }
   };
 
   const handleVolumeChange = (value: number[]) => {
     if (value[0] !== undefined) {
-      updateAmbientSoundVolume(value[0]);
+      setVolume(value[0]);
     }
   };
 
   const handleMuteToggle = () => {
-    updateAmbientSoundVolume(ambientSoundVolume > 0 ? 0 : 50);
+    setVolume(ambientSoundVolume > 0 ? 0 : 50);
   };
 
   const handlePlayPause = () => {
-    if (isAmbientSoundPlaying) {
-      pauseAmbientSound();
+    if (isPlaying) {
+      pause();
     } else {
-      playAmbientSound();
+      play();
     }
   };
 
@@ -78,7 +78,7 @@ export const AmbientSoundCard = () => {
             className="rounded-full border-[1px] border-transparent bg-transparent hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
             onClick={handlePlayPause}
           >
-            {isAmbientSoundPlaying ? <Pause /> : <Play />}
+            {isPlaying ? <Pause /> : <Play />}
           </IconBtn>
           <IconBtn
             className="rounded-full border-[1px] border-transparent bg-transparent hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
