@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { MutedVolumeIcon } from "@/components/icons/MutedVolumeIcon";
 import { VolumeIcon } from "@/components/icons/VolumeIcon";
-import { ambientSounds, type Type } from "@/content/ambientSounds";
+import type { Type } from "@/content/ambientSounds";
 import { Pause } from "@/components/icons/pause";
 import { Play } from "@/components/icons/Play";
 import {
@@ -37,47 +37,19 @@ export default function AmbientSoundTab() {
     ambientSound,
     ambientSoundVolume,
     isPlaying,
-    setAmbientSound,
-    setVolume,
-    play,
-    pause,
+    handleSoundChange,
+    toggleMute,
+    togglePlayPause,
+    handleVolumeChange,
+    selectedType,
+    setSelectedType,
+    getCurrentSound,
+    getFilteredSounds,
   } = useAmbientSound();
 
-  const [selectedType, setSelectedType] = useState<Type | "All">("All");
+  const currentSound = getCurrentSound();
+  const filteredSounds = getFilteredSounds();
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
-
-  const currentSound = ambientSounds.find(
-    (sound) => sound.url === ambientSound,
-  );
-
-  const handleSoundChange = (soundName: string) => {
-    const selected = ambientSounds.find((sound) => sound.name === soundName);
-    if (selected) {
-      setAmbientSound(selected.url);
-    }
-  };
-
-  const handleVolumeChange = (value: number[]) => {
-    if (value[0] !== undefined) {
-      setVolume(value[0]);
-    }
-  };
-
-  const handleMuteToggle = () => {
-    setVolume(ambientSoundVolume > 0 ? 0 : 50);
-  };
-
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      pause();
-    } else {
-      play();
-    }
-  };
-
-  const filteredSounds = ambientSounds.filter((sound) => {
-    return selectedType === "All" || sound.type.includes(selectedType as Type);
-  });
 
   const SoundIconMap: Record<string, React.ComponentType> = {
     "Ocean Waves": Waves,
@@ -107,10 +79,10 @@ export default function AmbientSoundTab() {
             </Label>
 
             <div className="flex w-fit items-center space-x-4 rounded-full border-[1px] border-muted bg-background p-3">
-              <IconBtn onClick={handlePlayPause}>
+              <IconBtn onClick={togglePlayPause}>
                 {isPlaying ? <Pause /> : <Play />}
               </IconBtn>
-              <IconBtn onClick={handleMuteToggle}>
+              <IconBtn onClick={toggleMute}>
                 {ambientSoundVolume === 0 ? (
                   <MutedVolumeIcon />
                 ) : (
