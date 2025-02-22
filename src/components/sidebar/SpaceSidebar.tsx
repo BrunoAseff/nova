@@ -33,37 +33,32 @@ import {
 import PomodoroTab from "./tabs/PomodoroTab";
 import QuoteTab from "./tabs/QuoteTab";
 import { SessionProvider } from "next-auth/react";
-import { useSpacesContext } from "@/contexts/spaceContext";
 import { MutedVolumeIcon } from "../icons/MutedVolumeIcon";
 import { VolumeIcon } from "../icons/VolumeIcon";
 import { Slider } from "../ui/slider";
+import { useAmbientSound } from "@/stores/useAmbientSound";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
 
-  const {
-    ambientSoundVolume,
-    isAmbientSoundPlaying,
-    updateAmbientSoundVolume,
-    playAmbientSound,
-    pauseAmbientSound,
-  } = useSpacesContext();
+  const { ambientSoundVolume, isPlaying, setVolume, play, pause } =
+    useAmbientSound();
 
   const handleVolumeChange = (value: number[]) => {
     if (value[0] !== undefined) {
-      updateAmbientSoundVolume(value[0]);
+      setVolume(value[0]);
     }
   };
 
   const handleMuteToggle = () => {
-    updateAmbientSoundVolume(ambientSoundVolume > 0 ? 0 : 50);
+    setVolume(ambientSoundVolume > 0 ? 0 : 50);
   };
 
   const handlePlayPause = () => {
-    if (isAmbientSoundPlaying) {
-      pauseAmbientSound();
+    if (isPlaying) {
+      pause();
     } else {
-      playAmbientSound();
+      play();
     }
   };
 
@@ -222,7 +217,7 @@ export function SpaceSidebar() {
             <div className="absolute bottom-8 left-4 flex">
               <div className="hidden max-w-[14rem] items-center space-x-2 rounded-full bg-background p-3 md:flex">
                 <IconBtn onClick={handlePlayPause}>
-                  {isAmbientSoundPlaying ? <Pause /> : <Play />}
+                  {isPlaying ? <Pause /> : <Play />}
                 </IconBtn>
                 <IconBtn onClick={handleMuteToggle}>
                   {ambientSoundVolume === 0 ? (
