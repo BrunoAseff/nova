@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { MutedVolumeIcon } from "@/components/icons/MutedVolumeIcon";
 import { VolumeIcon } from "@/components/icons/VolumeIcon";
-import { ambientSounds, type Type } from "@/content/ambientSounds";
+import type { Type } from "@/content/ambientSounds";
 import { Pause } from "@/components/icons/pause";
 import { Play } from "@/components/icons/Play";
 import {
@@ -33,47 +33,19 @@ export default function AmbientSoundShortcut() {
     ambientSound,
     ambientSoundVolume,
     isPlaying,
-    setAmbientSound,
-    setVolume,
-    play,
-    pause,
+    toggleMute,
+    togglePlayPause,
+    handleSoundChange,
+    handleVolumeChange,
+    selectedType,
+    setSelectedType,
+    getCurrentSound,
+    getFilteredSounds,
   } = useAmbientSound();
 
-  const [selectedType, setSelectedType] = useState<Type | "All">("All");
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
-
-  const currentSound = ambientSounds.find(
-    (sound) => sound.url === ambientSound,
-  );
-
-  const handleSoundChange = (soundName: string) => {
-    const selected = ambientSounds.find((sound) => sound.name === soundName);
-    if (selected) {
-      setAmbientSound(selected.url);
-    }
-  };
-
-  const handleVolumeChange = (value: number[]) => {
-    if (value[0] !== undefined) {
-      setVolume(value[0]);
-    }
-  };
-
-  const handleMuteToggle = () => {
-    setVolume(ambientSoundVolume > 0 ? 0 : 50);
-  };
-
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      pause();
-    } else {
-      play();
-    }
-  };
-
-  const filteredSounds = ambientSounds.filter((sound) => {
-    return selectedType === "All" || sound.type.includes(selectedType as Type);
-  });
+  const currentSound = getCurrentSound();
+  const filteredSounds = getFilteredSounds();
 
   const SoundIconMap: Record<string, React.ComponentType> = {
     "Ocean Waves": Waves,
@@ -96,10 +68,10 @@ export default function AmbientSoundShortcut() {
       <div className="w-fill flex items-center gap-2 space-x-2 rounded-2xl border-[1px] border-background p-2">
         <div className="flex w-full items-center justify-evenly gap-1">
           <div className="mt-1 flex items-center space-x-4 rounded-full">
-            <IconBtn onClick={handlePlayPause}>
+            <IconBtn onClick={togglePlayPause}>
               {isPlaying ? <Pause /> : <Play />}
             </IconBtn>
-            <IconBtn onClick={handleMuteToggle}>
+            <IconBtn onClick={toggleMute}>
               {ambientSoundVolume === 0 ? <MutedVolumeIcon /> : <VolumeIcon />}
             </IconBtn>
             <Slider
