@@ -4,6 +4,7 @@ import {
   updateAmbientSoundVolumeLocalStorage,
 } from "@/utils/localStorage";
 import { updateAmbientSoundLocalStorageChanges } from "@/utils/localStorageChanges";
+import { type Type, type Sound, ambientSounds } from "@/content/ambientSounds";
 
 interface AmbientSoundState {
   ambientSound: string;
@@ -18,6 +19,11 @@ interface AmbientSoundState {
   toggleMute: () => void;
   togglePlayPause: () => void;
   handleVolumeChange: (values: number[]) => void;
+  handleSoundChange: (soundName: string) => void;
+  selectedType: Type | "All";
+  getCurrentSound: () => Sound | undefined;
+  getFilteredSounds: () => Sound[];
+  setSelectedType: (type: Type | "All") => void;
 }
 
 export const useAmbientSound = create<AmbientSoundState>((set, get) => ({
@@ -25,6 +31,24 @@ export const useAmbientSound = create<AmbientSoundState>((set, get) => ({
   ambientSoundVolume: 50,
   isPlaying: false,
   audioRef: null,
+  selectedType: "All",
+
+  setSelectedType: (type: Type | "All") => {
+    set({ selectedType: type });
+  },
+
+  getCurrentSound: () => {
+    const { ambientSound } = get();
+    return ambientSounds.find((sound) => sound.url === ambientSound);
+  },
+
+  getFilteredSounds: () => {
+    const { selectedType } = get();
+    return ambientSounds.filter(
+      (sound) =>
+        selectedType === "All" || sound.type.includes(selectedType as Type),
+    );
+  },
 
   setAmbientSound: (soundUrl: string) => {
     const { isPlaying, audioRef } = get();
@@ -109,6 +133,13 @@ export const useAmbientSound = create<AmbientSoundState>((set, get) => ({
       pause();
     } else {
       play();
+    }
+  },
+
+  handleSoundChange: (soundName: string) => {
+    const selected = ambientSounds.find((sound) => sound.name === soundName);
+    if (selected) {
+      get().setAmbientSound(selected.url);
     }
   },
 }));
