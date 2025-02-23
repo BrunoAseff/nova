@@ -27,7 +27,10 @@ interface AmbientSoundState {
 }
 
 export const useAmbientSound = create<AmbientSoundState>((set, get) => ({
-  ambientSound: "",
+  ambientSound:
+    typeof window !== "undefined"
+      ? localStorage.getItem("ambientSound") ?? ""
+      : "",
   ambientSoundVolume: 50,
   isPlaying: false,
   audioRef: null,
@@ -51,7 +54,9 @@ export const useAmbientSound = create<AmbientSoundState>((set, get) => ({
   },
 
   setAmbientSound: (soundUrl: string) => {
-    const { isPlaying, audioRef } = get();
+    const { isPlaying, audioRef, ambientSound } = get();
+
+    if (ambientSound === soundUrl) return;
 
     set({ ambientSound: soundUrl });
     updateAmbientSoundLocalStorage(soundUrl);
