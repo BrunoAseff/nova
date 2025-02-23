@@ -67,9 +67,7 @@ export async function POST(req: Request) {
         );
       }
 
-      // Handle reminder changes in batch
       if (groupedChanges.reminder) {
-        // First, get the settings ID which we'll need for creating new reminders
         const settings = await tx.settings.findUnique({
           where: { userId: session.user.id },
           select: { id: true },
@@ -79,12 +77,10 @@ export async function POST(req: Request) {
           throw new Error("Settings not found");
         }
 
-        // Sort changes by timestamp to ensure correct order
         const sortedChanges = [...groupedChanges.reminder].sort(
           (a, b) => a.timestamp - b.timestamp,
         );
 
-        // Process each reminder change
         for (const change of sortedChanges) {
           const { action, value } = change;
 
@@ -115,7 +111,6 @@ export async function POST(req: Request) {
                   type?: string;
                 };
 
-                // Check if reminder exists and belongs to user
                 const existingReminder = await tx.reminder.findFirst({
                   where: {
                     id: updateValue.id,
@@ -187,7 +182,6 @@ export async function POST(req: Request) {
           }
         }
 
-        // All changes were processed (even if some were skipped)
         processedIds.push(
           ...groupedChanges.reminder.map((change: Change) => change.id),
         );
