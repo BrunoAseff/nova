@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useId } from 'react';
 import {
-  MotionValue,
+  type MotionValue,
   motion,
   useSpring,
   useTransform,
@@ -52,7 +52,6 @@ function Number({ mv, number }: { mv: MotionValue<number>; number: number }) {
     return memo;
   });
 
-  // don't render the animated number until we know the height
   if (!bounds.height) {
     return (
       <span ref={ref} className='invisible absolute'>
