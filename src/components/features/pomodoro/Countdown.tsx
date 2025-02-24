@@ -1,25 +1,7 @@
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { useCycleStore } from "@/stores/useCycleStore";
-import { useCallback, useEffect, useRef, memo } from "react";
-
-// Separate the display component remains the same
-const TimeDisplay = memo(function TimeDisplay({
-  minutes,
-  seconds,
-}: {
-  minutes: string;
-  seconds: string;
-}) {
-  return (
-    <div className="flex items-center space-x-2 rounded-3xl text-center font-montserrat text-7xl font-[500] tabular-nums text-foreground md:text-8xl">
-      <span>{minutes[0]}</span>
-      <span>{minutes[1]}</span>
-      <span>:</span>
-      <span>{seconds[0]}</span>
-      <span>{seconds[1]}</span>
-    </div>
-  );
-});
+import { useCallback, useEffect, useRef } from "react";
+import { SlidingNumber } from "../../ui/sliding-number";
 
 export function Countdown() {
   const activeCycle = useCycleStore((state) => state.activeCycle);
@@ -132,5 +114,18 @@ export function Countdown() {
     }
   }, [minutes, seconds, activeCycle]);
 
-  return <TimeDisplay minutes={minutes} seconds={seconds} />;
+  const minutesFirstDigit = parseInt(minutes[0]!);
+  const minutesSecondDigit = parseInt(minutes[1]!);
+  const secondsFirstDigit = parseInt(seconds[0]!);
+  const secondsSecondDigit = parseInt(seconds[1]!);
+
+  return (
+    <div className="flex items-center space-x-2 rounded-3xl text-center font-montserrat text-7xl font-[500] tabular-nums text-foreground md:text-8xl">
+      <SlidingNumber value={minutesFirstDigit} />
+      <SlidingNumber value={minutesSecondDigit} />
+      <span>:</span>
+      <SlidingNumber value={secondsFirstDigit} />
+      <SlidingNumber value={secondsSecondDigit} />
+    </div>
+  );
 }

@@ -270,6 +270,8 @@ export const useCycleStore = create<CycleStore>()(
             ? { ...cycle, interruptedDate: new Date() }
             : cycle,
         );
+        
+        document.title = "Nova";
 
         return {
           cycles: updatedCycles,
