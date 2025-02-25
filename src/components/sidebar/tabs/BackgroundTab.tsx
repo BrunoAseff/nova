@@ -181,7 +181,7 @@ export default function BackgroundTab() {
             />
             <label
               htmlFor="exclude-ai"
-              className={`text-sm font-medium leading-none hover:text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${excludeAI ? "text-secondary hover:text-secondary" : ""}`}
+              className={`text-sm font-medium leading-none transition-all duration-300 hover:text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${excludeAI ? "text-secondary hover:text-secondary" : ""}`}
             >
               Exclude AI Generated
             </label>
