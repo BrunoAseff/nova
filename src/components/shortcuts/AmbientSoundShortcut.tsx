@@ -134,7 +134,7 @@ export default function AmbientSoundShortcut() {
                   className={`relative z-50 flex h-[5rem] w-[6.3rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] bg-accent-foreground text-center shadow-sm ring-offset-background transition-colors ${
                     isChecked
                       ? "border-secondary bg-secondary-smooth-700/10"
-                      : "border-muted-foreground/30 hover:bg-background"
+                      : "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60"
                   } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                 >
                   <RadioGroupItem
