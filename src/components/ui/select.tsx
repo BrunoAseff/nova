@@ -18,7 +18,7 @@ const SelectTrigger = React.forwardRef<
     data-sidebar-exclude
     ref={ref}
     className={cn(
-      "flex h-10 w-full items-center justify-between rounded-2xl border-[1px] border-muted-foreground/50 bg-accent-foreground px-3 py-2 text-sm text-foreground ring-offset-background transition-all placeholder:text-foreground hover:border-muted-foreground hover:bg-accent/60 hover:text-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:border-secondary data-[state=open]:bg-secondary-smooth-700/10 [&>span]:line-clamp-1",
+      "flex h-10 w-full items-center justify-between rounded-2xl border-[1px] border-muted-foreground/30 bg-accent-foreground px-3 py-2 text-sm text-foreground ring-offset-background transition-all placeholder:text-foreground hover:border-muted-foreground hover:bg-accent/60 hover:text-foreground focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 data-[state=open]:border-secondary data-[state=open]:bg-secondary-smooth-700/10 [&>span]:line-clamp-1",
       className,
     )}
     {...props}
