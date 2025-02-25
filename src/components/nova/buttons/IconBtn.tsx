@@ -35,7 +35,7 @@ export default function IconBtn({
   const buttonElement = (
     <Button
       asChild={hasLink}
-      className={`rounded-full font-[400] transition-colors ${variantClasses[variant]}`}
+      className={`rounded-full font-[400] transition-colors duration-300 ${variantClasses[variant]}`}
       variant="icon"
       size="icon"
       {...props}
