@@ -218,10 +218,10 @@ export default function BackgroundTab() {
                 return (
                   <Label
                     key={background.name}
-                    className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center ring-offset-background transition-colors ${
+                    className={`relative flex max-w-fit cursor-pointer flex-col flex-wrap items-center justify-between gap-3 rounded-xl border p-3 text-center ring-offset-background transition-colors duration-300 ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
-                        : "border-background hover:border-accent hover:bg-accent-foreground hover:text-foreground"
+                        : "border-background hover:border-muted-foreground hover:bg-accent/60 hover:text-foreground"
                     } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                   >
                     <RadioGroupItem
