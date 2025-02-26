@@ -43,11 +43,11 @@ export default function Clock(props: ClockProps) {
   const positionClass = (): string => {
     switch (position) {
       case "top-left":
-        return "top-0 left-0 m-2 md:m-16";
+        return "top-0 left-0 m-2 md:m-10";
       case "top-right":
-        return "top-0 right-0 m-2 md:m-16";
+        return "top-0 right-0 m-2 md:m-10";
       case "bottom-left":
-        return "bottom-0 left-0 m-2 md:m-16";
+        return "bottom-0 left-0 m-2 md:m-10";
       case "center":
         return "top-1/2 scale-150 left-1/2 transform -translate-x-1/2 -translate-y-1/2";
       default:
