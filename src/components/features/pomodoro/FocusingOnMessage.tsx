@@ -46,7 +46,7 @@ export default function FocusingOnMessage() {
       onChange={(e) => setTempMessage(e.target.value)}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
-      className="w-[inherit] min-w-[150px] bg-transparent text-foreground outline-none"
+      className="w-fit max-w-fit bg-transparent text-foreground outline-none"
       style={{
         font: "inherit",
         fontWeight: "inherit",

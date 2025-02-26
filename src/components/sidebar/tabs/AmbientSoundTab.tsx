@@ -147,10 +147,10 @@ export default function AmbientSoundTab() {
                 return (
                   <Label
                     key={sound.name}
-                    className={`relative z-50 flex h-[4.8rem] w-[6rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] border-accent bg-accent-foreground p-2 text-center shadow-sm ring-offset-background transition-colors md:h-[5.5rem] md:w-[7rem] md:p-0 ${
+                    className={`relative z-50 flex h-[4.8rem] w-[6rem] cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] border-accent bg-accent-foreground p-2 text-center shadow-sm ring-offset-background transition-colors duration-300 md:h-[5.5rem] md:w-[7rem] md:p-0 ${
                       isChecked
                         ? "border-secondary bg-secondary-smooth-700/10"
-                        : "hover:bg-background"
+                        : "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60"
                     } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                   >
                     <RadioGroupItem
@@ -173,7 +173,8 @@ export default function AmbientSoundTab() {
                     </p>
                   </Label>
                 );
-              })}`
+              })}
+              `
             </RadioGroup>
           </div>
         </div>

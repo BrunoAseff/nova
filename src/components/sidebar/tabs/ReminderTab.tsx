@@ -149,11 +149,12 @@ export default function ReminderTab() {
                 <div
                   key={pos}
                   className={clsx(
-                    "flex w-full cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-2.5 py-3.5 md:px-3 md:py-4",
+                    "flex w-full cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-2.5 py-3.5 duration-300 md:px-3 md:py-4",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedPosition === pos,
-                      "hover:bg-background": selectedPosition !== pos,
+                      "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
+                        selectedPosition !== pos,
                     },
                   )}
                   onClick={() =>
@@ -254,7 +255,7 @@ export default function ReminderTab() {
             )}
             <button
               onClick={handleAddReminder}
-              className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+              className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all duration-300 hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
             >
               <PlusIcon />
             </button>

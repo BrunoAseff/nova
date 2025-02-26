@@ -110,7 +110,7 @@ export default function FocusTimer() {
           <div className="font-inter text-md hide-in-pip flex w-full items-center justify-center">
             {activeCycle && currentTab === "Focus" && (
               <div className="flex flex-col items-center gap-1">
-                <div className="flex w-fit items-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">
+                <div className="flex w-fit items-center justify-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">
                   <p className="w-fit rounded-lg text-muted-foreground">
                     Focusing on
                   </p>

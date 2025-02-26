@@ -5,11 +5,11 @@ import { useSpacesContext } from "@/contexts/spaceContext";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { WindIcon } from "@/components/icons/WindIcon"; // for melodic
-import { DigitalClockIcon } from "@/components/icons/DigitalClock"; // for digital clock
-import { JoystickIcon } from "@/components/icons/JoystickIcon"; // for retro game
-import { MusicNoteIcon } from "@/components/icons/MusicNoteIcon"; // for flute
-import { GameControllerIcon } from "@/components/icons/GameController"; // for game sound
+import { WindIcon } from "@/components/icons/WindIcon";
+import { DigitalClockIcon } from "@/components/icons/DigitalClock";
+import { JoystickIcon } from "@/components/icons/JoystickIcon";
+import { MusicNoteIcon } from "@/components/icons/MusicNoteIcon";
+import { GameControllerIcon } from "@/components/icons/GameController";
 import { RoosterIcon } from "@/components/icons/RoosterIcon";
 import { TabHeader } from "@/components/tabHeader";
 import TabBody from "@/components/tabBody";
@@ -60,7 +60,6 @@ export default function PomodoroTab() {
   );
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Input display states
   const [alarmRepeatDisplay, setAlarmRepeatDisplay] = useState(
     String(DEFAULT_VALUES.alarmRepeat),
   );
@@ -105,7 +104,6 @@ export default function PomodoroTab() {
     value: string,
     displaySetter: (value: string) => void,
   ) => {
-    // Allow empty string or numbers only
     if (value === "" || /^\d{1,2}$/.test(value)) {
       displaySetter(value);
     }
@@ -249,14 +247,14 @@ export default function PomodoroTab() {
                 >
                   {alarmSounds.map((sound) => {
                     const Icon = sound.icon;
-                    const isChecked = alarmSoundURL === sound.value; // Determine if the current item is selected
+                    const isChecked = alarmSoundURL === sound.value;
                     return (
                       <label
                         key={sound.value}
-                        className={`relative flex w-full max-w-32 cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] px-2 py-3 text-center shadow-sm ring-offset-background transition-colors ${
+                        className={`relative flex w-full max-w-32 cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-[1px] px-2 py-3 text-center shadow-sm ring-offset-background transition-colors duration-300 ${
                           isChecked
                             ? "border-secondary bg-secondary-smooth-700/10"
-                            : "border-input hover:bg-background"
+                            : "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60"
                         } ${isChecked ? "text-secondary" : "text-foreground"} focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2`}
                       >
                         <RadioGroupItem

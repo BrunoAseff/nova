@@ -83,7 +83,7 @@ export default function BreathingExerciseTab() {
               className="mt-4 gap-4"
               defaultValue={technique}
             >
-              <div className="relative flex w-full items-start gap-3 rounded-2xl border border-accent p-4 hover:bg-background has-[[data-state=checked]]:border-emerald-500 has-[[data-state=checked]]:bg-emerald-700/10 has-[[data-state=checked]]:text-emerald-500">
+              <div className="relative flex w-full items-start gap-3 rounded-2xl border border-muted-foreground/30 p-4 duration-300 hover:border-muted-foreground hover:bg-accent/60 has-[[data-state=checked]]:border-emerald-500 has-[[data-state=checked]]:bg-emerald-700/10 has-[[data-state=checked]]:text-emerald-500">
                 <RadioGroupItem
                   onClick={() => HandleTechniqueChange("Box Breathing")}
                   value="Box Breathing"
@@ -108,7 +108,7 @@ export default function BreathingExerciseTab() {
                 </div>
               </div>
 
-              <div className="relative flex w-full items-start gap-3 rounded-2xl border border-accent p-4 hover:bg-background has-[[data-state=checked]]:border-indigo-500 has-[[data-state=checked]]:bg-indigo-700/10 has-[[data-state=checked]]:text-indigo-500">
+              <div className="relative flex w-full items-start gap-3 rounded-2xl border border-muted-foreground/30 p-4 duration-300 hover:border-muted-foreground hover:bg-accent/60 has-[[data-state=checked]]:border-indigo-500 has-[[data-state=checked]]:bg-indigo-700/10 has-[[data-state=checked]]:text-indigo-500">
                 <RadioGroupItem
                   onClick={() => HandleTechniqueChange("4-7-8")}
                   value="4-7-8"
@@ -131,7 +131,7 @@ export default function BreathingExerciseTab() {
                 </div>
               </div>
 
-              <div className="relative flex w-full items-start gap-3 rounded-2xl border border-accent p-4 hover:bg-background has-[[data-state=checked]]:border-amber-500 has-[[data-state=checked]]:bg-amber-700/10 has-[[data-state=checked]]:text-amber-500">
+              <div className="relative flex w-full items-start gap-3 rounded-2xl border border-muted-foreground/30 p-4 duration-300 hover:border-muted-foreground hover:bg-accent/60 has-[[data-state=checked]]:border-amber-500 has-[[data-state=checked]]:bg-amber-700/10 has-[[data-state=checked]]:text-amber-500">
                 <RadioGroupItem
                   onClick={() =>
                     HandleTechniqueChange("Alternate Nostril Breathing")
@@ -157,7 +157,7 @@ export default function BreathingExerciseTab() {
                 </div>
               </div>
 
-              <div className="relative flex w-full items-start gap-3 rounded-2xl border border-accent p-4 hover:bg-background has-[[data-state=checked]]:border-rose-500 has-[[data-state=checked]]:bg-rose-700/10 has-[[data-state=checked]]:text-rose-500">
+              <div className="relative flex w-full items-start gap-3 rounded-2xl border border-muted-foreground/30 p-4 duration-300 hover:border-muted-foreground hover:bg-accent/60 has-[[data-state=checked]]:border-rose-500 has-[[data-state=checked]]:bg-rose-700/10 has-[[data-state=checked]]:text-rose-500">
                 <RadioGroupItem
                   onClick={() => HandleTechniqueChange("Wim Hof Method")}
                   value="Wim Hof Method"
