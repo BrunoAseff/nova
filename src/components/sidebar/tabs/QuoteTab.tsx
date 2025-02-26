@@ -154,11 +154,12 @@ export default function QuoteTab() {
                 <div
                   key={pos}
                   className={clsx(
-                    "flex cursor-pointer flex-col items-center justify-between gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4",
+                    "flex cursor-pointer flex-col items-center justify-between gap-2 space-x-2 rounded-xl border-[1px] border-accent px-6 py-4 transition-all duration-300",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedPosition === pos,
-                      "hover:bg-background": selectedPosition !== pos,
+                      "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
+                        selectedPosition !== pos,
                     },
                   )}
                   onClick={() => handleQuotePositionChange(pos as Position)}
@@ -185,11 +186,12 @@ export default function QuoteTab() {
             <div className="flex flex-wrap gap-4">
               <div
                 className={clsx(
-                  "cursor-pointer rounded-2xl border-[1px] border-accent px-4 py-4 transition-colors",
+                  "cursor-pointer rounded-2xl border-[1px] border-accent px-4 py-4 transition-colors duration-300",
                   {
                     "border-secondary bg-secondary-smooth-700/10":
                       selectedCategories.includes("all"),
-                    "hover:bg-background": !selectedCategories.includes("all"),
+                    "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
+                      !selectedCategories.includes("all"),
                   },
                 )}
                 onClick={() => setSelectedCategories(["all"])}
@@ -206,11 +208,11 @@ export default function QuoteTab() {
                 <div
                   key={category}
                   className={clsx(
-                    "cursor-pointer rounded-2xl border-[1px] border-accent px-6 py-4 transition-colors",
+                    "cursor-pointer rounded-2xl border-[1px] border-accent px-6 py-4 transition-colors duration-300",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedCategories.includes(category),
-                      "hover:bg-background":
+                      "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
                         !selectedCategories.includes(category),
                     },
                   )}
@@ -240,7 +242,7 @@ export default function QuoteTab() {
           </div>
           <button
             onClick={handleAddQuote}
-            className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+            className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all duration-300 hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
           >
             <PlusIcon />
           </button>
