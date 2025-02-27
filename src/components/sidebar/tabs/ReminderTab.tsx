@@ -219,7 +219,7 @@ export default function ReminderTab() {
                       {types.map((type) => (
                         <label
                           key={type}
-                          className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-accent/60 p-2 text-xs text-muted-foreground transition-colors hover:bg-accent-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
+                          className="w-fit cursor-pointer items-center justify-center rounded-2xl border-[1px] border-muted-foreground/30 p-2 text-xs text-muted-foreground transition-all duration-300 hover:border-muted-foreground hover:bg-accent/60 hover:text-foreground has-[[data-state=checked]]:border-secondary has-[[data-state=checked]]:bg-secondary-smooth-700/10 has-[[data-state=checked]]:text-secondary"
                         >
                           <RadioGroupItem
                             value={type}
