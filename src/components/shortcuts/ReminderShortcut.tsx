@@ -74,11 +74,12 @@ export default function ReminderShortcut() {
                 <div
                   key={pos}
                   className={clsx(
-                    "flex w-full cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-3 py-4",
+                    "flex w-full cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent px-3 py-4 transition-all duration-300",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedPosition === pos,
-                      "hover:bg-background": selectedPosition !== pos,
+                      "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
+                        selectedPosition !== pos,
                     },
                   )}
                   onClick={() =>
