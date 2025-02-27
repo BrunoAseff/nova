@@ -48,7 +48,7 @@ export default function LimitedFeature({
         </div>
         <DialogFooter className="flex w-full items-end justify-center gap-2">
           <DialogClose asChild>
-            <Button className="w-fit gap-2 border-[2px] border-muted bg-background font-sans text-sm text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
+            <Button className="w-fit gap-2 border-[1px] border-muted bg-background font-sans text-sm text-foreground transition-colors hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:text-sm">
               Not now
             </Button>
           </DialogClose>
