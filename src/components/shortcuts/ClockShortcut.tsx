@@ -54,11 +54,12 @@ export default function ClockShortcut() {
                 <div
                   key={pos}
                   className={clsx(
-                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent bg-accent-foreground px-4 py-3 text-xs",
+                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent bg-accent-foreground px-4 py-3 text-xs transition-all duration-300",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedPosition === pos,
-                      "hover:bg-background": selectedPosition !== pos,
+                      "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
+                        selectedPosition !== pos,
                     },
                   )}
                   onClick={() => handleClockPositionChange(pos as Position)}
@@ -97,11 +98,12 @@ export default function ClockShortcut() {
                 <div
                   key={format}
                   className={clsx(
-                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent bg-accent-foreground px-6 py-3 text-xs",
+                    "flex cursor-pointer flex-col items-center justify-center gap-2 space-x-2 rounded-xl border-[1px] border-accent bg-accent-foreground px-6 py-3 text-xs transition-all duration-300",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         timeFormat === format,
-                      "hover:bg-background": timeFormat !== format,
+                      "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
+                        timeFormat !== format,
                     },
                   )}
                   onClick={() =>
