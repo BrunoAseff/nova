@@ -69,17 +69,13 @@ export default function QuoteTab() {
     let newCategories: string[];
 
     if (selectedCategories.includes("all")) {
-      // If currently showing all categories, switch to only the selected category
       newCategories = [category];
     } else if (selectedCategories.includes(category)) {
-      // Remove the category if it's already selected
       newCategories = selectedCategories.filter((c) => c !== category);
-      // If no categories would be selected, switch to "all"
       if (newCategories.length === 0) {
         newCategories = ["all"];
       }
     } else {
-      // Add the new category to the selection
       newCategories = [...selectedCategories, category];
     }
 
@@ -121,7 +117,6 @@ export default function QuoteTab() {
           />
         </div>
 
-        {/* Show Author Switch */}
         <div className="flex min-h-10 w-[100%] items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[95%]">
           <div className="flex flex-col gap-1">
             <Label htmlFor="show-author" className="text-md text-foreground">
@@ -190,7 +185,7 @@ export default function QuoteTab() {
                   {
                     "border-secondary bg-secondary-smooth-700/10":
                       selectedCategories.includes("all"),
-                    "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
+                    "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60 hover:text-foreground":
                       !selectedCategories.includes("all"),
                   },
                 )}
@@ -212,7 +207,7 @@ export default function QuoteTab() {
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedCategories.includes(category),
-                      "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
+                      "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60 hover:text-foreground":
                         !selectedCategories.includes(category),
                     },
                   )}

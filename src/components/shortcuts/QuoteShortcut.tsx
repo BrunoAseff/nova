@@ -96,11 +96,12 @@ export default function QuoteShortcut() {
                 <div
                   key={pos}
                   className={clsx(
-                    "flex cursor-pointer flex-col items-center justify-between gap-2 space-x-2 rounded-xl border-[1px] border-accent px-5 py-3 text-sm",
+                    "flex cursor-pointer flex-col items-center justify-between gap-2 space-x-2 rounded-xl border-[1px] border-accent px-5 py-3 text-sm transition-all duration-300",
                     {
                       "border-secondary bg-secondary-smooth-700/10":
                         selectedPosition === pos,
-                      "hover:bg-background": selectedPosition !== pos,
+                      "border-muted-foreground/30 hover:border-muted-foreground hover:bg-accent/60":
+                        selectedPosition !== pos,
                     },
                   )}
                   onClick={() => handleQuotePositionChange(pos as Position)}
