@@ -48,13 +48,10 @@ export const BackgroundCard = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    // Initial check
     checkMobile();
 
-    // Add resize listener
     window.addEventListener("resize", checkMobile);
 
-    // Cleanup
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 

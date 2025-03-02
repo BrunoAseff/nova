@@ -9,21 +9,17 @@ import ClockTab from "./tabs/ClockTab";
 
 import BackgroundTab from "./tabs/BackgroundTab";
 import AmbientSoundTab from "./tabs/AmbientSoundTab";
-import MusicTab from "./tabs/MusicTab";
 import ReminderTab from "./tabs/ReminderTab";
 import BreathingExerciseTab from "./tabs/BreathingExerciseTab";
 import SpacesTab from "./tabs/SpacesTab";
 import AppearanceTab from "./tabs/AppearanceTab";
 import ProfileTab from "./tabs/ProfileTab";
-import { Pause } from "@/components/icons/pause";
-import { Play } from "@/components/icons/Play";
 import {
   Alarm,
   Exclude,
   HourglassHigh,
   Images,
   LightbulbFilament,
-  MusicNotes,
   Palette,
   Quotes,
   UserCircle,
@@ -33,21 +29,9 @@ import {
 import PomodoroTab from "./tabs/PomodoroTab";
 import QuoteTab from "./tabs/QuoteTab";
 import { SessionProvider } from "next-auth/react";
-import { MutedVolumeIcon } from "../icons/MutedVolumeIcon";
-import { VolumeIcon } from "../icons/VolumeIcon";
-import { Slider } from "../ui/slider";
-import { useAmbientSound } from "@/stores/useAmbientSound";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
-
-  const {
-    ambientSoundVolume,
-    isPlaying,
-    toggleMute,
-    togglePlayPause,
-    handleVolumeChange,
-  } = useAmbientSound();
 
   return (
     <SessionProvider>
@@ -100,10 +84,7 @@ export function SpaceSidebar() {
                 <Waveform size={21} weight="duotone" />
                 Ambient Sound
               </TabsTrigger>
-              <TabsTrigger className="flex items-center gap-2" value="music">
-                <MusicNotes size={21} weight="duotone" />
-                Music
-              </TabsTrigger>
+
               <TabsTrigger className="flex items-center gap-2" value="reminder">
                 <LightbulbFilament size={21} weight="duotone" />
                 Reminder
@@ -163,12 +144,7 @@ export function SpaceSidebar() {
               >
                 <AmbientSoundTab />
               </TabsContent>
-              <TabsContent
-                className="w-full items-center justify-center"
-                value="music"
-              >
-                <MusicTab />
-              </TabsContent>
+
               <TabsContent
                 className="w-full items-center justify-center"
                 value="reminder"
@@ -199,28 +175,6 @@ export function SpaceSidebar() {
               >
                 <ProfileTab />
               </TabsContent>
-            </div>
-
-            <div className="absolute bottom-8 left-4 flex">
-              <div className="hidden max-w-[14rem] items-center space-x-2 rounded-full bg-background p-3 md:flex">
-                <IconBtn onClick={togglePlayPause}>
-                  {isPlaying ? <Pause /> : <Play />}
-                </IconBtn>
-                <IconBtn onClick={toggleMute}>
-                  {ambientSoundVolume === 0 ? (
-                    <MutedVolumeIcon />
-                  ) : (
-                    <VolumeIcon />
-                  )}
-                </IconBtn>
-                <Slider
-                  value={[ambientSoundVolume]}
-                  onValueChange={handleVolumeChange}
-                  max={100}
-                  step={1}
-                  className="w-24 cursor-pointer"
-                />
-              </div>
             </div>
           </SidebarTabs>
         </div>
