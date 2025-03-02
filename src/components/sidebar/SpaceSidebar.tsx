@@ -15,8 +15,6 @@ import BreathingExerciseTab from "./tabs/BreathingExerciseTab";
 import SpacesTab from "./tabs/SpacesTab";
 import AppearanceTab from "./tabs/AppearanceTab";
 import ProfileTab from "./tabs/ProfileTab";
-import { Pause } from "@/components/icons/pause";
-import { Play } from "@/components/icons/Play";
 import {
   Alarm,
   Exclude,
@@ -33,21 +31,9 @@ import {
 import PomodoroTab from "./tabs/PomodoroTab";
 import QuoteTab from "./tabs/QuoteTab";
 import { SessionProvider } from "next-auth/react";
-import { MutedVolumeIcon } from "../icons/MutedVolumeIcon";
-import { VolumeIcon } from "../icons/VolumeIcon";
-import { Slider } from "../ui/slider";
-import { useAmbientSound } from "@/stores/useAmbientSound";
 
 export function SpaceSidebar() {
   const { setOpen } = useSidebar();
-
-  const {
-    ambientSoundVolume,
-    isPlaying,
-    toggleMute,
-    togglePlayPause,
-    handleVolumeChange,
-  } = useAmbientSound();
 
   return (
     <SessionProvider>
@@ -199,28 +185,6 @@ export function SpaceSidebar() {
               >
                 <ProfileTab />
               </TabsContent>
-            </div>
-
-            <div className="absolute bottom-8 left-4 flex">
-              <div className="hidden max-w-[14rem] items-center space-x-2 rounded-full bg-background p-3 md:flex">
-                <IconBtn onClick={togglePlayPause}>
-                  {isPlaying ? <Pause /> : <Play />}
-                </IconBtn>
-                <IconBtn onClick={toggleMute}>
-                  {ambientSoundVolume === 0 ? (
-                    <MutedVolumeIcon />
-                  ) : (
-                    <VolumeIcon />
-                  )}
-                </IconBtn>
-                <Slider
-                  value={[ambientSoundVolume]}
-                  onValueChange={handleVolumeChange}
-                  max={100}
-                  step={1}
-                  className="w-24 cursor-pointer"
-                />
-              </div>
             </div>
           </SidebarTabs>
         </div>
