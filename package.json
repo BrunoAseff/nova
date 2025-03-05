@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "services:up": "docker compose up -d",
     "scan": "next dev & npx react-scan@latest localhost:3000",
     "db:generate": "prisma migrate dev",
     "db:migrate": "prisma migrate deploy",
