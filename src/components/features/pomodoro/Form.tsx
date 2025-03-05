@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { useCycleStore } from "@/stores/useCycleStore";
 
 export function NewCycleForm() {
-  // Replace context with store selector
   const activeCycle = useCycleStore((state) => state.activeCycle);
 
   const { register, setValue } = useFormContext();
@@ -31,7 +30,7 @@ export function NewCycleForm() {
   return (
     <div className="mb-2 mt-3 flex flex-wrap items-center gap-6 font-montserrat font-medium text-muted-foreground">
       <div className="flex items-center gap-3 whitespace-nowrap">
-        <Label className="text-base" htmlFor="task">
+        <Label className="text-sm md:text-base" htmlFor="task">
           Task:
         </Label>
         <Input
@@ -53,7 +52,7 @@ export function NewCycleForm() {
       </datalist>
 
       <div className="flex items-center gap-3">
-        <Label className="text-base" htmlFor="minutesAmount">
+        <Label className="text-sm md:text-base" htmlFor="minutesAmount">
           Minutes:
         </Label>
         <Input
