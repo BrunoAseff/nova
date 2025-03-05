@@ -11,7 +11,6 @@ import ClockTab from "./tabs/ClockTab";
 
 import BackgroundTab from "./tabs/BackgroundTab";
 import AmbientSoundTab from "./tabs/AmbientSoundTab";
-import MusicTab from "./tabs/MusicTab";
 import ReminderTab from "./tabs/ReminderTab";
 import BreathingExerciseTab from "./tabs/BreathingExerciseTab";
 import SpacesTab from "./tabs/SpacesTab";
@@ -24,7 +23,6 @@ import {
   HourglassHigh,
   Images,
   LightbulbFilament,
-  MusicNotes,
   Palette,
   Quotes,
   UserCircle,
@@ -121,10 +119,7 @@ export function SpaceSidebarMobile() {
                   <Waveform size={21} weight="duotone" />
                   Ambient Sound
                 </TabsTrigger>
-                <TabsTrigger className="flex items-center gap-2" value="music">
-                  <MusicNotes size={21} weight="duotone" />
-                  Music
-                </TabsTrigger>
+
                 <TabsTrigger
                   className="flex items-center gap-2"
                   value="reminder"
@@ -194,12 +189,7 @@ export function SpaceSidebarMobile() {
                 >
                   <AmbientSoundTab />
                 </TabsContent>
-                <TabsContent
-                  className="text-md mt-2 max-w-[70%] items-center justify-center"
-                  value="music"
-                >
-                  <MusicTab />
-                </TabsContent>
+
                 <TabsContent
                   className="text-md mt-2 max-w-[70%] items-center justify-center"
                   value="reminder"

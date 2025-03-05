@@ -174,7 +174,6 @@ export default function AmbientSoundTab() {
                   </Label>
                 );
               })}
-              `
             </RadioGroup>
           </div>
         </div>

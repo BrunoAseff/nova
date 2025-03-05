@@ -168,12 +168,11 @@ export default function Page() {
               </TabsTrigger>
             </TabsList>
 
-            {/* Login Tab */}
             <TabsContent value="login">
               <button
                 type="button"
                 onClick={() => signIn("google")}
-                className="mb-6 flex h-12 w-full items-center justify-center gap-3 rounded-xl border-[1px] border-muted bg-muted text-foreground transition-all hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:h-[3.5rem]"
+                className="mb-6 flex h-12 w-full items-center justify-center gap-3 rounded-xl border-[1px] border-muted bg-muted text-foreground transition-all duration-300 hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary md:h-[3.5rem]"
               >
                 <SiGoogle size={18} />
                 <p className="text-md font-medium md:text-lg">
@@ -252,7 +251,7 @@ export default function Page() {
                       </FormItem>
                     )}
                   />
-                  <div className="flex w-full items-center justify-center">
+                  <div className="flex w-full flex-col items-center justify-center">
                     <PrimaryBtn disabled={isLoginLoading} type="submit">
                       {isLoginLoading ? (
                         <div className="flex items-center justify-around gap-1">
@@ -263,6 +262,11 @@ export default function Page() {
                         "Log In"
                       )}
                     </PrimaryBtn>
+                    <Link href="/spaces">
+                      <LinkBtn className="mt-6 w-fit text-xs text-secondary transition-all duration-300">
+                        I don&apos;t want want an account
+                      </LinkBtn>
+                    </Link>
                   </div>
                 </form>
               </Form>
@@ -392,7 +396,7 @@ export default function Page() {
                       </FormItem>
                     )}
                   />
-                  <div className="flex w-full items-center justify-center">
+                  <div className="flex w-full flex-col items-center justify-center">
                     <PrimaryBtn disabled={isSignUpLoading} type="submit">
                       {isSignUpLoading ? (
                         <div className="flex items-center justify-around gap-1">
@@ -403,6 +407,11 @@ export default function Page() {
                         "Sign Up"
                       )}
                     </PrimaryBtn>
+                    <Link href="/spaces">
+                      <LinkBtn className="mt-6 w-fit text-xs text-secondary transition-all duration-300">
+                        I don&apos;t want want an account
+                      </LinkBtn>
+                    </Link>
                   </div>
                 </form>
               </Form>

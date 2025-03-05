@@ -10,7 +10,6 @@ import AppearanceShortcut from "./AppearanceShortcut";
 import BackgroundShortcut from "./BackgroundShortcut";
 import BreathingExerciseShortcut from "./BreathingExerciseShortcut";
 import ClockShortcut from "./ClockShortcut";
-import MusicShortcut from "./MusicShortcut";
 import PomodoroShortcut from "./PomodoroShortcut";
 import QuoteShortcut from "./QuoteShortcut";
 import ReminderShortcut from "./ReminderShortcut";
@@ -21,7 +20,6 @@ import {
   HourglassHigh,
   Images,
   LightbulbFilament,
-  MusicNotes,
   Palette,
   Quotes,
   Waveform,
@@ -50,10 +48,7 @@ const shortcutConfigs: Record<ShortcutName, ShortcutConfig> = {
     icon: Images,
     component: BackgroundShortcut,
   },
-  music: {
-    icon: MusicNotes,
-    component: MusicShortcut,
-  },
+
   reminder: {
     icon: LightbulbFilament,
     component: ReminderShortcut,

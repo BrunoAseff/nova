@@ -70,11 +70,28 @@ export async function POST(req: Request) {
       if (groupedChanges.reminder) {
         const settings = await tx.settings.findUnique({
           where: { userId: session.user.id },
-          select: { id: true },
+          select: {
+            id: true,
+            _count: {
+              select: { reminders: true },
+            },
+          },
         });
 
         if (!settings) {
           throw new Error("Settings not found");
+        }
+
+        const currentReminderCount = settings._count.reminders;
+        const newReminderCount = groupedChanges.reminder.filter(
+          (change: Change) => change.action === "create",
+        ).length;
+
+        if (currentReminderCount + newReminderCount > 10) {
+          return NextResponse.json(
+            { error: "Reminder limit exceeded. Maximum 10 reminders allowed." },
+            { status: 400 },
+          );
         }
 
         const sortedChanges = [...groupedChanges.reminder].sort(
@@ -196,7 +213,6 @@ export async function POST(req: Request) {
         );
       }
 
-      // Handle ambient sound changes
       if (groupedChanges.ambientSound) {
         await tx.settings.update({
           where: { userId: session.user.id },

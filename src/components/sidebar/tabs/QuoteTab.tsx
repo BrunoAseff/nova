@@ -7,8 +7,6 @@ import { useSpacesContext } from "@/contexts/spaceContext";
 import type { Position } from "@/types";
 import { TabHeader } from "@/components/tabHeader";
 import QuoteIllustration from "@/components/svgs/QuoteIllustration";
-import { PlusIcon } from "@/components/icons/PlusIcon";
-import LimitedFeature from "@/components/limitedFeature";
 
 type Category = "Fact" | "Success" | "Motivational" | "Gratitude" | "Self Care";
 const CATEGORIES: Category[] = [
@@ -28,9 +26,7 @@ export default function QuoteTab() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     "all",
   ]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Synchronize local state with the selected space
   useEffect(() => {
     const selectedSpace = spaces.find((space) => space.id === selectedTab);
     if (selectedSpace) {
@@ -86,10 +82,6 @@ export default function QuoteTab() {
     });
   };
 
-  function handleAddQuote() {
-    setIsModalOpen(true);
-  }
-
   return (
     <main className="h-screen">
       <TabHeader
@@ -106,7 +98,7 @@ export default function QuoteTab() {
             >
               Visibility
             </Label>
-            <p className="text-xs text-muted-foreground md:text-sm">
+            <p className="hidden text-xs text-muted-foreground md:block md:text-sm">
               Controls if the quote is visible on the screen.
             </p>
           </div>
@@ -122,7 +114,7 @@ export default function QuoteTab() {
             <Label htmlFor="show-author" className="text-md text-foreground">
               Show Author
             </Label>
-            <p className="text-xs text-muted-foreground md:text-sm">
+            <p className="hidden text-xs text-muted-foreground md:block md:text-sm">
               Display the author&apos;s name with the quote.
             </p>
           </div>
@@ -224,29 +216,6 @@ export default function QuoteTab() {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="flex min-h-16 w-[100%] flex-col justify-between gap-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 md:w-[95%]">
-          <div className="flex max-w-[100%] flex-col gap-1">
-            <Label htmlFor="reminders" className="text-md text-foreground">
-              Your quotes
-            </Label>
-            <div className="w-full text-xs text-muted-foreground md:text-sm">
-              <p>Add your favorite quotes and phrases, from anyone!</p>
-            </div>
-          </div>
-          <button
-            onClick={handleAddQuote}
-            className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all duration-300 hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
-          >
-            <PlusIcon />
-          </button>
-          <LimitedFeature
-            feature="quotes"
-            limit="custom quotes"
-            open={isModalOpen}
-            onOpenChange={() => setIsModalOpen(!isModalOpen)}
-          />
         </div>
       </div>
     </main>

@@ -21,7 +21,6 @@ import { TabHeader } from "@/components/tabHeader";
 import { Label } from "@/components/ui/label";
 import BackgroundIllustration from "@/components/svgs/BackgroundIllustration";
 import NoResultsIllustration from "@/components/svgs/NoResultsIllustration";
-import { FileUpload } from "@/components/ui/file-upload";
 
 export default function BackgroundTab() {
   const { spaces, selectedTab, updateSpaceProperty } = useSpacesContext();
@@ -31,7 +30,6 @@ export default function BackgroundTab() {
   const [selectedColor, setSelectedColor] = useState<Color | "all">("all");
   const [excludeAI, setExcludeAI] = useState(false);
 
-  // Get unique environments and colors from backgrounds
   const environments = [
     "all",
     ...new Set(backgrounds.flatMap((bg) => bg.environment)),
@@ -41,7 +39,6 @@ export default function BackgroundTab() {
     | "all"
   )[];
 
-  // Get the current background URL from the selected space
   const currentBackgroundURL =
     spaces.find((space) => space.id === selectedTab)?.background ?? "";
 
@@ -76,14 +73,12 @@ export default function BackgroundTab() {
 
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
 
-  // Reset filters function
   const resetFilters = () => {
     setSelectedEnvironment("all");
     setSelectedColor("all");
     setExcludeAI(false);
   };
 
-  // Check if any filter is active
   const isAnyFilterActive =
     selectedEnvironment !== "all" || selectedColor !== "all" || excludeAI;
 
@@ -95,8 +90,7 @@ export default function BackgroundTab() {
         Icon={BackgroundIllustration}
       />
 
-      <div className="mt-16 flex w-[93%] flex-col">
-        <FileUpload />
+      <div className="mt-24 flex w-[93%] flex-col md:mt-16">
         <div className="ml-auto flex w-[145%] items-center justify-center gap-4 md:ml-0 md:w-auto">
           <div className="flex flex-col gap-1">
             <p className="text-sm text-foreground">Environment</p>
