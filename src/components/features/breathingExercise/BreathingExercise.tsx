@@ -45,7 +45,7 @@ export default function BreathingExercise({
   };
 
   return (
-    <div className="fixed left-1/2 top-[55%] flex h-[30rem] w-[30rem] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-full border-[1px] border-[#0c0e12]/60 bg-gradient-to-t from-transparent via-[#0c0e12]/30 to-[#0c0e12]/40 p-10 font-montserrat text-[#d0dbe3]">
+    <div className="fixed left-1/2 top-[55%] flex h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center rounded-full border-[1px] border-[#0c0e12]/60 bg-gradient-to-t from-transparent via-[#0c0e12]/30 to-[#0c0e12]/40 p-10 font-montserrat text-[#d0dbe3] md:h-[30rem] md:w-[30rem]">
       <AnimatePresence mode="wait">
         {!isExerciseRunning && (
           <motion.div
@@ -57,10 +57,10 @@ export default function BreathingExercise({
             className="z-50 flex w-fit flex-col items-center justify-center gap-6"
           >
             <div className="flex w-full flex-col items-center justify-center gap-2">
-              <h1 className="font-delius text-3xl font-semibold text-[#d0dbe3]">
+              <h1 className="font-delius text-2xl font-semibold text-[#d0dbe3] md:text-3xl">
                 Breathing Exercise
               </h1>
-              <p className="text-md italic text-[#d0dbe3]/80">
+              <p className="text-sm italic text-[#d0dbe3]/80 md:text-base">
                 Scientifically-backed breathing exercises
               </p>
               <motion.div variants={floatingVariants} animate="float">
