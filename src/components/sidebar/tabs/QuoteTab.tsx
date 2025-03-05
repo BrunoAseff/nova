@@ -98,7 +98,7 @@ export default function QuoteTab() {
             >
               Visibility
             </Label>
-            <p className="text-xs text-muted-foreground md:text-sm">
+            <p className="hidden text-xs text-muted-foreground md:block md:text-sm">
               Controls if the quote is visible on the screen.
             </p>
           </div>
@@ -114,7 +114,7 @@ export default function QuoteTab() {
             <Label htmlFor="show-author" className="text-md text-foreground">
               Show Author
             </Label>
-            <p className="text-xs text-muted-foreground md:text-sm">
+            <p className="hidden text-xs text-muted-foreground md:block md:text-sm">
               Display the author&apos;s name with the quote.
             </p>
           </div>
