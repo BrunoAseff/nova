@@ -196,7 +196,6 @@ export async function POST(req: Request) {
         );
       }
 
-      // Handle ambient sound changes
       if (groupedChanges.ambientSound) {
         await tx.settings.update({
           where: { userId: session.user.id },

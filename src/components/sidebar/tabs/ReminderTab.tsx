@@ -13,7 +13,6 @@ import IconBtn from "@/components/nova/buttons/IconBtn";
 import type { ReminderMessage } from "@/types";
 import { AnimatePresence, motion } from "framer-motion";
 import ReminderIllustration from "@/components/svgs/ReminderIllustration";
-import LimitedFeature from "@/components/limitedFeature";
 
 export default function ReminderTab() {
   const {
@@ -32,7 +31,6 @@ export default function ReminderTab() {
   >("bottom-left");
 
   const [isReminderVisible, setIsReminderVisible] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const selectedSpace = spaces.find((space) => space.id === selectedTab);
@@ -61,16 +59,12 @@ export default function ReminderTab() {
   };
 
   const handleAddReminder = () => {
-    if (reminderMessages.length >= 3) {
-      setIsModalOpen(true);
-    } else {
-      const newReminder: ReminderMessage = {
-        id: nanoid(),
-        text: "",
-        type: "Gratitude",
-      };
-      updateReminder(newReminder);
-    }
+    const newReminder: ReminderMessage = {
+      id: nanoid(),
+      text: "",
+      type: "Gratitude",
+    };
+    updateReminder(newReminder);
   };
 
   const handleDeleteReminder = (id: string) => {
@@ -254,17 +248,12 @@ export default function ReminderTab() {
               </AnimatePresence>
             )}
             <button
+              disabled={reminderMessages.length > 10}
               onClick={handleAddReminder}
-              className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all duration-300 hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary"
+              className="mt-1 flex w-full items-center justify-center rounded-2xl border-2 border-dotted border-accent p-4 transition-all duration-300 hover:border-secondary hover:bg-secondary-smooth-700/10 hover:text-secondary disabled:cursor-not-allowed disabled:border-accent disabled:text-accent disabled:opacity-50 disabled:hover:bg-transparent"
             >
               <PlusIcon />
             </button>
-            <LimitedFeature
-              feature="remiders"
-              limit="3 reminders"
-              open={isModalOpen}
-              onOpenChange={() => setIsModalOpen(!isModalOpen)}
-            />
           </div>
         </div>
       </div>
