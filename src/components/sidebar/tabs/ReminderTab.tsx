@@ -118,7 +118,7 @@ export default function ReminderTab() {
             >
               Visibility
             </Label>
-            <p className="text-xs text-muted-foreground md:text-sm">
+            <p className="hidden text-xs text-muted-foreground md:block md:text-sm">
               Controls if the reminder is visible on the screen.
             </p>
           </div>
