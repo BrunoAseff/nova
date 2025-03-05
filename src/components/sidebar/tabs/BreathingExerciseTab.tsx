@@ -59,7 +59,7 @@ export default function BreathingExerciseTab() {
             >
               Visibility
             </Label>
-            <p className="overflow-hidden text-xs text-muted-foreground md:max-w-none md:text-sm">
+            <p className="hidden overflow-hidden text-xs text-muted-foreground md:block md:max-w-none md:text-sm">
               Controls if the Breathing Exercise is visible on the screen.
             </p>
           </div>
@@ -70,7 +70,7 @@ export default function BreathingExerciseTab() {
             onCheckedChange={handleBreathingExerciseVisibilityChange}
           />
         </div>
-        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 pb-10">
+        <div className="flex min-h-10 w-full items-center justify-between space-x-2 rounded-2xl border-[1px] border-accent/20 bg-accent-foreground p-4 pb-16">
           <div className="flex w-full flex-col gap-1">
             <Label
               htmlFor="BreathingExercise-technique"
