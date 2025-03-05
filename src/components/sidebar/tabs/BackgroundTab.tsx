@@ -90,7 +90,7 @@ export default function BackgroundTab() {
         Icon={BackgroundIllustration}
       />
 
-      <div className="mt-16 flex w-[93%] flex-col">
+      <div className="mt-24 flex w-[93%] flex-col md:mt-16">
         <div className="ml-auto flex w-[145%] items-center justify-center gap-4 md:ml-0 md:w-auto">
           <div className="flex flex-col gap-1">
             <p className="text-sm text-foreground">Environment</p>
