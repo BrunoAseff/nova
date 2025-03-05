@@ -42,7 +42,7 @@ export default function ClockTab() {
               >
                 Visibility
               </Label>
-              <p className="overflow-hidden text-ellipsis whitespace-nowrap text-xs text-muted-foreground md:text-sm">
+              <p className="hidden overflow-hidden text-ellipsis whitespace-nowrap text-xs text-muted-foreground md:block md:text-sm">
                 Controls if the clock is visible on the screen.
               </p>
             </div>
