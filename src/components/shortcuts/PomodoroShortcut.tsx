@@ -46,7 +46,6 @@ export default function PomodoroShortcut() {
     value: string,
     displaySetter: (value: string) => void,
   ) => {
-    // Allow empty string or numbers only
     if (value === "" || /^\d{1,2}$/.test(value)) {
       displaySetter(value);
     }

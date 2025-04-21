@@ -38,8 +38,6 @@ const OneTapSignIn = () => {
   const { data: session } = useSession();
   const pathname = usePathname();
 
-  // Don't show on auth pages or when user is logged in
-
   useEffect(() => {
     if (pathname.startsWith("/spaces") || session) {
       return;

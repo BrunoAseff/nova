@@ -62,7 +62,6 @@ export default function Features() {
       setSelectedIndex(api.selectedScrollSnap());
     });
 
-    // Initialize selected index
     setSelectedIndex(api.selectedScrollSnap());
   }, [api]);
 

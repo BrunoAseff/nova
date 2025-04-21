@@ -17,7 +17,6 @@ export default function ClockShortcut() {
     if (selectedSpace) {
       setSelectedPosition(selectedSpace.clock.position);
       setTimeFormat(selectedSpace.clock.timeFormat);
-      // The isHidden property is the opposite of visibility, so we need to negate it
       setIsClockVisible(!(selectedSpace.clock.isHidden ?? false));
     }
   }, [spaces, selectedTab]);

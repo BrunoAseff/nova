@@ -19,7 +19,6 @@ export const fetchSpacesData = async ({
       const dbTimestamp = await getTimestamp(userId);
       const localTimestamp = localStorage.getItem("lastModified");
 
-      // Fetch from DB if timestamps don't match or no local timestamp
       if (
         !localTimestamp ||
         !dbTimestamp ||
@@ -27,7 +26,6 @@ export const fetchSpacesData = async ({
       ) {
         const dbSettings = await getUserSettings(userId);
 
-        // Override with database values where they exist
         if (dbSettings.spaces) finalSettings.spaces = dbSettings.spaces;
         if (dbSettings.shortcut) finalSettings.shortcut = dbSettings.shortcut;
         if (dbSettings.ambientSound)
@@ -35,7 +33,6 @@ export const fetchSpacesData = async ({
         if (dbSettings.reminderMessages)
           finalSettings.reminderMessages = dbSettings.reminderMessages;
 
-        // Update local storage with fresh data
         localStorage.setItem("spaces", JSON.stringify(finalSettings.spaces));
         localStorage.setItem("shortcut", finalSettings.shortcut);
         localStorage.setItem("ambientSound", finalSettings.ambientSound);
@@ -51,13 +48,11 @@ export const fetchSpacesData = async ({
       }
     }
 
-    // If no userId or timestamps match, try localStorage
     const localSpacesData = localStorage.getItem("spaces");
     const localShortcut = localStorage.getItem("shortcut");
     const localReminderMessagesRaw = localStorage.getItem("reminderMessages");
     const localAmbientSound = localStorage.getItem("ambientSound");
 
-    // Override defaults with localStorage values if they exist
     if (localSpacesData) {
       const parsedSpaces = JSON.parse(localSpacesData);
       finalSettings.spaces = parsedSpaces.map((space: any) => {
@@ -85,7 +80,6 @@ export const fetchSpacesData = async ({
     return finalSettings;
   } catch (error) {
     console.error("Error fetching spaces data:", error);
-    // Fall back to defaults if everything fails
     return {
       spaces: defaultSettings.spaces,
       shortcut: defaultSettings.shortcut,

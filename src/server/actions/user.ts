@@ -16,40 +16,33 @@ import { db } from "../db";
 export async function deleteUserAccount(userId: string): Promise<void> {
   try {
     await db.$transaction(async (tx) => {
-      // First get the settings ID for this user
       const userSettings = await tx.settings.findUnique({
         where: { userId },
         select: { id: true },
       });
 
       if (userSettings) {
-        // Delete all spaces associated with the user's settings
         await tx.space.deleteMany({
           where: { settingsId: userSettings.id },
         });
 
-        // Delete all reminders associated with the user's settings
         await tx.reminder.deleteMany({
           where: { settingsId: userSettings.id },
         });
       }
 
-      // Delete the settings record itself
       await tx.settings.deleteMany({
         where: { userId },
       });
 
-      // Delete OAuth accounts
       await tx.account.deleteMany({
         where: { userId },
       });
 
-      // Delete sessions
       await tx.session.deleteMany({
         where: { userId },
       });
 
-      // Finally, delete the user
       await tx.user.delete({
         where: { id: userId },
       });

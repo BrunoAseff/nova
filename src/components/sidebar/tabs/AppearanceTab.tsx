@@ -25,7 +25,7 @@ export default function AppearanceTab() {
       setSelectedCustomTheme(customTheme);
     } else {
       theme ? setSelectedTheme(theme) : null;
-      setSelectedCustomTheme("nova"); // Default to "nova" if no custom theme is set
+      setSelectedCustomTheme("nova");
     }
   }, [theme]);
 
@@ -37,7 +37,7 @@ export default function AppearanceTab() {
 
   const getCustomTheme = (theme: string): string => {
     const parts = theme.split("_");
-    return parts[0] ?? "nova"; // Extract the custom theme before the underscore
+    return parts[0] ?? "nova";
   };
 
   const systemItems = [

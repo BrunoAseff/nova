@@ -44,7 +44,6 @@ export default function IconBtn({
     </Button>
   );
 
-  // If there's no link but a tooltip is provided, wrap the button in a tooltip
   if (!hasLink && tooltipContent) {
     return (
       <TooltipProvider>
@@ -56,6 +55,5 @@ export default function IconBtn({
     );
   }
 
-  // Otherwise, return the button as is
   return buttonElement;
 }

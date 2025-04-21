@@ -80,7 +80,7 @@ export default function Page() {
   });
 
   async function handleLogin(data: z.infer<typeof loginSchema>) {
-    setAuthError(null); // Clear previous errors
+    setAuthError(null);
     setIsLoginLoading(true);
 
     try {
@@ -95,7 +95,6 @@ export default function Page() {
         throw new Error(result?.error ?? "Login failed");
       }
 
-      // Redirect on success
       router.push("/spaces");
     } catch (error) {
       setAuthError((error as Error).message);

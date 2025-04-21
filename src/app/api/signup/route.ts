@@ -14,7 +14,6 @@ export async function POST(req: Request) {
       name?: string;
     };
 
-    // Input validation
     if (!email || !password) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -36,7 +35,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Check if user exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -48,7 +46,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Create user with hashed password
     const hashedPassword = await hash(password, 10);
     const user = await prisma.user.create({
       data: {

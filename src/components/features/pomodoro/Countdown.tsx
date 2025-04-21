@@ -30,7 +30,7 @@ export function Countdown() {
         return (activeCycle?.minutesAmount ?? 25) * 60;
       case "Long Break":
         return longBreakDuration * 60;
-      default: // Short Break
+      default:
         return shortBreakDuration * 60;
     }
   }, [
@@ -44,19 +44,15 @@ export function Countdown() {
     const now = Date.now();
     const elapsedTime = now - lastTickRef.current;
 
-    // Only update if at least 1 second has passed
     if (elapsedTime >= 1000) {
-      // Calculate how many whole seconds have passed
       const deltaSeconds = Math.floor(elapsedTime / 1000);
 
-      // Update the last tick time by the exact number of seconds processed
       lastTickRef.current = now - (elapsedTime % 1000);
 
       setSecondsPassed((prev: number) => {
         const newSeconds = prev + deltaSeconds;
 
         if (newSeconds >= totalSeconds) {
-          // Clear interval and handle session completion
           if (intervalRef.current) {
             clearInterval(intervalRef.current);
           }
@@ -83,15 +79,12 @@ export function Countdown() {
 
   useEffect(() => {
     if (activeCycle && !isPaused) {
-      // Reset lastTickRef when starting or unpausing
       lastTickRef.current = Date.now();
 
-      // Clear any existing interval first
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
 
-      // Start new interval - checking more frequently for accuracy
       intervalRef.current = window.setInterval(updateTimer, 100);
     }
 

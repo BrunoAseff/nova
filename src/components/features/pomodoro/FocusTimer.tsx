@@ -19,7 +19,6 @@ import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { Button } from "@/components/nova/buttons/Button";
 import { Air } from "@/components/icons/Air";
-import PictureInPictureButton from "./PictureInPictureButton";
 import { useCycleStore } from "@/stores/useCycleStore";
 
 const newCycleFormValidationSchema = zod.object({
@@ -107,7 +106,7 @@ export default function FocusTimer() {
             </FormProvider>
           )}
 
-          <div className="font-inter text-md hide-in-pip flex w-full items-center justify-center">
+          <div className="font-inter text-md flex w-full items-center justify-center">
             {activeCycle && currentTab === "Focus" && (
               <div className="flex flex-col items-center gap-1">
                 <div className="flex w-fit items-center justify-center gap-2 rounded-xl border-[1px] border-background bg-background p-2">
@@ -154,14 +153,14 @@ export default function FocusTimer() {
             {activeCycle && (
               <LinkBtn
                 onClick={skipSession}
-                className="hide-in-pip mb-[2rem] mt-3 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
+                className="mb-[2rem] mt-3 cursor-pointer text-sm text-muted-foreground hover:text-secondary"
               >
                 Skip session
               </LinkBtn>
             )}
           </div>
 
-          <div className="hide-in-pip relative flex w-full items-center justify-center">
+          <div className="relative flex w-full items-center justify-center">
             {activeCycle ? (
               <>
                 <div className="absolute left-1/2 mb-4 flex -translate-x-1/2 gap-4 md:mb-0">
@@ -191,11 +190,8 @@ export default function FocusTimer() {
                   </IconBtn>
                 </div>
 
-                <div className="relative right-[45%] hidden -translate-x-1/2 md:block">
+                <div className="relative left-[55%] hidden md:block">
                   <InfoCard />
-                </div>
-                <div className="relative left-[60%] hidden -translate-x-1/2 md:block">
-                  <PictureInPictureButton containerRef={containerRef} />
                 </div>
               </>
             ) : (

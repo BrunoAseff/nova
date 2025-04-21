@@ -3,7 +3,7 @@ import React from "react";
 interface TabHeaderProps {
   title: string;
   subtitle: string;
-  Icon: React.FC<React.SVGProps<SVGSVGElement>>; // Accepts a TSX component for an SVG
+  Icon: React.FC<React.SVGProps<SVGSVGElement>>;
 }
 
 export function TabHeader({ title, subtitle, Icon }: TabHeaderProps) {

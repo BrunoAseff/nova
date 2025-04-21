@@ -16,7 +16,6 @@ interface CreateCycleData {
 }
 
 type CycleStore = {
-  // State
   cycles: Cycle[];
   activeCycleId: string | null;
   amountSecondsPassed: number;
@@ -34,7 +33,6 @@ type CycleStore = {
   initialStartTime: Date | null;
   activeCycle: Cycle | undefined;
 
-  // Actions
   markCurrentAsFinished: () => void;
   setSecondsPassed: (updater: (prev: number) => number) => void;
   createNewCycle: (data: CreateCycleData) => void;
@@ -54,7 +52,6 @@ type CycleStore = {
 
 export const useCycleStore = create<CycleStore>()(
   devtools((set, get) => ({
-    // Initial state
     cycles: [],
     activeCycleId: null,
     amountSecondsPassed: 0,
@@ -72,7 +69,6 @@ export const useCycleStore = create<CycleStore>()(
     initialStartTime: null,
     activeCycle: undefined,
 
-    // Actions
     markCurrentAsFinished: () =>
       set((state): Partial<CycleStore> => {
         const currentCycleIndex = state.cycles.findIndex(
@@ -270,7 +266,7 @@ export const useCycleStore = create<CycleStore>()(
             ? { ...cycle, interruptedDate: new Date() }
             : cycle,
         );
-        
+
         document.title = "Nova";
 
         return {

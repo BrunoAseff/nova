@@ -78,7 +78,6 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!existingUser) {
-            // Create new user if they don't exist
             await db.user.create({
               data: {
                 email: user.email!,
@@ -87,7 +86,6 @@ export const authOptions: NextAuthOptions = {
               },
             });
           } else {
-            // Update existing user's OAuth account link if needed
             const existingAccount = await db.account.findFirst({
               where: {
                 userId: existingUser.id,
@@ -172,7 +170,6 @@ export const authOptions: NextAuthOptions = {
     EmailProvider({
       server: `smtp.resend.com`,
       from: "nova@novaspaces.io",
-      // Replace the default email implementation
       sendVerificationRequest: async ({ identifier, url }) => {
         try {
           await resend.emails.send({

@@ -66,7 +66,7 @@ export function cyclesReducer(state: CyclesState, action: any) {
       }
 
       return produce(state, (draft) => {
-        draft.cycles[currentCycleIndex] = updatedCycle; // Update the current cycle with the new start date
+        draft.cycles[currentCycleIndex] = updatedCycle;
       });
     }
 

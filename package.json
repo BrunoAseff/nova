@@ -54,7 +54,6 @@
     "embla-carousel-auto-height": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^11.15.0",
-    "html2canvas": "^1.4.1",
     "immer": "10.1.1",
     "lucide-react": "^0.452.0",
     "motion": "^11.18.2",

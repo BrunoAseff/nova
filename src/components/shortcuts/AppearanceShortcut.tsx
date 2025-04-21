@@ -35,7 +35,7 @@ export default function AppearanceShortcut() {
 
   const getCustomTheme = (theme: string): string => {
     const parts = theme.split("_");
-    return parts[0] ?? "nova"; // Extract the custom theme before the underscore
+    return parts[0] ?? "nova";
   };
 
   const systemItems = [

@@ -5,7 +5,6 @@ type Quote = {
 };
 
 export const quotes: Quote[] = [
-  // Existing Quotes with Category Labels
   {
     text: "The only way to do great work is to love what you do.",
     author: "Steve Jobs",

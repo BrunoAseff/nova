@@ -39,7 +39,7 @@ export async function POST(req: Request) {
           select: {
             id: true,
             spaces: { select: { id: true, clientId: true } },
-          }, // Added id to select
+          },
         });
 
         if (!settings) throw new Error("Settings not found");
@@ -168,7 +168,6 @@ export async function POST(req: Request) {
               case "delete": {
                 const deleteValue = value as { id: string };
 
-                // Check if reminder exists and belongs to user before trying to delete
                 const existingReminder = await tx.reminder.findFirst({
                   where: {
                     id: deleteValue.id,

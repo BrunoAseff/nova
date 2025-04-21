@@ -5,7 +5,7 @@ export default function WimHofMethod() {
   const [phase, setPhase] = useState<"breathe" | "hold" | "recovery">(
     "breathe",
   );
-  const [countdown, setCountdown] = useState(30); // Default to 30 breaths in the breathing phase
+  const [countdown, setCountdown] = useState(30);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,7 +15,7 @@ export default function WimHofMethod() {
             setCountdown(countdown - 1);
           } else {
             setPhase("hold");
-            setCountdown(60); // Retention lasts 60 seconds
+            setCountdown(60);
           }
           break;
         case "hold":
@@ -23,7 +23,7 @@ export default function WimHofMethod() {
             setCountdown(countdown - 1);
           } else {
             setPhase("recovery");
-            setCountdown(15); // Recovery breath lasts 15 seconds
+            setCountdown(15); 
           }
           break;
         case "recovery":
@@ -31,7 +31,7 @@ export default function WimHofMethod() {
             setCountdown(countdown - 1);
           } else {
             setPhase("breathe");
-            setCountdown(30); // Restart the cycle
+            setCountdown(30);
           }
           break;
       }
