@@ -19,7 +19,6 @@ import { LinkBtn } from "@/components/nova/buttons/LinkBtn";
 import { useSpacesContext } from "@/contexts/spaceContext";
 import { Button } from "@/components/nova/buttons/Button";
 import { Air } from "@/components/icons/Air";
-import PictureInPictureButton from "./PictureInPictureButton";
 import { useCycleStore } from "@/stores/useCycleStore";
 
 const newCycleFormValidationSchema = zod.object({
@@ -193,9 +192,6 @@ export default function FocusTimer() {
 
                 <div className="relative right-[45%] hidden -translate-x-1/2 md:block">
                   <InfoCard />
-                </div>
-                <div className="relative left-[60%] hidden -translate-x-1/2 md:block">
-                  <PictureInPictureButton containerRef={containerRef} />
                 </div>
               </>
             ) : (
