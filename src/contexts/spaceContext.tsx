@@ -240,7 +240,6 @@ export function SpacesProvider({ children }: { children: React.ReactNode }) {
       audioRef.current.currentTime = 0;
       playCountRef.current = currentSpace.pomodoro.alarmRepeatTimes;
     } else {
-      // Prevent further plays
       setIsAlarmPlaying(false);
     }
   }

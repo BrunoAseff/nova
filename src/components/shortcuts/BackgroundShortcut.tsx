@@ -69,13 +69,11 @@ export default function BackgroundShortcut() {
 
   const { setSelectOpen, lastSelectCloseTime } = useInteractionLock();
 
-  // Reset filters function
   const resetFilters = () => {
     setSelectedEnvironment("all");
     setSelectedColor("all");
   };
 
-  // Check if any filter is active
   const isAnyFilterActive =
     selectedEnvironment !== "all" || selectedColor !== "all";
 

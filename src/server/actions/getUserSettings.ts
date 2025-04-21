@@ -49,7 +49,6 @@ export async function getUserSettings(userId: string) {
     dbSettings.spaces.length > 0
   ) {
     settings.spaces = dbSettings.spaces.map((space) => {
-      // Find the corresponding default space to get the icon
       const defaultSpace = defaultSettings.spaces.find(
         (s) => s.id === space.clientId,
       );
@@ -86,7 +85,7 @@ export async function getUserSettings(userId: string) {
             isHidden: space.quoteIsHidden,
           },
           background: space.background ?? undefined,
-          icon: defaultSettings.spaces[0]!.icon, // Fallback to first default space icon
+          icon: defaultSettings.spaces[0]!.icon,
         };
       }
 
@@ -120,7 +119,7 @@ export async function getUserSettings(userId: string) {
           isHidden: space.quoteIsHidden,
         },
         background: space.background ?? undefined,
-        icon: defaultSpace.icon, // Always use the icon from defaultSettings
+        icon: defaultSpace.icon,
       };
     });
   }
