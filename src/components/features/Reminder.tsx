@@ -78,12 +78,11 @@ export default function Reminder(props: ReminderProps) {
   }, [filteredMessages]);
 
   useEffect(() => {
-    // Filter messages to exclude those with empty text
     const validMessages = reminderMessages.filter(
       (message) => message.text && message.text.trim() !== "",
     );
     setFilteredMessages(validMessages);
-    setCurrentIndex(0); // Reset index when messages change
+    setCurrentIndex(0);
   }, [reminderMessages]);
 
   if (isHidden) return null;
@@ -103,7 +102,7 @@ export default function Reminder(props: ReminderProps) {
         transition={{ duration: 0.3 }}
         className={`relative flex-col gap-4 rounded-3xl border-[1px] bg-[#0c0e12] p-3 text-[#d0dbe3] md:p-4`}
         style={{
-          borderColor: `${color}80`, // 50% opacity
+          borderColor: `${color}80`,
         }}
       >
         <div className="mb-1 flex items-center gap-1">

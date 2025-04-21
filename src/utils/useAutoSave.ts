@@ -72,7 +72,6 @@ export function useAutoSave(userId?: string) {
       processedChangeIds.forEach(removeChange);
       setSyncStatus("saved");
 
-      // Reset to idle after a delay
       setTimeout(() => setSyncStatus("idle"), 2000);
     } catch (error) {
       setSyncStatus("error");

@@ -16,7 +16,6 @@ const buttonVariants = {
 
 type ButtonVariant = keyof typeof buttonVariants;
 
-// Combine HTML button props with Framer Motion props
 type ButtonProps = {
   variant?: ButtonVariant;
 } & Omit<HTMLMotionProps<"button">, "variant">;

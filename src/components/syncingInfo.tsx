@@ -14,7 +14,6 @@ export default function SyncingInfo() {
     const handleUserVerification = async () => {
       if (!session) return;
 
-      // Check localStorage for migration status
       const migrationStatus = localStorage.getItem("dataMigrationComplete");
       if (migrationStatus === "true") {
         setStatus("idle");

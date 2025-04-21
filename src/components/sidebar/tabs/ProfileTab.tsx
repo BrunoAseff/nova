@@ -96,7 +96,7 @@ export default function ProfileTab() {
     try {
       setIsLoading(true);
       await deleteUserAccount(session?.user?.id! as string);
-      signOut({ callbackUrl: "/" }); // Redirect to home after deletion
+      signOut({ callbackUrl: "/" });
     } catch (error) {
       console.error("Failed to delete account:", error);
     }

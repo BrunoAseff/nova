@@ -78,6 +78,3 @@ TabSection.displayName = "TabSection";
 
 export { TabSection, tabSectionVariants };
 
-// if has background border-accent/20 bg-accent-foreground rounded-2xl border-[1px] p-4
-// if variang danger and has background border-destructive bg-destructive/10 rounded-2xl border-[1px] p-4
-// if isScrollable scrollbar-thin scrollbar-track-background scrollbar-thumb-accent and will have scroll after maxHeight

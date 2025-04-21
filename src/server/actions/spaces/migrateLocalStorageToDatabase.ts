@@ -80,35 +80,31 @@ export const migrateLocalStorageToDatabase = async (
       return;
     }
 
-    // Merge local data with defaults
     const spaces = localData.spaces || DEFAULT_VALUES.spaces;
     const shortcut = localData.shortcut || DEFAULT_VALUES.shortcut;
     const ambientSound = localData.ambientSound || DEFAULT_VALUES.ambientSound;
     const reminderMessages =
       localData.reminderMessages || DEFAULT_VALUES.reminderMessages;
 
-    // Create or update settings for the user
     const settings = await prisma.settings.upsert({
       where: { userId },
       update: {
         shortcut,
         ambientSound,
-        isAmbientSoundPlaying: false, // Using schema default
+        isAmbientSoundPlaying: false, 
       },
       create: {
         userId,
         shortcut,
         ambientSound,
-        isAmbientSoundPlaying: false, // Using schema default
+        isAmbientSoundPlaying: false, 
       },
     });
 
-    // For spaces, first check if this settings ID already has any spaces
     const existingSpaces = await prisma.space.findMany({
       where: { settingsId: settings.id },
     });
 
-    // If no existing spaces, create new ones
     if (existingSpaces.length === 0) {
       for (const space of spaces) {
         await prisma.space.create({
@@ -138,7 +134,6 @@ export const migrateLocalStorageToDatabase = async (
       }
     }
 
-    // Handle reminders
     if (reminderMessages.length > 0) {
       for (const reminder of reminderMessages) {
         await prisma.reminder.create({
@@ -151,7 +146,6 @@ export const migrateLocalStorageToDatabase = async (
       }
     }
 
-    // Update the user to mark data as migrated
     await prisma.user.update({
       where: { id: userId },
       data: { dataMigrated: true },

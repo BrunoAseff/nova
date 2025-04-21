@@ -22,7 +22,6 @@ export default function SpacePicker() {
   const { spaces, selectedTab, selectTab } = useSpacesContext();
   const [open, setOpen] = useState(false);
 
-  // Find the selected space using the ID
   const selectedSpace = spaces.find((space) => space.id === selectedTab);
   const [value, setValue] = useState(selectedSpace?.id ?? spaces[1]?.id);
 
@@ -60,7 +59,6 @@ export default function SpacePicker() {
                   {spaces.map((space) => (
                     <CommandItem
                       key={space.id}
-                      // Use the space name for searching/filtering
                       value={space.name}
                       onSelect={() => {
                         setValue(space.id);
