@@ -12,7 +12,6 @@ export async function POST(req: Request) {
     }
 
     const { changes } = await req.json();
-    console.log("Received changes:", changes);
 
     if (!changes?.length) {
       return NextResponse.json(
@@ -88,9 +87,8 @@ export async function POST(req: Request) {
         ).length;
 
         if (currentReminderCount + newReminderCount > 10) {
-          return NextResponse.json(
-            { error: "Reminder limit exceeded. Maximum 10 reminders allowed." },
-            { status: 400 },
+          throw new Error(
+            "Reminder limit exceeded. Maximum 10 reminders allowed.",
           );
         }
 
@@ -101,15 +99,15 @@ export async function POST(req: Request) {
         for (const change of sortedChanges) {
           const { action, value } = change;
 
-          try {
-            switch (action) {
-              case "create": {
-                const createValue = value as {
-                  id: string;
-                  text: string;
-                  type: string;
-                };
+          switch (action) {
+            case "create": {
+              const createValue = value as {
+                id: string;
+                text: string;
+                type: string;
+              };
 
+              try {
                 await tx.reminder.create({
                   data: {
                     id: createValue.id,
@@ -118,94 +116,109 @@ export async function POST(req: Request) {
                     settingsId: settings.id,
                   },
                 });
-                break;
-              }
-
-              case "update": {
-                const updateValue = value as {
-                  id: string;
-                  text?: string;
-                  type?: string;
-                };
-
-                const existingReminder = await tx.reminder.findFirst({
-                  where: {
-                    id: updateValue.id,
-                    settings: {
-                      userId: session.user.id,
-                    },
-                  },
-                });
-
-                if (!existingReminder) {
+                processedIds.push(change.id);
+              } catch (error) {
+                if (
+                  error instanceof Error &&
+                  error.message.includes("Unique constraint")
+                ) {
                   console.log(
-                    `Skipping update for non-existent reminder: ${updateValue.id}`,
+                    `Reminder ${createValue.id} already exists, skipping`,
                   );
-                  continue;
-                }
-
-                const updateData: {
-                  message?: string;
-                  type?: string;
-                } = {};
-
-                if ("text" in updateValue && updateValue.text !== undefined) {
-                  updateData.message = updateValue.text;
-                }
-                if ("type" in updateValue && updateValue.type !== undefined) {
-                  updateData.type = updateValue.type;
-                }
-
-                if (Object.keys(updateData).length > 0) {
-                  await tx.reminder.update({
-                    where: { id: updateValue.id },
-                    data: updateData,
-                  });
-                }
-                break;
-              }
-
-              case "delete": {
-                const deleteValue = value as { id: string };
-
-                const existingReminder = await tx.reminder.findFirst({
-                  where: {
-                    id: deleteValue.id,
-                    settings: {
-                      userId: session.user.id,
-                    },
-                  },
-                });
-
-                if (existingReminder) {
-                  await tx.reminder.delete({
-                    where: { id: deleteValue.id },
-                  });
+                  processedIds.push(change.id);
                 } else {
-                  console.log(
-                    `Skipping delete for non-existent reminder: ${deleteValue.id}`,
-                  );
+                  console.error(`Failed to create reminder:`, error);
                 }
-                break;
               }
+              break;
             }
-          } catch (error) {
-            console.log(`Non-critical error processing reminder change:`, {
-              error,
-              change,
-            });
-            continue;
+
+            case "update": {
+              const updateValue = value as {
+                id: string;
+                text?: string;
+                type?: string;
+              };
+
+              const existingReminder = await tx.reminder.findFirst({
+                where: {
+                  id: updateValue.id,
+                  settings: {
+                    userId: session.user.id,
+                  },
+                },
+              });
+
+              if (!existingReminder) {
+                console.log(
+                  `Skipping update for non-existent reminder: ${updateValue.id}`,
+                );
+                processedIds.push(change.id);
+                continue;
+              }
+
+              const updateData: {
+                message?: string;
+                type?: string;
+              } = {};
+
+              if ("text" in updateValue && updateValue.text !== undefined) {
+                updateData.message = updateValue.text;
+              }
+              if ("type" in updateValue && updateValue.type !== undefined) {
+                updateData.type = updateValue.type;
+              }
+
+              if (Object.keys(updateData).length > 0) {
+                await tx.reminder.update({
+                  where: { id: updateValue.id },
+                  data: updateData,
+                });
+              }
+              processedIds.push(change.id);
+              break;
+            }
+
+            case "delete": {
+              const deleteValue = value as { id: string };
+
+              const existingReminder = await tx.reminder.findFirst({
+                where: {
+                  id: deleteValue.id,
+                  settings: {
+                    userId: session.user.id,
+                  },
+                },
+              });
+
+              if (existingReminder) {
+                await tx.reminder.delete({
+                  where: { id: deleteValue.id },
+                });
+              } else {
+                console.log(
+                  `Skipping delete for non-existent reminder: ${deleteValue.id}`,
+                );
+              }
+              processedIds.push(change.id);
+              break;
+            }
           }
         }
 
-        processedIds.push(
-          ...groupedChanges.reminder.map((change: Change) => change.id),
-        );
+        await tx.settings.update({
+          where: { id: settings.id },
+          data: { lastModified: new Date() },
+        });
       }
       if (groupedChanges.shortcut) {
+        const latestShortcut = groupedChanges.shortcut.sort(
+          (a: Change, b: Change) => b.timestamp - a.timestamp,
+        )[0];
+
         await tx.settings.update({
           where: { userId: session.user.id },
-          data: { shortcut: groupedChanges.shortcut[0].value as string },
+          data: { shortcut: latestShortcut.value as string },
         });
         processedIds.push(
           ...groupedChanges.shortcut.map((change: Change) => change.id),
@@ -213,10 +226,14 @@ export async function POST(req: Request) {
       }
 
       if (groupedChanges.ambientSound) {
+        const latestAmbientSound = groupedChanges.ambientSound.sort(
+          (a: Change, b: Change) => b.timestamp - a.timestamp,
+        )[0];
+
         await tx.settings.update({
           where: { userId: session.user.id },
           data: {
-            ambientSound: groupedChanges.ambientSound[0].value as string,
+            ambientSound: latestAmbientSound.value as string,
           },
         });
         processedIds.push(
@@ -234,11 +251,44 @@ export async function POST(req: Request) {
       stack: error instanceof Error ? error.stack : undefined,
     });
 
+    if (error instanceof Error) {
+      if (error.message.includes("Reminder limit exceeded")) {
+        return NextResponse.json(
+          {
+            error: "Reminder limit exceeded",
+            message: "You can only have up to 10 reminders.",
+          },
+          { status: 400 },
+        );
+      }
+
+      if (error.message.includes("Settings not found")) {
+        return NextResponse.json(
+          {
+            error: "Settings not found",
+            message:
+              "Your account settings could not be found. Please try logging out and back in.",
+          },
+          { status: 404 },
+        );
+      }
+
+      if (error.message.includes("Space not found")) {
+        return NextResponse.json(
+          {
+            error: "Space not found",
+            message:
+              "One or more spaces could not be found. Please refresh the page.",
+          },
+          { status: 404 },
+        );
+      }
+    }
+
     return NextResponse.json(
       {
         error: "Internal server error",
-        details: error instanceof Error ? error.message : String(error),
-        additionalInfo: error instanceof Error ? error.stack : undefined,
+        message: "Failed to sync your changes. Please try again.",
       },
       { status: 500 },
     );
