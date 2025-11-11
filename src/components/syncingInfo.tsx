@@ -1,5 +1,4 @@
 import { migrateLocalStorageToDatabase } from "@/server/actions/spaces/migrateLocalStorageToDatabase";
-import { fetchSpacesData } from "@/server/actions/spaces/spaces";
 import { CheckCircle, CircleNotch, XCircle } from "@phosphor-icons/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -12,7 +11,7 @@ export default function SyncingInfo() {
 
   useEffect(() => {
     const handleUserVerification = async () => {
-      if (!session) return;
+      if (!session?.user?.id) return;
 
       const migrationStatus = localStorage.getItem("dataMigrationComplete");
       if (migrationStatus === "true") {
@@ -20,11 +19,28 @@ export default function SyncingInfo() {
         return;
       }
 
+      const localSpaces = localStorage.getItem("spaces");
+
+      if (!localSpaces) {
+        localStorage.setItem("dataMigrationComplete", "true");
+        setStatus("idle");
+        return;
+      }
+
       setStatus("syncing");
       try {
-        const localData = await fetchSpacesData({ userId: session?.user?.id });
-        console.log(localData);
-        await migrateLocalStorageToDatabase(session?.user?.id ?? "", localData);
+        const localShortcut = localStorage.getItem("shortcut");
+        const localAmbientSound = localStorage.getItem("ambientSound");
+        const localReminders = localStorage.getItem("reminderMessages");
+
+        const localData = {
+          spaces: JSON.parse(localSpaces),
+          shortcut: localShortcut ?? undefined,
+          ambientSound: localAmbientSound ?? undefined,
+          reminderMessages: localReminders ? JSON.parse(localReminders) : [],
+        };
+
+        await migrateLocalStorageToDatabase(session.user.id, localData);
 
         localStorage.setItem("dataMigrationComplete", "true");
 
@@ -32,13 +48,14 @@ export default function SyncingInfo() {
 
         setTimeout(() => setStatus("idle"), 2000);
       } catch (error) {
-        console.error("Error syncing data:", error);
+        console.error("Error migrating data:", error);
         setStatus("error");
+        setTimeout(() => setStatus("idle"), 3000);
       }
     };
 
     handleUserVerification();
-  }, [session?.user.id, session]);
+  }, [session?.user?.id]);
 
   if (status === "idle") return null;
 

@@ -17,7 +17,8 @@ import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Shortcut from "../shortcuts/shortcut";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
-import { fetchSpacesData } from "@/server/actions/spaces/spaces";
+import { fetchSpacesFromDb } from "@/server/actions/spaces/fetchSpacesFromDb";
+import { getTimestamp } from "@/server/actions/getTimestamp";
 import BreathingExercise from "./breathingExercise/BreathingExercise";
 import Reminder from "./Reminder";
 import SyncingInfo from "../syncingInfo";
@@ -69,13 +70,60 @@ export default function Space() {
 
   useEffect(() => {
     const fetchSpaces = async () => {
-      const { spaces, shortcut, ambientSound, reminderMessages } =
-        await fetchSpacesData({ userId: session?.user?.id });
+      if (!session?.user?.id) {
+        return;
+      }
 
-      setSpaces(spaces);
-      setShortcut(shortcut);
-      setAmbientSound(ambientSound);
-      setReminderMessages(reminderMessages);
+      try {
+        const dbTimestamp = await getTimestamp(session.user.id);
+        const localTimestamp = localStorage.getItem("lastModified");
+
+        const shouldFetchFromDb =
+          !localTimestamp ||
+          !dbTimestamp ||
+          new Date(localTimestamp).getTime() !== dbTimestamp.getTime();
+
+        if (shouldFetchFromDb) {
+          const { spaces, shortcut, ambientSound, reminderMessages } =
+            await fetchSpacesFromDb(session.user.id);
+
+          setSpaces(spaces);
+          setShortcut(shortcut);
+          setAmbientSound(ambientSound);
+          setReminderMessages(reminderMessages);
+
+          localStorage.setItem("spaces", JSON.stringify(spaces));
+          localStorage.setItem("shortcut", shortcut);
+          localStorage.setItem("ambientSound", ambientSound);
+          localStorage.setItem(
+            "reminderMessages",
+            JSON.stringify(reminderMessages),
+          );
+          if (dbTimestamp) {
+            localStorage.setItem("lastModified", dbTimestamp.toISOString());
+          }
+        } else {
+          const localSpaces = localStorage.getItem("spaces");
+          const localShortcut = localStorage.getItem("shortcut");
+          const localAmbientSound = localStorage.getItem("ambientSound");
+          const localReminders = localStorage.getItem("reminderMessages");
+
+          if (localSpaces) {
+            setSpaces(JSON.parse(localSpaces));
+          }
+          if (localShortcut) {
+            setShortcut(localShortcut);
+          }
+          if (localAmbientSound) {
+            setAmbientSound(localAmbientSound);
+          }
+          if (localReminders) {
+            setReminderMessages(JSON.parse(localReminders));
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching spaces:", error);
+      }
     };
 
     fetchSpaces();
