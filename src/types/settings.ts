@@ -8,13 +8,13 @@ export interface SpaceContextValue {
     spaceId: number,
     propertyName: keyof Space,
     value: any,
-  ) => void;
+  ) => Promise<void>;
   playPomodoroAlarm: () => Promise<void>;
   stopPomodoroAlarm: ({ currentSpace }: { currentSpace: Space }) => void;
   isAlarmPlaying: boolean;
   shortcut: ShortcutName;
   ambientSound: string;
-  updateShortcut: (newShortcut: ShortcutName) => void;
+  updateShortcut: (newShortcut: ShortcutName) => Promise<void>;
   ambientSoundVolume: number;
   isAmbientSoundPlaying: boolean;
   playAmbientSound: (soundUrl?: string) => void;
@@ -29,10 +29,13 @@ export interface SpaceContextValue {
   setAmbientSoundVolume: (volume: number) => void;
   setReminderMessages: (messages: ReminderMessage[]) => void;
   reminderMessages: ReminderMessage[];
-  updateReminder: (newReminder: ReminderMessage) => void;
-  deleteReminder: (id: string) => void;
-  updateReminderType: (id: string, newType: ReminderMessage["type"]) => void;
-  updateReminderText: (id: string, newText: string) => void;
+  updateReminder: (newReminder: ReminderMessage) => Promise<void>;
+  deleteReminder: (id: string) => Promise<void>;
+  updateReminderType: (
+    id: string,
+    newType: ReminderMessage["type"],
+  ) => Promise<void>;
+  updateReminderText: (id: string, newText: string) => Promise<void>;
 }
 
 export interface settingsType {
