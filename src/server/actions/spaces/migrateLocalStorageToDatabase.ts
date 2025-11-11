@@ -1,6 +1,5 @@
 "use server";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { db } from "@/server/db";
 
 const DEFAULT_VALUES = {
   shortcut: "ambientSound",
@@ -70,7 +69,7 @@ export const migrateLocalStorageToDatabase = async (
   localData: any,
 ) => {
   try {
-    const user = await prisma.user.findUnique({
+    const user = await db.user.findUnique({
       where: { id: userId },
       select: { dataMigrated: true },
     });
@@ -86,28 +85,28 @@ export const migrateLocalStorageToDatabase = async (
     const reminderMessages =
       localData.reminderMessages || DEFAULT_VALUES.reminderMessages;
 
-    const settings = await prisma.settings.upsert({
+    const settings = await db.settings.upsert({
       where: { userId },
       update: {
         shortcut,
         ambientSound,
-        isAmbientSoundPlaying: false, 
+        isAmbientSoundPlaying: false,
       },
       create: {
         userId,
         shortcut,
         ambientSound,
-        isAmbientSoundPlaying: false, 
+        isAmbientSoundPlaying: false,
       },
     });
 
-    const existingSpaces = await prisma.space.findMany({
+    const existingSpaces = await db.space.findMany({
       where: { settingsId: settings.id },
     });
 
     if (existingSpaces.length === 0) {
       for (const space of spaces) {
-        await prisma.space.create({
+        await db.space.create({
           data: {
             settingsId: settings.id,
             name: space.name,
@@ -136,7 +135,7 @@ export const migrateLocalStorageToDatabase = async (
 
     if (reminderMessages.length > 0) {
       for (const reminder of reminderMessages) {
-        await prisma.reminder.create({
+        await db.reminder.create({
           data: {
             message: reminder.text,
             type: reminder.type,
@@ -146,7 +145,7 @@ export const migrateLocalStorageToDatabase = async (
       }
     }
 
-    await prisma.user.update({
+    await db.user.update({
       where: { id: userId },
       data: { dataMigrated: true },
     });

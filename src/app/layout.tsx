@@ -8,6 +8,7 @@ import {
 import { type Metadata } from "next";
 import { SpacesProvider } from "@/contexts/spaceContext";
 import { ThemeProvider } from "@/components/themeProvider";
+import { SessionProvider } from "@/components/providers/SessionProvider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -56,29 +57,31 @@ export default function RootLayout({
       className={`${inter.variable} ${montserrat.variable} ${delius.className} ${openSans.variable} ${montserrat.className} ${countdown.variable}`}
     >
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-          themes={[
-            "light",
-            "dark",
-            "system",
-            "nebula_light",
-            "nebula_dark",
-            "ignition_light",
-            "ignition_dark",
-            "quasar_light",
-            "quasar_dark",
-            "supernova_light",
-            "supernova_dark",
-            "singularity_light",
-            "singularity_dark",
-          ]}
-        >
-          <SpacesProvider>{children}</SpacesProvider>
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+            themes={[
+              "light",
+              "dark",
+              "system",
+              "nebula_light",
+              "nebula_dark",
+              "ignition_light",
+              "ignition_dark",
+              "quasar_light",
+              "quasar_dark",
+              "supernova_light",
+              "supernova_dark",
+              "singularity_light",
+              "singularity_dark",
+            ]}
+          >
+            <SpacesProvider>{children}</SpacesProvider>
+          </ThemeProvider>
+        </SessionProvider>
 
         <SpeedInsights />
         <Analytics />

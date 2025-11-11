@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { hash } from "bcrypt";
-import { PrismaClient } from "@prisma/client";
+import { hash } from "bcryptjs";
+import { db } from "@/server/db";
+import { initializeNewUser } from "@/server/actions/initializeUser";
 
-const prisma = new PrismaClient();
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: Request) {
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await db.user.findUnique({
       where: { email },
     });
 
@@ -47,16 +47,15 @@ export async function POST(req: Request) {
     }
 
     const hashedPassword = await hash(password, 10);
-    const user = await prisma.user.create({
+    const user = await db.user.create({
       data: {
         email,
         name,
         password: hashedPassword,
-        settings: {
-          create: {},
-        },
       },
     });
+
+    await initializeNewUser(user.id);
 
     return NextResponse.json(
       { message: "User created successfully", user },

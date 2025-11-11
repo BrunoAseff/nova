@@ -17,16 +17,16 @@ import { AnimatedConfig } from "../icons/animatedIcons/AnimatedConfig";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Shortcut from "../shortcuts/shortcut";
 import { useInteractionLock } from "@/contexts/InteractionLockContext";
-import { fetchSpacesData } from "@/server/actions/spaces/spaces";
+import { fetchSpacesFromDb } from "@/server/actions/spaces/fetchSpacesFromDb";
 import BreathingExercise from "./breathingExercise/BreathingExercise";
 import Reminder from "./Reminder";
-import SyncingInfo from "../syncingInfo";
 import { SpaceSidebarMobile } from "../sidebar/SpaceSidebarMobile";
 import { useSession } from "next-auth/react";
-import { AutoSaveProvider } from "../autoSaveProvider";
 import FullscreenButton from "../FullScreenButton";
-import type { Changes } from "@/types/changes";
 import { useAmbientSound } from "@/stores/useAmbientSound";
+import type { ShortcutName, Space as SpaceType } from "@/types";
+import { settings as defaultSettings } from "@/contexts/settings";
+import { logger } from "@/utils/logger";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -36,6 +36,16 @@ declare global {
       platform: string;
     };
   }
+}
+
+function mergeIconsWithSpaces(spaces: SpaceType[]): SpaceType[] {
+  return spaces.map((space) => {
+    const defaultSpace = defaultSettings.spaces.find((s) => s.id === space.id);
+    return {
+      ...space,
+      icon: defaultSpace?.icon ?? space.icon,
+    };
+  });
 }
 
 export default function Space() {
@@ -50,32 +60,48 @@ export default function Space() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      const isLoggedIn = session?.user;
-
-      const changes = localStorage.getItem("nova-changes");
-      if (!changes) return;
-
-      const { pending } = JSON.parse(changes) as Changes;
-      if (pending.length > 0 && isLoggedIn) {
-        e.preventDefault();
-        e.returnValue = "";
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [session?.user]);
-
-  useEffect(() => {
     const fetchSpaces = async () => {
-      const { spaces, shortcut, ambientSound, reminderMessages } =
-        await fetchSpacesData({ userId: session?.user?.id });
+      if (!session?.user?.id) {
+        const localSpaces = localStorage.getItem("spaces");
+        const localShortcut = localStorage.getItem("shortcut");
+        const localAmbientSound = localStorage.getItem("ambientSound");
+        const localReminders = localStorage.getItem("reminderMessages");
 
-      setSpaces(spaces);
-      setShortcut(shortcut);
-      setAmbientSound(ambientSound);
-      setReminderMessages(reminderMessages);
+        if (localSpaces) {
+          const parsedSpaces = JSON.parse(localSpaces);
+          setSpaces(mergeIconsWithSpaces(parsedSpaces));
+        }
+        if (localShortcut) {
+          setShortcut(localShortcut as ShortcutName);
+        }
+        if (localAmbientSound) {
+          setAmbientSound(localAmbientSound);
+        }
+        if (localReminders) {
+          setReminderMessages(JSON.parse(localReminders));
+        }
+        return;
+      }
+
+      try {
+        const { spaces, shortcut, ambientSound, reminderMessages } =
+          await fetchSpacesFromDb(session.user.id);
+
+        setSpaces(spaces);
+        setShortcut(shortcut);
+        setAmbientSound(ambientSound);
+        setReminderMessages(reminderMessages);
+
+        localStorage.setItem("spaces", JSON.stringify(spaces));
+        localStorage.setItem("shortcut", shortcut);
+        localStorage.setItem("ambientSound", ambientSound);
+        localStorage.setItem(
+          "reminderMessages",
+          JSON.stringify(reminderMessages),
+        );
+      } catch (error) {
+        logger.error("Error fetching spaces:", error);
+      }
     };
 
     fetchSpaces();
@@ -132,107 +158,104 @@ export default function Space() {
   }, [closeSidebar, isSelectOpen, lastSelectCloseTime]);
 
   return (
-    <AutoSaveProvider userId={session?.user?.id}>
-      <TooltipProvider>
-        <FullscreenButton contentRef={contentRef} />
-        <Shortcut />
-        <SyncingInfo />
-        <Tabs
-          ref={contentRef}
-          defaultValue="2"
-          className="relative m-0 h-dvh w-full overflow-hidden p-0 font-sans"
-          aria-label="Space selection tabs"
-        >
-          <TabsList className="absolute bottom-6 left-8 z-10 md:bottom-10 md:left-auto md:right-28">
-            {[...spaces]
-              .sort((a, b) => a.id - b.id)
-              .map((space) => (
-                <TabsTrigger
-                  aria-label={space.name}
-                  aria-labelledby="tooltip"
-                  onClick={() => selectTab(space.id)}
-                  className="hover:bg-accent-foreground hover:text-foreground"
-                  key={space.id}
-                  value={space.id.toString()}
-                >
-                  <Tooltip delayDuration={200}>
-                    <TooltipTrigger asChild>
-                      <span>{space.icon}</span>
-                    </TooltipTrigger>
-                    <TooltipContent
-                      id="tooltip"
-                      className="font-inter font-medium"
-                    >
-                      {space.name}
-                    </TooltipContent>
-                  </Tooltip>
-                </TabsTrigger>
-              ))}
-          </TabsList>
+    <TooltipProvider>
+      <FullscreenButton contentRef={contentRef} />
+      <Shortcut />
+      <Tabs
+        ref={contentRef}
+        defaultValue="2"
+        className="relative m-0 h-dvh w-full overflow-hidden p-0 font-sans"
+        aria-label="Space selection tabs"
+      >
+        <TabsList className="absolute bottom-6 left-8 z-10 md:bottom-10 md:left-auto md:right-28">
           {[...spaces]
             .sort((a, b) => a.id - b.id)
             .map((space) => (
-              <TabsContent
-                className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
+              <TabsTrigger
+                aria-label={space.name}
+                aria-labelledby="tooltip"
+                onClick={() => selectTab(space.id)}
+                className="hover:bg-accent-foreground hover:text-foreground"
                 key={space.id}
                 value={space.id.toString()}
               >
-                <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
-
-                {space.id === 2 && (
-                  <link as="image" href={space.background} key={space.id} />
-                )}
-
-                <div className="absolute inset-0 z-0">
-                  <Image
-                    src={space.background}
-                    alt={space.name}
-                    fill
-                    className="object-cover brightness-75"
-                    placeholder="blur"
-                    blurDataURL="/blur/blurBackground.png"
-                    priority={space.id === 2}
-                    sizes="100vw"
-                    quality={85}
-                    loading={space.id === 2 ? "eager" : "lazy"}
-                    fetchPriority={space.id === 2 ? "high" : "auto"}
-                  />
-                </div>
-                <div className="relative z-10">
-                  <Clock {...space.clock} />
-                  <Pomodoro {...space.pomodoro} />
-
-                  <Quote {...space.quote} />
-                  <BreathingExercise {...space.breathingExercise} />
-                  <Reminder {...space.reminder} />
-                </div>
-              </TabsContent>
+                <Tooltip delayDuration={200}>
+                  <TooltipTrigger asChild>
+                    <span>{space.icon}</span>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    id="tooltip"
+                    className="font-inter font-medium"
+                  >
+                    {space.name}
+                  </TooltipContent>
+                </Tooltip>
+              </TabsTrigger>
             ))}
-        </Tabs>
-        <Tooltip delayDuration={0}>
-          <TooltipTrigger asChild>
-            <Button
-              size="icon"
-              aria-labelledby="config"
-              aria-label="Open config"
-              onClick={() => setOpen(true)}
-              className="show-in-fullscreen absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex md:p-5"
+        </TabsList>
+        {[...spaces]
+          .sort((a, b) => a.id - b.id)
+          .map((space) => (
+            <TabsContent
+              className={`relative inset-0 m-0 h-screen w-screen overflow-hidden bg-cover bg-center p-0 ${LOADING_BG_COLOR}`}
+              key={space.id}
+              value={space.id.toString()}
             >
-              <AnimatedConfig />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent
-            id="config"
-            className="font-inter flex items-center gap-3 font-medium"
+              <div className={`absolute inset-0 ${LOADING_BG_COLOR}`} />
+
+              {space.id === 2 && (
+                <link as="image" href={space.background} key={space.id} />
+              )}
+
+              <div className="absolute inset-0 z-0">
+                <Image
+                  src={space.background}
+                  alt={space.name}
+                  fill
+                  className="object-cover brightness-75"
+                  placeholder="blur"
+                  blurDataURL="/blur/blurBackground.png"
+                  priority={space.id === 2}
+                  sizes="100vw"
+                  quality={85}
+                  loading={space.id === 2 ? "eager" : "lazy"}
+                  fetchPriority={space.id === 2 ? "high" : "auto"}
+                />
+              </div>
+              <div className="relative z-10">
+                <Clock {...space.clock} />
+                <Pomodoro {...space.pomodoro} />
+
+                <Quote {...space.quote} />
+                <BreathingExercise {...space.breathingExercise} />
+                <Reminder {...space.reminder} />
+              </div>
+            </TabsContent>
+          ))}
+      </Tabs>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
+          <Button
+            size="icon"
+            aria-labelledby="config"
+            aria-label="Open config"
+            onClick={() => setOpen(true)}
+            className="show-in-fullscreen absolute bottom-10 right-14 z-10 hidden overflow-hidden rounded-xl bg-background p-5 text-sm text-muted-foreground shadow-md animate-in fade-in-0 hover:bg-background hover:text-foreground md:flex md:p-5"
           >
-            Config
-            <p className="rounded-xl text-xs tracking-widest text-secondary">
-              {sidebarShortcut}
-            </p>
-          </TooltipContent>
-        </Tooltip>
-        <SpaceSidebarMobile />
-      </TooltipProvider>
-    </AutoSaveProvider>
+            <AnimatedConfig />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent
+          id="config"
+          className="font-inter flex items-center gap-3 font-medium"
+        >
+          Config
+          <p className="rounded-xl text-xs tracking-widest text-secondary">
+            {sidebarShortcut}
+          </p>
+        </TooltipContent>
+      </Tooltip>
+      <SpaceSidebarMobile />
+    </TooltipProvider>
   );
 }

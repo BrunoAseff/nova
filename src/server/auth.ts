@@ -8,12 +8,13 @@ import { type Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import { env } from "@/env";
 import { db } from "@/server/db";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import Credentials from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
 import { Resend } from "resend";
 const resend = new Resend(env.RESEND_API_KEY);
 import VerifyEmail from "@/lib/emails/verify-email";
+import { initializeNewUser } from "@/server/actions/initializeUser";
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -78,13 +79,14 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!existingUser) {
-            await db.user.create({
+            const newUser = await db.user.create({
               data: {
                 email: user.email!,
                 name: user.name,
                 emailVerified: new Date(),
               },
             });
+            await initializeNewUser(newUser.id);
           } else {
             const existingAccount = await db.account.findFirst({
               where: {
@@ -108,6 +110,7 @@ export const authOptions: NextAuthOptions = {
                 },
               });
             }
+            await initializeNewUser(existingUser.id);
           }
           return true;
         }

@@ -3,8 +3,9 @@ import {
   updateAmbientSoundLocalStorage,
   updateAmbientSoundVolumeLocalStorage,
 } from "@/utils/localStorage";
-import { updateAmbientSoundLocalStorageChanges } from "@/utils/localStorageChanges";
+import { updateAmbientSound as apiUpdateAmbientSound } from "@/utils/settingsApi";
 import { type Type, type Sound, ambientSounds } from "@/content/ambientSounds";
+import { logger } from "@/utils/logger";
 
 interface AmbientSoundState {
   ambientSound: string;
@@ -60,7 +61,10 @@ export const useAmbientSound = create<AmbientSoundState>((set, get) => ({
 
     set({ ambientSound: soundUrl });
     updateAmbientSoundLocalStorage(soundUrl);
-    updateAmbientSoundLocalStorageChanges(soundUrl);
+
+    apiUpdateAmbientSound(soundUrl).catch((error) => {
+      logger.error("Failed to update ambient sound:", error);
+    });
 
     if (isPlaying) {
       if (audioRef) {
