@@ -86,7 +86,25 @@ export async function POST(req: Request) {
           (change: Change) => change.action === "create",
         ).length;
 
-        if (currentReminderCount + newReminderCount > 10) {
+        const deleteIds = groupedChanges.reminder
+          .filter((change: Change) => change.action === "delete")
+          .map((change: Change) => (change.value as { id: string }).id);
+
+        const deletionsThatMatchExisting = await db.reminder.count({
+          where: {
+            id: { in: deleteIds },
+            settings: {
+              userId: session.user.id,
+            },
+          },
+        });
+
+        const effectiveExisting = Math.max(
+          0,
+          currentReminderCount - deletionsThatMatchExisting,
+        );
+
+        if (effectiveExisting + newReminderCount > 10) {
           throw new Error(
             "Reminder limit exceeded. Maximum 10 reminders allowed.",
           );

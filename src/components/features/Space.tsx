@@ -28,6 +28,8 @@ import { AutoSaveProvider } from "../autoSaveProvider";
 import FullscreenButton from "../FullScreenButton";
 import type { Changes } from "@/types/changes";
 import { useAmbientSound } from "@/stores/useAmbientSound";
+import type { ShortcutName, Space as SpaceType } from "@/types";
+import { settings as defaultSettings } from "@/contexts/settings";
 
 const LOADING_BG_COLOR = "bg-gray-900";
 
@@ -37,6 +39,16 @@ declare global {
       platform: string;
     };
   }
+}
+
+function mergeIconsWithSpaces(spaces: SpaceType[]): SpaceType[] {
+  return spaces.map((space) => {
+    const defaultSpace = defaultSettings.spaces.find((s) => s.id === space.id);
+    return {
+      ...space,
+      icon: defaultSpace?.icon ?? space.icon,
+    };
+  });
 }
 
 export default function Space() {
@@ -71,17 +83,49 @@ export default function Space() {
   useEffect(() => {
     const fetchSpaces = async () => {
       if (!session?.user?.id) {
+        const localSpaces = localStorage.getItem("spaces");
+        const localShortcut = localStorage.getItem("shortcut");
+        const localAmbientSound = localStorage.getItem("ambientSound");
+        const localReminders = localStorage.getItem("reminderMessages");
+
+        if (localSpaces) {
+          const parsedSpaces = JSON.parse(localSpaces);
+          setSpaces(mergeIconsWithSpaces(parsedSpaces));
+        }
+        if (localShortcut) {
+          setShortcut(localShortcut as ShortcutName);
+        }
+        if (localAmbientSound) {
+          setAmbientSound(localAmbientSound);
+        }
+        if (localReminders) {
+          setReminderMessages(JSON.parse(localReminders));
+        }
         return;
       }
 
       try {
         const dbTimestamp = await getTimestamp(session.user.id);
         const localTimestamp = localStorage.getItem("lastModified");
+        const TOLERANCE_MS = 5000;
 
-        const shouldFetchFromDb =
-          !localTimestamp ||
-          !dbTimestamp ||
-          new Date(localTimestamp).getTime() !== dbTimestamp.getTime();
+        let shouldFetchFromDb = false;
+
+        if (!localTimestamp || !dbTimestamp) {
+          shouldFetchFromDb = true;
+        } else {
+          try {
+            const localMs = new Date(localTimestamp).getTime();
+            const dbMs = dbTimestamp.getTime();
+            const timeDiff = Math.abs(localMs - dbMs);
+
+            if (timeDiff > TOLERANCE_MS) {
+              shouldFetchFromDb = true;
+            }
+          } catch {
+            shouldFetchFromDb = true;
+          }
+        }
 
         if (shouldFetchFromDb) {
           const { spaces, shortcut, ambientSound, reminderMessages } =
@@ -109,7 +153,8 @@ export default function Space() {
           const localReminders = localStorage.getItem("reminderMessages");
 
           if (localSpaces) {
-            setSpaces(JSON.parse(localSpaces));
+            const parsedSpaces = JSON.parse(localSpaces);
+            setSpaces(mergeIconsWithSpaces(parsedSpaces));
           }
           if (localShortcut) {
             setShortcut(localShortcut);
