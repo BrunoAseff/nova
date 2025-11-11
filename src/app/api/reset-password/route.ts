@@ -1,17 +1,16 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-import { PrismaClient } from "@prisma/client";
+import { db } from "@/server/db";
 import { Resend } from "resend";
 import ResetPasswordEmail from "@/lib/emails/reset-password";
 import { env } from "../../../env";
 
-const prisma = new PrismaClient();
 const resend = new Resend(env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
     const { email } = await req.json();
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await db.user.findUnique({ where: { email } });
 
     if (!user) {
       return NextResponse.json(
@@ -23,7 +22,7 @@ export async function POST(req: Request) {
     const token = crypto.randomBytes(32).toString("hex");
     const expires = new Date(Date.now() + 3600000);
 
-    await prisma.user.update({
+    await db.user.update({
       where: { email },
       data: {
         resetToken: token,
