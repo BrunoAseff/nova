@@ -14,3 +14,6 @@ legacy/
 
 # Originais baixados do v1 (utfs.io), só como referência local
 media/
+
+# Config local do Claude (skills, launch.json)
+.claude/

@@ -164,8 +164,8 @@ src/
 - Esqueleto: fundo em tela cheia e troca de tema (store persistido, tema aplicado antes da primeira pintura, View Transition). Verificado no navegador.
 - `wrangler.jsonc` validado com `wrangler deploy --dry-run`. Há um `_headers` com cache imutável para `/assets/*`.
 - CI em `.github/workflows/ci.yml` (lint, typecheck, testes e build). O `lint.yaml` antigo saiu.
-- Skill `generate-icons` instalada em `.claude/skills/generate-icons/`.
-- README novo e `.claude/launch.json` (dev server).
+- Skill `generate-icons` instalada em `.claude/skills/generate-icons/`, só local (a pasta `.claude/` fica no `.gitignore`).
+- README novo e `.claude/launch.json` (dev server, só local).
 
 ### Desvios do plano
 

@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!src/components/arc", "!ai-context", "!.claude"]
+    "includes": ["**", "!src/components/arc", "!ai-context"]
   },
   "formatter": {
     "enabled": true,
