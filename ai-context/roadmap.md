@@ -15,7 +15,7 @@ Plano detalhado: [01-fundacao.md](01-fundacao.md)
 - Mover o código atual para uma pasta de referência (ex.: `legacy/`) e manter o mesmo `.git` e o mesmo remote.
 - Escolher a stack nova. O Next.js deixa de fazer sentido sem backend (ex.: Vite + React, todas as dependências atualizadas).
 - Definir o escopo sem backend. Saem Prisma, NextAuth, Resend, UploadThing, as rotas de API, as server actions, sign-in, verify-email e reset-password. Decidir o que acontece com a página de pricing e o plano "Supernova" (hoje existe só a migration `stripe`, sem nenhum código).
-- Definir onde ficam os assets que hoje estão em `utfs.io` (UploadThing), já que essa conta deixa de existir.
+- Definir onde ficam os assets que hoje estão em `utfs.io` (UploadThing), já que essa conta deixa de existir. **Decidido:** vão junto com o deploy, em `src/assets/`; sem R2.
 - Decidir o que acontece com landing, termos e privacidade (sem conta, a política de privacidade fica bem mais simples).
 
 ## 2. Arquitetura de estado e persistência · `pendente`

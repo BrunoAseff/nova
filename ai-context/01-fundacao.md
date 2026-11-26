@@ -79,7 +79,7 @@ Voltaria a fazer sentido se o projeto ganhasse um backend com serviços (banco, 
 
 - **App:** Cloudflare Workers com Static Assets. Para projetos novos, a Cloudflare recomenda isso no lugar do Pages. Um `wrangler.jsonc` aponta para o `dist/`, sem nenhum código de Worker, então o app continua 100% estático.
 - **Deploy:** Workers Builds, conectado ao repositório do GitHub. Cada branch ou PR ganha uma URL de preview e o `main` vai para produção. Não é preciso guardar token da Cloudflare no GitHub.
-- **Mídia (fundos e sons):** um bucket R2 com domínio próprio (ex.: `assets.<domínio>`). Isso mantém binários pesados fora do git e entrega pelo CDN com cache longo. O R2 não cobra egress.
+- **Mídia (fundos e sons):** vai junto com o deploy, em `src/assets/`, importada pelo Vite (nome com hash e cache imutável). **O R2 foi descartado em 26/11/2026**: não há upload de usuário (só os fundos e sons que a gente fornece), o volume é pequeno e servir do mesmo domínio é mais rápido. Além disso, os assets ficam versionados com o código, então cada preview tem os seus. No git entra só a imagem original de cada fundo; variações (AVIF/WebP, tamanhos) são geradas no build (item 6). O R2 só volta se surgirem arquivos grandes demais, conteúdo que muda sem deploy ou upload.
 - **Domínio:** a definir. Fica na Cloudflare, e a virada do domínio antigo acontece no fim do roadmap.
 
 ---
@@ -128,7 +128,6 @@ src/
 
 5. **Cloudflare**
    - Configurar o `wrangler.jsonc`.
-   - Criar o bucket R2 com domínio e subir a mídia baixada.
    - Conectar o Workers Builds e validar a URL de preview.
 
 6. **CI**
@@ -157,7 +156,7 @@ src/
 
 ### Feito (26/11/2026)
 
-- Tag `v1-legacy` criada no `main` (atualizado com o `origin/main`). **Ainda só local**: falta dar push.
+- Tag `v1-legacy` criada no `main` (atualizado com o `origin/main`) e enviada ao GitHub, junto com a branch `v2`.
 - Branch `v2` criada. O código antigo está em `legacy/`, que fica no `.gitignore`.
 - Mídia do `utfs.io` baixada para `media/legacy/` (35 fundos e 8 sons), com `manifest.json` que liga cada URL antiga ao arquivo. A pasta fica no `.gitignore`.
 - Scaffold e ferramentas: Vite 8, React 19 + React Compiler (Babel), TS 7, Tailwind 4, Biome, Vitest e Zustand.
@@ -166,22 +165,19 @@ src/
 - `wrangler.jsonc` validado com `wrangler deploy --dry-run`. Há um `_headers` com cache imutável para `/assets/*`.
 - CI em `.github/workflows/ci.yml` (lint, typecheck, testes e build). O `lint.yaml` antigo saiu.
 - Skill `generate-icons` instalada em `.claude/skills/generate-icons/`.
-- README novo, `.env.example` e `.claude/launch.json` (dev server).
+- README novo e `.claude/launch.json` (dev server).
 
 ### Desvios do plano
 
 - `exactOptionalPropertyTypes` ficou de fora: quebra os componentes do Arc (Motion). As flags `strict` e `noUncheckedIndexedAccess` continuam.
 - O script que roda tudo do CI se chama `pnpm check`, porque `pnpm ci` é um comando do próprio pnpm.
-- Em dev, um plugin do Vite serve `media/` em `/media` no lugar do R2. Em produção, a base vem de `VITE_ASSETS_URL`.
+- R2 descartado: a mídia vai junto com o deploy (ver "Infra na Cloudflare"). `media/legacy/` continua só como referência local dos originais do v1.
 - Lint e format ignoram `src/components/arc/` (código do Arc), `ai-context/` e `.claude/`.
 
 ### Falta (depende do Bruno)
 
-- `wrangler login`: o token local expirou.
-- Criar o bucket R2 e subir os fundos (13MB). Os WAVs ambiente (~830MB) **não** devem subir; o item 5 vai trocá-los por versões comprimidas.
 - Conectar o Workers Builds ao repositório no painel da Cloudflare e validar a URL de preview da `v2`.
 - Definir o domínio.
-- Push da tag `v1-legacy` e da branch `v2`.
 
 ### Anotado para itens futuros
 
