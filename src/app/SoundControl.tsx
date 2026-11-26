@@ -4,8 +4,9 @@ import { ElasticSlider } from "@/components/arc/elastic-slider/elastic-slider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/arc/popover/popover";
 import { Tooltip } from "@/components/arc/tooltip/tooltip";
 import { Button } from "@/components/ui/Button";
+import { useRovingGroup } from "@/components/ui/useRovingGroup";
 import { SOUND_ICON } from "@/content/icons";
-import { ambientSounds } from "@/content/sounds";
+import { type AmbientSoundId, ambientSounds } from "@/content/sounds";
 import { duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useAmbientStore } from "@/stores/ambient";
@@ -37,6 +38,12 @@ export function SoundControl() {
   const { toggle, setSound, setVolume, play } = useAmbientStore.getState();
   const current = ambientSounds.find((s) => s.id === soundId) ?? ambientSounds[0];
   const CurrentIcon = SOUND_ICON[current.id];
+  const roving = useRovingGroup<AmbientSoundId>(
+    ambientSounds.map((s) => s.id),
+    soundId,
+    setSound,
+    { columns: 3 },
+  );
 
   return (
     <div className="flex items-center gap-0.5">
@@ -105,6 +112,7 @@ export function SoundControl() {
                   // biome-ignore lint/a11y/useSemanticElements: opção visual de um radiogroup (padrão ARIA)
                   <button
                     key={sound.id}
+                    {...roving(sound.id)}
                     type="button"
                     role="radio"
                     aria-checked={selected}

@@ -8,6 +8,7 @@ import { ConfirmButton } from "@/components/ui/ConfirmButton";
 import { List, Row, SectionTitle } from "@/components/ui/List";
 import { Tabs } from "@/components/ui/Tabs";
 import { Toggle } from "@/components/ui/Toggle";
+import { useRovingGroup } from "@/components/ui/useRovingGroup";
 import { breathingTechniques } from "@/content/breathing";
 import { SPACE_ICON } from "@/content/icons";
 import { spaceIcons } from "@/content/space-icons";
@@ -38,6 +39,14 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
   const [name, setName] = useState(space.name);
   const nameRef = useRef<HTMLInputElement>(null);
   const w = space.widgets;
+  const rovingIcon = useRovingGroup(
+    spaceIcons,
+    space.icon,
+    (icon) => setSpaceIcon(space.id, icon),
+    {
+      columns: 8,
+    },
+  );
 
   useEffect(() => setName(space.name), [space.name]);
   useEffect(() => {
@@ -71,6 +80,7 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
               // biome-ignore lint/a11y/useSemanticElements: opção visual de um radiogroup (padrão ARIA)
               <button
                 key={icon}
+                {...rovingIcon(icon)}
                 type="button"
                 role="radio"
                 aria-checked={selected}

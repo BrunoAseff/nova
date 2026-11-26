@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { type ReactNode, useId } from "react";
 import { glide } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useRovingGroup } from "./useRovingGroup";
 
 export interface TabOption<T extends string> {
   value: T;
@@ -34,6 +35,11 @@ export function Tabs<T extends string>({
   full = false,
 }: TabsProps<T>) {
   const id = useId();
+  const roving = useRovingGroup(
+    options.map((o) => o.value),
+    value,
+    onChange,
+  );
   return (
     <div
       role="radiogroup"
@@ -50,6 +56,7 @@ export function Tabs<T extends string>({
           // biome-ignore lint/a11y/useSemanticElements: opção visual de um radiogroup (padrão ARIA)
           <button
             key={option.value}
+            {...roving(option.value)}
             type="button"
             role="radio"
             aria-checked={selected}
