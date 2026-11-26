@@ -41,6 +41,17 @@ export const alarmSoundIds = alarmSounds.map((s) => s.id) as [AlarmSoundId, ...A
 export const DEFAULT_AMBIENT_SOUND_ID: AmbientSoundId = "ocean-waves";
 export const DEFAULT_ALARM_SOUND_ID: AlarmSoundId = "calming";
 
+/**
+ * Só no protótipo (dev): toca versões curtas em Opus geradas a partir dos WAVs do v1, em
+ * `media/prototype-sounds/` (fora do git). Em produção continua sem som até o item 5.
+ */
+function devSrc(sounds: readonly Sound[], id: string) {
+  if (!import.meta.env.DEV) return undefined;
+  return sounds === (alarmSounds as readonly Sound[])
+    ? `/media/prototype-sounds/alarm-${id}.opus`
+    : `/media/prototype-sounds/${id}.opus`;
+}
+
 export function getSoundSrc(sounds: readonly Sound[], id: string): string | undefined {
-  return sounds.find((s) => s.id === id)?.src;
+  return sounds.find((s) => s.id === id)?.src ?? devSrc(sounds, id);
 }

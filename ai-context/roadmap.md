@@ -29,7 +29,9 @@ Hoje a mesma informação é gravada em três lugares, à mão: `setState`, depo
 - Modelo de dados limpo e aninhado por widget, com espaços que não dependem de IDs fixos 1, 2 e 3.
 - Preservar o progresso local de quem já usa (migrar as chaves antigas do localStorage, se fizer sentido).
 
-## 3. Design: de "edgy/neon" para calmo de verdade · `pendente`
+## 3. Design: de "edgy/neon" para calmo de verdade · `em andamento`
+
+Fundamentos (propósito, contextos, princípios, camadas, temas): [03a-fundamentos-de-design.md](03a-fundamentos-de-design.md). Primeira rodada de direções (pausada): [03-design.md](03-design.md)
 
 A proposta era clean, calma e tranquila. Na prática, a UI usa pretos muito escuros e cores neon (o `--primary` é um ciano a 100% de saturação), e o pomodoro tem cara de "gamer".
 

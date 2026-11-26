@@ -44,3 +44,7 @@ export const useAmbientStore = create<AmbientState>()(
 );
 
 syncAcrossTabs(useAmbientStore);
+
+// Em dev, editar um store recarrega a página: o HMR criaria uma segunda cópia do store
+// e partes do app continuariam ligadas à antiga.
+import.meta.hot?.accept(() => window.location.reload());

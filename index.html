@@ -10,16 +10,19 @@
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <title>Nova</title>
     <script>
-      // Aplica o tema antes da primeira pintura, para não piscar.
+      // Aplica tema e atmosfera antes da primeira pintura, para não piscar.
       (() => {
-        let theme;
+        let prefs;
         try {
-          theme = JSON.parse(localStorage.getItem("nova:preferences") ?? "null")?.state?.theme;
+          prefs = JSON.parse(localStorage.getItem("nova:preferences") ?? "null")?.state;
         } catch {}
+        let theme = prefs?.theme;
         if (theme !== "light" && theme !== "dark") {
           theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         }
-        document.documentElement.dataset.theme = theme;
+        const root = document.documentElement;
+        root.dataset.theme = theme;
+        root.dataset.atmosphere = "nevoa";
       })();
     </script>
   </head>

@@ -1,36 +1,45 @@
 import { useEffect } from "react";
-import { ThemeSwitch } from "@/components/arc/theme-switch/theme-switch";
-import { getBackground } from "@/content/backgrounds";
 import { usePomodoroScheduler } from "@/features/pomodoro/hooks";
 import { applyTheme } from "@/lib/theme";
+import { useAttentionStore } from "@/stores/attention";
 import { usePreferencesStore } from "@/stores/preferences";
-import { useActiveSpace } from "@/stores/spaces";
+import { Dock } from "./Dock";
+import { Scene } from "./Scene";
+import { SettingsPanel } from "./SettingsPanel";
+import { Stage } from "./Stage";
+import { useAttention } from "./useAttention";
+import { useShortcuts } from "./useShortcuts";
 
+/**
+ * Camadas (fundamentos de design, seção 5):
+ * L0 Scene · L1/L2 Stage (ambiente e instrumentos) · L3 Dock · L4 SettingsPanel.
+ */
 export function App() {
   const theme = usePreferencesStore((s) => s.theme);
-  const setTheme = usePreferencesStore((s) => s.setTheme);
-  const space = useActiveSpace();
-  const background = getBackground(space.backgroundId);
+  const atmosphere = usePreferencesStore((s) => s.atmosphere);
+  const reduceTransparency = usePreferencesStore((s) => s.reduceTransparency);
+  const attention = useAttentionStore((s) => s.attention);
 
   usePomodoroScheduler();
+  useAttention();
+  useShortcuts();
+
+  useEffect(() => applyTheme(theme), [theme]);
 
   useEffect(() => {
-    applyTheme(theme);
-  }, [theme]);
+    const root = document.documentElement;
+    root.dataset.atmosphere = atmosphere;
+    root.dataset.attention = attention;
+    if (reduceTransparency) root.dataset.transparency = "reduced";
+    else delete root.dataset.transparency;
+  }, [atmosphere, attention, reduceTransparency]);
 
   return (
     <main className="relative h-dvh w-full overflow-hidden">
-      <img
-        src={background.url}
-        alt=""
-        className="absolute inset-0 size-full object-cover"
-        fetchPriority="high"
-        decoding="async"
-      />
-
-      <div className="absolute right-6 bottom-6 md:right-10 md:bottom-10">
-        <ThemeSwitch theme={theme} onThemeChange={setTheme} iconOnly />
-      </div>
+      <Scene />
+      <Stage />
+      <Dock />
+      <SettingsPanel />
     </main>
   );
 }

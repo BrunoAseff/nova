@@ -159,9 +159,13 @@ export const useSpacesStore = create<SpacesState>()(
         if (get().spaces.some((s) => s.id === id)) set({ activeSpaceId: id });
       },
 
-      createSpace: (name, icon = "home") => {
-        if (get().spaces.length >= MAX_SPACES) return null;
-        const space = createSpace({ name: cleanName(name), icon });
+      createSpace: (name, icon) => {
+        const { spaces } = get();
+        if (spaces.length >= MAX_SPACES) return null;
+        // Sem ícone pedido, usa o primeiro que nenhum espaço usa ainda.
+        const used = new Set(spaces.map((s) => s.icon));
+        const chosen = icon ?? spaceIcons.find((i) => !used.has(i)) ?? "home";
+        const space = createSpace({ name: cleanName(name), icon: chosen });
         set((s) => ({ spaces: [...s.spaces, space] }));
         return space.id;
       },
@@ -230,3 +234,7 @@ export function selectActiveSpace(state: Pick<SpacesState, "spaces" | "activeSpa
 export function useActiveSpace() {
   return useSpacesStore(selectActiveSpace);
 }
+
+// Em dev, editar um store recarrega a página: o HMR criaria uma segunda cópia do store
+// e partes do app continuariam ligadas à antiga.
+import.meta.hot?.accept(() => window.location.reload());
