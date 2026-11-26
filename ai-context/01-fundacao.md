@@ -1,6 +1,6 @@
 # 1. Fundação: plano de setup
 
-Status: **aprovado em 26/11/2026; setup local feito, falta a parte da Cloudflare** (ver "Andamento" no fim)
+Status: **feito em 26/11/2026**. O que sobrou foi para a virada (ver "Andamento" no fim).
 
 Premissas:
 
@@ -174,9 +174,11 @@ src/
 - R2 descartado: a mídia vai junto com o deploy (ver "Infra na Cloudflare"). `media/legacy/` continua só como referência local dos originais do v1.
 - Lint e format ignoram `src/components/arc/` (código do Arc), `ai-context/` e `.claude/`.
 
-### Falta (depende do Bruno)
+- Workers Builds conectado ao repositório (projeto `nova`, preview builds ligados). O build de produção no `main` falhou, como esperado: o `main` ainda é a v1 em Next.js e pede as variáveis de ambiente antigas.
 
-- Conectar o Workers Builds ao repositório no painel da Cloudflare e validar a URL de preview da `v2`.
+### Ficou para a virada (fim do roadmap)
+
+- Validar o primeiro deploy da `v2` (URL de preview, ou trocar a branch de produção para `v2` até a virada). Se falhar por Node/pnpm novos demais, definir `NODE_VERSION=26` nas variáveis de build.
 - Definir o domínio.
 
 ### Anotado para itens futuros

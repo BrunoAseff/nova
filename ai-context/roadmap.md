@@ -6,7 +6,7 @@ Status: `pendente` · `em andamento` · `feito`
 
 ---
 
-## 1. Fundação: nova stack, só frontend · `em andamento`
+## 1. Fundação: nova stack, só frontend · `feito`
 
 Recomeçar do zero, sem banco de dados e sem landing page (a raiz abre direto o app). Deploy na Cloudflare.
 
