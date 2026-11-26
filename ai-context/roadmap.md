@@ -62,10 +62,11 @@ A proposta era clean, calma e tranquila. Na prática, a UI usa pretos muito escu
 
 ## 7. Logo nova · `pendente`
 
-A logo atual (`public/logo.svg`) será descartada. É uma identidade nova do zero, feita mais para o final, quando paleta, tipografia e ícones (item 3) já estiverem definidos.
+A logo atual (`public/logo.svg`) será descartada. É uma identidade nova do zero, feita mais para o final, quando paleta e tipografia (item 3) já estiverem definidos.
 
 - Logo, favicon, ícones do app (PWA, se entrar no item 6) e imagem de compartilhamento (Open Graph).
 - Trocar `public/logo.svg` e as referências no `index.html`.
+- **Ícones próprios** (adiados do item 3): só depois da logo, derivados da identidade nova. Até lá fica o Lucide. A primeira tentativa foi rejeitada por ser fechada, simétrica e pesada (ver `03b`, passo 2). O próximo conjunto precisa manter a fluidez do Lucide: formas abertas, gesto e espaço vazio.
 
 ## 8. Limpeza e qualidade · `pendente`
 

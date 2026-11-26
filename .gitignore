@@ -17,3 +17,6 @@ media/
 
 # Config local do Claude (skills, launch.json)
 .claude/
+
+# Rascunhos da skill generate-icons
+.icon-work/

@@ -78,9 +78,7 @@ Nada é mostrado antes de passar por tudo isto:
 
 ## O que ainda falta (honestamente)
 
-- **Teclado:** as setas não navegam dentro dos grupos de opção (abas, sons, ícones); hoje só o Tab funciona. Implementar o padrão de foco itinerante.
 - **Celular:** a composição de coluna e o bottom sheet não existem ainda.
-- **Ícones:** ainda são Lucide provisórios; a biblioteca própria vem da skill `generate-icons`.
 - **Contraste:** remedir com os fundos definitivos (item 4).
 - **Bundle:** 192KB gzip. Otimizar no item 6.
 - **Lembretes e escolha de fundo** ainda não têm interface.
@@ -90,7 +88,12 @@ Nada é mostrado antes de passar por tudo isto:
 **26/11/2026:** o Bruno aprovou a direção ("agora sim temos um protótipo... não é perfeito, mas é uma boa direção"). O item 3 continua em cima desta base, nesta ordem:
 
 1. **Polimento e teclado:** os ajustes finos que o Bruno apontar ao usar, e setas navegando dentro de abas, sons e ícones (foco itinerante).
-2. **Ícones próprios:** rodar a skill `generate-icons` contra estes tokens (ler os scripts dela antes) e trocar o Lucide em `content/icons.tsx`.
+2. ↪ **Ícones próprios: adiados para o item 7 (logo)** (26/11/2026). Desenhei 28 ícones (linha 1.6, um tom "névoa" translúcido) e uma revisão deles, mas lado a lado o Lucide ficou mais fluido e mais próximo da estética buscada:
+   - o Lucide sugere com formas abertas e gesto (vento na chuva, pássaro em movimento, concha em espiral);
+   - os meus eram silhuetas fechadas, simétricas e preenchidas, pesadas para uma interface de vidro;
+   - um conjunto próprio só faz sentido derivado de uma identidade, que ainda não existe.
+
+   **Decisão:** o app volta exatamente ao Lucide de antes (traço 1.6, 20px na grade de sons; 28px ficou grande demais com o Lucide). Os desenhos rejeitados estão guardados localmente em `.icon-work/rejected-v1/` (fora do git), como referência do que não fazer.
 3. **Widgets que faltam:** lembretes (com a posição na zona) e escolha de fundo por espaço (a escolha da interface; a curadoria das imagens é o item 4).
 4. **Celular:** composição em coluna e o painel como bottom sheet.
 5. **Outras atmosferas:** Noite e Caderno, refeitas no mesmo padrão de qualidade.
