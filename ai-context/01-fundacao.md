@@ -148,7 +148,7 @@ src/
 ## Decisões
 
 - [x] Biome (aprovado junto com o plano).
-- [ ] Qual domínio usar (o atual ou um novo)?
+- [ ] Qual domínio usar? O domínio antigo foi descontinuado, então será um novo (a definir na virada).
 
 ---
 

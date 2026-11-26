@@ -18,7 +18,9 @@ Plano detalhado: [01-fundacao.md](01-fundacao.md)
 - Definir onde ficam os assets que hoje estão em `utfs.io` (UploadThing), já que essa conta deixa de existir. **Decidido:** vão junto com o deploy, em `src/assets/`; sem R2.
 - Decidir o que acontece com landing, termos e privacidade (sem conta, a política de privacidade fica bem mais simples).
 
-## 2. Arquitetura de estado e persistência · `pendente`
+## 2. Arquitetura de estado e persistência · `feito`
+
+Desenho e decisões: [02-estado.md](02-estado.md)
 
 Hoje a mesma informação é gravada em três lugares, à mão: `setState`, depois `localStorage`, depois a fila de changes.
 

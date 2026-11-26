@@ -1,28 +1,8 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-
 export type Theme = "light" | "dark";
 
-export const THEME_STORAGE_KEY = "nova-theme";
-
-function systemTheme(): Theme {
+export function systemTheme(): Theme {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
-
-interface ThemeState {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-}
-
-export const useThemeStore = create<ThemeState>()(
-  persist(
-    (set) => ({
-      theme: systemTheme(),
-      setTheme: (theme) => set({ theme }),
-    }),
-    { name: THEME_STORAGE_KEY, version: 1 },
-  ),
-);
 
 /** Aplica o tema no <html>. Usa View Transitions quando existe e o usuário não pediu menos movimento. */
 export function applyTheme(theme: Theme) {

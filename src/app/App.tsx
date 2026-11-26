@@ -1,13 +1,18 @@
 import { useEffect } from "react";
 import { ThemeSwitch } from "@/components/arc/theme-switch/theme-switch";
-import { backgrounds } from "@/content/backgrounds";
-import { applyTheme, useThemeStore } from "@/stores/theme";
-
-const background = backgrounds[0];
+import { getBackground } from "@/content/backgrounds";
+import { usePomodoroScheduler } from "@/features/pomodoro/hooks";
+import { applyTheme } from "@/lib/theme";
+import { usePreferencesStore } from "@/stores/preferences";
+import { useActiveSpace } from "@/stores/spaces";
 
 export function App() {
-  const theme = useThemeStore((s) => s.theme);
-  const setTheme = useThemeStore((s) => s.setTheme);
+  const theme = usePreferencesStore((s) => s.theme);
+  const setTheme = usePreferencesStore((s) => s.setTheme);
+  const space = useActiveSpace();
+  const background = getBackground(space.backgroundId);
+
+  usePomodoroScheduler();
 
   useEffect(() => {
     applyTheme(theme);
