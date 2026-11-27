@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { useAmbientStore } from "@/stores/ambient";
 
 /** Três barras que respiram enquanto o som toca. */
-function Playing({ active }: { active: boolean }) {
+export function Playing({ active }: { active: boolean }) {
   return (
     <span className="flex h-3 items-end gap-[2px]" aria-hidden="true">
       {[0.55, 1, 0.75].map((peak, i) => (
@@ -34,16 +34,10 @@ function Playing({ active }: { active: boolean }) {
 
 /** L3 · Controle do som ambiente: tocar é um clique; escolher e ajustar fica no popover. */
 export function SoundControl() {
-  const { soundId, volume, isPlaying } = useAmbientStore();
-  const { toggle, setSound, setVolume, play } = useAmbientStore.getState();
+  const { soundId, isPlaying } = useAmbientStore();
+  const { toggle } = useAmbientStore.getState();
   const current = ambientSounds.find((s) => s.id === soundId) ?? ambientSounds[0];
   const CurrentIcon = SOUND_ICON[current.id];
-  const roving = useRovingGroup<AmbientSoundId>(
-    ambientSounds.map((s) => s.id),
-    soundId,
-    setSound,
-    { columns: 3 },
-  );
 
   return (
     <div className="flex items-center gap-0.5">
@@ -103,49 +97,64 @@ export function SoundControl() {
           className="w-[22rem] !p-3"
           onOpenAutoFocus={(event) => event.preventDefault()}
         >
-          <div data-keep-awake className="flex flex-col gap-3">
-            <div className="grid grid-cols-3 gap-1.5" role="radiogroup" aria-label="Ambient sound">
-              {ambientSounds.map((sound) => {
-                const Icon = SOUND_ICON[sound.id];
-                const selected = sound.id === soundId;
-                return (
-                  // biome-ignore lint/a11y/useSemanticElements: opção visual de um radiogroup (padrão ARIA)
-                  <button
-                    key={sound.id}
-                    {...roving(sound.id)}
-                    type="button"
-                    role="radio"
-                    aria-checked={selected}
-                    onClick={() => {
-                      setSound(sound.id);
-                      play();
-                    }}
-                    className={cn(
-                      "flex h-[4.5rem] flex-col items-center justify-center gap-1.5 rounded-2xl text-[0.8125rem] transition-[background-color,box-shadow,color] duration-200",
-                      selected
-                        ? "bg-accent-soft text-accent"
-                        : "text-ink-2 hover:bg-[var(--fill-hover)] hover:text-ink",
-                    )}
-                  >
-                    <Icon className="size-5" aria-hidden="true" />
-                    {sound.name}
-                  </button>
-                );
-              })}
-            </div>
-            <div className="border-t border-[var(--hairline)] px-1 pt-3 pb-1">
-              <ElasticSlider
-                label="Volume"
-                value={volume}
-                onValueChange={setVolume}
-                format={(v) => `${Math.round(v)}%`}
-                startIcon={<Volume1 size={16} aria-hidden="true" />}
-                endIcon={<Volume2 size={16} aria-hidden="true" />}
-              />
-            </div>
-          </div>
+          <SoundPicker />
         </PopoverContent>
       </Popover>
+    </div>
+  );
+}
+
+/** Escolher o som e o volume: no popover do dock (computador) e no sheet (celular). */
+export function SoundPicker() {
+  const { soundId, volume } = useAmbientStore();
+  const { setSound, setVolume, play } = useAmbientStore.getState();
+  const roving = useRovingGroup<AmbientSoundId>(
+    ambientSounds.map((s) => s.id),
+    soundId,
+    setSound,
+    { columns: 3 },
+  );
+  return (
+    <div data-keep-awake className="flex flex-col gap-3">
+      <div className="grid grid-cols-3 gap-1.5" role="radiogroup" aria-label="Ambient sound">
+        {ambientSounds.map((sound) => {
+          const Icon = SOUND_ICON[sound.id];
+          const selected = sound.id === soundId;
+          return (
+            // biome-ignore lint/a11y/useSemanticElements: opção visual de um radiogroup (padrão ARIA)
+            <button
+              key={sound.id}
+              {...roving(sound.id)}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              onClick={() => {
+                setSound(sound.id);
+                play();
+              }}
+              className={cn(
+                "flex h-[4.5rem] flex-col items-center justify-center gap-1.5 rounded-2xl text-[0.8125rem] transition-[background-color,box-shadow,color] duration-200",
+                selected
+                  ? "bg-accent-soft text-accent"
+                  : "text-ink-2 hover:bg-[var(--fill-hover)] hover:text-ink",
+              )}
+            >
+              <Icon className="size-5" aria-hidden="true" />
+              {sound.name}
+            </button>
+          );
+        })}
+      </div>
+      <div className="border-t border-[var(--hairline)] px-1 pt-3 pb-1">
+        <ElasticSlider
+          label="Volume"
+          value={volume}
+          onValueChange={setVolume}
+          format={(v) => `${Math.round(v)}%`}
+          startIcon={<Volume1 size={16} aria-hidden="true" />}
+          endIcon={<Volume2 size={16} aria-hidden="true" />}
+        />
+      </div>
     </div>
   );
 }

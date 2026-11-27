@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import { sized } from "@/lib/widgetSize";
 
 const TEXT = {
-  maxWidth: sized("22rem", "26rem", "34rem"),
+  // `--fit` só existe no celular: lá a citação nunca passa da largura da coluna.
+  maxWidth: `min(var(--fit, 100vw), ${sized("22rem", "26rem", "34rem")})`,
   fontSize: sized("1.125rem", "1.375rem", "1.875rem"),
 };
 

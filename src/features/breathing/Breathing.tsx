@@ -18,7 +18,8 @@ const KIND_LABEL: Record<BreathStep["kind"], string> = {
  * na duração exata de cada etapa.
  */
 const ORB_SIZE = sized("11rem", "15rem", "min(24rem,42vh)");
-const ORB = { width: ORB_SIZE, height: ORB_SIZE };
+// `--fit` só existe no celular: lá o orbe nunca passa da largura da coluna.
+const ORB = { width: `min(var(--fit, 100vw), ${ORB_SIZE})`, aspectRatio: "1" };
 
 export function Breathing({
   technique,

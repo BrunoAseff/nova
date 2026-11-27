@@ -30,12 +30,17 @@ function formatClock(ms: number) {
  * correndo). Ao recolher, o vidro e os controles esmaecem no lugar, sem mexer nos números:
  * o que se lê de longe nunca pula.
  */
-const WIDTH = { width: sized("20rem", "24rem", "30rem") };
+// `--fit` só existe no celular: lá o widget nunca passa da largura da coluna.
+const WIDTH = { width: `min(var(--fit, 100vw), ${sized("20rem", "24rem", "30rem")})` };
 const PADDING = {
   paddingInline: sized("1.5rem", "1.75rem", "2.5rem"),
   paddingBlock: sized("1.25rem", "1.5rem", "2rem"),
 };
-const DIGITS = { fontSize: sized("3.75rem", "5rem", "7.5rem") };
+// No celular a coluna pode ser mais estreita que o tamanho pedido: os dígitos encolhem
+// para caber (no computador, `--fit` não existe e o limite fica bem acima do tamanho).
+const DIGITS = {
+  fontSize: `min(${sized("3.75rem", "5rem", "7.5rem")}, calc(var(--fit, 100vw) * 0.3))`,
+};
 
 export function Pomodoro() {
   const session = usePomodoroStore((s) => s.session);
@@ -120,7 +125,7 @@ export function Pomodoro() {
 
         <Digits
           value={formatClock(shown)}
-          className="pomodoro-ink glance mt-3 mb-5 block"
+          className="pomodoro-ink glance mt-3 mb-5 block whitespace-nowrap"
           style={DIGITS}
         />
 

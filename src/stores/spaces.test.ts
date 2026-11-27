@@ -76,7 +76,7 @@ describe("spaces store", () => {
   it("salva no localStorage com prefixo e versão", () => {
     state().renameSpace("home", "Casa");
     const saved = JSON.parse(localStorage.getItem("nova:spaces") ?? "{}");
-    expect(saved.version).toBe(2);
+    expect(saved.version).toBe(3);
     expect(saved.state.spaces[0].name).toBe("Casa");
     expect(saved.state.activeSpaceId).toBe("focus");
   });

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { ConfirmButton } from "@/components/ui/ConfirmButton";
 import { List, Row, SectionTitle } from "@/components/ui/List";
 import { Reveal } from "@/components/ui/Reveal";
+import { Sheet } from "@/components/ui/Sheet";
 import { Tabs } from "@/components/ui/Tabs";
 import { Toggle } from "@/components/ui/Toggle";
 import { useRovingGroup } from "@/components/ui/useRovingGroup";
@@ -14,6 +15,7 @@ import { breathingTechniques } from "@/content/breathing";
 import { SPACE_ICON } from "@/content/icons";
 import { spaceIcons } from "@/content/space-icons";
 import { calm, duration, ease } from "@/lib/motion";
+import { useLayoutMode } from "@/lib/useLayoutMode";
 import { cn } from "@/lib/utils";
 import { useAttentionStore } from "@/stores/attention";
 import { usePreferencesStore } from "@/stores/preferences";
@@ -39,6 +41,8 @@ function Nested({ show, children }: { show: boolean; children: ReactNode }) {
 function SpaceTab({ focusName }: { focusName: boolean }) {
   const reminderCount = useRemindersStore((s) => s.reminders.filter((r) => r.text.trim()).length);
   const space = useActiveSpace();
+  const compact = useLayoutMode() !== "grid";
+  const { setPanelOpen, setArranging } = useAttentionStore.getState();
   const { updateWidget, renameSpace, setSpaceIcon, setBackground } = useSpacesStore.getState();
   const [name, setName] = useState(space.name);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -211,6 +215,21 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
               onChange={(visible) => updateWidget(space.id, "reminders", { visible })}
             />
           </Row>
+
+          {/* No celular, "arrumar" sai do dock e fica aqui: a ordem e o tamanho na coluna. */}
+          {compact && (
+            <Row label="Order and size" hint="How widgets stack on this phone">
+              <Button
+                size="sm"
+                onClick={() => {
+                  setPanelOpen(false);
+                  setArranging(true);
+                }}
+              >
+                Arrange
+              </Button>
+            </Row>
+          )}
         </List>
       </div>
     </div>
@@ -362,12 +381,81 @@ function LookTab() {
   );
 }
 
-/** L4 · Painel. Um por vez; a cena recua atrás dele. */
+/** L4 · Painel. Um por vez; a cena recua atrás dele. No celular, sobe de baixo (Sheet). */
 export function SettingsPanel() {
   const open = useAttentionStore((s) => s.panelOpen);
   const setPanelOpen = useAttentionStore((s) => s.setPanelOpen);
   const [tab, setTab] = useState<Tab>("space");
   const [focusName, setFocusName] = useState(false);
+  const compact = useLayoutMode() !== "grid";
+
+  const header = (
+    <>
+      <div className={cn("flex items-center justify-between px-6 pb-4", compact ? "pt-1" : "pt-5")}>
+        <Dialog.Title className="text-lg font-medium text-ink">Settings</Dialog.Title>
+        <Dialog.Close asChild>
+          <Button variant="ghost" icon size="sm" aria-label="Close settings">
+            <X />
+          </Button>
+        </Dialog.Close>
+      </div>
+      <div className="px-6 pb-2">
+        <Tabs
+          label="Settings section"
+          full
+          value={tab}
+          onChange={(next) => {
+            setTab(next);
+            // O foco no nome é só logo depois de criar um espaço; ao trocar de
+            // aba e voltar, ele não deve voltar a selecionar o campo.
+            setFocusName(false);
+          }}
+          options={[
+            { value: "space", label: "This space" },
+            { value: "spaces", label: "Spaces" },
+            { value: "look", label: "Look" },
+          ]}
+        />
+      </div>
+    </>
+  );
+
+  const body = (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={tab}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: duration.quick + 0.04, ease: ease.out }}
+      >
+        {tab === "space" && <SpaceTab focusName={focusName} />}
+        {tab === "spaces" && (
+          <SpacesTab
+            onCreated={() => {
+              setTab("space");
+              setFocusName(true);
+            }}
+          />
+        )}
+        {tab === "look" && <LookTab />}
+      </motion.div>
+    </AnimatePresence>
+  );
+
+  if (compact) {
+    return (
+      <Sheet
+        open={open}
+        onOpenChange={setPanelOpen}
+        title="Settings"
+        header={header}
+        onCloseAutoFocus={() => setFocusName(false)}
+      >
+        <div className="px-6 pt-5 pb-8">{body}</div>
+      </Sheet>
+    );
+  }
 
   return (
     <Dialog.Root open={open} onOpenChange={setPanelOpen}>
@@ -402,53 +490,9 @@ export function SettingsPanel() {
                 }}
                 transition={calm}
               >
-                <div className="flex items-center justify-between px-6 pt-5 pb-4">
-                  <Dialog.Title className="text-lg font-medium text-ink">Settings</Dialog.Title>
-                  <Dialog.Close asChild>
-                    <Button variant="ghost" icon size="sm" aria-label="Close settings">
-                      <X />
-                    </Button>
-                  </Dialog.Close>
-                </div>
-                <div className="px-6 pb-2">
-                  <Tabs
-                    label="Settings section"
-                    full
-                    value={tab}
-                    onChange={(next) => {
-                      setTab(next);
-                      // O foco no nome é só logo depois de criar um espaço; ao trocar de
-                      // aba e voltar, ele não deve voltar a selecionar o campo.
-                      setFocusName(false);
-                    }}
-                    options={[
-                      { value: "space", label: "This space" },
-                      { value: "spaces", label: "Spaces" },
-                      { value: "look", label: "Look" },
-                    ]}
-                  />
-                </div>
+                {header}
                 <div className="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-6 pt-5 pb-8">
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                      key={tab}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: duration.quick + 0.04, ease: ease.out }}
-                    >
-                      {tab === "space" && <SpaceTab focusName={focusName} />}
-                      {tab === "spaces" && (
-                        <SpacesTab
-                          onCreated={() => {
-                            setTab("space");
-                            setFocusName(true);
-                          }}
-                        />
-                      )}
-                      {tab === "look" && <LookTab />}
-                    </motion.div>
-                  </AnimatePresence>
+                  {body}
                 </div>
               </motion.div>
             </Dialog.Content>

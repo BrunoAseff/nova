@@ -21,7 +21,14 @@ import {
  * pula de lugar debaixo do cursor no meio de um clique. Lembretes vazios saem quando o
  * popover fecha.
  */
-export function ReminderEditor({ initialFocusId }: { initialFocusId: string | null }) {
+export function ReminderEditor({
+  initialFocusId,
+  heading = true,
+}: {
+  initialFocusId: string | null;
+  /** O título próprio; no sheet do celular quem titula é o sheet. */
+  heading?: boolean;
+}) {
   const reminders = useRemindersStore((s) => s.reminders);
   const addReminder = useRemindersStore((s) => s.addReminder);
   const [focusId, setFocusId] = useState(initialFocusId);
@@ -62,10 +69,12 @@ export function ReminderEditor({ initialFocusId }: { initialFocusId: string | nu
 
   return (
     <div data-keep-awake className="flex flex-col">
-      <div className="flex items-baseline justify-between px-1 pt-1 pb-2">
-        <h2 className="text-[0.9375rem] font-medium text-ink">Reminders</h2>
-        <span className="text-[0.8125rem] text-ink-3">One at a time, on the screen</span>
-      </div>
+      {heading && (
+        <div className="flex items-baseline justify-between px-1 pt-1 pb-2">
+          <h2 className="text-[0.9375rem] font-medium text-ink">Reminders</h2>
+          <span className="text-[0.8125rem] text-ink-3">One at a time, on the screen</span>
+        </div>
+      )}
 
       {/* Folga de 8px em volta: o anel de foco (4px) cabe sem o overflow cortar. */}
       <div

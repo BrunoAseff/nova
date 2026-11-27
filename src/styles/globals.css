@@ -13,6 +13,21 @@
   inherits: true;
   initial-value: 1;
 }
+/* O tamanho contínuo dos widgets (lib/widgetSize.ts). Registrado para poder ter
+   transição de CSS: no celular, trocar de tamanho anima o layout de verdade. */
+@property --k {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+/* Celular: o widget que sai pela borda da coluna (em cima, ou chegando no dock) esmaece. */
+@property --edge-fade {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
 @property --item-fade {
   syntax: "<number>";
   inherits: true;
@@ -110,7 +125,7 @@
   }
 
   .fade {
-    opacity: calc(var(--space-fade) * var(--item-fade) * var(--self-fade));
+    opacity: calc(var(--space-fade) * var(--item-fade) * var(--self-fade) * var(--edge-fade));
   }
 
   /* Números lidos de relance: sempre tabulares, para o timer não "dançar". */
@@ -251,4 +266,9 @@
 /* O painel recebe o foco ao abrir (para o teclado começar dentro dele), mas não ganha anel. */
 [role="dialog"].glass:focus-visible {
   box-shadow: var(--glass-highlight), var(--glass-shadow);
+}
+
+/* Celular: a troca de tamanho (S/M/L) anima o `--k`, e o layout acompanha. */
+.compact-item {
+  transition: --k 450ms cubic-bezier(0.22, 1, 0.36, 1);
 }

@@ -164,5 +164,16 @@ Nada é mostrado antes de passar por tudo isto:
        - Nada é cortado dos lados durante as animações: `AutoHeight` e `Reveal` cortam só na vertical (`overflow-y: clip`; `hidden` cortava dos dois lados, e o "Add a reminder" saía cortado à direita). A fileira de botões abre o espaço sem cortar (`Reveal clip={false}`): o botão esmaece inteiro no lugar.
        - Medido na tela (gravação da GPU): o popover desce 78 → 84 → 93 → 103 → … → 136 px ao digitar o primeiro lembrete e sobe 136 → 132 → 122 → … → 78 ao apagar o último, sem voltar nem pular.
      - **Regressão corrigida na mesma rodada:** ao deixar os S/M/L sem clique enquanto invisíveis, o vão de 8px entre o contorno e eles perdia o hover, e os tamanhos sumiam no caminho do mouse. O vão agora é padding dos próprios tamanhos. Testado com o mouse andando em passos curtos até os botões, nos dois lados (embaixo do lembrete, em cima do relógio), e com cliques seguidos.
-4. **Celular:** composição em coluna e o painel como bottom sheet.
+4. **Celular** (aprovado e implementado em 27/11/2026):
+   - **Antes, medido a 375×812:** o dock tinha 603px e jogava som, tema, arrumar e configurações para fora da tela; o pomodoro L tinha 450px e passava 37px de cada lado; a grade espremida empilhava tudo na metade de cima.
+   - **Composição** (`app/CompactStage.tsx`, `lib/useLayoutMode.ts`): coluna em pé, linha deitado (ver 03a). O tamanho troca animando o `--k` por CSS (registrado com `@property`). A largura máxima vem de `--fit: 100cqw`: `100%` desabava dentro de widgets que tomam a largura do conteúdo (o orbe virava 88px).
+   - **Ordem do celular à parte:** `space.compact` (ordem e tamanhos), store v3. Regras puras e testadas em `app/layout/compact.ts`.
+   - **Dock compacto** (263px): o espaço atual abre a lista de espaços num sheet, o som toca e pausa e abre a escolha do som num sheet, e as configurações. Tema e arrumar ficam nas configurações.
+   - **Sheets** (`components/ui/Sheet.tsx`, sobre o Dialog do Radix): configurações, espaços, som, editor de lembretes e arrumar sobem de baixo, até 88% da altura, e fecham arrastando a alça para baixo.
+   - **Arrumar no celular:** uma lista; arrastar pela alça reordena, e cada linha tem S/M/L. Reset limpa o layout do celular.
+   - **Toque:** os botões do lembrete aparecem quando a tela está acordada (não há hover).
+   - **Achado e corrigido:** os dígitos do pomodoro L quebravam em duas linhas ("25:0" / "0") na coluna; agora encolhem para caber e nunca quebram. O relógio também.
+   - **Medido:** a 375×812 e a 320×640 nada passa da largura; deitado (812×375) os dois widgets cabem acima do dock; reordenar, tamanho, Reset e o deslize funcionaram com o mouse do navegador; no computador, nada mudou (grade, dock completo, pomodoro L 450×341).
+   - **Bordas da coluna:** a rolagem acabava 24px abaixo do topo (a margem do palco), e o widget era cortado por uma linha reta no meio da cena. Agora a coluna rola até a borda da tela (as margens ficam dentro dela), e o widget que sai pelo alto ou chega no dock esmaece conforme sobra menos dele à vista (`--edge-fade`, aplicado pelas folhas `.fade`). Sem máscara de gradiente: uma máscara num ancestral apagaria o desfoque do vidro.
+   - **Limites:** o deslize não mostra o próximo espaço vindo junto com o dedo (troca ao soltar, com o esmaecer de sempre); tablets em pé (640px ou mais) usam a grade.
 5. **Outras atmosferas:** Noite e Caderno, refeitas no mesmo padrão de qualidade.

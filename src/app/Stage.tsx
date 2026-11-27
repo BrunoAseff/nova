@@ -14,10 +14,12 @@ import { Pomodoro } from "@/features/pomodoro/Pomodoro";
 import { Quote } from "@/features/quote/Quote";
 import { Reminders } from "@/features/reminders/Reminders";
 import { calm, duration, ease, glide } from "@/lib/motion";
+import { useLayoutMode } from "@/lib/useLayoutMode";
 import { cn } from "@/lib/utils";
 import { SIZE_STEP } from "@/lib/widgetSize";
 import { useAttentionStore } from "@/stores/attention";
 import { type Space, useActiveSpace, useSpacesStore } from "@/stores/spaces";
+import { CompactStage } from "./CompactStage";
 import { ArrangeHandle, type Ghost } from "./layout/ArrangeHandle";
 import { alignOf, anchorOf, findSpot, overlaps, type Rect, rectFor } from "./layout/grid";
 
@@ -36,17 +38,23 @@ import { alignOf, anchorOf, findSpot, overlaps, type Rect, rectFor } from "./lay
  */
 export function Stage() {
   const space = useActiveSpace();
+  const mode = useLayoutMode();
   return (
     <AnimatePresence initial={false}>
       <motion.div
         key={space.id}
-        className="absolute inset-0 px-[clamp(1.5rem,4vw,4rem)] pt-[clamp(1.5rem,5vh,4rem)] pb-[calc(clamp(1rem,3vh,2rem)+5.5rem)]"
+        // No celular, as margens ficam dentro da coluna (que rola até a borda da tela).
+        className={cn(
+          "absolute inset-0",
+          mode === "grid" &&
+            "px-[clamp(1.5rem,4vw,4rem)] pt-[clamp(1.5rem,5vh,4rem)] pb-[calc(clamp(1rem,3vh,2rem)+5.5rem)]",
+        )}
         initial={{ "--space-fade": 0 }}
         animate={{ "--space-fade": 1 }}
         exit={{ "--space-fade": 0, pointerEvents: "none" }}
         transition={{ duration: duration.calm, ease: ease.out }}
       >
-        <Area space={space} />
+        {mode === "grid" ? <Area space={space} /> : <CompactStage space={space} mode={mode} />}
       </motion.div>
     </AnimatePresence>
   );

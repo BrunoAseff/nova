@@ -10,7 +10,14 @@ import {
 import { breathingTechniqueIds } from "@/content/breathing";
 import { alarmSoundIds, DEFAULT_ALARM_SOUND_ID } from "@/content/sounds";
 import { type SpaceIcon, spaceIcons } from "@/content/space-icons";
-import { LEGACY_POSITION_PLACE, type Place, placedWidgets, widgetSizes } from "@/content/widgets";
+import {
+  LEGACY_POSITION_PLACE,
+  type Place,
+  type PlacedWidget,
+  placedWidgets,
+  type WidgetSize,
+  widgetSizes,
+} from "@/content/widgets";
 import { moveItem, uniqueById } from "@/lib/collections";
 import { persistOptions, syncAcrossTabs } from "./lib/persisted";
 
@@ -83,6 +90,15 @@ const widgetsSchema = z.object({
   reminders: z.catch(remindersSchema, defaultsOf(remindersSchema)),
 });
 
+/**
+ * O layout do celular (coluna), à parte do layout da grade: a ordem e o tamanho que o
+ * usuário escolheu no celular. Vazio = deriva da grade (ver `app/layout/compact.ts`).
+ */
+const compactSchema = z.object({
+  order: z.catch(z.array(z.enum(placedWidgets)), []),
+  sizes: z.catch(z.partialRecord(z.enum(placedWidgets), z.enum(widgetSizes)), {}),
+});
+
 const spaceSchema = z.object({
   id: z.catch(z.string().check(z.minLength(1)), () => crypto.randomUUID()),
   name: z.catch(
@@ -92,6 +108,7 @@ const spaceSchema = z.object({
   icon: z.catch(z.enum(spaceIcons), "home"),
   backgroundId: z.catch(z.enum(backgroundIds), DEFAULT_BACKGROUND_ID),
   widgets: z.catch(widgetsSchema, defaultsOf(widgetsSchema)),
+  compact: z.catch(compactSchema, defaultsOf(compactSchema)),
 });
 
 const schema = z.object({
@@ -117,6 +134,7 @@ function createSpace(fields: Pick<Space, "name" | "icon"> & Partial<Space>): Spa
     id: crypto.randomUUID(),
     backgroundId: DEFAULT_BACKGROUND_ID,
     widgets: defaultWidgets(),
+    compact: { order: [], sizes: {} },
     ...fields,
   };
 }
@@ -207,6 +225,10 @@ interface SpacesState extends Persisted {
   updateWidget: <K extends WidgetKey>(id: string, widget: K, patch: Partial<Widgets[K]>) => void;
   /** Volta lugar e tamanho dos widgets do espaço ao layout inicial (o resto fica). */
   resetLayout: (id: string) => void;
+  /** Ordem dos widgets na coluna do celular. */
+  setCompactOrder: (id: string, order: PlacedWidget[]) => void;
+  /** Tamanho de um widget no celular (não mexe no da grade). */
+  setCompactSize: (id: string, widget: PlacedWidget, size: WidgetSize) => void;
   resetSpaces: () => void;
 }
 
@@ -280,15 +302,29 @@ export const useSpacesStore = create<SpacesState>()(
               const { place, size } = initial[key];
               widgets[key] = { ...widgets[key], place, size } as never;
             }
-            return { ...sp, widgets };
+            return { ...sp, widgets, compact: { order: [], sizes: {} } };
           }),
+        })),
+
+      setCompactOrder: (id, order) =>
+        set((s) => ({
+          spaces: updateSpace(s.spaces, id, (sp) => ({ ...sp, compact: { ...sp.compact, order } })),
+        })),
+
+      setCompactSize: (id, widget, size) =>
+        set((s) => ({
+          spaces: updateSpace(s.spaces, id, (sp) => ({
+            ...sp,
+            compact: { ...sp.compact, sizes: { ...sp.compact.sizes, [widget]: size } },
+          })),
         })),
 
       resetSpaces: () => set({ spaces: createDefaultSpaces(), activeSpaceId: "focus" }),
     }),
     persistOptions({
       name: "spaces",
-      version: 2,
+      // v3: `compact` (layout do celular). Só campos novos com padrão: nada a converter.
+      version: 3,
       migrate: migrateSpaces,
       schema,
       partialize: ({ spaces, activeSpaceId }) => ({ spaces, activeSpaceId }),

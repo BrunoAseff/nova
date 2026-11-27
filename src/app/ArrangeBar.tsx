@@ -2,8 +2,10 @@ import { LayoutGrid } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/Button";
 import { calm, duration, ease } from "@/lib/motion";
+import { useLayoutMode } from "@/lib/useLayoutMode";
 import { useAttentionStore } from "@/stores/attention";
 import { useActiveSpace, useSpacesStore } from "@/stores/spaces";
+import { ArrangeSheet } from "./ArrangeSheet";
 
 /**
  * A barra do modo de arranjar, no lugar do dock (que some enquanto se arranja): a faixa
@@ -11,6 +13,12 @@ import { useActiveSpace, useSpacesStore } from "@/stores/spaces";
  * restaura o layout inicial do espaço e sai (também com Esc ou E).
  */
 export function ArrangeBar() {
+  const compact = useLayoutMode() !== "grid";
+  // No celular, arrumar é reordenar uma lista (ArrangeSheet).
+  return compact ? <ArrangeSheet /> : <GridArrangeBar />;
+}
+
+function GridArrangeBar() {
   const arranging = useAttentionStore((s) => s.arranging);
   const setArranging = useAttentionStore((s) => s.setArranging);
   const space = useActiveSpace();

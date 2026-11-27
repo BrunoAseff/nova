@@ -6,9 +6,11 @@ import { Popover, PopoverContent } from "@/components/arc/popover/popover";
 import { Tooltip } from "@/components/arc/tooltip/tooltip";
 import { AutoHeight } from "@/components/ui/AutoHeight";
 import { Reveal } from "@/components/ui/Reveal";
+import { Sheet } from "@/components/ui/Sheet";
 import { REMINDER_TYPE_LABEL } from "@/content/reminders";
 import { duration, ease } from "@/lib/motion";
 import { useSceneTone } from "@/lib/sceneTone";
+import { useLayoutMode, useTouch } from "@/lib/useLayoutMode";
 import { cn } from "@/lib/utils";
 import { sized } from "@/lib/widgetSize";
 import { useAttentionStore } from "@/stores/attention";
@@ -64,6 +66,8 @@ export function Reminders({ align }: { align: "start" | "end" | "center" }) {
   const container = useRef<HTMLDivElement>(null);
   const text = useRef<HTMLDivElement>(null);
   useSceneTone(text);
+  const compact = useLayoutMode() !== "grid";
+  const touch = useTouch();
 
   const shown = reminders.filter((r) => r.text.trim());
   const current = shown.length > 0 ? shown[index % shown.length] : undefined;
@@ -102,105 +106,127 @@ export function Reminders({ align }: { align: "start" | "end" | "center" }) {
         ? "items-center text-center"
         : "items-start";
 
-  return (
-    <Popover open={editing} onOpenChange={setOpen}>
-      <PopoverAnchor asChild>
-        <div
-          ref={container}
-          className={cn("group/reminders flex max-w-[24rem] flex-col", alignClass)}
-          data-keep-awake
-        >
-          {/* O que sai deixa o fluxo (popLayout) e esmaece no lugar; a altura vai da frase
+  // No toque não há hover: os botões aparecem quando a tela está acordada (um toque).
+  const showActions = editing || (touch && !resting);
+
+  const widget = (
+    <div
+      ref={container}
+      className={cn(
+        "group/reminders flex max-w-[min(var(--fit,100vw),24rem)] flex-col",
+        alignClass,
+      )}
+      data-keep-awake
+    >
+      {/* O que sai deixa o fluxo (popLayout) e esmaece no lugar; a altura vai da frase
               antiga à nova animando (AutoHeight), e o que está embaixo desliza junto, em vez
               de pular. */}
-          <AutoHeight>
-            <div
-              ref={text}
-              className={cn(
-                "on-scene flex flex-col",
-                align === "end" ? "items-end" : align === "center" ? "items-center" : "items-start",
-              )}
-            >
-              <AnimatePresence
-                initial={false}
-                mode="popLayout"
-                anchorX={align === "end" ? "right" : "left"}
+      <AutoHeight>
+        <div
+          ref={text}
+          className={cn(
+            "on-scene flex flex-col",
+            align === "end" ? "items-end" : align === "center" ? "items-center" : "items-start",
+          )}
+        >
+          <AnimatePresence
+            initial={false}
+            mode="popLayout"
+            anchorX={align === "end" ? "right" : "left"}
+          >
+            {current ? (
+              <motion.figure
+                key={current.id}
+                className={cn("flex flex-col", alignClass)}
+                initial={{ opacity: 0, y: 6, filter: "blur(6px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -6, filter: "blur(6px)" }}
+                transition={{ duration: duration.calm, ease: ease.out }}
               >
-                {current ? (
-                  <motion.figure
-                    key={current.id}
-                    className={cn("flex flex-col", alignClass)}
-                    initial={{ opacity: 0, y: 6, filter: "blur(6px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, y: -6, filter: "blur(6px)" }}
-                    transition={{ duration: duration.calm, ease: ease.out }}
-                  >
-                    <figcaption className="fade text-[0.75rem] font-medium tracking-[0.08em] text-scene-ink-soft uppercase">
-                      {REMINDER_TYPE_LABEL[current.type]}
-                    </figcaption>
-                    <p
-                      className="fade mt-1.5 leading-snug tracking-[-0.005em] text-balance"
-                      style={TEXT}
-                    >
-                      {current.text}
-                    </p>
-                  </motion.figure>
-                ) : (
-                  <SceneButton
-                    key="empty"
-                    className="px-3.5"
-                    initial={{ "--self-fade": 0 }}
-                    animate={{ "--self-fade": resting ? 0 : 1 }}
-                    exit={{ "--self-fade": 0 }}
-                    transition={{ duration: duration.calm, ease: ease.out }}
-                    aria-expanded={editing}
-                    onClick={() => (editing ? setOpen(false) : openEditor(true))}
-                  >
-                    <Plus aria-hidden="true" />
-                    Add a reminder
-                  </SceneButton>
-                )}
-              </AnimatePresence>
-            </div>
-          </AutoHeight>
-
-          {/* Os botões entram e saem abrindo espaço: sem isso, o primeiro lembrete (ou o
-              último apagado) fazia o widget, e o popover ancorado nele, pular 44px. */}
-          <AnimatePresence initial={false}>
-            {current && (
-              <Reveal key="actions" clip={false}>
-                <div className="flex gap-1.5 pt-3">
-                  {shown.length > 1 && (
-                    <Tooltip content="Next reminder">
-                      <SceneButton
-                        className={cn(
-                          "w-8",
-                          REVEAL,
-                          editing ? "[--self-fade:1]" : "[--self-fade:0]",
-                        )}
-                        aria-label="Next reminder"
-                        onClick={next}
-                      >
-                        <ArrowRight aria-hidden="true" />
-                      </SceneButton>
-                    </Tooltip>
-                  )}
-                  <Tooltip content="Edit reminders">
-                    <SceneButton
-                      className={cn("w-8", REVEAL, editing ? "[--self-fade:1]" : "[--self-fade:0]")}
-                      aria-label="Edit reminders"
-                      aria-expanded={editing}
-                      onClick={() => (editing ? setOpen(false) : openEditor(false))}
-                    >
-                      <Pencil aria-hidden="true" />
-                    </SceneButton>
-                  </Tooltip>
-                </div>
-              </Reveal>
+                <figcaption className="fade text-[0.75rem] font-medium tracking-[0.08em] text-scene-ink-soft uppercase">
+                  {REMINDER_TYPE_LABEL[current.type]}
+                </figcaption>
+                <p
+                  className="fade mt-1.5 leading-snug tracking-[-0.005em] text-balance"
+                  style={TEXT}
+                >
+                  {current.text}
+                </p>
+              </motion.figure>
+            ) : (
+              <SceneButton
+                key="empty"
+                className="px-3.5"
+                initial={{ "--self-fade": 0 }}
+                animate={{ "--self-fade": resting ? 0 : 1 }}
+                exit={{ "--self-fade": 0 }}
+                transition={{ duration: duration.calm, ease: ease.out }}
+                aria-expanded={editing}
+                onClick={() => (editing ? setOpen(false) : openEditor(true))}
+              >
+                <Plus aria-hidden="true" />
+                Add a reminder
+              </SceneButton>
             )}
           </AnimatePresence>
         </div>
-      </PopoverAnchor>
+      </AutoHeight>
+
+      {/* Os botões entram e saem abrindo espaço: sem isso, o primeiro lembrete (ou o
+              último apagado) fazia o widget, e o popover ancorado nele, pular 44px. */}
+      <AnimatePresence initial={false}>
+        {current && (
+          <Reveal key="actions" clip={false}>
+            <div className="flex gap-1.5 pt-3">
+              {shown.length > 1 && (
+                <Tooltip content="Next reminder">
+                  <SceneButton
+                    className={cn(
+                      "w-8",
+                      REVEAL,
+                      showActions ? "[--self-fade:1]" : "[--self-fade:0]",
+                    )}
+                    aria-label="Next reminder"
+                    onClick={next}
+                  >
+                    <ArrowRight aria-hidden="true" />
+                  </SceneButton>
+                </Tooltip>
+              )}
+              <Tooltip content="Edit reminders">
+                <SceneButton
+                  className={cn("w-8", REVEAL, showActions ? "[--self-fade:1]" : "[--self-fade:0]")}
+                  aria-label="Edit reminders"
+                  aria-expanded={editing}
+                  onClick={() => (editing ? setOpen(false) : openEditor(false))}
+                >
+                  <Pencil aria-hidden="true" />
+                </SceneButton>
+              </Tooltip>
+            </div>
+          </Reveal>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+
+  // No celular, o editor sobe de baixo (inteiro, e o teclado não o cobre).
+  if (compact) {
+    return (
+      <>
+        {widget}
+        <Sheet open={editing} onOpenChange={setOpen} title="Reminders">
+          <div className="px-4 pb-6">
+            <ReminderEditor initialFocusId={newId} heading={false} />
+          </div>
+        </Sheet>
+      </>
+    );
+  }
+
+  return (
+    <Popover open={editing} onOpenChange={setOpen}>
+      <PopoverAnchor asChild>{widget}</PopoverAnchor>
 
       <PopoverContent
         side="bottom"

@@ -113,7 +113,12 @@ Este é o "padrão a ser seguido": todo elemento do Nova pertence a **uma** cama
 - **Nunca sobreposição:** quem aparece ou cresce em cima de outro vai para o lugar livre mais próximo. Se não houver lugar, diminui um tamanho.
 - **Tamanhos S/M/L por widget,** escolhidos pelo usuário. O "herói" automático do centro saiu.
 - **Layouts iniciais desenhados** por espaço: o relógio grande no Home, o pomodoro no Focus e a respiração no Relax, todos no centro. Há um "Reset" no modo de arranjar.
-- **Celular:** a composição vira uma coluna, com o elemento principal no topo (ainda por fazer).
+- **Celular** (feito em 27/11/2026, ver `03b`):
+  - **em pé** (largura < 640px): os widgets viram uma coluna centralizada. O principal fica no topo: o maior e, no empate, o mais perto do centro; os outros seguem na ordem de leitura da grade. A coluna rola se não couber;
+  - **deitado** (altura < 500px): o principal e mais um, lado a lado; pomodoro e respiração ficam em S;
+  - nenhum widget passa da largura do seu lugar (`--fit`), e os dígitos encolhem para caber;
+  - a ordem e o tamanho do celular são guardados à parte (`space.compact`): arrumar no celular não mexe na grade do computador;
+  - deslizar para os lados troca de espaço, só começando fora de um widget.
 
 ### Estados de atenção
 
