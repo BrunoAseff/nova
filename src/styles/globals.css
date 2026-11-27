@@ -1,514 +1,274 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@layer base {
-  :root {
-    --background: 240 5.9% 90%;
-    --foreground: 204 25% 2%;
-    --card: 255 13% 96%;
-    --card-foreground: 255 13% 96%;
-    --popover: 215 81% 6%;
-    --popover-foreground: 220 20% 80%;
-    --primary: 185 100% 45%;
-    --primary-foreground: 209 100% 5%;
-    --secondary: 210 100% 43%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 0 0% 80%;
-    --muted-foreground: 0 0% 10%;
-    --accent: 240 4.9% 70%;
-    --accent-foreground: 240 4.9% 85.9%;
-    --destructive: 1 80% 42%;
-    --destructive-foreground: 130 100% 94%;
-    --border: 0 0% 65%;
-    --input: 240 4.9% 50%;
-    --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 60%;
-    --chart-2: 160 60% 55%;
-    --chart-3: 30 80% 65%;
-    --chart-4: 280 65% 70%;
-    --chart-5: 340 75% 65%;
-    --sidebar-background: 240 5.9% 90%;
-    --sidebar-foreground: 0 0% 30%;
-    --sidebar-primary: 189 100% 45%;
-    --sidebar-primary-foreground: 209 100% 10%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 30%;
-    --sidebar-border: 240 3.7% 85%;
-    --sidebar-ring: 217.2 91.2% 40.2%;
-    --secondary-smooth-700: 224.3 76.3% 58%;
-    --secondary-smooth-500: 217.2 91.2% 40.2%;
-    --secondary-smooth-400: 213.1 93.9% 32.2%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 220 20% 6%;
-    --foreground: 204 25% 95%;
-    --card: 255 13% 6%;
-    --card-foreground: 255 13% 6%;
-    --popover: 215 81% 96%;
-    --popover-foreground: 220 20% 6%;
-    --primary: 185 100% 55%;
-    --primary-foreground: 209 100% 91%;
-    --secondary: 210 100% 67%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 230 15% 17%;
-    --muted-foreground: 240 4% 58%;
-    --accent: 230 7% 25%;
-    --accent-foreground: 220 15% 8%;
-    --destructive: 345.3 82.7% 40.8%;
-    --destructive-foreground: 130 100% 6%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 220 20% 6%;
-    --sidebar-foreground: 0 0% 63.9%;
-    --sidebar-primary: 189 100% 55%;
-    --sidebar-primary-foreground: 209 100% 91%;
-    --sidebar-accent: 0 0% 96.1%;
-    --sidebar-accent-foreground: 0 0% 63.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --secondary-smooth-700: 224.3 76.3% 48%;
-    --secondary-smooth-500: 217.2 91.2% 59.8%;
-    --secondary-smooth-400: 213.1 93.9% 67.8%;
-  }
+@import "tailwindcss";
+@import "../components/arc/foundation.css";
+@import "./atmospheres.css";
 
-  .nebula_light {
-    --background: 290 5.9% 85%;
-    --foreground: 290 25% 5%;
-    --card: 255 13% 96%;
-    --card-foreground: 255 13% 96%;
-    --popover: 215 81% 6%;
-    --popover-foreground: 0 0% 15%;
-    --primary: 185 100% 45%;
-    --primary-foreground: 209 100% 5%;
-    --secondary: 263.4 69.3% 42.2%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 290 7% 80%;
-    --muted-foreground: 260 10% 30%;
-    --accent: 290 10% 70%;
-    --accent-foreground: 260 10% 83%;
-    --destructive: 1 80% 42%;
-    --destructive-foreground: 130 100% 94%;
-    --border: 290 3% 60%;
-    --input: 290 3% 60%;
-    --ring: 0 5% 60%;
-    --chart-1: 220 70% 60%;
-    --chart-2: 160 60% 55%;
-    --chart-3: 30 80% 65%;
-    --chart-4: 280 65% 70%;
-    --chart-5: 340 75% 65%;
-    --sidebar-background: 290 10% 85%;
-    --sidebar-foreground: 0 0% 30%;
-    --sidebar-primary: 189 100% 45%;
-    --sidebar-primary-foreground: 209 100% 10%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 30%;
-    --sidebar-border: 240 3.7% 85%;
-    --sidebar-ring: 217.2 91.2% 40.2%;
-    --secondary-smooth-700: 224.3 76.3% 58%;
-    --secondary-smooth-500: 217.2 91.2% 40.2%;
-    --secondary-smooth-400: 213.1 93.9% 32.2%;
-  }
+/*
+ * Esmaecer sem quebrar o vidro. No Chrome, um ancestral com opacidade < 1 vira "backdrop
+ * root": o backdrop-filter dos filhos para de enxergar a foto e o vidro aparece sem
+ * desfoque até a animação acabar. Por isso os contêineres (palco, item) nunca animam
+ * opacity: animam estas variáveis, e só as folhas (`.fade`: o vidro, o texto) aplicam.
+ */
+@property --space-fade {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+/* O tamanho contínuo dos widgets (lib/widgetSize.ts). Registrado para poder ter
+   transição de CSS: no celular, trocar de tamanho anima o layout de verdade. */
+@property --k {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
 
-  .nebula_dark {
-    --background: 290 10% 3%;
-    --foreground: 204 25% 85.1%;
-    --card: 255 13% 6%;
-    --card-foreground: 255 13% 6%;
-    --popover: 215 81% 96%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 185 100% 55%;
-    --primary-foreground: 209 100% 91%;
-    --secondary: 238.7 83.5% 66.7%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 230 15% 17%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 230 7% 25%;
-    --accent-foreground: 243.8 20% 9%;
-    --destructive: 345.3 82.7% 40.8%;
-    --destructive-foreground: 130 100% 6%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 290 10% 3%;
-    --sidebar-foreground: 0 0% 63.9%;
-    --sidebar-primary: 189 100% 55%;
-    --sidebar-primary-foreground: 209 100% 91%;
-    --sidebar-accent: 0 0% 96.1%;
-    --sidebar-accent-foreground: 0 0% 63.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --secondary-smooth-700: 224.3 76.3% 48%;
-    --secondary-smooth-500: 217.2 91.2% 59.8%;
-    --secondary-smooth-400: 213.1 93.9% 67.8%;
-  }
+/* Celular: o widget que sai pela borda da coluna (em cima, ou chegando no dock) esmaece. */
+@property --edge-fade {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
 
-  .ignition_light {
-    --background: 50 10% 87.1%;
-    --foreground: 290 25% 5%;
-    --card: 255 13% 96%;
-    --card-foreground: 255 13% 96%;
-    --popover: 215 81% 6%;
-    --popover-foreground: 0 0% 15%;
-    --primary: 185 100% 45%;
-    --primary-foreground: 209 100% 5%;
-    --secondary: 35.5 91.7% 32.9%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 50 10% 83.1%;
-    --muted-foreground: 50 10% 10%;
-    --accent: 50 10% 70%;
-    --accent-foreground: 20 10% 83%;
-    --destructive: 1 80% 42%;
-    --destructive-foreground: 130 100% 94%;
-    --border: 290 3% 10%;
-    --input: 290 3% 10%;
-    --ring: 0 5% 10%;
-    --chart-1: 220 70% 60%;
-    --chart-2: 160 60% 55%;
-    --chart-3: 30 80% 65%;
-    --chart-4: 280 65% 70%;
-    --chart-5: 340 75% 65%;
-    --sidebar-background: 50 10% 87.1%;
-    --sidebar-foreground: 0 0% 30%;
-    --sidebar-primary: 189 100% 45%;
-    --sidebar-primary-foreground: 209 100% 10%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 30%;
-    --sidebar-border: 240 3.7% 85%;
-    --sidebar-ring: 217.2 91.2% 40.2%;
-    --secondary-smooth-700: 40 91.7% 14.1%;
-    --secondary-smooth-500: 40 91.2% 40.2%;
-    --secondary-smooth-400: 40 93.9% 32.2%;
-  }
+@property --item-fade {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+@property --self-fade {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
 
-  .ignition_dark {
-    --background: 50 4% 4%;
-    --foreground: 204 25% 85.1%;
-    --card: 255 13% 6%;
-    --card-foreground: 255 13% 6%;
-    --popover: 215 81% 96%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 185 100% 55%;
-    --primary-foreground: 209 100% 91%;
-    --secondary: 32.1 94.6% 43.7%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 40 4% 10%;
-    --muted-foreground: 40 4% 75%;
-    --accent: 30 4% 20%;
-    --accent-foreground: 2 4% 7%;
-    --destructive: 345.3 82.7% 40.8%;
-    --destructive-foreground: 130 100% 6%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 10 4% 4%;
-    --sidebar-foreground: 0 0% 63.9%;
-    --sidebar-primary: 189 100% 55%;
-    --sidebar-primary-foreground: 209 100% 91%;
-    --sidebar-accent: 0 0% 96.1%;
-    --sidebar-accent-foreground: 0 0% 63.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --secondary-smooth-700: 5 40% 48%;
-    --secondary-smooth-500: 5 80% 59.8%;
-    --secondary-smooth-400: 5 80% 67.8%;
-  }
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-  .quasar_light {
-    --background: 150 10% 87.1%;
-    --foreground: 290 25% 5%;
-    --card: 255 13% 96%;
-    --card-foreground: 255 13% 96%;
-    --popover: 215 81% 6%;
-    --popover-foreground: 0 0% 15%;
-    --primary: 185 100% 45%;
-    --primary-foreground: 209 100% 5%;
-    --secondary: 162.9 93.5% 24.3%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 150 10% 83.1%;
-    --muted-foreground: 150 10% 10%;
-    --accent: 150 10% 70%;
-    --accent-foreground: 150 10% 83%;
-    --destructive: 1 80% 42%;
-    --destructive-foreground: 130 100% 94%;
-    --border: 290 3% 10%;
-    --input: 290 3% 10%;
-    --ring: 0 5% 10%;
-    --chart-1: 220 70% 60%;
-    --chart-2: 160 60% 55%;
-    --chart-3: 30 80% 65%;
-    --chart-4: 280 65% 70%;
-    --chart-5: 340 75% 65%;
-    --sidebar-background: 50 10% 87.1%;
-    --sidebar-foreground: 0 0% 30%;
-    --sidebar-primary: 189 100% 45%;
-    --sidebar-primary-foreground: 209 100% 10%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 30%;
-    --sidebar-border: 240 3.7% 85%;
-    --sidebar-ring: 217.2 91.2% 40.2%;
-    --secondary-smooth-700: 150 91.7% 14.1%;
-    --secondary-smooth-500: 150 91.2% 40.2%;
-    --secondary-smooth-400: 150 93.9% 32.2%;
-  }
+/* Utilitários do Tailwind a partir dos tokens semânticos do Nova. */
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-scene-ink: var(--scene-ink);
+  --color-scene-ink-soft: var(--scene-ink-soft);
 
-  .quasar_dark {
-    --background: 150 4% 4%;
-    --foreground: 204 25% 85.1%;
-    --card: 255 13% 6%;
-    --card-foreground: 255 13% 6%;
-    --popover: 215 81% 96%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 185 100% 55%;
-    --primary-foreground: 209 100% 91%;
-    --secondary: 173.4 80.4% 40%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 220 4% 10%;
-    --muted-foreground: 220 4% 75%;
-    --accent: 220 4% 20%;
-    --accent-foreground: 220 10% 7%;
-    --destructive: 345.3 82.7% 40.8%;
-    --destructive-foreground: 130 100% 6%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 10 4% 4%;
-    --sidebar-foreground: 0 0% 63.9%;
-    --sidebar-primary: 189 100% 55%;
-    --sidebar-primary-foreground: 209 100% 91%;
-    --sidebar-accent: 0 0% 96.1%;
-    --sidebar-accent-foreground: 0 0% 63.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --secondary-smooth-700: 220 40% 48%;
-    --secondary-smooth-500: 220 80% 59.8%;
-    --secondary-smooth-400: 220 80% 67.8%;
-  }
-
-  .supernova_light {
-    --background: 300 6% 87.1%;
-    --foreground: 290 25% 5%;
-    --card: 255 13% 96%;
-    --card-foreground: 255 13% 96%;
-    --popover: 215 81% 6%;
-    --popover-foreground: 0 0% 15%;
-    --primary: 185 100% 45%;
-    --primary-foreground: 209 100% 5%;
-    --secondary: 335.1 77.6% 42%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 300 10% 83.1%;
-    --muted-foreground: 300 10% 10%;
-    --accent: 300 10% 70%;
-    --accent-foreground: 300 10% 83%;
-    --destructive: 1 80% 42%;
-    --destructive-foreground: 130 100% 94%;
-    --border: 290 3% 10%;
-    --input: 290 3% 10%;
-    --ring: 0 5% 10%;
-    --chart-1: 220 70% 60%;
-    --chart-2: 160 60% 55%;
-    --chart-3: 30 80% 65%;
-    --chart-4: 280 65% 70%;
-    --chart-5: 340 75% 65%;
-    --sidebar-background: 300 6% 87.1%;
-    --sidebar-foreground: 0 0% 30%;
-    --sidebar-primary: 189 100% 45%;
-    --sidebar-primary-foreground: 209 100% 10%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 30%;
-    --sidebar-border: 240 3.7% 85%;
-    --sidebar-ring: 217.2 91.2% 40.2%;
-    --secondary-smooth-700: 300 91.7% 14.1%;
-    --secondary-smooth-500: 300 91.2% 40.2%;
-    --secondary-smooth-400: 300 93.9% 32.2%;
-  }
-
-  .supernova_dark {
-    --background: 300 4% 4%;
-    --foreground: 204 25% 85.1%;
-    --card: 255 13% 6%;
-    --card-foreground: 255 13% 6%;
-    --popover: 215 81% 96%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 185 100% 55%;
-    --primary-foreground: 209 100% 91%;
-    --secondary: 330 75.4% 80%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 300 4% 10%;
-    --muted-foreground: 300 4% 75%;
-    --accent: 300 4% 20%;
-    --accent-foreground: 300 10% 7%;
-    --destructive: 345.3 82.7% 40.8%;
-    --destructive-foreground: 130 100% 6%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 300 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 10 4% 4%;
-    --sidebar-foreground: 0 0% 63.9%;
-    --sidebar-primary: 189 100% 55%;
-    --sidebar-primary-foreground: 209 100% 91%;
-    --sidebar-accent: 0 0% 96.1%;
-    --sidebar-accent-foreground: 0 0% 63.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --secondary-smooth-700: 300 40% 48%;
-    --secondary-smooth-500: 300 80% 59.8%;
-    --secondary-smooth-400: 300 80% 67.8%;
-  }
-
-  .singularity_light {
-    --background: 150 0% 87.1%;
-    --foreground: 290 0% 25%;
-    --card: 255 0% 96%;
-    --card-foreground: 255 0% 96%;
-    --popover: 215 81% 6%;
-    --popover-foreground: 0 0% 15%;
-    --primary: 185 0% 45%;
-    --primary-foreground: 209 0% 5%;
-    --secondary: 162.9 0% 0%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 150 0% 83.1%;
-    --muted-foreground: 150 0% 10%;
-    --accent: 150 0% 70%;
-    --accent-foreground: 150 0% 83%;
-    --destructive: 1 80% 42%;
-    --destructive-foreground: 130 100% 94%;
-    --border: 290 0% 10%;
-    --input: 290 0% 10%;
-    --ring: 0 0% 10%;
-    --chart-1: 220 70% 60%;
-    --chart-2: 160 60% 55%;
-    --chart-3: 30 80% 65%;
-    --chart-4: 280 65% 70%;
-    --chart-5: 340 75% 65%;
-    --sidebar-background: 150 0% 87.1%;
-    --sidebar-foreground: 0 0% 30%;
-    --sidebar-primary: 189 100% 45%;
-    --sidebar-primary-foreground: 209 100% 10%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 30%;
-    --sidebar-border: 240 0% 85%;
-    --sidebar-ring: 217.2 91.2% 40.2%;
-    --secondary-smooth-700: 150 0% 14.1%;
-    --secondary-smooth-500: 150 0% 40.2%;
-    --secondary-smooth-400: 150 0% 32.2%;
-  }
-
-  .singularity_dark {
-    --background: 10 0% 4%;
-    --foreground: 204 0% 100%;
-    --card: 255 0% 6%;
-    --card-foreground: 255 0% 6%;
-    --popover: 215 0% 96%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 185 0% 55%;
-    --primary-foreground: 209 0% 91%;
-    --secondary: 173.4 0% 100%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 220 0% 10%;
-    --muted-foreground: 220 0% 60%;
-    --accent: 220 0% 20%;
-    --accent-foreground: 220 0% 7%;
-    --destructive: 345.3 82.7% 40.8%;
-    --destructive-foreground: 130 100% 6%;
-    --border: 0 0% 30%;
-    --input: 0 0% 10%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 10 0% 4%;
-    --sidebar-foreground: 0 0% 63.9%;
-    --sidebar-primary: 189 100% 55%;
-    --sidebar-primary-foreground: 209 100% 91%;
-    --sidebar-accent: 0 0% 96.1%;
-    --sidebar-accent-foreground: 0 0% 63.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-    --secondary-smooth-700: 220 0% 48%;
-    --secondary-smooth-500: 220 0% 59.8%;
-    --secondary-smooth-400: 220 0% 67.8%;
-  }
+  --font-sans: var(--font-ui);
+  --font-glance: var(--font-glance);
 }
 
 @layer base {
-  * {
-    @apply border-border;
-    --font-montserrat: "Montserrat Alternates", sans-serif;
-    --font-delius: "Delius Swash Caps", cursive;
-    --font-inter: "Inter", sans-serif;
-    --font-open: "Open Sans", sans-serif;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-montserrat);
-  }
-
+  /* Escala fluida: o Nova é lido de longe numa segunda tela, então tudo em rem cresce
+     com a largura da janela (15px num notebook, 18px num monitor grande). */
   html {
-    scroll-behavior: smooth;
+    font-size: clamp(15px, 0.5vw + 8.5px, 18px);
   }
 
-  *:fullscreen .show-in-fullscreen,
-  *:-webkit-full-screen .show-in-fullscreen,
-  *:-moz-full-screen .show-in-fullscreen,
-  *:-ms-fullscreen .show-in-fullscreen {
-    display: flex !important;
+  html,
+  body,
+  #root {
+    height: 100%;
   }
-}
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-/* Firefox scrollbar styles */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(var(--accent)) transparent;
-}
-
-.scrollbar-gutter-stable {
-  scrollbar-gutter: stable;
-}
-
-::selection {
-  background-color: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
-    @apply bg-background text-foreground;
+    background: oklch(20% 0.02 280);
+    color: var(--ink);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  /* Rolagem discreta: sem trilho, só um polegar fino da cor da tinta. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--ink) 22%, transparent) transparent;
+  }
+}
+
+@layer components {
+  /* L1 · texto direto na cena. A tinta se adapta à foto atrás (`useSceneTone` marca
+     `data-tone`): clara com sombra suave sobre fundo escuro, escura com um brilho suave
+     sobre fundo claro. Sem halo: um borrão escuro atrás do texto vira mancha em foto clara. */
+  .on-scene {
+    color: var(--scene-ink);
+    text-shadow: var(--scene-text-shadow);
+    transition:
+      color 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      text-shadow 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .on-scene[data-tone="mixed"] {
+    --scene-text-shadow: var(--scene-text-shadow-mixed);
+  }
+  .on-scene[data-tone="light"] {
+    --scene-ink: var(--scene-ink-on-light);
+    --scene-ink-soft: var(--scene-ink-soft-on-light);
+    --scene-text-shadow: var(--scene-text-shadow-on-light);
+  }
+
+  /* L2/L3/L4 · vidro. A intensidade muda por camada, o material é o mesmo. */
+  .glass {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--glass-filter);
+    backdrop-filter: var(--glass-filter);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-highlight), var(--glass-shadow);
+    color: var(--ink);
+  }
+  .glass-strong {
+    background: var(--glass-bg-strong);
+  }
+
+  .fade {
+    opacity: calc(var(--space-fade) * var(--item-fade) * var(--self-fade) * var(--edge-fade));
+  }
+
+  /* Números lidos de relance: sempre tabulares, para o timer não "dançar". */
+  .glance {
+    font-family: var(--font-glance);
+    font-weight: var(--glance-weight);
+    letter-spacing: var(--glance-tracking);
+    font-variant-numeric: tabular-nums;
+    line-height: 0.9;
+  }
+
+  .lucide {
+    stroke-width: 1.6;
+  }
+}
+
+/* L0 · cena */
+.scene-image {
+  filter: var(--scene-filter);
+  transition:
+    filter 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 900ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+/* Fundo novo: invisível até carregar, depois entra devagar por cima do antigo. */
+.scene-image[data-hidden="true"] {
+  opacity: 0;
+  transition: none;
+}
+.scene-scrim {
+  background: var(--scene-scrim);
+}
+
+/* Modo de arranjar: os cruzamentos da grade (12 × 8) como pontos discretos. */
+.stage-grid {
+  --dot: color-mix(in oklab, var(--scene-ink) 55%, transparent);
+  background-image: radial-gradient(circle, var(--dot) 1.25px, transparent 1.75px);
+  background-size: calc(100% / 12) calc(100% / 8);
+  background-position: calc(-50% / 12) calc(-50% / 8);
+  mask-image: radial-gradient(ellipse at center, #000 55%, transparent 100%);
+}
+:root[data-theme="dark"] .stage-grid {
+  --dot: oklch(100% 0 0 / 0.4);
+}
+
+/* A alça: um contorno tracejado claro; mais firme no hover, foco e enquanto arrasta. */
+.arrange-handle {
+  border: 1.5px dashed color-mix(in oklab, var(--scene-ink) 70%, transparent);
+  background: color-mix(in oklab, var(--scene-ink) 4%, transparent);
+  /* Um fio escuro por fora: o tracejado claro continua visível em fotos claras. */
+  box-shadow: 0 0 0 1px oklch(15% 0.03 280 / 0.12);
+  transition:
+    border-color 200ms,
+    background-color 200ms,
+    box-shadow 200ms;
+}
+.arrange-handle:hover,
+.arrange-handle:focus-visible,
+.arrange-handle[data-dragging="true"] {
+  border-style: solid;
+  border-color: var(--scene-ink);
+  background: color-mix(in oklab, var(--scene-ink) 8%, transparent);
+}
+.arrange-handle[data-dragging="true"] {
+  box-shadow: 0 24px 60px -16px oklch(10% 0.03 280 / 0.45);
+}
+
+/* Onde o widget vai cair, e as linhas com que ele se alinha. */
+.stage-ghost {
+  border: 1.5px solid var(--accent);
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
+}
+.stage-guide {
+  background: color-mix(in oklab, var(--accent) 70%, transparent);
+}
+
+/* Em repouso o cursor some: a tela vira só cena. */
+:root[data-attention="rest"] body {
+  cursor: none;
+}
+
+/* Pomodoro: dentro do vidro usa a tinta da interface; recolhido, a tinta e o halo da cena. */
+.pomodoro {
+  isolation: isolate;
+}
+.pomodoro .pomodoro-ink {
+  color: var(--ink);
+  transition:
+    color 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    text-shadow 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pomodoro-track {
+  color: var(--accent);
+  background: var(--fill-active);
+  transition:
+    color 600ms,
+    background 600ms;
+}
+.pomodoro[data-collapsed="true"] .pomodoro-ink {
+  color: var(--scene-ink);
+  text-shadow: var(--scene-text-shadow);
+}
+.pomodoro[data-tone="mixed"] {
+  --scene-text-shadow: var(--scene-text-shadow-mixed);
+}
+.pomodoro[data-tone="light"] {
+  --scene-ink: var(--scene-ink-on-light);
+  --scene-text-shadow: var(--scene-text-shadow-on-light);
+}
+.pomodoro[data-collapsed="true"] .pomodoro-track {
+  color: var(--scene-ink);
+  background: color-mix(in oklab, var(--scene-ink) 25%, transparent);
+}
+
+/* Orbe da respiração: uma bolha de vidro mais leve que os cards, com brilho no topo.
+   É grande, então precisa ser mais transparente para não virar um disco chapado. */
+.breath-orb {
+  background:
+    radial-gradient(circle at 50% 28%, oklch(100% 0 0 / 0.45), transparent 62%),
+    radial-gradient(circle at 50% 100%, var(--accent-soft), transparent 70%),
+    oklch(98% 0.005 280 / 0.34);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    var(--glass-highlight),
+    0 30px 80px -20px oklch(22% 0.03 280 / 0.3);
+}
+:root[data-theme="dark"] .breath-orb {
+  background:
+    radial-gradient(circle at 50% 28%, oklch(100% 0 0 / 0.12), transparent 62%),
+    radial-gradient(circle at 50% 100%, var(--accent-soft), transparent 70%),
+    oklch(28% 0.015 280 / 0.32);
+  box-shadow:
+    var(--glass-highlight),
+    0 30px 80px -20px oklch(5% 0.02 280 / 0.5);
+}
+
+/* O painel recebe o foco ao abrir (para o teclado começar dentro dele), mas não ganha anel. */
+[role="dialog"].glass:focus-visible {
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+}
+
+/* Celular: a troca de tamanho (S/M/L) anima o `--k`, e o layout acompanha. */
+.compact-item {
+  transition: --k 450ms cubic-bezier(0.22, 1, 0.36, 1);
 }

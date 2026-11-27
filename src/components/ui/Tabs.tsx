@@ -1,0 +1,115 @@
+import { animate, motion, useMotionValue } from "motion/react";
+import { type ReactNode, useLayoutEffect, useRef } from "react";
+import { glide } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { useRovingGroup } from "./useRovingGroup";
+
+export interface TabOption<T extends string> {
+  value: T;
+  label: string;
+  icon?: ReactNode;
+}
+
+interface TabsProps<T extends string> {
+  options: readonly TabOption<T>[];
+  value: T;
+  onChange: (value: T) => void;
+  label: string;
+  size?: "sm" | "md";
+  className?: string;
+  /** Ocupa a largura toda, com as opções divididas por igual. */
+  full?: boolean;
+}
+
+/**
+ * Escolha entre poucas opções sempre visíveis. O fundo da opção ativa desliza entre
+ * elas (mola sem quique), em vez de piscar de um lugar para o outro.
+ */
+export function Tabs<T extends string>({
+  options,
+  value,
+  onChange,
+  label,
+  size = "md",
+  className,
+  full = false,
+}: TabsProps<T>) {
+  const group = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const width = useMotionValue(0);
+  const placed = useRef(false);
+
+  // O fundo da opção ativa mede o botão escolhido e desliza até ele. Medido em relação ao
+  // próprio grupo (offsetLeft), e não pela animação de `layout` do Motion, que mede a
+  // página: dentro de um widget arrastado ou de uma linha abrindo, ela via o grupo inteiro
+  // "mudar de lugar" e o fundo voava.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: mede de novo quando a opção escolhida muda
+  useLayoutEffect(() => {
+    const container = group.current;
+    if (!container) return;
+    const measure = (glideTo: boolean) => {
+      const selected = container.querySelector<HTMLElement>("[aria-checked='true']");
+      if (!selected) return;
+      if (glideTo && placed.current) {
+        animate(x, selected.offsetLeft, glide);
+        animate(width, selected.offsetWidth, glide);
+      } else {
+        x.jump(selected.offsetLeft);
+        width.jump(selected.offsetWidth);
+      }
+      placed.current = true;
+    };
+    measure(true);
+    const observer = new ResizeObserver(() => measure(false));
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [value, x, width]);
+  const roving = useRovingGroup(
+    options.map((o) => o.value),
+    value,
+    onChange,
+  );
+  return (
+    <div
+      ref={group}
+      role="radiogroup"
+      aria-label={label}
+      className={cn(
+        "relative flex items-center rounded-full bg-[var(--fill-hover)] p-1 shadow-[inset_0_0_0_1px_var(--hairline)]",
+        full && "w-full",
+        className,
+      )}
+    >
+      <motion.span
+        aria-hidden="true"
+        className="absolute top-1 bottom-1 left-0 rounded-full bg-[var(--fill-selected)] shadow-[var(--fill-selected-shadow)]"
+        style={{ x, width }}
+      />
+      {options.map((option) => {
+        const selected = option.value === value;
+        return (
+          // biome-ignore lint/a11y/useSemanticElements: opção visual de um radiogroup (padrão ARIA)
+          <button
+            key={option.value}
+            {...roving(option.value)}
+            type="button"
+            role="radio"
+            aria-checked={selected}
+            onClick={() => onChange(option.value)}
+            className={cn(
+              "relative flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-colors duration-200 focus-visible:z-10",
+              size === "md" ? "h-9 px-4 text-sm" : "h-7 px-3 text-[0.8125rem]",
+              full && "flex-1",
+              selected ? "text-ink" : "text-ink-2 hover:text-ink",
+            )}
+          >
+            <span className="relative flex items-center gap-2 [&_svg]:size-4">
+              {option.icon}
+              {option.label}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}

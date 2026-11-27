@@ -1,0 +1,136 @@
+/*
+ * Tokens do Nova. Hoje existe uma atmosfera (Névoa), em claro e escuro.
+ * O sistema de atmosferas continua (data-atmosphere), mas novas atmosferas só entram
+ * depois que a base estiver no nível certo (ver ai-context/03b-protótipo.md).
+ *
+ * Os componentes leem só estes tokens semânticos. As variáveis do Arc (--foreground,
+ * --surface-raised...) são derivadas daqui no fim do arquivo, para os poucos
+ * componentes do Arc que usamos (popover, tooltip, slider) falarem a mesma língua.
+ */
+
+:root[data-atmosphere="nevoa"] {
+  /* Tinta: três níveis, nunca opacidade em texto. */
+  --ink: oklch(23% 0.018 278);
+  --ink-2: oklch(41% 0.018 278);
+  --ink-3: oklch(53% 0.016 278);
+
+  /* Preenchimentos dentro do vidro (hover, pressionado, trilho). */
+  --hairline: oklch(25% 0.02 280 / 0.1);
+  --fill-hover: oklch(25% 0.02 280 / 0.06);
+  --fill-active: oklch(25% 0.02 280 / 0.1);
+  --fill-selected: oklch(100% 0 0 / 0.85);
+  --fill-selected-shadow:
+    0 1px 2px oklch(20% 0.02 280 / 0.12), 0 0 0 0.5px oklch(20% 0.02 280 / 0.06);
+
+  /* Acento: lavanda de fim de tarde, só na ação principal e no progresso. */
+  --accent: oklch(47% 0.1 286);
+  --accent-hover: oklch(42% 0.105 286);
+  --accent-ink: oklch(99% 0.005 286);
+  --accent-soft: oklch(47% 0.1 286 / 0.12);
+  --danger: oklch(52% 0.16 20);
+
+  /* Vidro: três intensidades. Controles flutuantes (dock), instrumentos e painéis. */
+  --glass-bg: oklch(98.5% 0.005 280 / 0.62);
+  --glass-bg-strong: oklch(98.5% 0.005 280 / 0.82);
+  --glass-filter: blur(36px) saturate(1.35);
+  --glass-border: oklch(100% 0 0 / 0.55);
+  --glass-highlight: inset 0 1px 0 oklch(100% 0 0 / 0.6);
+  --glass-shadow:
+    0 24px 64px -12px oklch(22% 0.03 280 / 0.28), 0 2px 6px oklch(22% 0.03 280 / 0.06);
+
+  /* Cena (L0/L1). */
+  --scene-filter: none;
+  --scene-scrim: linear-gradient(to top, oklch(20% 0.03 280 / 0.3), transparent 30%);
+  /* Texto direto na foto: sobre fundo escuro (padrão) e sobre fundo claro. A sombra só
+     descola a letra; quem garante a leitura é a escolha da tinta (useSceneTone). */
+  --scene-ink: oklch(99% 0.004 280);
+  --scene-ink-soft: oklch(93% 0.008 280);
+  --scene-text-shadow: 0 1px 2px oklch(15% 0.03 280 / 0.35), 0 2px 14px oklch(15% 0.03 280 / 0.25);
+  --scene-text-shadow-mixed:
+    0 1px 2px oklch(15% 0.03 280 / 0.5), 0 0 12px oklch(15% 0.03 280 / 0.35),
+    0 2px 32px oklch(15% 0.03 280 / 0.3);
+  --scene-ink-on-light: oklch(22% 0.025 280);
+  --scene-ink-soft-on-light: oklch(34% 0.025 280);
+  --scene-text-shadow-on-light: 0 1px 1px oklch(100% 0 0 / 0.3), 0 2px 16px oklch(100% 0 0 / 0.35);
+
+  --focus-ring: 0 0 0 2px oklch(99% 0 0), 0 0 0 4px var(--accent);
+
+  --font-ui: "Figtree Variable", system-ui, sans-serif;
+  --font-glance: "Figtree Variable", system-ui, sans-serif;
+  --glance-weight: 260;
+  --glance-tracking: -0.045em;
+}
+
+:root[data-atmosphere="nevoa"][data-theme="dark"] {
+  --ink: oklch(96% 0.006 280);
+  --ink-2: oklch(80% 0.01 280);
+  --ink-3: oklch(68% 0.012 280);
+
+  --hairline: oklch(100% 0 0 / 0.1);
+  --fill-hover: oklch(100% 0 0 / 0.07);
+  --fill-active: oklch(100% 0 0 / 0.11);
+  --fill-selected: oklch(100% 0 0 / 0.14);
+  --fill-selected-shadow: inset 0 0 0 0.5px oklch(100% 0 0 / 0.12);
+
+  --accent: oklch(83% 0.07 292);
+  --accent-hover: oklch(88% 0.06 292);
+  --accent-ink: oklch(22% 0.035 286);
+  --accent-soft: oklch(83% 0.07 292 / 0.16);
+  --danger: oklch(74% 0.13 20);
+
+  /* Escuro neutro e frio: saturação baixa para o vidro não puxar a cor quente da foto. */
+  --glass-bg: oklch(22% 0.012 275 / 0.6);
+  --glass-bg-strong: oklch(20% 0.012 275 / 0.84);
+  --glass-filter: blur(36px) saturate(1.05) brightness(0.9);
+  --glass-border: oklch(100% 0 0 / 0.09);
+  --glass-highlight: inset 0 1px 0 oklch(100% 0 0 / 0.07);
+  --glass-shadow: 0 24px 64px -12px oklch(6% 0.02 280 / 0.6), 0 2px 6px oklch(6% 0.02 280 / 0.2);
+
+  --scene-filter: brightness(0.68) saturate(0.85);
+  --scene-scrim: linear-gradient(to top, oklch(10% 0.02 280 / 0.45), transparent 32%);
+
+  --focus-ring: 0 0 0 2px oklch(15% 0.01 280), 0 0 0 4px var(--accent);
+}
+
+/* --------------------------------------------------- tokens do Arc, derivados */
+:root[data-atmosphere="nevoa"] {
+  --foreground: var(--ink);
+  --background: oklch(97% 0.005 280);
+  --text-secondary: var(--ink-2);
+  --text-muted: var(--ink-3);
+  --surface-raised: var(--glass-bg-strong);
+  --surface-muted: var(--fill-hover);
+  --border: var(--hairline);
+  --border-strong: var(--hairline);
+  --panel-bg: var(--glass-bg-strong);
+  --material-filter: var(--glass-filter);
+  --control-track: var(--fill-active);
+  --control-fill: var(--accent);
+  --control-on: var(--accent);
+  --control-glyph: var(--accent-ink);
+  --radius-panel: 1.5rem;
+  --radius-control: 0.875rem;
+  --font-body: var(--font-ui);
+  --shadow-floating: var(--glass-shadow);
+}
+:root[data-atmosphere="nevoa"][data-theme="dark"] {
+  --background: oklch(16% 0.01 280);
+}
+
+/* ------------------------------------------------------------ acessibilidade */
+/* Sem transparência: o vidro vira superfície opaca. Opção no app (a media query só existe
+   no Chromium) e também a preferência do sistema. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-bg: var(--glass-bg-strong);
+  }
+}
+:root[data-transparency="reduced"] {
+  --glass-filter: none;
+  --glass-bg: oklch(97% 0.005 280);
+  --glass-bg-strong: oklch(97% 0.005 280);
+}
+:root[data-transparency="reduced"][data-theme="dark"] {
+  --glass-bg: oklch(21% 0.01 280);
+  --glass-bg-strong: oklch(21% 0.01 280);
+}
