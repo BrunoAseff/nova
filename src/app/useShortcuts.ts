@@ -11,6 +11,8 @@ import { selectActiveSpace, useSpacesStore } from "@/stores/spaces";
  *   1–8     trocar de espaço
  *   M       tocar / pausar o som ambiente
  *   ,       abrir configurações
+ *   E       arranjar o espaço (entra e sai)
+ *   Esc     sair do modo de arranjar
  */
 export function useShortcuts() {
   useEffect(() => {
@@ -20,6 +22,16 @@ export function useShortcuts() {
       if (target?.closest("input, textarea, [contenteditable='true'], [role='dialog']")) return;
       // Botões e controles focados já usam Espaço/Enter: não roubar.
       if (event.key === " " && target?.closest("button, [role='radio'], [role='tab']")) return;
+
+      const attention = useAttentionStore.getState();
+      if (event.key === "Escape" && attention.arranging) {
+        attention.setArranging(false);
+        return;
+      }
+      if (event.key.toLowerCase() === "e") {
+        attention.setArranging(!attention.arranging);
+        return;
+      }
 
       const spaces = useSpacesStore.getState();
       if (/^[1-8]$/.test(event.key)) {

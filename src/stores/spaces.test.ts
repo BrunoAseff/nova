@@ -57,7 +57,12 @@ describe("spaces store", () => {
   it("atualiza só o widget pedido", () => {
     state().updateWidget("home", "clock", { format: "12h" });
     const home = state().spaces.find((s) => s.id === "home");
-    expect(home?.widgets.clock).toEqual({ visible: true, position: "center", format: "12h" });
+    expect(home?.widgets.clock).toEqual({
+      visible: true,
+      place: { x: 0.5, y: 0.5 },
+      size: "l",
+      format: "12h",
+    });
     expect(home?.widgets.pomodoro).toEqual(createDefaultSpaces()[0]?.widgets.pomodoro);
   });
 
@@ -71,18 +76,39 @@ describe("spaces store", () => {
   it("salva no localStorage com prefixo e versão", () => {
     state().renameSpace("home", "Casa");
     const saved = JSON.parse(localStorage.getItem("nova:spaces") ?? "{}");
-    expect(saved.version).toBe(1);
+    expect(saved.version).toBe(2);
     expect(saved.state.spaces[0].name).toBe("Casa");
     expect(saved.state.activeSpaceId).toBe("focus");
   });
 });
 
 describe("spaces store: reidratação", () => {
-  async function hydrate(data: unknown) {
-    localStorage.setItem("nova:spaces", JSON.stringify({ state: data, version: 1 }));
+  async function hydrate(data: unknown, version = 2) {
+    localStorage.setItem("nova:spaces", JSON.stringify({ state: data, version }));
     await useSpacesStore.persist.rehydrate();
     return state();
   }
+
+  it("v1 → v2: os cantos antigos viram pontos da grade", async () => {
+    const v1 = structuredClone(createDefaultSpaces()) as unknown as {
+      widgets: Record<string, Record<string, unknown>>;
+    }[];
+    for (const space of v1) {
+      for (const widget of Object.values(space.widgets)) {
+        delete widget.place;
+        delete widget.size;
+      }
+    }
+    Object.assign((v1[0] as (typeof v1)[number]).widgets.quote as object, {
+      position: "bottom-right",
+    });
+
+    const s = await hydrate({ spaces: v1, activeSpaceId: "home" }, 1);
+
+    expect(s.spaces[0]?.widgets.quote.place).toEqual({ x: 1, y: 1 });
+    expect(s.spaces[0]?.widgets.quote.size).toBe("m");
+    expect("position" in (s.spaces[0]?.widgets.quote ?? {})).toBe(false);
+  });
 
   it("campo inválido cai no padrão só daquele campo", async () => {
     const spaces = createDefaultSpaces();

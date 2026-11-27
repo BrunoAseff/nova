@@ -1,4 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import type { CSSProperties } from "react";
 import { ease } from "@/lib/motion";
 
 /**
@@ -6,10 +7,18 @@ import { ease } from "@/lib/motion";
  * sai por cima, esmaecendo. Só os dígitos que mudaram se mexem, e a largura
  * nunca muda (números tabulares, cada posição numa célula própria).
  */
-export function Digits({ value, className }: { value: string; className?: string }) {
+export function Digits({
+  value,
+  className,
+  style,
+}: {
+  value: string;
+  className?: string;
+  style?: CSSProperties;
+}) {
   const reduced = useReducedMotion();
   return (
-    <span className={className} role="timer" aria-label={value}>
+    <span className={className} style={style} role="timer" aria-label={value}>
       {value.split("").map((char, index) => (
         <span
           // biome-ignore lint/suspicious/noArrayIndexKey: cada posição é uma célula fixa

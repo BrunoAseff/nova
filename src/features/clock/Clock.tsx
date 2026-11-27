@@ -1,9 +1,27 @@
+import { useRef } from "react";
+import { useSceneTone } from "@/lib/sceneTone";
 import { useNow } from "@/lib/useNow";
 import { cn } from "@/lib/utils";
+import { sized } from "@/lib/widgetSize";
 
-/** L1 · Ambiente. Texto direto na cena; o herói é lido do outro lado da mesa. */
-export function Clock({ format, hero }: { format: "12h" | "24h"; hero: boolean }) {
+/** L1 · Ambiente. Texto direto na cena; o grande é lido do outro lado da mesa. */
+const TIME = { fontSize: sized("3.5rem", "clamp(4.5rem,8vw,7.5rem)", "clamp(7rem,15vw,15rem)") };
+const DATE = {
+  fontSize: sized("0.9375rem", "1rem", "1.125rem"),
+  marginTop: sized("0.5rem", "0.75rem", "1.25rem"),
+  lineHeight: 1.5,
+};
+
+export function Clock({
+  format,
+  align,
+}: {
+  format: "12h" | "24h";
+  align: "start" | "center" | "end";
+}) {
   const now = useNow();
+  const ref = useRef<HTMLDivElement>(null);
+  useSceneTone(ref);
   const time = new Intl.DateTimeFormat(undefined, {
     hour: "numeric",
     minute: "2-digit",
@@ -19,23 +37,18 @@ export function Clock({ format, hero }: { format: "12h" | "24h"; hero: boolean }
 
   return (
     <div
+      ref={ref}
       className={cn(
-        "on-scene flex flex-col",
-        hero ? "items-center text-center" : "items-end text-right",
+        "on-scene fade flex flex-col",
+        align === "center" && "items-center text-center",
+        align === "end" && "items-end text-right",
+        align === "start" && "items-start text-left",
       )}
     >
-      <time
-        dateTime={now.toISOString()}
-        className={cn("glance", hero ? "text-[clamp(7rem,15vw,15rem)]" : "text-[3.5rem]")}
-      >
+      <time dateTime={now.toISOString()} className="glance" style={TIME}>
         {time}
       </time>
-      <p
-        className={cn(
-          "font-medium text-scene-ink-soft",
-          hero ? "mt-5 text-lg" : "mt-2 text-[0.9375rem]",
-        )}
-      >
+      <p className="font-medium text-scene-ink-soft" style={DATE}>
         {date}
       </p>
     </div>

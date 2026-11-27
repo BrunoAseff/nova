@@ -41,10 +41,17 @@
   /* Cena (L0/L1). */
   --scene-filter: none;
   --scene-scrim: linear-gradient(to top, oklch(20% 0.03 280 / 0.3), transparent 30%);
-  --scene-local-scrim: oklch(20% 0.03 280 / 0.56);
+  /* Texto direto na foto: sobre fundo escuro (padrão) e sobre fundo claro. A sombra só
+     descola a letra; quem garante a leitura é a escolha da tinta (useSceneTone). */
   --scene-ink: oklch(99% 0.004 280);
-  --scene-ink-soft: oklch(96% 0.006 280);
-  --scene-text-shadow: 0 1px 2px oklch(18% 0.03 280 / 0.3), 0 4px 24px oklch(18% 0.03 280 / 0.28);
+  --scene-ink-soft: oklch(93% 0.008 280);
+  --scene-text-shadow: 0 1px 2px oklch(15% 0.03 280 / 0.35), 0 2px 14px oklch(15% 0.03 280 / 0.25);
+  --scene-text-shadow-mixed:
+    0 1px 2px oklch(15% 0.03 280 / 0.5), 0 0 12px oklch(15% 0.03 280 / 0.35),
+    0 2px 32px oklch(15% 0.03 280 / 0.3);
+  --scene-ink-on-light: oklch(22% 0.025 280);
+  --scene-ink-soft-on-light: oklch(34% 0.025 280);
+  --scene-text-shadow-on-light: 0 1px 1px oklch(100% 0 0 / 0.3), 0 2px 16px oklch(100% 0 0 / 0.35);
 
   --focus-ring: 0 0 0 2px oklch(99% 0 0), 0 0 0 4px var(--accent);
 
@@ -81,7 +88,6 @@
 
   --scene-filter: brightness(0.68) saturate(0.85);
   --scene-scrim: linear-gradient(to top, oklch(10% 0.02 280 / 0.45), transparent 32%);
-  --scene-local-scrim: oklch(8% 0.02 280 / 0.45);
 
   --focus-ring: 0 0 0 2px oklch(15% 0.01 280), 0 0 0 4px var(--accent);
 }

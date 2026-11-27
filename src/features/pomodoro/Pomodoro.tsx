@@ -1,12 +1,13 @@
 import { RotateCcw, SkipForward } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Tooltip } from "@/components/arc/tooltip/tooltip";
 import { Button } from "@/components/ui/Button";
 import { ConfirmButton } from "@/components/ui/ConfirmButton";
 import { Digits } from "@/components/ui/Digits";
 import { calm, duration, ease } from "@/lib/motion";
-import { cn } from "@/lib/utils";
+import { useSceneTone } from "@/lib/sceneTone";
+import { sized } from "@/lib/widgetSize";
 import { useAttentionStore } from "@/stores/attention";
 import { usePomodoroStore } from "@/stores/pomodoro";
 import { useActiveSpace } from "@/stores/spaces";
@@ -29,7 +30,14 @@ function formatClock(ms: number) {
  * correndo). Ao recolher, o vidro e os controles esmaecem no lugar, sem mexer nos números:
  * o que se lê de longe nunca pula.
  */
-export function Pomodoro({ hero }: { hero: boolean }) {
+const WIDTH = { width: sized("20rem", "24rem", "30rem") };
+const PADDING = {
+  paddingInline: sized("1.5rem", "1.75rem", "2.5rem"),
+  paddingBlock: sized("1.25rem", "1.5rem", "2rem"),
+};
+const DIGITS = { fontSize: sized("3.75rem", "5rem", "7.5rem") };
+
+export function Pomodoro() {
   const session = usePomodoroStore((s) => s.session);
   const { start, pause, resume, skip, reset, setTask } = usePomodoroStore.getState();
   const config = useActiveSpace().widgets.pomodoro;
@@ -44,6 +52,8 @@ export function Pomodoro({ hero }: { hero: boolean }) {
   const progress = idle ? 0 : 1 - shown / total;
   const completed = idle ? 0 : session.completedFocus;
   const collapsed = attention === "rest" && session.status === "running";
+  const ref = useRef<HTMLElement>(null);
+  useSceneTone(ref);
   const freshPhase = session.status === "paused" && session.remainingMs === total;
   const task = idle ? draft : session.task;
 
@@ -62,28 +72,22 @@ export function Pomodoro({ hero }: { hero: boolean }) {
 
   return (
     <section
+      ref={ref}
       aria-label="Pomodoro"
       data-collapsed={collapsed}
-      className={cn(
-        "pomodoro relative flex flex-col items-center text-center",
-        hero ? "w-[30rem]" : "w-[22rem]",
-      )}
+      style={WIDTH}
+      className="pomodoro relative flex flex-col items-center text-center"
     >
       {/* O vidro é uma camada própria, para esmaecer sem afetar o conteúdo. */}
       <motion.div
         aria-hidden="true"
-        className="glass absolute inset-0 rounded-[2rem]"
+        className="glass fade absolute inset-0 rounded-[2rem]"
         initial={false}
-        animate={{ opacity: collapsed ? 0 : 1, scale: collapsed ? 0.98 : 1 }}
+        animate={{ "--self-fade": collapsed ? 0 : 1, scale: collapsed ? 0.98 : 1 }}
         transition={calm}
       />
 
-      <div
-        className={cn(
-          "relative flex w-full flex-col items-center",
-          hero ? "px-10 pt-8 pb-8" : "px-7 pt-6 pb-6",
-        )}
-      >
+      <div className="fade relative flex w-full flex-col items-center" style={PADDING}>
         <div className="pomodoro-ink flex h-6 items-center gap-3 text-sm font-medium">
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.span
@@ -116,10 +120,8 @@ export function Pomodoro({ hero }: { hero: boolean }) {
 
         <Digits
           value={formatClock(shown)}
-          className={cn(
-            "pomodoro-ink glance mt-3 mb-5 block",
-            hero ? "text-[7.5rem]" : "text-[4.5rem]",
-          )}
+          className="pomodoro-ink glance mt-3 mb-5 block"
+          style={DIGITS}
         />
 
         <div className="pomodoro-track h-[3px] w-full max-w-[16rem] overflow-hidden rounded-full">
@@ -156,13 +158,7 @@ export function Pomodoro({ hero }: { hero: boolean }) {
           />
 
           <div className="mt-5 flex h-12 items-center justify-center gap-2">
-            <Button
-              variant="primary"
-              size="lg"
-              layout
-              onClick={primary.action}
-              className="min-w-[9.5rem]"
-            >
+            <Button variant="primary" size="lg" onClick={primary.action} className="min-w-[9.5rem]">
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.span
                   key={primary.label}

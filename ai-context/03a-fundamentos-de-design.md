@@ -106,9 +106,14 @@ Este é o "padrão a ser seguido": todo elemento do Nova pertence a **uma** cama
 
 ### Composição
 
-- **Zonas:** a tela tem 5 zonas (`top-left`, `top-right`, `bottom-left`, `bottom-right` e `center`), que são as posições já modeladas no store, mais uma **faixa inferior reservada** ao L3 (dock).
-- **Uma zona, um elemento:** dois widgets na mesma zona empilham com regra fixa (L2 acima de L1), nunca se sobrepõem.
-- **Desktop vs. celular:** no desktop, o centro é do elemento mais importante do espaço (o relógio no Home, o timer no Focus, a respiração no Relax). No celular, a composição vira uma coluna, com o elemento principal no topo.
+> **Revisto em 26/11/2026** (ver `03b`, "Layout livre"). As 5 zonas fixas saíram: as linhas da grade eram compartilhadas, então um canto mexia no outro, e o usuário não podia pôr nada onde queria.
+
+- **Grade magnética:** a área útil (a tela menos as margens e a **faixa inferior reservada** ao L3) tem 12 colunas e 8 linhas. Cada widget fica num cruzamento e se prende pela borda do terço em que está: esquerda, centro ou direita (e o mesmo na vertical). O texto se alinha ao mesmo lado.
+- **Independência:** cada widget tem a sua posição. Pôr, tirar ou mover um widget nunca mexe nos outros.
+- **Nunca sobreposição:** quem aparece ou cresce em cima de outro vai para o lugar livre mais próximo. Se não houver lugar, diminui um tamanho.
+- **Tamanhos S/M/L por widget,** escolhidos pelo usuário. O "herói" automático do centro saiu.
+- **Layouts iniciais desenhados** por espaço: o relógio grande no Home, o pomodoro no Focus e a respiração no Relax, todos no centro. Há um "Reset" no modo de arranjar.
+- **Celular:** a composição vira uma coluna, com o elemento principal no topo (ainda por fazer).
 
 ### Estados de atenção
 
@@ -224,7 +229,7 @@ Construído no próprio app; não é descartável. Para ver, rode `pnpm dev` e a
 |---|---|
 | **Camadas L0–L4** | `Scene` (L0), `Stage` com `Clock` e `Quote` (L1) e `Pomodoro` e `Breathing` (L2), `Dock` (L3), `SettingsPanel` (L4). Primitivas de camada em `globals.css`: `.on-scene`, `.material`, `.glance` e `.label`. |
 | **Estados de atenção** | `stores/attention.ts` e `app/useAttention.ts`. Em repouso (3,5s parado) o dock some, o cursor some e o pomodoro em andamento recolhe para só os números. Nada some debaixo do ponteiro nem com o foco do teclado dentro de um controle (`data-keep-awake`). |
-| **Composição por zonas** | `app/composition.ts` (com testes): os instrumentos disputam o centro e o elemento do centro vira o "herói", na escala de leitura de longe. Home tem o relógio como herói, Focus o pomodoro e Relax a respiração. |
+| **Composição por zonas** (substituída pelo layout livre, ver `03b`) | Era `app/composition.ts`: os instrumentos disputavam o centro e o elemento do centro virava o "herói". |
 | **Atmosferas estruturais** | `styles/atmospheres.css`. Névoa e Noite usam os mesmos tokens com valores diferentes: material (vidro ou nenhum), tipografia (Figtree ou Barlow Condensed com Inter), forma (cantos de 28px ou sem cantos), rótulos (normal ou caixa-alta espaçada), movimento (deslocamento e desfoque, ou só opacidade) e tratamento da cena. Os componentes não sabem qual atmosfera está ativa. |
 | **Claro e escuro** | Eixo independente (`data-theme`) dentro de cada atmosfera. O "claro" da Noite é pedra, não branco. |
 | **Acessibilidade** | Opção "Reduce transparency" no app, além do `prefers-reduced-transparency` (que só funciona no Chromium). `prefers-reduced-motion` zera o deslocamento e o desfoque. Atalhos de teclado funcionam com os controles escondidos. |

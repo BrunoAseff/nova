@@ -1,22 +1,25 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { Check, Moon, Plus, Sun, Trash2, X } from "lucide-react";
+import { Moon, Plus, Sun, Trash2, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { ElasticSlider } from "@/components/arc/elastic-slider/elastic-slider";
 import { Button } from "@/components/ui/Button";
 import { ConfirmButton } from "@/components/ui/ConfirmButton";
 import { List, Row, SectionTitle } from "@/components/ui/List";
+import { Reveal } from "@/components/ui/Reveal";
 import { Tabs } from "@/components/ui/Tabs";
 import { Toggle } from "@/components/ui/Toggle";
 import { useRovingGroup } from "@/components/ui/useRovingGroup";
 import { breathingTechniques } from "@/content/breathing";
 import { SPACE_ICON } from "@/content/icons";
 import { spaceIcons } from "@/content/space-icons";
-import { calm, duration, ease, reveal } from "@/lib/motion";
+import { calm, duration, ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useAttentionStore } from "@/stores/attention";
 import { usePreferencesStore } from "@/stores/preferences";
+import { useRemindersStore } from "@/stores/reminders";
 import { MAX_SPACE_NAME_LENGTH, MAX_SPACES, useActiveSpace, useSpacesStore } from "@/stores/spaces";
+import { BackgroundPicker } from "./BackgroundPicker";
 
 type Tab = "space" | "spaces" | "look";
 
@@ -25,17 +28,18 @@ function Nested({ show, children }: { show: boolean; children: ReactNode }) {
   return (
     <AnimatePresence initial={false}>
       {show && (
-        <motion.div {...reveal} className="overflow-hidden">
+        <Reveal>
           <div className="flex flex-col pb-3">{children}</div>
-        </motion.div>
+        </Reveal>
       )}
     </AnimatePresence>
   );
 }
 
 function SpaceTab({ focusName }: { focusName: boolean }) {
+  const reminderCount = useRemindersStore((s) => s.reminders.filter((r) => r.text.trim()).length);
   const space = useActiveSpace();
-  const { updateWidget, renameSpace, setSpaceIcon } = useSpacesStore.getState();
+  const { updateWidget, renameSpace, setSpaceIcon, setBackground } = useSpacesStore.getState();
   const [name, setName] = useState(space.name);
   const nameRef = useRef<HTMLInputElement>(null);
   const w = space.widgets;
@@ -72,7 +76,7 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
           aria-label="Space name"
           className="-mx-3 h-11 rounded-xl bg-transparent px-3 text-xl font-medium text-ink transition-colors duration-200 outline-none hover:bg-[var(--fill-hover)] focus-visible:bg-[var(--fill-hover)] focus-visible:shadow-none"
         />
-        <div className="flex flex-wrap gap-1" role="radiogroup" aria-label="Space icon">
+        <div className="grid grid-cols-8 gap-1" role="radiogroup" aria-label="Space icon">
           {spaceIcons.map((icon) => {
             const Icon = SPACE_ICON[icon];
             const selected = icon === space.icon;
@@ -87,7 +91,7 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
                 aria-label={icon}
                 onClick={() => setSpaceIcon(space.id, icon)}
                 className={cn(
-                  "grid size-10 place-items-center rounded-xl transition-[background-color,color,box-shadow] duration-200",
+                  "grid aspect-square w-full max-w-10 place-items-center rounded-xl transition-[background-color,color,box-shadow] duration-200",
                   selected
                     ? "bg-accent-soft text-accent"
                     : "text-ink-2 hover:bg-[var(--fill-hover)] hover:text-ink",
@@ -101,10 +105,17 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
       </div>
 
       <div>
+        <BackgroundPicker
+          value={space.backgroundId}
+          onChange={(id) => setBackground(space.id, id)}
+        />
+      </div>
+
+      <div>
         <SectionTitle>Shown in this space</SectionTitle>
         <List>
           <div>
-            <Row label="Clock">
+            <Row control label="Clock">
               <Toggle
                 label="Show clock"
                 checked={w.clock.visible}
@@ -112,7 +123,7 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
               />
             </Row>
             <Nested show={w.clock.visible}>
-              <Row label="24-hour time">
+              <Row control label="24-hour time">
                 <Toggle
                   label="24-hour time"
                   checked={w.clock.format === "24h"}
@@ -123,7 +134,7 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
           </div>
 
           <div>
-            <Row label="Pomodoro">
+            <Row control label="Pomodoro">
               <Toggle
                 label="Show pomodoro"
                 checked={w.pomodoro.visible}
@@ -142,7 +153,7 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
                   format={(v) => `${Math.round(v)} min`}
                 />
               </div>
-              <Row label="Start next phase automatically">
+              <Row control label="Start next phase automatically">
                 <Toggle
                   label="Start next phase automatically"
                   checked={w.pomodoro.autoStart}
@@ -153,7 +164,7 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
           </div>
 
           <div>
-            <Row label="Breathing">
+            <Row control label="Breathing">
               <Toggle
                 label="Show breathing exercise"
                 checked={w.breathing.visible}
@@ -175,11 +186,29 @@ function SpaceTab({ focusName }: { focusName: boolean }) {
             </Nested>
           </div>
 
-          <Row label="Quote">
+          <Row control label="Quote">
             <Toggle
               label="Show quote"
               checked={w.quote.visible}
               onChange={(visible) => updateWidget(space.id, "quote", { visible })}
+            />
+          </Row>
+
+          {/* Só a contagem: os lembretes se editam na tela, onde aparecem (como a citação,
+              o painel só liga e desliga). */}
+          <Row
+            control
+            label="Reminders"
+            hint={
+              reminderCount === 0
+                ? "None yet"
+                : `${reminderCount} ${reminderCount === 1 ? "reminder" : "reminders"}`
+            }
+          >
+            <Toggle
+              label="Show reminders"
+              checked={w.reminders.visible}
+              onChange={(visible) => updateWidget(space.id, "reminders", { visible })}
             />
           </Row>
         </List>
@@ -197,48 +226,67 @@ function SpacesTab({ onCreated }: { onCreated: () => void }) {
     <div className="flex flex-col gap-7">
       <div>
         <SectionTitle>Your spaces</SectionTitle>
-        <List>
+        {/* Sem divisórias: o espaço atual é a linha preenchida (e diz "Current"); a
+            lixeira fica sempre à vista, discreta, numa coluna própria no fim da linha. */}
+        <div className="mt-1 flex flex-col">
           <AnimatePresence initial={false}>
             {spaces.map((space) => {
               const Icon = SPACE_ICON[space.icon];
               const active = space.id === activeSpaceId;
               return (
-                <motion.div key={space.id} {...reveal} className="overflow-hidden">
-                  <div className="group flex h-12 items-center gap-1">
+                <Reveal key={space.id}>
+                  <div className="flex items-center gap-1 pb-1">
                     <button
                       type="button"
                       onClick={() => setActiveSpace(space.id)}
                       aria-current={active}
-                      className="-ml-2 flex h-10 flex-1 items-center gap-3 rounded-xl px-2 text-left text-[0.9375rem] text-ink transition-colors duration-200 hover:bg-[var(--fill-hover)]"
+                      className={cn(
+                        "flex h-11 flex-1 items-center gap-3 rounded-xl px-3 text-left text-[0.9375rem] transition-colors duration-200",
+                        active
+                          ? "bg-accent-soft font-medium text-ink"
+                          : "text-ink hover:bg-[var(--fill-hover)]",
+                      )}
                     >
                       <Icon
                         className={cn("size-[1.1rem]", active ? "text-accent" : "text-ink-3")}
                         aria-hidden="true"
                       />
                       <span className="flex-1 truncate">{space.name}</span>
-                      {active && (
-                        <Check className="size-4 text-accent" aria-label="Current space" />
-                      )}
+                      <AnimatePresence initial={false}>
+                        {active && (
+                          <motion.span
+                            initial={{ opacity: 0, x: 4 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 4 }}
+                            transition={{ duration: duration.quick, ease: ease.out }}
+                            className="text-[0.75rem] font-medium text-accent"
+                          >
+                            Current
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
                     </button>
-                    {spaces.length > 1 && (
+                    {spaces.length > 1 ? (
                       <ConfirmButton
                         variant="ghost"
                         size="sm"
                         icon
                         aria-label={`Delete ${space.name}`}
                         confirmLabel="Delete"
-                        className="opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-visible:opacity-100 data-[asking=true]:opacity-100 [@media(hover:none)]:opacity-100"
+                        className="text-ink-3 data-[asking=true]:text-danger"
                         onConfirm={() => deleteSpace(space.id)}
                       >
                         <Trash2 />
                       </ConfirmButton>
+                    ) : (
+                      <span className="size-8 shrink-0" aria-hidden="true" />
                     )}
                   </div>
-                </motion.div>
+                </Reveal>
               );
             })}
           </AnimatePresence>
-        </List>
+        </div>
         <div className="mt-3 flex items-center justify-between">
           <Button
             variant="secondary"
@@ -260,15 +308,23 @@ function SpacesTab({ onCreated }: { onCreated: () => void }) {
         </div>
       </div>
 
-      <div className="border-t border-[var(--hairline)] pt-5">
-        <ConfirmButton
-          variant="ghost"
-          className="-ml-4"
-          confirmLabel="Restore all spaces to default?"
-          onConfirm={resetSpaces}
-        >
-          Restore default spaces
-        </ConfirmButton>
+      <div>
+        <SectionTitle>Start over</SectionTitle>
+        <List>
+          <Row
+            label="Restore default spaces"
+            hint="Home, Focus and Relax as they first came. Your other spaces are removed."
+          >
+            <ConfirmButton
+              size="sm"
+              confirmLabel="Restore?"
+              onConfirm={resetSpaces}
+              aria-label="Restore default spaces"
+            >
+              Restore
+            </ConfirmButton>
+          </Row>
+        </List>
       </div>
     </div>
   );
@@ -294,7 +350,7 @@ function LookTab() {
         />
       </div>
       <List>
-        <Row label="Reduce transparency" hint="Solid surfaces instead of glass">
+        <Row control label="Reduce transparency" hint="Solid surfaces instead of glass">
           <Toggle
             label="Reduce transparency"
             checked={reduceTransparency}
@@ -359,7 +415,12 @@ export function SettingsPanel() {
                     label="Settings section"
                     full
                     value={tab}
-                    onChange={setTab}
+                    onChange={(next) => {
+                      setTab(next);
+                      // O foco no nome é só logo depois de criar um espaço; ao trocar de
+                      // aba e voltar, ele não deve voltar a selecionar o campo.
+                      setFocusName(false);
+                    }}
                     options={[
                       { value: "space", label: "This space" },
                       { value: "spaces", label: "Spaces" },

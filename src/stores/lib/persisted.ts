@@ -22,17 +22,19 @@ export function persistOptions<State, Persisted extends object>(options: {
   partialize: (state: State) => Persisted;
   /** Ajustes que dependem de mais de um campo, depois da validação. */
   repair?: (persisted: Persisted) => Persisted;
+  /** Converte o formato de uma versão anterior, antes da validação. */
+  migrate?: (persisted: unknown, version: number) => unknown;
 }): PersistOptions<State, Persisted> {
-  const { name, version, schema, partialize, repair = (p) => p } = options;
+  const { name, version, schema, partialize, repair = (p) => p, migrate = (p) => p } = options;
 
   return {
     name: storageKey(name),
     version,
     storage: createJSONStorage(() => localStorage),
     partialize,
-    // Não há versões anteriores da v2 ainda. Quando o formato mudar, a migração entra aqui;
-    // até lá, um dado de outra versão passa pela validação e o que não servir cai no padrão.
-    migrate: (persisted) => persisted as Persisted,
+    // Depois da migração, o dado ainda passa pela validação (`merge`): o que não servir
+    // cai no padrão.
+    migrate: (persisted, from) => migrate(persisted, from) as Persisted,
     merge: (persisted, current) => {
       const result = z.safeParse(schema, persisted);
       if (!result.success) return current;

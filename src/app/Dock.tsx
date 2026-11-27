@@ -1,4 +1,4 @@
-import { Moon, SlidersHorizontal, Sun } from "lucide-react";
+import { LayoutGrid, Moon, SlidersHorizontal, Sun } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Tooltip } from "@/components/arc/tooltip/tooltip";
 import { Button } from "@/components/ui/Button";
@@ -27,19 +27,28 @@ export function Dock() {
   const setTheme = usePreferencesStore((s) => s.setTheme);
   const attention = useAttentionStore((s) => s.attention);
   const setPanelOpen = useAttentionStore((s) => s.setPanelOpen);
-  const hidden = attention === "rest";
+  const arranging = useAttentionStore((s) => s.arranging);
+  const setArranging = useAttentionStore((s) => s.setArranging);
+  // Some em repouso e enquanto o espaço é arranjado (a barra de arranjar fica no alto).
+  const hidden = attention === "rest" || arranging;
 
   return (
     <motion.nav
       aria-label="Spaces and controls"
       data-keep-awake
       initial={false}
-      animate={hidden ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
+      animate={{ y: hidden ? 16 : 0 }}
       transition={calm}
       style={{ pointerEvents: hidden ? "none" : "auto" }}
       className="absolute inset-x-0 bottom-[clamp(1rem,3vh,2rem)] z-20 mx-auto flex w-fit"
     >
-      <div className="glass flex items-center rounded-full p-1.5">
+      {/* A opacidade fica no próprio vidro: num ancestral ela apagaria o desfoque. */}
+      <motion.div
+        initial={false}
+        animate={{ opacity: hidden ? 0 : 1 }}
+        transition={calm}
+        className="glass flex items-center rounded-full p-1.5"
+      >
         <Tabs
           label="Space"
           value={activeSpaceId}
@@ -74,6 +83,16 @@ export function Dock() {
             </AnimatePresence>
           </Button>
         </Tooltip>
+        <Tooltip content="Arrange  ·  E">
+          <Button
+            variant="ghost"
+            icon
+            aria-label="Arrange this space"
+            onClick={() => setArranging(true)}
+          >
+            <LayoutGrid />
+          </Button>
+        </Tooltip>
         <Tooltip content="Settings  ·  ,">
           <Button
             variant="ghost"
@@ -84,7 +103,7 @@ export function Dock() {
             <SlidersHorizontal />
           </Button>
         </Tooltip>
-      </div>
+      </motion.div>
     </motion.nav>
   );
 }

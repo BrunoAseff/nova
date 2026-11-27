@@ -26,6 +26,8 @@ interface RemindersState extends Persisted {
   addReminder: (text: string, type: ReminderType) => string | null;
   updateReminder: (id: string, patch: Partial<Omit<Reminder, "id">>) => void;
   removeReminder: (id: string) => void;
+  /** Tira os lembretes sem texto (ao fechar um editor). */
+  removeEmpty: () => void;
   moveReminder: (id: string, toIndex: number) => void;
 }
 
@@ -53,6 +55,8 @@ export const useRemindersStore = create<RemindersState>()(
         })),
 
       removeReminder: (id) => set((s) => ({ reminders: s.reminders.filter((r) => r.id !== id) })),
+
+      removeEmpty: () => set((s) => ({ reminders: s.reminders.filter((r) => r.text.trim()) })),
 
       moveReminder: (id, toIndex) =>
         set((s) => ({ reminders: moveItem(s.reminders, id, toIndex) })),

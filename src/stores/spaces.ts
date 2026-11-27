@@ -1,11 +1,16 @@
 import { z } from "zod/mini";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { type BackgroundId, backgroundIds, DEFAULT_BACKGROUND_ID } from "@/content/backgrounds";
+import {
+  type BackgroundId,
+  backgroundIds,
+  backgroundOr,
+  DEFAULT_BACKGROUND_ID,
+} from "@/content/backgrounds";
 import { breathingTechniqueIds } from "@/content/breathing";
 import { alarmSoundIds, DEFAULT_ALARM_SOUND_ID } from "@/content/sounds";
 import { type SpaceIcon, spaceIcons } from "@/content/space-icons";
-import { positions } from "@/content/widgets";
+import { LEGACY_POSITION_PLACE, type Place, placedWidgets, widgetSizes } from "@/content/widgets";
 import { moveItem, uniqueById } from "@/lib/collections";
 import { persistOptions, syncAcrossTabs } from "./lib/persisted";
 
@@ -21,12 +26,16 @@ const defaultsOf =
   () =>
     z.parse(schema, {});
 
-const position = z.enum(positions);
+const fraction = z.number().check(z.minimum(0), z.maximum(1));
+const placeSchema = z.object({ x: fraction, y: fraction });
+const place = (x: number, y: number) => z.catch(placeSchema, { x, y });
+const size = (fallback: (typeof widgetSizes)[number]) => z.catch(z.enum(widgetSizes), fallback);
 const minutes = z.int().check(z.minimum(1), z.maximum(180));
 
 const clockSchema = z.object({
   visible: z.catch(z.boolean(), true),
-  position: z.catch(position, "center"),
+  place: place(0.5, 0.5),
+  size: size("l"),
   format: z.catch(z.enum(["12h", "24h"]), "24h"),
 });
 
@@ -38,6 +47,8 @@ const alarmSchema = z.object({
 
 const pomodoroSchema = z.object({
   visible: z.catch(z.boolean(), false),
+  place: place(1, 1),
+  size: size("m"),
   focusMin: z.catch(minutes, 25),
   shortBreakMin: z.catch(minutes, 5),
   longBreakMin: z.catch(minutes, 15),
@@ -47,17 +58,21 @@ const pomodoroSchema = z.object({
 
 const quoteSchema = z.object({
   visible: z.catch(z.boolean(), false),
-  position: z.catch(position, "bottom-left"),
+  place: place(0, 1),
+  size: size("m"),
 });
 
 const breathingSchema = z.object({
   visible: z.catch(z.boolean(), false),
+  place: place(1, 0),
+  size: size("s"),
   technique: z.catch(z.enum(breathingTechniqueIds), "box"),
 });
 
 const remindersSchema = z.object({
   visible: z.catch(z.boolean(), false),
-  position: z.catch(position, "top-right"),
+  place: place(0, 0),
+  size: size("m"),
 });
 
 const widgetsSchema = z.object({
@@ -106,25 +121,75 @@ function createSpace(fields: Pick<Space, "name" | "icon"> & Partial<Space>): Spa
   };
 }
 
-/** Os três espaços iniciais. Uma função (e não uma constante) para cada uso ter a sua cópia. */
+/**
+ * Os três espaços iniciais. Uma função (e não uma constante) para cada uso ter a sua cópia.
+ * Cada widget tem um lugar próprio, mesmo os desligados: ligar um (ou o "Reset" do modo
+ * de arranjar) já cai num canto pensado, sem amontoar tudo no centro.
+ */
 export function createDefaultSpaces(): Space[] {
   const home = defaultWidgets();
-  home.quote.visible = true;
+  home.clock = { ...home.clock, visible: true, place: { x: 0.5, y: 0.5 }, size: "l" };
+  home.quote = { visible: true, place: { x: 0, y: 1 }, size: "m" };
+  home.reminders = { visible: false, place: { x: 0, y: 0 }, size: "m" };
+  home.pomodoro = { ...home.pomodoro, place: { x: 1, y: 1 }, size: "s" };
+  home.breathing = { ...home.breathing, place: { x: 1, y: 0 }, size: "s" };
 
   const focus = defaultWidgets();
-  focus.clock = { visible: false, position: "top-right", format: "24h" };
-  focus.pomodoro.visible = true;
+  focus.pomodoro = { ...focus.pomodoro, visible: true, place: { x: 0.5, y: 0.5 }, size: "l" };
+  focus.clock = { ...focus.clock, visible: false, place: { x: 1, y: 0 }, size: "s" };
+  focus.reminders = { visible: true, place: { x: 0, y: 0 }, size: "m" };
+  focus.quote = { visible: false, place: { x: 0, y: 1 }, size: "s" };
+  focus.breathing = { ...focus.breathing, place: { x: 1, y: 1 }, size: "s" };
 
   const relax = defaultWidgets();
-  relax.clock.visible = false;
-  relax.breathing.visible = true;
-  relax.quote = { visible: true, position: "top-right" };
+  relax.breathing = { ...relax.breathing, visible: true, place: { x: 0.5, y: 0.5 }, size: "l" };
+  relax.clock = { ...relax.clock, visible: false, place: { x: 0, y: 1 }, size: "s" };
+  relax.quote = { visible: true, place: { x: 1, y: 0 }, size: "m" };
+  relax.reminders = { visible: false, place: { x: 0, y: 0 }, size: "m" };
+  relax.pomodoro = { ...relax.pomodoro, place: { x: 1, y: 1 }, size: "s" };
 
   return [
     createSpace({ id: "home", name: "Home", icon: "home", widgets: home }),
-    createSpace({ id: "focus", name: "Focus", icon: "focus", widgets: focus }),
-    createSpace({ id: "relax", name: "Relax", icon: "relax", widgets: relax }),
+    // Cada espaço tem o seu fundo. Enquanto o catálogo definitivo não chega (item 4), em
+    // produção todos caem no mesmo; no protótipo já começam diferentes.
+    createSpace({
+      id: "focus",
+      name: "Focus",
+      icon: "focus",
+      backgroundId: backgroundOr("study-desk"),
+      widgets: focus,
+    }),
+    createSpace({
+      id: "relax",
+      name: "Relax",
+      icon: "relax",
+      backgroundId: backgroundOr("spring-mountains"),
+      widgets: relax,
+    }),
   ];
+}
+
+/* --------------------------------------------------------------- migração */
+
+/**
+ * v1 → v2: os widgets tinham `position` (quatro cantos e o centro); agora têm `place`
+ * (um ponto da grade) e `size`. Converte as posições salvas; o resto o schema completa.
+ */
+function migrateSpaces(persisted: unknown, version: number): unknown {
+  if (version >= 2 || !persisted || typeof persisted !== "object") return persisted;
+  const spaces = (persisted as { spaces?: unknown }).spaces;
+  if (!Array.isArray(spaces)) return persisted;
+  for (const space of spaces) {
+    const widgets = (space as { widgets?: Record<string, Record<string, unknown>> }).widgets;
+    if (!widgets) continue;
+    for (const widget of Object.values(widgets)) {
+      const old = typeof widget.position === "string" ? widget.position : undefined;
+      const converted: Place | undefined = old ? LEGACY_POSITION_PLACE[old] : undefined;
+      if (converted) widget.place = converted;
+      delete widget.position;
+    }
+  }
+  return persisted;
 }
 
 /* ------------------------------------------------------------------- store */
@@ -140,6 +205,8 @@ interface SpacesState extends Persisted {
   deleteSpace: (id: string) => void;
   moveSpace: (id: string, toIndex: number) => void;
   updateWidget: <K extends WidgetKey>(id: string, widget: K, patch: Partial<Widgets[K]>) => void;
+  /** Volta lugar e tamanho dos widgets do espaço ao layout inicial (o resto fica). */
+  resetLayout: (id: string) => void;
   resetSpaces: () => void;
 }
 
@@ -203,11 +270,26 @@ export const useSpacesStore = create<SpacesState>()(
           })),
         })),
 
+      resetLayout: (id) =>
+        set((s) => ({
+          spaces: updateSpace(s.spaces, id, (sp) => {
+            const initial =
+              createDefaultSpaces().find((d) => d.id === id)?.widgets ?? defaultWidgets();
+            const widgets = { ...sp.widgets };
+            for (const key of placedWidgets) {
+              const { place, size } = initial[key];
+              widgets[key] = { ...widgets[key], place, size } as never;
+            }
+            return { ...sp, widgets };
+          }),
+        })),
+
       resetSpaces: () => set({ spaces: createDefaultSpaces(), activeSpaceId: "focus" }),
     }),
     persistOptions({
       name: "spaces",
-      version: 1,
+      version: 2,
+      migrate: migrateSpaces,
       schema,
       partialize: ({ spaces, activeSpaceId }) => ({ spaces, activeSpaceId }),
       repair: ({ spaces, activeSpaceId }) => {

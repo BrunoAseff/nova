@@ -3,6 +3,7 @@ import { usePomodoroScheduler } from "@/features/pomodoro/hooks";
 import { applyTheme } from "@/lib/theme";
 import { useAttentionStore } from "@/stores/attention";
 import { usePreferencesStore } from "@/stores/preferences";
+import { ArrangeBar } from "./ArrangeBar";
 import { Dock } from "./Dock";
 import { Scene } from "./Scene";
 import { SettingsPanel } from "./SettingsPanel";
@@ -35,9 +36,13 @@ export function App() {
   }, [atmosphere, attention, reduceTransparency]);
 
   return (
-    <main className="relative h-dvh w-full overflow-hidden">
+    // `clip`, não `hidden`: hidden ainda deixa o navegador rolar o <main> ao focar algo
+    // perto da borda (a caixa de um widget preso à direita passa da tela), e o app inteiro
+    // escorregava para o lado.
+    <main className="relative h-dvh w-full overflow-clip">
       <Scene />
       <Stage />
+      <ArrangeBar />
       <Dock />
       <SettingsPanel />
     </main>

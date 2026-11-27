@@ -1,8 +1,9 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type BreathStep, breathingTechniques } from "@/content/breathing";
 import { duration, ease } from "@/lib/motion";
-import { cn } from "@/lib/utils";
+import { useSceneTone } from "@/lib/sceneTone";
+import { sized } from "@/lib/widgetSize";
 import type { Space } from "@/stores/spaces";
 
 const KIND_LABEL: Record<BreathStep["kind"], string> = {
@@ -16,17 +17,20 @@ const KIND_LABEL: Record<BreathStep["kind"], string> = {
  * conteúdo (P5): o orbe cresce ao inspirar, para ao segurar e encolhe ao expirar,
  * na duração exata de cada etapa.
  */
+const ORB_SIZE = sized("11rem", "15rem", "min(24rem,42vh)");
+const ORB = { width: ORB_SIZE, height: ORB_SIZE };
+
 export function Breathing({
   technique,
-  hero,
 }: {
   technique: Space["widgets"]["breathing"]["technique"];
-  hero: boolean;
 }) {
   const current = breathingTechniques.find((t) => t.id === technique) ?? breathingTechniques[0];
   const steps: readonly BreathStep[] = current.steps;
   const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
+  const label = useRef<HTMLParagraphElement>(null);
+  useSceneTone(label);
   const [left, setLeft] = useState(steps[0]?.seconds ?? 4);
   const step = steps[index] ?? steps[0];
 
@@ -52,15 +56,10 @@ export function Breathing({
 
   return (
     <section aria-label="Breathing exercise" className="flex flex-col items-center gap-7">
-      <div
-        className={cn(
-          "relative grid place-items-center",
-          hero ? "size-[min(24rem,42vh)]" : "size-56",
-        )}
-      >
+      <div className="relative grid place-items-center" style={ORB}>
         <motion.div
           aria-hidden="true"
-          className="breath-orb absolute inset-0 rounded-full"
+          className="breath-orb fade absolute inset-0 rounded-full"
           initial={false}
           animate={{ scale: reduced ? 1 : expanded ? 1 : 0.58 }}
           transition={{
@@ -68,7 +67,7 @@ export function Breathing({
             ease: [0.37, 0, 0.63, 1],
           }}
         />
-        <div className="relative flex flex-col items-center gap-1 text-ink">
+        <div className="fade relative flex flex-col items-center gap-1 text-ink">
           <AnimatePresence mode="popLayout" initial={false}>
             <motion.span
               key={`${index}-${step.kind}`}
@@ -87,7 +86,9 @@ export function Breathing({
           </span>
         </div>
       </div>
-      <p className="on-scene text-[0.9375rem] font-medium">{current.name}</p>
+      <p ref={label} className="on-scene fade text-[0.9375rem] font-medium">
+        {current.name}
+      </p>
     </section>
   );
 }

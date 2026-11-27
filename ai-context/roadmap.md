@@ -74,3 +74,11 @@ A logo atual (`public/logo.svg`) será descartada. É uma identidade nova do zer
 - Restos de debug: `console.log`, `public/test.svg`, migration `test`, origem de Codespaces no `next.config.js`.
 - Lint, format e CI atualizados para a nova stack.
 - README e prints novos para o portfólio.
+
+## 9. Revisão das features · `pendente`
+
+Uma conversa, não uma implementação: o item 3 é só design, e as features atuais ficam como estão até aqui.
+
+- Repensar o quanto as features atuais são úteis, uma por uma.
+- **Lembretes:** valem a pena? Se sim, desse jeito? Qual o valor dos tipos ("Mindset", "Challenge" etc.) para quem usa?
+- Levantar outras features que façam sentido para um app de foco calmo.

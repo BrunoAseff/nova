@@ -1,5 +1,5 @@
-import { motion } from "motion/react";
-import { type ReactNode, useId } from "react";
+import { animate, motion, useMotionValue } from "motion/react";
+import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { glide } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useRovingGroup } from "./useRovingGroup";
@@ -34,7 +34,36 @@ export function Tabs<T extends string>({
   className,
   full = false,
 }: TabsProps<T>) {
-  const id = useId();
+  const group = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const width = useMotionValue(0);
+  const placed = useRef(false);
+
+  // O fundo da opção ativa mede o botão escolhido e desliza até ele. Medido em relação ao
+  // próprio grupo (offsetLeft), e não pela animação de `layout` do Motion, que mede a
+  // página: dentro de um widget arrastado ou de uma linha abrindo, ela via o grupo inteiro
+  // "mudar de lugar" e o fundo voava.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: mede de novo quando a opção escolhida muda
+  useLayoutEffect(() => {
+    const container = group.current;
+    if (!container) return;
+    const measure = (glideTo: boolean) => {
+      const selected = container.querySelector<HTMLElement>("[aria-checked='true']");
+      if (!selected) return;
+      if (glideTo && placed.current) {
+        animate(x, selected.offsetLeft, glide);
+        animate(width, selected.offsetWidth, glide);
+      } else {
+        x.jump(selected.offsetLeft);
+        width.jump(selected.offsetWidth);
+      }
+      placed.current = true;
+    };
+    measure(true);
+    const observer = new ResizeObserver(() => measure(false));
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [value, x, width]);
   const roving = useRovingGroup(
     options.map((o) => o.value),
     value,
@@ -42,6 +71,7 @@ export function Tabs<T extends string>({
   );
   return (
     <div
+      ref={group}
       role="radiogroup"
       aria-label={label}
       className={cn(
@@ -50,6 +80,11 @@ export function Tabs<T extends string>({
         className,
       )}
     >
+      <motion.span
+        aria-hidden="true"
+        className="absolute top-1 bottom-1 left-0 rounded-full bg-[var(--fill-selected)] shadow-[var(--fill-selected-shadow)]"
+        style={{ x, width }}
+      />
       {options.map((option) => {
         const selected = option.value === value;
         return (
@@ -68,13 +103,6 @@ export function Tabs<T extends string>({
               selected ? "text-ink" : "text-ink-2 hover:text-ink",
             )}
           >
-            {selected && (
-              <motion.span
-                layoutId={`${id}-indicator`}
-                className="absolute inset-0 rounded-full bg-[var(--fill-selected)] shadow-[var(--fill-selected-shadow)]"
-                transition={glide}
-              />
-            )}
             <span className="relative flex items-center gap-2 [&_svg]:size-4">
               {option.icon}
               {option.label}
